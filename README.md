@@ -34,6 +34,7 @@ A beautiful, user-friendly application for building and managing Valheim modlist
   - **AI mod recommendations** (INCLUDE/EXCLUDE based on your 2-player co-op goals)
   - Enhanced mod understanding and recommendations
   - LocalDocs integration for reference-based analysis
+  - **Thunderstore search** for mods by gameplay keyword
 
 ### 📤 Export Options
 - **Multiple export formats**:

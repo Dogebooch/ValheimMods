@@ -142,7 +142,7 @@ class LMStudioIntegration:
         if code_blocks:
             code_detected = True
             code_snippet = '\n\n'.join(code_blocks)
-            else:
+        else:
             # Check for common code keywords
             code_keywords = ['def ', 'class ', 'public ', 'private ', 'using ', 'namespace ', 'import ', 'void ', 'function ', 'return ', 'if(', 'for(', 'while(', 'try:', 'except', 'catch(', 'System.', 'Console.']
             if any(kw in user_prompt for kw in code_keywords):
@@ -214,6 +214,7 @@ class ValheimModlistBuilder:
         self.create_mods_tab()
         self.create_export_tab()
         self.create_ai_config_tab()
+        self.create_gameplay_changes_tab()
         self.create_conflicts_tab()
 
     def create_conflicts_tab(self):
@@ -2452,6 +2453,56 @@ class ValheimModlistBuilder:
         self.ai_config_result = scrolledtext.ScrolledText(result_frame, bg=self.colors['entry_bg'], fg=self.colors['entry_fg'], font=("Consolas", 10), wrap=tk.WORD)
         self.ai_config_result.pack(fill=tk.BOTH, expand=True, pady=5)
         self.vision_prompt = vision_prompt
+
+    def create_gameplay_changes_tab(self):
+        """Tab for searching Thunderstore for gameplay change mods"""
+        tab = tk.Frame(self.notebook, bg=self.colors['bg'])
+        self.notebook.add(tab, text="Gameplay Changes")
+
+        tk.Label(tab, text="Search Thunderstore for mods:",
+                bg=self.colors['bg'], fg=self.colors['fg'],
+                font=("Arial", 12, "bold")).pack(anchor=tk.W, padx=10, pady=(10,5))
+
+        search_frame = tk.Frame(tab, bg=self.colors['bg'])
+        search_frame.pack(fill=tk.X, padx=10)
+        self.thunder_query_var = tk.StringVar()
+        tk.Entry(search_frame, textvariable=self.thunder_query_var,
+                 bg=self.colors['entry_bg'], fg=self.colors['entry_fg']).pack(side=tk.LEFT, fill=tk.X, expand=True)
+        tk.Button(search_frame, text="Search", command=self.search_thunderstore_mods,
+                  bg=self.colors['button_bg'], fg=self.colors['button_fg'],
+                  font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0,
+                  padx=10, pady=5).pack(side=tk.RIGHT, padx=(5,0))
+
+        self.thunder_results = scrolledtext.ScrolledText(tab, bg=self.colors['entry_bg'],
+                fg=self.colors['entry_fg'], font=("Consolas", 10), wrap=tk.WORD)
+        self.thunder_results.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    def search_thunderstore_mods(self):
+        """Query Thunderstore for mods matching the user's gameplay goal"""
+        query = self.thunder_query_var.get().strip()
+        self.thunder_results.delete("1.0", tk.END)
+        if not query:
+            self.thunder_results.insert(tk.END, "Please enter a search term.")
+            return
+        self.thunder_results.insert(tk.END, "Searching Thunderstore...\n")
+        self.root.update()
+        try:
+            encoded = requests.utils.quote(query)
+            url = f"https://thunderstore.io/api/experimental/package/?query={encoded}&page=1&community=valheim"
+            resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            packages = data.get('packages') if isinstance(data, dict) else data
+            if not packages:
+                self.thunder_results.insert(tk.END, "No mods found.")
+                return
+            for pkg in packages[:10]:
+                name = pkg.get('name') or pkg.get('package_name', 'Unknown')
+                author = pkg.get('owner', 'Unknown')
+                desc = pkg.get('description', '')
+                self.thunder_results.insert(tk.END, f"{name} by {author}\n{desc}\n\n")
+        except Exception as e:
+            self.thunder_results.insert(tk.END, f"Error fetching data from Thunderstore: {e}")
 
     def update_config_mods_listbox(self):
         if not hasattr(self, 'config_mods_listbox'):
