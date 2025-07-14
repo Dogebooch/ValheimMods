@@ -939,9 +939,11 @@ class ValheimModlistBuilder:
         button_frame.pack(pady=10)
         
         def save_changes():
-            # Remove from old category
-            self.mods_data[category].remove(mod)
-            
+            # Remove from old category, if present
+            self.mods_data.setdefault(category, [])
+            if mod in self.mods_data[category]:
+                self.mods_data[category].remove(mod)
+
             # Add to new category
             new_category = category_var.get()
             new_mod = {
@@ -950,7 +952,7 @@ class ValheimModlistBuilder:
                 'description': desc_text.get("1.0", tk.END).strip(),
                 'category': new_category
             }
-            self.mods_data[new_category].append(new_mod)
+            self.mods_data.setdefault(new_category, []).append(new_mod)
             
             self.save_data()
             self.update_master_modlist()
@@ -1078,7 +1080,8 @@ class ValheimModlistBuilder:
             }
         }
         
-        self.mods_data[category].append(mod_data)
+        # Ensure category exists to avoid KeyError
+        self.mods_data.setdefault(category, []).append(mod_data)
         self.save_data()
         self.update_master_modlist()
         self.update_preview()
@@ -1125,7 +1128,7 @@ class ValheimModlistBuilder:
         category_key = category_mapping.get(mod_category, "doesnt_fit")
         
         # Find and remove the mod
-        for mod in self.mods_data[category_key]:
+        for mod in self.mods_data.setdefault(category_key, []):
             if mod['name'] == mod_name and mod['author'] == mod_author:
                 self.mods_data[category_key].remove(mod)
                 self.save_data()
@@ -1220,8 +1223,8 @@ class ValheimModlistBuilder:
                 "file_analysis": self.current_analysis  # Store file analysis for overlap detection
             }
             
-            # Add to appropriate category
-            self.mods_data[category].append(mod_data)
+            # Add to appropriate category, ensuring the category key exists
+            self.mods_data.setdefault(category, []).append(mod_data)
             self.save_data()
             self.update_master_modlist()
             self.update_preview()
@@ -2418,7 +2421,7 @@ class ValheimModlistBuilder:
                 "dependencies": mod.get('dependencies', [])
             }
         }
-        self.mods_data['doesnt_fit'].append(mod_data)
+        self.mods_data.setdefault('doesnt_fit', []).append(mod_data)
         self.save_data()
         self.update_master_modlist()
         self.update_analyzed_mods_listbox()
