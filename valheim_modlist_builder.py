@@ -142,9 +142,13 @@ class LMStudioIntegration:
         if code_blocks:
             code_detected = True
             code_snippet = '\n\n'.join(code_blocks)
-            else:
+        else:
             # Check for common code keywords
-            code_keywords = ['def ', 'class ', 'public ', 'private ', 'using ', 'namespace ', 'import ', 'void ', 'function ', 'return ', 'if(', 'for(', 'while(', 'try:', 'except', 'catch(', 'System.', 'Console.']
+            code_keywords = [
+                'def ', 'class ', 'public ', 'private ', 'using ', 'namespace ',
+                'import ', 'void ', 'function ', 'return ', 'if(', 'for(',
+                'while(', 'try:', 'except', 'catch(', 'System.', 'Console.'
+            ]
             if any(kw in user_prompt for kw in code_keywords):
                 code_detected = True
                 code_snippet = user_prompt
@@ -168,19 +172,21 @@ class ValheimModlistBuilder:
         # Set modern olive green color scheme
         self.colors = {
             'bg': '#2F4F2F',  # Dark olive green background
-            'fg': '#F5F5DC',  # Beige text
+            'fg': '#C9DAB4',  # Light olive green text
             'accent': '#8B4513',  # Saddle brown accent
             'light_bg': '#556B2F',  # Dark olive green
             'button_bg': '#A0522D',  # Sienna
-            'button_fg': '#F5F5DC',  # Beige text
-            'entry_bg': '#F5F5DC',  # Manila/beige entry background
-            'entry_fg': '#2F4F2F',  # Dark olive text for manila background
+            'button_fg': '#2F4F2F',  # Dark text on light olive buttons
+            'entry_bg': '#C9DAB4',  # Light olive green entry background
+            'entry_fg': '#2F4F2F',  # Dark olive text for light background
             'success': '#4CAF50',  # Green for success
             'warning': '#FF9800',  # Orange for warnings
             'error': '#F44336'  # Red for errors
         }
         
         self.root.configure(bg=self.colors['bg'])
+        # Set global font for buttons to be larger
+        self.root.option_add("*Button.Font", "Arial 12 bold")
         
         # Add notebook widget for tabs
         self.notebook = ttk.Notebook(self.root)
@@ -222,7 +228,7 @@ class ValheimModlistBuilder:
         tk.Label(tab, text="Detected Mod Conflicts & Overlaps (Master List Only)", bg=self.colors['bg'], fg=self.colors['error'], font=("Arial", 16, "bold")).pack(pady=(10, 5))
         self.conflicts_text = scrolledtext.ScrolledText(tab, bg=self.colors['entry_bg'], fg=self.colors['entry_fg'], font=("Consolas", 10), wrap=tk.WORD)
         self.conflicts_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        tk.Button(tab, text="Rescan Conflicts", command=self.update_conflicts_report, bg=self.colors['accent'], fg=self.colors['button_fg'], font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=10, pady=5).pack(pady=5)
+        tk.Button(tab, text="Rescan Conflicts", command=self.update_conflicts_report, bg=self.colors['accent'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=10, pady=5).pack(pady=5, fill=tk.X)
         self.update_conflicts_report()
         # Add Potential Conflicts button next to AI Recommendation tab
         self.add_potential_conflicts_button()
@@ -369,13 +375,12 @@ class ValheimModlistBuilder:
             command=self.add_mod,
             bg=self.colors['button_bg'],
             fg=self.colors['button_fg'],
-            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=20,
             pady=5
         )
-        add_button.pack(pady=10)
+        add_button.pack(pady=10, fill=tk.X)
         
         # Right panel - File upload and analysis (larger)
         right_panel = tk.Frame(content_frame, bg=self.colors['bg'])
@@ -411,12 +416,11 @@ class ValheimModlistBuilder:
             command=self.browse_file,
             bg=self.colors['button_bg'],
             fg=self.colors['button_fg'],
-            font=("Arial", 9, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=10
         )
-        browse_button.pack(side=tk.RIGHT)
+        browse_button.pack(side=tk.RIGHT, fill=tk.X, expand=True)
         
         # Analysis buttons frame
         buttons_frame = tk.Frame(upload_frame, bg=self.colors['bg'])
@@ -429,13 +433,12 @@ class ValheimModlistBuilder:
             command=self.analyze_mod,
             bg=self.colors['button_bg'],
             fg=self.colors['button_fg'],
-            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=15,
             pady=5
         )
-        analyze_button.pack(side=tk.LEFT, padx=(0, 5))
+        analyze_button.pack(side=tk.LEFT, padx=(0, 5), fill=tk.X, expand=True)
         
         # Auto-add button
         auto_add_button = tk.Button(
@@ -444,13 +447,12 @@ class ValheimModlistBuilder:
             command=self.auto_add_mod,
             bg=self.colors['success'],
             fg=self.colors['button_fg'],
-            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=15,
             pady=5
         )
-        auto_add_button.pack(side=tk.LEFT, padx=5)
+        auto_add_button.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
         
         # AI Analysis buttons frame
         ai_buttons_frame = tk.Frame(upload_frame, bg=self.colors['bg'])
@@ -473,13 +475,12 @@ class ValheimModlistBuilder:
             command=self.generate_ai_summary,
             bg=self.colors['accent'],
             fg=self.colors['button_fg'],
-            font=("Arial", 9, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=10,
             pady=3
         )
-        ai_summary_button.pack(side=tk.LEFT, padx=(0, 5))
+        ai_summary_button.pack(side=tk.LEFT, padx=(0, 5), fill=tk.X, expand=True)
         
         # AI Category button
         ai_category_button = tk.Button(
@@ -488,13 +489,12 @@ class ValheimModlistBuilder:
             command=self.get_ai_category_suggestion,
             bg=self.colors['accent'],
             fg=self.colors['button_fg'],
-            font=("Arial", 9, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=10,
             pady=3
         )
-        ai_category_button.pack(side=tk.LEFT, padx=5)
+        ai_category_button.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
         
         # AI Recommendation button
         ai_recommendation_button = tk.Button(
@@ -503,13 +503,12 @@ class ValheimModlistBuilder:
             command=self.get_ai_mod_recommendation,
             bg=self.colors['accent'],
             fg=self.colors['button_fg'],
-            font=("Arial", 9, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=10,
             pady=3
         )
-        ai_recommendation_button.pack(side=tk.LEFT, padx=5)
+        ai_recommendation_button.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
         
         # Analysis results
         results_frame = tk.LabelFrame(
@@ -635,7 +634,6 @@ class ValheimModlistBuilder:
             command=self.clear_filters,
             bg=self.colors['warning'],
             fg=self.colors['button_fg'],
-            font=("Arial", 9, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=10,
@@ -722,7 +720,6 @@ class ValheimModlistBuilder:
             command=self.delete_selected_mod,
             bg=self.colors['error'],
             fg=self.colors['button_fg'],
-            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=15,
@@ -737,7 +734,6 @@ class ValheimModlistBuilder:
             command=self.edit_selected_mod,
             bg=self.colors['accent'],
             fg=self.colors['button_fg'],
-            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=15,
@@ -752,7 +748,6 @@ class ValheimModlistBuilder:
             command=self.export_modlist,
             bg=self.colors['success'],
             fg=self.colors['button_fg'],
-            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=15,
@@ -769,7 +764,7 @@ class ValheimModlistBuilder:
         analyzed_panel.pack_propagate(False)
         analyzed_label = tk.Label(analyzed_panel, text="Analyzed Mods (Not in Master List)", font=("Arial", 12, "bold"), bg=self.colors['bg'], fg="#888")
         analyzed_label.pack(pady=(10, 5))
-        self.analyzed_listbox = tk.Listbox(analyzed_panel, bg="#333", fg="#888", selectbackground="#666", selectforeground="#fff", font=("Consolas", 10))
+        self.analyzed_listbox = tk.Listbox(analyzed_panel, bg="#333", fg="#888", selectbackground="#666", selectforeground="#C9DAB4", font=("Consolas", 10))
         self.analyzed_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         self.analyzed_listbox.bind('<Double-Button-1>', self.add_analyzed_mod_to_master)
         self.update_analyzed_mods_listbox()
@@ -959,11 +954,11 @@ class ValheimModlistBuilder:
         
         tk.Button(button_frame, text="Save", command=save_changes,
                  bg=self.colors['success'], fg=self.colors['button_fg'],
-                 font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=20, pady=5).pack(side=tk.LEFT, padx=5)
-        
+                 relief=tk.FLAT, bd=0, padx=20, pady=5).pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
+
         tk.Button(button_frame, text="Cancel", command=cancel,
                  bg=self.colors['error'], fg=self.colors['button_fg'],
-                 font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=20, pady=5).pack(side=tk.LEFT, padx=5)
+                 relief=tk.FLAT, bd=0, padx=20, pady=5).pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
     
     # Removed create_upload_tab method - functionality moved to create_add_mod_tab
     
@@ -1022,7 +1017,6 @@ class ValheimModlistBuilder:
             command=self.export_modlist,
             bg=self.colors['success'],
             fg=self.colors['button_fg'],
-            font=("Arial", 12, "bold"),
             relief=tk.FLAT,
             bd=0,
             padx=20,
@@ -1622,10 +1616,10 @@ class ValheimModlistBuilder:
             self.disagree_button.destroy()
         # Place buttons below the analysis_text widget
         parent = self.analysis_text.master
-        self.agree_button = tk.Button(parent, text="Agree", bg=self.colors['success'], fg=self.colors['button_fg'], font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=15, pady=5, command=self.on_agree)
-        self.agree_button.pack(side=tk.LEFT, padx=10, pady=10)
-        self.disagree_button = tk.Button(parent, text="Disagree", bg=self.colors['error'], fg=self.colors['button_fg'], font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=15, pady=5, command=lambda: self.on_disagree(ai_recommendation))
-        self.disagree_button.pack(side=tk.LEFT, padx=10, pady=10)
+        self.agree_button = tk.Button(parent, text="Agree", bg=self.colors['success'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=15, pady=5, command=self.on_agree)
+        self.agree_button.pack(side=tk.LEFT, padx=10, pady=10, fill=tk.X, expand=True)
+        self.disagree_button = tk.Button(parent, text="Disagree", bg=self.colors['error'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=15, pady=5, command=lambda: self.on_disagree(ai_recommendation))
+        self.disagree_button.pack(side=tk.LEFT, padx=10, pady=10, fill=tk.X, expand=True)
 
     def on_agree(self):
         if hasattr(self, 'agree_button') and self.agree_button:
@@ -2434,13 +2428,13 @@ class ValheimModlistBuilder:
         tk.Label(feature_frame, text="Describe a feature or gameplay goal:", bg=self.colors['bg'], fg=self.colors['fg'], font=("Arial", 12, "bold")).pack(anchor=tk.W)
         self.feature_entry = tk.Entry(feature_frame, font=("Arial", 11), bg=self.colors['entry_bg'], fg=self.colors['entry_fg'])
         self.feature_entry.pack(fill=tk.X, pady=5)
-        tk.Button(feature_frame, text="Find Feature in Mods", command=self.find_feature_in_mods, bg=self.colors['accent'], fg=self.colors['button_fg'], font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=10, pady=5).pack(anchor=tk.E, pady=5)
+        tk.Button(feature_frame, text="Find Feature in Mods", command=self.find_feature_in_mods, bg=self.colors['accent'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=10, pady=5).pack(anchor=tk.E, pady=5, fill=tk.X)
 
         # Middle: List of all analyzed mods
         mid_frame = tk.Frame(tab, bg=self.colors['bg'])
         mid_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
         tk.Label(mid_frame, text="Select a mod for config recommendations:", bg=self.colors['bg'], fg=self.colors['fg'], font=("Arial", 11, "bold")).pack(anchor=tk.W)
-        self.config_mods_listbox = tk.Listbox(mid_frame, bg="#333", fg="#fff", selectbackground="#666", selectforeground="#fff", font=("Consolas", 10), height=8)
+        self.config_mods_listbox = tk.Listbox(mid_frame, bg="#333", fg="#C9DAB4", selectbackground="#666", selectforeground="#C9DAB4", font=("Consolas", 10), height=8)
         self.config_mods_listbox.pack(fill=tk.X, pady=5)
         self.config_mods_listbox.bind('<<ListboxSelect>>', self.get_mod_config_recommendation)
         self.update_config_mods_listbox()
@@ -2533,8 +2527,8 @@ class ValheimModlistBuilder:
             if self.notebook.tab(i, "text") == "Add Mod":
                 # Place the button in the same parent as the notebook
                 parent = self.notebook.master
-                btn = tk.Button(parent, text="Potential Conflicts", command=self.show_potential_conflicts, bg=self.colors['warning'], fg=self.colors['button_fg'], font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=10, pady=5)
-                btn.pack(side=tk.TOP, anchor=tk.NE, padx=10, pady=5)
+                btn = tk.Button(parent, text="Potential Conflicts", command=self.show_potential_conflicts, bg=self.colors['warning'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=10, pady=5)
+                btn.pack(side=tk.TOP, anchor=tk.NE, padx=10, pady=5, fill=tk.X)
                 break
 
     def show_potential_conflicts(self):
@@ -2574,7 +2568,7 @@ class ValheimModlistBuilder:
                 text.insert(tk.END, f"\n=== {mod_name} ===\n")
                 for master_mod, files in overlaps:
                     text.insert(tk.END, f"  Conflicts with: {master_mod}\n    Overlapping files: {', '.join(files)}\n")
-        tk.Button(popup, text="Close", command=popup.destroy, bg=self.colors['accent'], fg=self.colors['button_fg'], font=("Arial", 10, "bold"), relief=tk.FLAT, bd=0, padx=10, pady=5).pack(pady=10)
+        tk.Button(popup, text="Close", command=popup.destroy, bg=self.colors['accent'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=10, pady=5).pack(pady=10, fill=tk.X)
 
 def main():
     root = tk.Tk()
