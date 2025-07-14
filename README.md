@@ -12,6 +12,7 @@ A beautiful, user-friendly application for building and managing Valheim modlist
   - **Skills & Progression**: Runescape-style skills, professions system, attribute/level systems, build diversity
   - **Gear & Customization**: New armor/weapon sets, cosmetic items, tameable pets, appearance customization
   - **Co-op Stability**: Server optimization, multiplayer stability, anti-cheat measures
+  - **Dependencies**: Core frameworks or libraries required by other mods
   - **Doesn't Fit**: Other mods
 - **Add mod details** including name, author, and description
 - **View mods by category** with a clean, organized display
@@ -153,6 +154,7 @@ Your modlist data is automatically saved to `modlist_data.json` in the same dire
 - **Skills & Progression**: Detects skill, progression, level, profession, farming, attribute, runescape keywords
 - **Gear & Customization**: Detects gear, armor, weapon, set, cosmetic, appearance, customization, pet keywords
 - **Co-op Stability**: Detects server, multiplayer, coop, stability, dedicated, anti-cheat, performance keywords
+- **Dependencies**: Detects frameworks, library packs, or required base mods
 
 ## Troubleshooting
 

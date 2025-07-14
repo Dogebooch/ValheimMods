@@ -86,6 +86,7 @@ class LMStudioIntegration:
             - Gear & Customization: Armor, weapons, cosmetics
             - Co-op Stability: Server, multiplayer, stability
         - Quality of Life: Inventory, UI, automation, building, navigation, and other improvements that reduce tedium.
+        - Dependencies: Frameworks, libraries, or required base mods
             Respond with ONLY the category name.
             """
         return self._call_model(model, system_prompt, user_prompt, max_tokens=30, temperature=0.2).strip()
@@ -200,6 +201,8 @@ class ValheimModlistBuilder:
             "skills_progression": [],
             "gear_customization": [],
             "coop_stability": [],
+            "quality_of_life": [],
+            "dependencies": [],
             "doesnt_fit": []
         }
         
@@ -214,6 +217,7 @@ class ValheimModlistBuilder:
         self.load_analyzed_mods()
         self.setup_ui()
         self.load_data()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
     
     def setup_ui(self):
         self.create_add_mod_tab()
@@ -354,6 +358,7 @@ class ValheimModlistBuilder:
             ("Gear & Customization", "gear_customization"),
             ("Co-op Stability", "coop_stability"),
             ("Quality of Life", "quality_of_life"),
+            ("Dependencies", "dependencies"),
             ("Doesn't Fit", "doesnt_fit")
         ]
         
@@ -582,12 +587,13 @@ class ValheimModlistBuilder:
         self.filter_category_var = tk.StringVar(value="All Categories")
         categories = ["All Categories"] + [
             "Boss & Combat Overhaul",
-            "Loot Overhaul", 
+            "Loot Overhaul",
             "Magic & Classes",
             "Skills & Progression",
             "Gear & Customization",
             "Co-op Stability",
             "Quality of Life",
+            "Dependencies",
             "Doesn't Fit"
         ]
         
@@ -919,6 +925,7 @@ class ValheimModlistBuilder:
             ("Gear & Customization", "gear_customization"),
             ("Co-op Stability", "coop_stability"),
             ("Quality of Life", "quality_of_life"),
+            ("Dependencies", "dependencies"),
             ("Doesn't Fit", "doesnt_fit")
         ]
         
@@ -1110,6 +1117,7 @@ class ValheimModlistBuilder:
             "Gear & Customization": "gear_customization",
             "Co-op Stability": "coop_stability",
             "Quality of Life": "quality_of_life",
+            "Dependencies": "dependencies",
             "Doesn't Fit": "doesnt_fit"
         }
         
@@ -1189,6 +1197,7 @@ class ValheimModlistBuilder:
                 "Gear & Customization": "gear_customization",
                 "Co-op Stability": "coop_stability",
                 "Quality of Life": "quality_of_life",
+                "Dependencies": "dependencies",
                 "Doesn't Fit": "doesnt_fit",
                 "Doesnt Fit": "doesnt_fit"
             }
@@ -1238,7 +1247,8 @@ class ValheimModlistBuilder:
             "skills_progression": 0,
             "gear_customization": 0,
             "coop_stability": 0,
-            "quality_of_life": 0
+            "quality_of_life": 0,
+            "dependencies": 0
         }
         
         # Boss & Combat Overhaul keywords
@@ -1304,6 +1314,12 @@ class ValheimModlistBuilder:
             'quality', 'life', 'qol', 'convenience', 'ease', 'simplify',
             'automate', 'auto', 'smart', 'intelligent', 'helper', 'assistant'
         ]
+
+        # Dependencies keywords
+        dep_keywords = [
+            'bepinex', 'framework', 'library', 'api', 'dependency', 'hook',
+            'patcher', 'modding framework', 'core mod', 'required'
+        ]
         
         # Check each category
         categories_to_check = [
@@ -1313,7 +1329,8 @@ class ValheimModlistBuilder:
             (skills_keywords, "skills_progression"),
             (gear_keywords, "gear_customization"),
             (coop_keywords, "coop_stability"),
-            (qol_keywords, "quality_of_life")
+            (qol_keywords, "quality_of_life"),
+            (dep_keywords, "dependencies")
         ]
         
         for keywords, category in categories_to_check:
@@ -2093,6 +2110,19 @@ class ValheimModlistBuilder:
             if os.path.exists('modlist_data.json'):
                 with open('modlist_data.json', 'r', encoding='utf-8') as f:
                     self.mods_data = json.load(f)
+            # Ensure all category keys exist after loading
+            for key in [
+                "boss_combat_overhaul",
+                "loot_overhaul",
+                "magic_classes",
+                "skills_progression",
+                "gear_customization",
+                "coop_stability",
+                "quality_of_life",
+                "dependencies",
+                "doesnt_fit",
+            ]:
+                self.mods_data.setdefault(key, [])
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load data: {str(e)}")
     
@@ -2569,6 +2599,15 @@ class ValheimModlistBuilder:
                 for master_mod, files in overlaps:
                     text.insert(tk.END, f"  Conflicts with: {master_mod}\n    Overlapping files: {', '.join(files)}\n")
         tk.Button(popup, text="Close", command=popup.destroy, bg=self.colors['accent'], fg=self.colors['button_fg'], relief=tk.FLAT, bd=0, padx=10, pady=5).pack(pady=10, fill=tk.X)
+
+    def on_close(self):
+        """Handle application close event by persisting data"""
+        try:
+            self.save_data()
+            self.save_analyzed_mods()
+            self.save_feedback()
+        finally:
+            self.root.destroy()
 
 def main():
     root = tk.Tk()
