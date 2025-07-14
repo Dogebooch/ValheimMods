@@ -1,0 +1,35 @@
+[
+  {
+    "name": "PlantEverything",
+    "version": "20250714150210",
+    "author": "",
+    "description": "Allows your cultivator to plant berry bushes, thistle, dandelions, mushrooms, previously unavailable tree types, and other decorative flora. Includes many other miscellaneous features (see description). Highly configurable with localization support.",
+    "zip_path": "analyzed_mod_zips\\PlantEverything_20250714150210.zip",
+    "dependencies": [
+      "denikson-BepInExPack_Valheim-5.4.2202"
+    ],
+    "file_names": [
+      "Advize_PlantEverything.dll",
+      "icon.png",
+      "README.md",
+      "manifest.json",
+      "CHANGELOG.md"
+    ],
+    "timestamp": 1752523330,
+    "localization_files": [],
+    "script_files": [],
+    "prefab_files": [],
+    "worldgen_files": [],
+    "event_files": [],
+    "ui_files": [],
+    "audio_files": [],
+    "doc_files": [
+      "README.md",
+      "CHANGELOG.md"
+    ],
+    "loadorder_files": [
+      "manifest.json"
+    ],
+    "patch_files": []
+  }
+]

@@ -1,0 +1,9 @@
+tkinter
+zipfile
+json
+os
+sys
+pathlib
+re
+requests
+openai 

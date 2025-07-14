@@ -1,0 +1,5 @@
+Error in auto_add_mod:
+Traceback (most recent call last):
+  File "P:\Python Projects\Valheim Modlist\valheim_modlist_builder.py", line 1195, in auto_add_mod
+    self.mods_data[category].append(mod_data)
+KeyError: 'quality_of_life'
