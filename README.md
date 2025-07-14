@@ -18,6 +18,7 @@ A beautiful, user-friendly application for building and managing Valheim modlist
 - **View mods by category** with a clean, organized display
 - **Delete mods** from your list
 - **Auto-categorization** based on intelligent content analysis
+- **Sort and filter mods** by name, author, category, or gameplay change
 
 ### 📁 Mod Analysis
 - **Upload zip files** containing Valheim mods

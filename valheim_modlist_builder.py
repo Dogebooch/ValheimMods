@@ -621,7 +621,7 @@ class ValheimModlistBuilder:
         # Sort options
         tk.Label(filters_frame, text="Sort by:", bg=self.colors['bg'], fg=self.colors['fg']).pack(anchor=tk.W, pady=(10, 5))
         self.sort_var = tk.StringVar(value="Name")
-        sort_options = ["Name", "Author", "Category", "Date Added"]
+        sort_options = ["Name", "Author", "Category", "Gameplay Change", "Date Added"]
         
         for option in sort_options:
             tk.Radiobutton(
@@ -835,6 +835,18 @@ class ValheimModlistBuilder:
             filtered_mods.sort(key=lambda x: x['author'])
         elif sort_by == "Category":
             filtered_mods.sort(key=lambda x: x['category'])
+        elif sort_by == "Gameplay Change":
+            category_order = {
+                "boss_combat_overhaul": 1,
+                "loot_overhaul": 2,
+                "magic_classes": 3,
+                "skills_progression": 4,
+                "gear_customization": 5,
+                "coop_stability": 6,
+                "quality_of_life": 7,
+                "doesnt_fit": 8
+            }
+            filtered_mods.sort(key=lambda x: category_order.get(x['category_key'], 99))
         
         # Update author combo
         authors = list(set([mod['author'] for mod in all_mods]))
