@@ -102,6 +102,23 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Master loot list** as single source of truth
 - **Cross-reference validation** between mods
 
+## 📚 Problems Solved & Fixes Applied
+
+### **File Organization & Indexing**
+- **Problem**: Large number of files (2,979+) needed proper organization
+- **Solution**: Created unified index generator with TYPE/IMPORTANCE_TAGS classification
+- **Result**: Comprehensive file index with enhanced metadata
+
+### **Git Repository Management**
+- **Problem**: "Too many active changes" and large binary files
+- **Solution**: Refined `.gitignore` for selective inclusion, reset repository
+- **Result**: Clean repository with only important configs/docs
+
+### **Legendary Systems Confusion**
+- **Problem**: Unclear differences between EpicLoot, RelicHeim sets, T5 legendaries
+- **Solution**: Created comprehensive clarification table and progression flow
+- **Result**: Clear understanding of 4 distinct legendary systems
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
@@ -150,14 +167,39 @@ git commit -m "Add/Update: [specific mod] configuration files"
 3. **Clean files**: `git clean`, update `.gitignore`
 4. **Validate loot**: Cross-reference Drop That & EpicLoot configs
 
+## 🧠 AI Agent Memory Management
+
+### **CRITICAL: Use AGENTS.md as Working Memory**
+- **ALWAYS update AGENTS.md** after making any significant changes
+- **Document decisions, solutions, and learnings** in relevant sections
+- **Add new pain points, priorities, or solutions** as they arise
+- **Update file paths, configurations, or procedures** when changed
+- **Record successful troubleshooting steps** for future reference
+
+### **Memory Update Protocol**
+1. **After each change**: Update relevant section in AGENTS.md
+2. **New problems solved**: Add to "Problems Solved and Fixes Applied"
+3. **New pain points**: Add to "Current Pain Points & Priorities"
+4. **Configuration changes**: Update "Configuration Standards"
+5. **File structure changes**: Update "Critical File Structure"
+6. **New learnings**: Add to appropriate sections
+
+### **Benefits of Memory Management**
+- **Reduces token usage** by avoiding repeated explanations
+- **Maintains continuity** across AI sessions
+- **Builds institutional knowledge** over time
+- **Prevents duplicate work** and repeated mistakes
+- **Enables faster problem-solving** with historical context
+
 ## 🎯 Key Decision Framework
 
 ### **When Making Changes**
 1. **Check biome progression** - ensure proper WL gating
 2. **Validate consistency** - Drop That ↔ EpicLoot ↔ CLLC
 3. **Consider balance** - no early BiS, maintain progression
-4. **Document changes** - update relevant READMEs
+4. **Document changes** - update relevant READMEs AND AGENTS.md
 5. **Test in isolation** - before applying to main configs
+6. **Update working memory** - record learnings in AGENTS.md
 
 ### **File Inclusion Rules**
 - **✅ Include**: `.cfg`, `.json`, `.yml`, `.md`, `.txt`, `.cs`, `.lua`
