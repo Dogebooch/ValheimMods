@@ -1,0 +1,7 @@
+﻿{
+  "name": "CookingAdditions",
+  "description": "Adds 23 new foods that you can cook and prepare, 2 pickable food/ingredient, 1 resource that you can mine, 3 cooking station, 2 new processing station and new way of making foods.",
+  "version_number": "1.2.7",
+  "website_url": "https://www.nexusmods.com/valheim/mods/2513?tab=bugs",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2202"]
+}

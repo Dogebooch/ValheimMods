@@ -1,0 +1,9 @@
+{
+    "name": "SmartSkills",
+    "version_number": "1.0.2",
+    "website_url": "https://github.com/blaxxun-boop/SmartSkills",
+    "description": "Improves various aspects regarding the skills in the game.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2202"
+    ]
+}

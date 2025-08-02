@@ -1,0 +1,9 @@
+{
+    "name": "Lumberjacking",
+    "version_number": "1.0.5",
+    "website_url": "https://github.com/blaxxun-boop/Lumberjacking",
+    "description": "Replaces the wood cutting skill with a Lumberjacking skill.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2200"
+    ]
+}

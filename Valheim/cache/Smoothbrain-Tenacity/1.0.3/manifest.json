@@ -1,0 +1,9 @@
+{
+    "name": "Tenacity",
+    "version_number": "1.0.3",
+    "website_url": "https://github.com/blaxxun-boop/Tenacity",
+    "description": "Adds a skill that reduces damage taken. Skill increases by taking damage.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2200"
+    ]
+}

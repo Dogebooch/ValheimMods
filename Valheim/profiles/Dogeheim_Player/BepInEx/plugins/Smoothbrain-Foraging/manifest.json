@@ -1,0 +1,9 @@
+{
+    "name": "Foraging",
+    "version_number": "1.0.9",
+    "website_url": "https://github.com/blaxxun-boop/Foraging",
+    "description": "Adds a skill that increases item yield while foraging and makes berries and mushrooms respawn faster.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2202"
+    ]
+}

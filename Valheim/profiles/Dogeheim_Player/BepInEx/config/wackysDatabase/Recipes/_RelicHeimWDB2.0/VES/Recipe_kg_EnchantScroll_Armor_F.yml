@@ -1,0 +1,13 @@
+name: kg_EnchantScroll_Armor_F
+clonePrefabName: 
+craftingStation: Scroll Station
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- DeerHide:2:0:True
+- Resin:5:0:True
+- InfusedCrystal_JH:1:0:True

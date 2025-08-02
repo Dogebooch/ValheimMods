@@ -1,0 +1,12 @@
+{
+  "name": "Monstrum",
+  "author": "Therzie",
+  "description": "Adds new monsters and mini-bosses to fight and tame for original Valheim up till Mistlands.",
+  "version_number": "1.5.1",
+  "website_url": "https://discord.gg/AEqkrq2z4u",
+  "dependencies": [
+		"denikson-BepInExPack_Valheim-5.4.2202",
+			"Therzie-Warfare-1.8.9"
+   ]
+
+}

@@ -1,0 +1,9 @@
+{
+    "name": "SailingSpeed",
+    "version_number": "1.0.3",
+    "website_url": "https://github.com/blaxxun-boop/SailingSpeed",
+    "description": "Lets you configure the base speed of ships.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2200"
+    ]
+}

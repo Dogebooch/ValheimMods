@@ -1,0 +1,14 @@
+name: SkillPotionKnives_JH
+clonePrefabName: SkillPotionKnives_JH
+craftingStation: $piece_meadcauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- MeadTasty:1:1:True
+- SurtlingCore:1:1:True
+- AncientSeed:1:1:True
+- InfusedCrystal_JH:5:1:True

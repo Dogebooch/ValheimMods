@@ -1,0 +1,9 @@
+{
+  "name": "ServerSync",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/blaxxun-boop/ServerSync",
+  "description": "Original Plugin by blaxxun-boop Ported by Drakethos to make things easier for devs not needed to embed the same plugin for every mod. See original site for info on how to use ServerSync",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}

@@ -1,0 +1,12 @@
+name: DandelionTea_JH
+clonePrefabName: DandelionTea_JH
+craftingStation: $piece_cauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 2
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- Dandelion:5:1:True
+- Thistle:5:1:True

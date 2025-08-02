@@ -1,0 +1,11 @@
+{
+    "name": "Hugos_Armory",
+    "version_number": "8.3.6",
+    "website_url": "https://discord.gg/rdAxvuVXPa",
+    "description": "Adds 28 new weapons and 4 armor pieces to Valheim. With practical values to match Valheim.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2200",
+		"HugotheDwarf-More_and_Modified_Player_Cloth_Colliders-3.1.0",
+		"HugotheDwarf-Shapekeys_and_More-2.3.2"
+    ]
+}

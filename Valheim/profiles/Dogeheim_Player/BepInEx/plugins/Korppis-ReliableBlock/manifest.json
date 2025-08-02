@@ -1,0 +1,9 @@
+{
+    "name": "ReliableBlock",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/karkkant/valheim-reliable_block",
+    "description": "Makes blocking and parrying more reliable and logical.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.1900"
+    ]
+}

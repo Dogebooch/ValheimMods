@@ -1,0 +1,9 @@
+﻿{
+  "name": "ZenUI",
+  "description": "Visual crafting panel with grouping, sorting, and filtering. colored durability bars, colored food bars, ammo remaining, biome notifications, disable slide animations, auto open skills panel, remove lens dirt, etc.",
+  "version_number": "0.5.7",
+  "website_url": "https://github.com/ZenDragonX/ZenMods_Valheim/wiki",
+  "dependencies": [
+    "ZenDragon-Zen_ModLib-1.1.18"
+  ]
+}

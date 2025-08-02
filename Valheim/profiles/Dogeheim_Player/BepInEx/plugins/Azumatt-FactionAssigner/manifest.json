@@ -1,0 +1,9 @@
+{
+  "name": "FactionAssigner",
+  "version_number": "1.0.4",
+  "website_url": "https://github.com/AzumattDev/FactionAssigner",
+  "description": "Mod that allows you to (via YAML config) change the factions of the creatures in the game. Yaml file is located in BepInEx/config/Azumatt.FactionAssigner.yml",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}

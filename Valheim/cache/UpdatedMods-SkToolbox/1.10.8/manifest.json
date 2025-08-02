@@ -1,0 +1,9 @@
+{
+    "name": "SkToolbox",
+    "version_number": "1.10.8",
+    "website_url": "https://www.nexusmods.com/valheim/mods/8",
+    "description": "This is designed to extend the functionality of the console and chat commands. Commands featured in this mod are accessible from the console or chat, via a / prefix. This mod allows you to take control of your game regardless of cheats being enabled.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.1100"
+    ]
+}

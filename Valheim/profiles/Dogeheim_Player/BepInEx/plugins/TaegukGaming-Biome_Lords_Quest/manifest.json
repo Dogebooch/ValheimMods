@@ -1,0 +1,9 @@
+{
+	"name": "Biome_Lords_Quest",
+	"description": "Formidable beings await courageous adventurers ready to embark on a quest of epic proportions.",
+	"version_number": "3.2.0",
+	"website_url": "https://discord.gg/dwbqmJpzDM",
+	"dependencies": [
+		"denikson-BepInExPack_Valheim-5.4.2202"
+	]
+}

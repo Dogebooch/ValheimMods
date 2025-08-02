@@ -1,0 +1,13 @@
+{
+  "name": "MonstrumDeepNorth",
+  "author": "Therzie",
+  "description": "Adds new monsters to fight and tame, locations and new forsaken bosses for the Deep North biome", 
+  "version_number": "2.0.6",
+  "website_url": "https://discord.gg/AEqkrq2z4u",
+  "dependencies": [
+		"denikson-BepInExPack_Valheim-5.4.2202",
+			"Therzie-Monstrum-1.5.1",
+				"Therzie-WarfareFireAndIce-2.0.8"
+   ]
+
+}

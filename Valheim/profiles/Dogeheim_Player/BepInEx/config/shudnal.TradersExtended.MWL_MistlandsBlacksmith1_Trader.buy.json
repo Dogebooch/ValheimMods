@@ -1,0 +1,257 @@
+[
+  {
+    "prefab": "MWL_blacksmithStone_tier3",
+    "stack": 1,
+    "price": 1000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "SwordMistwalker",
+    "stack": 1,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "AtgeirHimminAfl",
+    "stack": 1,
+    "price": 1500,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "BowSpineSnap",
+    "stack": 1,
+    "price": 1400,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "CrossbowArbalest",
+    "stack": 1,
+    "price": 1600,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ArmorCarapaceChest",
+    "stack": 1,
+    "price": 1800,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ArmorCarapaceLegs",
+    "stack": 1,
+    "price": 1600,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "HelmetCarapace",
+    "stack": 1,
+    "price": 1400,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ArmorMageChest",
+    "stack": 1,
+    "price": 2000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ArmorMageLegs",
+    "stack": 1,
+    "price": 1800,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "HelmetMage",
+    "stack": 1,
+    "price": 1600,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ShieldCarapaceBuckler",
+    "stack": 1,
+    "price": 1000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ArrowCarapace",
+    "stack": 20,
+    "price": 400,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "BoltCarapace",
+    "stack": 20,
+    "price": 450,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "StaffSkeleton",
+    "stack": 1,
+    "price": 2500,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "StaffFireball",
+    "stack": 1,
+    "price": 3000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "StaffIceShards",
+    "stack": 1,
+    "price": 3200,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "StaffShield",
+    "stack": 1,
+    "price": 2800,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Carapace",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Carapace",
+    "stack": 10,
+    "price": 580,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Eitr",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Eitr",
+    "stack": 10,
+    "price": 750,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Softtissue",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Mandible",
+    "stack": 1,
+    "price": 70,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ScaleHide",
+    "stack": 1,
+    "price": 90,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "YggdrasilWood",
+    "stack": 1,
+    "price": 40,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "YggdrasilWood",
+    "stack": 10,
+    "price": 380,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "JuteRed",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "JuteBlue",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "PickaxeBlackmetal",
+    "stack": 1,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "ForgeExt3",
+    "stack": 1,
+    "price": 1500,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "ForgeExt4",
+    "stack": 1,
+    "price": 2000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "GaldrTable",
+    "stack": 1,
+    "price": 2500,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "EitrRefinery",
+    "stack": 1,
+    "price": 3000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TorchMist",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "DvergrLantern",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "WispTorch",
+    "stack": 1,
+    "price": 120,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "SeekerAspic",
+    "stack": 1,
+    "price": 150,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "DvergrStein",
+    "stack": 1,
+    "price": 500,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TrophySeekerQueen",
+    "stack": 1,
+    "price": 25000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "HelmetHat1",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "HelmetHat2",
+    "stack": 1,
+    "price": 150
+  },
+  {
+    "prefab": "HelmetHat3",
+    "stack": 1,
+    "price": 200
+  }
+] 

@@ -1,0 +1,136 @@
+![Underground Ruins](https://i.imgur.com/dbszFfm.png)
+
+# Underground Ruins
+This mod adds a new procedural dungeon to the Blackforest biome with 24 custom designed rooms, a random size & layout for each dungeon instance, and a custom puzzle system. Part of the More World Locations series, see below for more details. A big thank you to Ruijven and probablyKory for their immense contributions to this project.
+
+## Lore
+"As the first travelers arrived in Valheim, they carved grand cities deep beneath the BlackForest. But the Elder’s roots slowly spread and devoured the pioneers. Now, only the hollow shell of their once-great legacy remains in the Underground Ruins."
+
+## Features
+- Adds a new dungeon to Blackforest biome.
+- Custom built puzzle system.
+- Utilizes the vanilla game dungeon generator to randomize size and layout of each dungeon instance.
+- Features 24 unqiue rooms designed with vanilla build pieces.
+- The dungeon fits into vanilla progression by offering an alternate route to acquire copper ore.
+- Configurability: Dungeon spawn quantities, creature spawn lists, chest loot lists, pickable loot lists.
+
+## Instructions
+- To add these locations to a non-existing world, no action is required. Ensure the mod is installed and create a new world.
+- To add these locations to an existing world, use the [Upgrade World](https://valheim.thunderstore.io/package/JereKuusela/Upgrade_World/) with the command below: 
+
+Command: `locations_add BFD_Exterior start`
+
+## Custom Creature Spawns 
+The creatures and loot are all customizable. Modded creatures and items are supported. To customize, create a new YAML file in the BepinEx configuration folder. If using mod manager, then use the BepinEx config folder in your profile folder. All mods from the More World Locations series will share the same Yaml file so you only need to create it once.
+
+For creatures, each instance of the location will randomly select from the list of creatures in the the file. First, it will pick a random index (an item in the list), then it will increment through the list, assigning creatures to available creature spawners until each creature spawner has a creature. For the best results, scatter higher tier creatures throughout the list. You must use the creature's prefab name and not it's in-game name. See here for a list of vanilla creature prefab names: [Creatures List](https://valheim-modding.github.io/Jotunn/data/prefabs/character-list.html)
+
+Creature file name: `warpalicious.More_World_Locations_CreatureLists.yml`
+Creature file structure:
+```
+UndergroundRuinsCreatures1:
+  - Greydwarf
+  - Greydwarf_Shaman
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf_Shaman
+```
+
+## Custom Loot Lists
+For loot, as of 12/19/24 the loot list format has changed. If you're using an old format it will still work but you can't access the new customization feature. To access new customization feature, please convert to the new format below and ensure you include the verision number at top of file.
+
+The new format works as such: 
+1 - Random roll for total loot slots available. Roll number between 1 - 3. There will be between 1 - 3 loot slots.
+2 - For each loot slot, weighted-random selection for item from loot list. Randomly select item from list based on weights.
+3 - For each item, random roll between stackMin and stackMax for loot stack amount.
+
+Example for UndergroundRuinsContainers1 below:
+1 - Random roll results in 2 loot slots
+2 - Weighted-random selection for slot 1 = Amber
+3 - Weighted-random selection for slot 2 = Coins
+4 - Random roll for slot 1 stack size = 3
+5 - Random roll for slot 2 stack size = 23
+6 - Final loot in chest = 3 Amber, 23 Coins
+
+Modded items are confirmed to work in the loot list.
+
+Loot file name: `warpalicious.More_World_Locations_LootLists.yml`
+Loot file structure:
+```
+version: 2.0
+UndergroundRuinsLoot1:
+  - item: Amber
+    stackMin: 1
+    stackMax: 5
+    weight: 1.5
+  - item: Ruby
+    stackMin: 1
+    stackMax: 3
+    weight: 1.0
+  - item: Coins
+    stackMin: 10
+    stackMax: 30
+    weight: 1.5
+```
+
+## Custom Pickable Lists
+The custom pickable lists function the same as the custom loot lists. They do not require the "version: 2.0" string at the top of the file. They require their own file with name: `warpalicious.More_World_Locations_PickableItemLists.yml`
+
+Pickable file structure:
+```
+UndergroundRuinsPickables1:
+  - item: Coins
+    stackMin: 5
+    stackMax: 20
+  - item: AmberPearl
+    stackMin: 1
+    stackMax: 2
+  - item: Ruby
+    stackMin: 1
+    stackMax: 3
+```
+
+## More World Locations
+The goal of the More World Locations series is to solve Valheims exploration problem. Valheim has a giant map but relatively few points of interest (POI) to find. Once a player learns that each biome is just a copy of what they've already seen, exploring the rest of the map feels unnecessary. The More World Locations series will fix this problem by adding dozens of handcrafted, unique, and interesting POIs to the Valheim world. I started developing the series in Febuary 2024 and have released the following mods in the series. See my mod author page for most up to date list.
+- [Meadows Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Meadows_Pack_1/)
+- [Meadows Pack 2](https://thunderstore.io/c/valheim/p/warpalicious/Meadows_Pack_2/)
+- [Blackforest Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Blackforest_Pack_1/)
+- [Blackforest Pack 2](https://thunderstore.io/c/valheim/p/warpalicious/Blackforest_Pack_2/)
+- [Swamp Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Swamp_Pack_1/)
+- [Mountains Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Mountains_Pack_1/)
+- [Plains Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Plains_Pack_1/)
+- [Mistlands Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Mistlands_Pack_1/)
+- [Mistlands Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Mistlands_Pack_1/)
+- [Ashlands Pack 1](https://thunderstore.io/c/valheim/p/warpalicious/Ashlands_Pack_1/)
+- [More World Traders](https://thunderstore.io/c/valheim/p/warpalicious/More_World_Traders/)
+- [Underground Ruins](https://thunderstore.io/c/valheim/p/warpalicious/Underground_Ruins/)
+
+## Credit & Thanks
+Two other mod developers made significant contributions to this project:
+
+Thanks to propablyKory for developing the DungeonManager in Jotunn. This mod would not have been possible without him and his amazing contributions to the open-source Valheim modding community. Please go check out his work! 
+
+Thanks to Ruijven for designing many of the rooms included in this mod as well as being an amazing collaborative partner! Please go check out his work!
+
+## Mod Support & Feeback.
+Please feel free to share any any all feedback or ask questions. You can find me on my own modding Discord.
+- [Warp Mods Discord](https://discord.gg/KjgZ63VZv5)
+
+## Donations/Tips
+I make mods because I enjoy it and want to make Valheim more enjoyable for everyone. If you feel like saying thanks you can tip me here.
+
+| My Ko-fi: | [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/warpalicious) |
+|-----------|---------------|
+
+## Source Code
+Source code is available on Github.
+
+| Github Repository: | <img height="18" src="https://github.githubassets.com/favicons/favicon-dark.svg"></img><a href="https://github.com/jneb802/MoreWorldLocations_All"> MoreWorldLocations</a> |
+|-----------|---------------|

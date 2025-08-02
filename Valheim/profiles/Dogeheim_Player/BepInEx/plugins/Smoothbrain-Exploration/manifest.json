@@ -1,0 +1,9 @@
+{
+    "name": "Exploration",
+    "version_number": "1.0.3",
+    "website_url": "https://github.com/blaxxun-boop/Exploration",
+    "description": "Adds a skill that increases exploration radius and movement speed.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2202"
+    ]
+}

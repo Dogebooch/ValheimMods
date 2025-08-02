@@ -1,0 +1,9 @@
+{
+    "name": "Shapekeys_and_More",
+    "version_number": "2.4.1",
+    "website_url": "https://discord.gg/rdAxvuVXPa",
+    "description": "This is a client-side mod that acts as a utility and a soft library for other mods to use to make use of Styled Models, Shapekeys/Blendshapes, attach_other for sheathes, and different looks on itemstands",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2105"
+    ]
+}

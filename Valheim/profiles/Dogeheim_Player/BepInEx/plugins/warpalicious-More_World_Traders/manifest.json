@@ -1,0 +1,11 @@
+﻿{
+  "name": "More_World_Traders",
+  "description": "Adds 7 new traders with unique items only available via purchase.",
+  "version_number": "1.0.11",
+  "website_url": "https://discord.gg/KjgZ63VZv5",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202",
+    "ValheimModding-Jotunn-2.24.2",
+    "shudnal-TradersExtended-1.3.8"
+  ]
+}

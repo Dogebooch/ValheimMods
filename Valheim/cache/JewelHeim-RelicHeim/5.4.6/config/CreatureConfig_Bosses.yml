@@ -1,0 +1,328 @@
+#Boss Adjustments
+Eikthyr:
+  health per star: 0.24
+  attack speed: 1.2
+  movement speed: 1.2
+  damage: 2
+  damage taken:
+    Fire: 0.25
+    Bows: 0.5
+  affix:
+    Enraged: 35
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+gd_king:
+  health per star: 0.2
+  attack speed: 1.1
+  movement speed: 1.2
+  damage: [1.2, 1.3, 1.4, 1.6, 1.8, 2]
+  damage taken:
+    Fire: 0.25
+    Bows: 0.5
+  affix:
+    Enraged: 80
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+Bonemass:
+  health per star: 0.1
+  attack speed: 1.2
+  movement speed: 1.3
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  damage taken:
+    Frost: 0.75
+    Spirit: 0.75
+    Blunt: 0.75
+    Bows: 0.5
+  affix:
+    Enraged: 80
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.2
+
+Dragon:
+  health: 1.0666
+  health per star: 0.06666
+  attack speed: 1.2
+  movement speed: 1.2
+  damage: [1.2, 1.25, 1.3, 1.35, 1.4, 1.5]
+  affix:
+    Enraged: 40
+    Elementalist: 45
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+GoblinKing:
+  health: 1.1
+  health per star: 0.05
+  attack speed: 1.2
+  movement speed: 1.3
+  damage: [1.2, 1.25, 1.3, 1.35, 1.4, 1.5]
+  damage taken:
+    Bows: 0.5
+    Poison: 0.75
+    Lightning: 0.75
+    Spirit: 0.75
+    Frost: 0.75
+    Fire: 0.25
+  affix:
+    Elementalist: 75
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+SeekerQueen:
+  attack speed: 1.2
+  movement speed: 1.1
+  health: 1.04
+  health per star: 0.04
+  damage: [1.2, 1.25, 1.3, 1.35, 1.4, 1.5]
+  damage taken:
+    Blunt: 0.75
+    Bows: 0.5
+    Poison: 0.75
+    Lightning: 0.75
+    Spirit: 0.75
+    Frost: 0.75
+    Fire: 0.25
+  affix:
+    Enraged: 15
+    Elementalist: 5
+    Summoner: 65
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+Fader:
+  health: 1.04
+  health per star: 0.03
+  damage: [1.2, 1.25, 1.3, 1.35, 1.4, 1.5]
+  damage taken:
+    ElementalMagic: 0.75
+    Bows: 0.5
+  affix:
+    Enraged: 35
+    Elementalist: 35
+    Summoner: 15
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+##Mini bosses
+Fenring_Cultist_Hildir:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+Fenring_Cultist_Hildir_nochest:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+Skeleton_Hildir:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+Skeleton_Hildir_nochest:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+GoblinBruteBros:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+GoblinBruteBros_nochest:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+Charred_Melee_Dyrnwyn:
+  stars: [0, 15, 50, 25, 10]
+  damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
+  damage taken:
+    Bows: 0.5
+  infusion:
+   poison: 0
+   chaos: 0
+   spirit: 0
+   other: 20
+  effect:
+   quick: 0
+   splitting: 0
+   armored: 0
+   curious: 0
+   other: 20
+  effect power:
+    Regenerating: 0.5
+##  Monstrum Bosses
+BossAsmodeus_TW:
+  damage taken:
+    Fire: 0.25
+    Bows: 0.5
+  affix:
+    Enraged: 40
+    Elementalist: 35
+    Mending: 20
+    other: 0
+  affix power:
+    Mending: 0.1
+BossSvalt_TW:
+  health per star: 0.16
+  damage: [1.2, 1.25, 1.3, 1.35, 1.4, 1.5]
+  damage taken:
+    Bows: 0.5
+  affix:
+    Enraged: 40
+    Elementalist: 35
+    Mending: 20
+    other: 0
+  affix power:
+    Mending: 0.1
+BossVrykolathas_TW:
+  health per star: 0.08
+  damage: [1.2, 1.25, 1.3, 1.35, 1.4, 1.5]
+  damage taken:
+    Bows: 0.5
+  affix:
+    Enraged: 40
+    Elementalist: 35
+    Mending: 20
+    other: 0
+  affix power:
+    Mending: 0.1
+## DeepNorth Monstrum Bosses
+BossSythrak_TW:
+  health: 1
+  health per star: 0.02
+  damage: [1, 1.1, 1.12, 1.14, 1.16, 1.2]
+  damage taken:
+    Bows: 0.5
+  affix:
+    other: 0
+  affix power:
+    Mending: 0.1
+BossStormHerald_TW:
+  health: 1
+  health per star: 0.02
+  damage: [1, 1.1, 1.12, 1.14, 1.16, 1.2]
+  damage taken:
+    Bows: 0.5
+  affix:
+    other: 0
+  affix power:
+    Mending: 0.1
+BossGorr_TW:
+  health: 1
+  health per star: 0.02
+  damage: [1, 1.1, 1.12, 1.14, 1.16, 1.2]
+  damage taken:
+    Bows: 0.5
+  affix:
+    other: 0
+  affix power:
+    Mending: 0.1
+BossBrutalis_TW:
+  health: 1
+  health per star: 0.02
+  damage: [1, 1.1, 1.12, 1.14, 1.16, 1.2]
+  damage taken:
+    Bows: 0.5
+  affix:
+    other: 0
+  affix power:
+    Mending: 0.1

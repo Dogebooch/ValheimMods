@@ -1,0 +1,9 @@
+{
+  "name": "AzuWorkbench_Inventory_Repair",
+  "version_number": "1.0.2",
+  "website_url": "https://discord.gg/pdHgy6Bsng",
+  "description": "Automatically repair your items when you interact with a workbench or crafting table.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}

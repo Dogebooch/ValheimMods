@@ -1,0 +1,9 @@
+{
+    "name": "Groups",
+    "version_number": "1.2.9",
+    "website_url": "https://github.com/blaxxun-boop/Groups",
+    "description": "Adds basic group features to the game.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2202"
+    ]
+}

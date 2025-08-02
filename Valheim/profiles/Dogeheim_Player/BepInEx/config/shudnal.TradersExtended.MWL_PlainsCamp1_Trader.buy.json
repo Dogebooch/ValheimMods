@@ -1,0 +1,313 @@
+[
+  {
+    "prefab": "Tar",
+    "stack": 1,
+    "price": 8
+  },
+  {
+    "prefab": "Tar",
+    "stack": 10,
+    "price": 70,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Tar",
+    "stack": 50,
+    "price": 320,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "BlackMetalScrap",
+    "stack": 1,
+    "price": 20
+  },
+  {
+    "prefab": "BlackMetalScrap",
+    "stack": 10,
+    "price": 180,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Needle",
+    "stack": 1,
+    "price": 8
+  },
+  {
+    "prefab": "Needle",
+    "stack": 20,
+    "price": 140,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Cloudberry",
+    "stack": 1,
+    "price": 3
+  },
+  {
+    "prefab": "Cloudberry",
+    "stack": 10,
+    "price": 25,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Cloudberry",
+    "stack": 50,
+    "price": 110,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Feathers",
+    "stack": 1,
+    "price": 8
+  },
+  {
+    "prefab": "Feathers",
+    "stack": 20,
+    "price": 140,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "LoxPelt",
+    "stack": 1,
+    "price": 40
+  },
+  {
+    "prefab": "LinenThread",
+    "stack": 1,
+    "price": 25
+  },
+  {
+    "prefab": "LinenThread",
+    "stack": 10,
+    "price": 220,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "CookedLoxMeat",
+    "stack": 1,
+    "price": 25
+  },
+  {
+    "prefab": "LoxSaddle",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "BoltBlackmetal",
+    "stack": 1,
+    "price": 25
+  },
+  {
+    "prefab": "BoltBlackmetal",
+    "stack": 20,
+    "price": 450,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "ArrowNeedle",
+    "stack": 1,
+    "price": 15
+  },
+  {
+    "prefab": "ArrowNeedle",
+    "stack": 20,
+    "price": 280,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "ArrowFire",
+    "stack": 1,
+    "price": 12
+  },
+  {
+    "prefab": "ArrowFrost",
+    "stack": 1,
+    "price": 18,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArrowPoison",
+    "stack": 1,
+    "price": 20,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "ArrowObsidian",
+    "stack": 1,
+    "price": 22,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArrowSilver",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TorchMist",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "DvergrLantern",
+    "stack": 1,
+    "price": 150,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "WispTorch",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "SledgeIron",
+    "stack": 1,
+    "price": 300,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "SledgeStagbreaker",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Pickaxe",
+    "stack": 1,
+    "price": 150
+  },
+  {
+    "prefab": "PickaxeAntler",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "PickaxeBronze",
+    "stack": 1,
+    "price": 250,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "PickaxeIron",
+    "stack": 1,
+    "price": 400,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "PickaxeBlackmetal",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Hoe",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "Cultivator",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Wishbone",
+    "stack": 1,
+    "price": 2000,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Megingjord",
+    "stack": 1,
+    "price": 15000,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Dvergrkeys",
+    "stack": 1,
+    "price": 500,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Dvergrkeys",
+    "stack": 3,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TreasureChest",
+    "stack": 1,
+    "price": 300,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Coins",
+    "stack": 50,
+    "price": 45
+  },
+  {
+    "prefab": "Coins",
+    "stack": 200,
+    "price": 170,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "SwordCheat",
+    "stack": 1,
+    "price": 99999,
+    "requiredGlobalKey": "KillAllBosses"
+  },
+  {
+    "prefab": "Cart",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "BoatKarve",
+    "stack": 1,
+    "price": 1500,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "BoatLongship",
+    "stack": 1,
+    "price": 3000,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "FishingRod",
+    "stack": 1,
+    "price": 250
+  },
+  {
+    "prefab": "FishingBait",
+    "stack": 1,
+    "price": 5
+  },
+  {
+    "prefab": "FishingBait",
+    "stack": 50,
+    "price": 200
+  },
+  {
+    "prefab": "Portal",
+    "stack": 1,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "TeleportWorld",
+    "stack": 1,
+    "price": 2000,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Hammer",
+    "stack": 1,
+    "price": 80
+  }
+] 

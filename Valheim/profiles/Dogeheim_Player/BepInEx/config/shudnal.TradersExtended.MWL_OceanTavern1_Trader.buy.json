@@ -1,0 +1,289 @@
+[
+  {
+    "prefab": "FishCooked",
+    "stack": 1,
+    "price": 35,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "SerpentMeatCooked",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "SerpentStew",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "FishWraps",
+    "stack": 1,
+    "price": 55,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "FishAndBread",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_fader"
+  },
+  {
+    "prefab": "CookedBoneMawSerpentMeat",
+    "stack": 1,
+    "price": 85,
+    "requiredGlobalKey": "defeated_fader"
+  },
+  {
+    "prefab": "SerpentScale",
+    "stack": 1,
+    "price": 30,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "SpiceOceans",
+    "stack": 5,
+    "price": 150,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "FishingRod",
+    "stack": 1,
+    "price": 300
+  },
+  {
+    "prefab": "FishingBait",
+    "stack": 1,
+    "price": 8
+  },
+  {
+    "prefab": "FishingBait",
+    "stack": 50,
+    "price": 350
+  },
+  {
+    "prefab": "BoatKarve",
+    "stack": 1,
+    "price": 2000,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "BoatLongship",
+    "stack": 1,
+    "price": 4000,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Rudder",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "RudderLongship",
+    "stack": 1,
+    "price": 400,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Mast",
+    "stack": 1,
+    "price": 300,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "MastLongship",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Chitin",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Chitin",
+    "stack": 20,
+    "price": 480,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "TrophySerpent",
+    "stack": 1,
+    "price": 15000,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "Coins",
+    "stack": 100,
+    "price": 85
+  },
+  {
+    "prefab": "Coins",
+    "stack": 500,
+    "price": 400,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "Pearl",
+    "stack": 1,
+    "price": 500,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "AmberPearl",
+    "stack": 1,
+    "price": 400,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Ruby",
+    "stack": 1,
+    "price": 250,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "SilverNecklace",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "GoldNecklace",
+    "stack": 1,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "GoldRuby",
+    "stack": 1,
+    "price": 1500,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Goblet",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TreasureChest",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "HelmetHat4",
+    "stack": 1,
+    "price": 200
+  },
+  {
+    "prefab": "HelmetHat5",
+    "stack": 1,
+    "price": 250
+  },
+  {
+    "prefab": "HelmetHat6",
+    "stack": 1,
+    "price": 300
+  },
+  {
+    "prefab": "Tankard",
+    "stack": 1,
+    "price": 80
+  },
+  {
+    "prefab": "Hammer",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "Harpoon",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "CrossbowWood",
+    "stack": 1,
+    "price": 350
+  },
+  {
+    "prefab": "ArrowWood",
+    "stack": 50,
+    "price": 80
+  },
+  {
+    "prefab": "ArrowFlint",
+    "stack": 50,
+    "price": 120
+  },
+  {
+    "prefab": "Portal",
+    "stack": 1,
+    "price": 1500,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Lantern",
+    "stack": 1,
+    "price": 150,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "StandingBrazier",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Workbench",
+    "stack": 1,
+    "price": 120
+  },
+  {
+    "prefab": "ChoppingBlock",
+    "stack": 1,
+    "price": 300,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "TannersTable",
+    "stack": 1,
+    "price": 250,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "MeadHealthMedium",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "MeadStaminaMedium",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "MeadPoisonResist",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "MeadFrostResist",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "BarleyWine",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_goblinking"
+  }
+] 
