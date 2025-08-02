@@ -119,10 +119,16 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **VNEI Load Performance**
+- **Problem**: VNEI UI loaded slowly with unknown items and recipes visible
+- **Solution**: Enabled "Show Only Known" (server-forced) in com.maxsch.valheim.vnei.cfg
+- **Result**: Faster VNEI load times
+- 
 ### **Loot Generation Validation**
 - **Problem**: Duplicate `(PrefabID, ItemPrefab)` pairs could stack drop probabilities in generated configs
 - **Solution**: Added validation in `generate_loot_configs.py` to detect duplicates and abort generation
 - **Result**: Prevents accidental probability stacking during loot config creation
+
 
 ## 🚨 Current Pain Points
 
