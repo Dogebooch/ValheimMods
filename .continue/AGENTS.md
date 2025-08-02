@@ -119,6 +119,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **VNEI Load Performance**
+- **Problem**: VNEI UI loaded slowly with unknown items and recipes visible
+- **Solution**: Enabled "Show Only Known" (server-forced) in com.maxsch.valheim.vnei.cfg
+- **Result**: Faster VNEI load times
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
