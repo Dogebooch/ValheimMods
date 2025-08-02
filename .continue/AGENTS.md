@@ -61,6 +61,8 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - `important_files_updated.txt` - Enhanced file index with metadata
 - `List_Important_files.py` - Unified index generator
 - `.gitignore` - Selective file inclusion (configs/docs only)
+- `Valheim_Help_Docs/master_loot_table.yml` - Single-source loot data
+- `Valheim_Help_Docs/generate_loot_configs.py` - Exports Drop That & EpicLoot configs
 
 ## ⚙️ Configuration Standards
 
@@ -95,6 +97,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **AI-assisted config generation**
 - **Keep Drop That/EpicLoot/CLLC consistent**
 - **Avoid duplicate loot entries**
+- **Maintain master_loot_table.yml and generate configs automatically**
 
 ### **Output Standards**
 - **Tab-delimited** for spreadsheets
@@ -108,6 +111,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Problem**: Large number of files (2,979+) needed proper organization
 - **Solution**: Created unified index generator with TYPE/IMPORTANCE_TAGS classification
 - **Result**: Comprehensive file index with enhanced metadata
+
+### **Drop Table Consolidation**
+- **Problem**: Loot chances scattered across Drop That and Epic Loot configs
+- **Solution**: Added master_loot_table.yml and generate_loot_configs.py exporter
+- **Result**: Single source of truth for editing drop rates
 
 ### **Git Repository Management**
 - **Problem**: "Too many active changes" and large binary files
