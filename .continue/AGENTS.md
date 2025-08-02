@@ -124,6 +124,21 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Replaced chest loot with biome-specific sets and boosted legendary/mythic weights for late biomes
 - **Result**: Higher-tier chests now provide proportionally better materials
 
+### **Treasure Chest Loot Rolls**
+- **Problem**: Some treasure chests could roll zero items.
+- **Solution**: Updated drop tables to remove zero-roll chance, ensuring a minimum of one item.
+- **Result**: Treasure chests now always yield at least one piece of loot.
+
+### **VNEI Load Performance**
+- **Problem**: VNEI UI loaded slowly with unknown items and recipes visible
+- **Solution**: Enabled "Show Only Known" (server-forced) in com.maxsch.valheim.vnei.cfg
+- **Result**: Faster VNEI load times
+- 
+### **Loot Generation Validation**
+- **Problem**: Duplicate `(PrefabID, ItemPrefab)` pairs could stack drop probabilities in generated configs
+- **Solution**: Added validation in `generate_loot_configs.py` to detect duplicates and abort generation
+- **Result**: Prevents accidental probability stacking during loot config creation
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
