@@ -1,0 +1,17 @@
+# Master loot table consolidating Drop That and Epic Loot data.
+# Each entry defines DropThat and EpicLoot parameters for a prefab.
+# Additional columns may be added as needed.
+
+- PrefabID: Troll
+  ItemPrefab: TrollHide
+  DropThat:
+    SetChanceToDrop: 25        # percentage
+    WorldLevelMin: 2
+    CreatureStarsRequired: 0
+  EpicLoot:
+    RarityWeights:
+      Magic: 1
+      Rare: 0.5
+      Legendary: 0.25
+    WorldLevelMin: 2
+  Notes: Example placeholder entry.
