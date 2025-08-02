@@ -119,6 +119,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **Loot Generation Validation**
+- **Problem**: Duplicate `(PrefabID, ItemPrefab)` pairs could stack drop probabilities in generated configs
+- **Solution**: Added validation in `generate_loot_configs.py` to detect duplicates and abort generation
+- **Result**: Prevents accidental probability stacking during loot config creation
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
