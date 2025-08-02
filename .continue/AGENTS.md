@@ -119,6 +119,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **Biome-Specific Treasure Loot**
+- **Problem**: Generic MagicMaterials set used across all chests limited biome-based progression
+- **Solution**: Replaced chest loot with biome-specific sets and boosted legendary/mythic weights for late biomes
+- **Result**: Higher-tier chests now provide proportionally better materials
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
