@@ -132,6 +132,16 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Ensure boss-locked BiS items feel worth the grind
 - Streamline AI → config → game pipeline
 
+## 💡 Loot System Ideas / TODO
+- Introduce boss-specific unique drops with rare rates and signature effects.
+- Expand RelicHeim armor sets with scalable set bonuses tied to world levels.
+- Implement tiered loot tables that unlock stronger rewards at higher world levels.
+- Add a boss currency or token system for deterministic reward exchanges.
+- Highlight rare drops and track boss killcounts for social/cosmetic rewards.
+- Provide independent loot rolls for group boss fights to incentivize co-op play.
+- Run rotating boss events with temporary loot modifiers or event-exclusive items.
+- Drop relic fragments that players combine into upgraded or legendary versions.
+
 ## 🛠️ Common Tasks & Commands
 
 ### **File Management**
