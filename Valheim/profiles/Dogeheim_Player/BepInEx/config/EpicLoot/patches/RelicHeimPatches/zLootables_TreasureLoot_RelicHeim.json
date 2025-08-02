@@ -139,234 +139,234 @@
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_meadows')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 70], [2, 25], [3, 5] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_meadows')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMeadows"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_blackforest')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 60], [2, 30], [3, 10] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_blackforest')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestBlackForest"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_forestcrypt')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 60], [2, 30], [3, 10] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_forestcrypt')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestBlackForest"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_fCrypt')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 60], [2, 30], [3, 10] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_fCrypt')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestBlackForest"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_trollcave')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 60], [2, 30], [3, 10] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_trollcave')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestBlackForest"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'shipwreck_karve_chest')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 60], [2, 30], [3, 10] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'shipwreck_karve_chest')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestBlackForest"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_meadows_buried')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 70], [2, 25], [3, 5] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_meadows_buried')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMeadows"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_sunkencrypt')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 50], [2, 35], [3, 15] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_sunkencrypt')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestSwamp"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_swamp')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 50], [2, 35], [3, 15] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_swamp')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestSwamp"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_mountains')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 40], [2, 40], [3, 20] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_mountains')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMountain"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_mountaincave')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 40], [2, 40], [3, 20] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_mountaincave')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMountain"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_plains_stone')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 30], [2, 45], [3, 25] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_plains_stone')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestPlains"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 30], [2, 45], [3, 25] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestPlains"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergrtown')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 20], [2, 50], [3, 30] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergrtown')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMistlands"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergrtower')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 20], [2, 50], [3, 30] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergrtower')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMistlands"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergr_loose_stone')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [1, 20], [2, 50], [3, 30] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergr_loose_stone')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestMistlands"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_charredfortress')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [2, 50], [3, 35], [4, 15] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_charredfortress')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestAshDeep"}
 	  ]
 	},
 	
 	{
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_ashland_stone')].Drops",
       "Action": "Overwrite",
-      "Value": [ [0, 30], [1, 50], [2, 15], [3, 5] ]
+      "Value": [ [2, 50], [3, 35], [4, 15] ]
     },
 	{
 	  "Path": "$.LootTables[?(@.Object == 'TreasureChest_ashland_stone')].Loot",
 	  "Action": "Overwrite",
 	  "Value": [
-		{ "Item": "MagicMaterials"}
+                { "Item": "HaldorChestAshDeep"}
 	  ]
 	},
 	
