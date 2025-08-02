@@ -1,0 +1,32 @@
+# Exclude large directories that contain game files and mods
+Valheim/
+Valheim_GameFiles/
+
+# Exclude Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Exclude temporary files
+*.tmp
+*.temp
+*.log
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Exclude OS files
+.DS_Store
+Thumbs.db
+
+# Keep only the important index files and documentation
+!important_files.txt
+!important_files_updated.txt
+!update_index.py
+!README.md 
