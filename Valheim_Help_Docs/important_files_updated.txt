@@ -2071,9 +2071,6 @@ Total size of included files: 21.30 MB
 [MODDED] cache\WackyMole-WackysDatabase\2.4.56\CHANGELOG.md | DOCS | MOD,CRITICAL,CONFIG,DOCS
 [MODDED] cache\WackyMole-WackysDatabase\2.4.56\README.md | DOCS | MOD,CRITICAL,CONFIG,DOCS
 [MODDED] cache\WackyMole-WackysDatabase\2.4.56\manifest.json | CONFIG | MOD,CRITICAL,CONFIG
-[MODDED] cache\Willybach-Willybachs_HD_Seasonality\3.5.6\BepInEx\config\RustyMods.Seasonality.cfg | CONFIG | MOD,CRITICAL
-[MODDED] cache\Willybach-Willybachs_HD_Seasonality\3.5.6\BepInEx\config\Seasonality\WillybachHD\You can place any replacement textures here.txt | DOCS | MOD,CRITICAL
-[MODDED] cache\Willybach-Willybachs_HD_Seasonality\3.5.6\BepInEx\config\Seasonality\willybachhd.manifest | DATA | MOD,CRITICAL
 [MODDED] cache\ZenDragon-ZenUI\0.5.10\plugins\Translations\English\english.json | CONFIG | MOD,LOCALE
 [MODDED] cache\ZenDragon-ZenUI\0.5.7\plugins\Translations\English\english.json | CONFIG | MOD,LOCALE
 [MODDED] cache\ZenDragon-ZenUI\0.5.8\plugins\Translations\English\english.json | CONFIG | MOD,LOCALE
