@@ -119,6 +119,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **Treasure Chest Loot Rolls**
+- **Problem**: Some treasure chests could roll zero items.
+- **Solution**: Updated drop tables to remove zero-roll chance, ensuring a minimum of one item.
+- **Result**: Treasure chests now always yield at least one piece of loot.
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
