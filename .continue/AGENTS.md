@@ -373,3 +373,4 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Removed boss kill requirements from chest loot tables to eliminate gating on chest rewards.
 - Added Gameplay_Mod_Walkthrough.md summarizing gameplay mods and item sources.
 - Expanded Gameplay_Mod_Walkthrough.md with enchanting guidance, loot hunting strategies, and questing tips.
+- Documented post-story boss trophy uses (enchanting reagents, XP orbs, reset tokens).
