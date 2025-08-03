@@ -253,5 +253,15 @@
     "prefab": "HelmetHat3",
     "stack": 1,
     "price": 200
+  },
+  {
+    "prefab": "IronBountyToken",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "GoldBountyToken",
+    "stack": 1,
+    "price": 300
   }
-] 
+]

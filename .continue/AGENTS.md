@@ -179,6 +179,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Replaced chest loot with biome-specific sets and boosted legendary/mythic weights for late biomes
 - **Result**: Higher-tier chests now provide proportionally better materials
 
+### **Bounty Board Group Integration**
+- **Problem**: Group bounties required manual participant tracking and only split coin rewards
+- **Solution**: BountyBoard now uses the Groups API to auto-detect party members and divide coin and token rewards
+- **Result**: Cooperative bounties automatically share payouts among current group members
+
 ### **Treasure Chest Loot Rolls**
 - **Problem**: Some treasure chests could roll zero items.
 - **Solution**: Updated drop tables to remove zero-roll chance, ensuring a minimum of one item.
@@ -212,6 +217,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Managing multiple mod item lists without missing prefabs
 
 ### **Current Priorities**
+- Integrate bounty board plugin enabling random rewards, group hunts, and skill-gated bounties
 - Refine endgame loot pool using existing assets
 - Balance magic vs static loot drop rates
 - Ensure boss-locked BiS items feel worth the grind

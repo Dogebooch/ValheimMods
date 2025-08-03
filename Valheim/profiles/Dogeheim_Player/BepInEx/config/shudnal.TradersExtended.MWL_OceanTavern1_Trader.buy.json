@@ -285,5 +285,15 @@
     "stack": 1,
     "price": 80,
     "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "IronBountyToken",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "GoldBountyToken",
+    "stack": 1,
+    "price": 300
   }
-] 
+]

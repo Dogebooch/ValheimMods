@@ -309,5 +309,15 @@
     "prefab": "Hammer",
     "stack": 1,
     "price": 80
+  },
+  {
+    "prefab": "IronBountyToken",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "GoldBountyToken",
+    "stack": 1,
+    "price": 300
   }
-] 
+]

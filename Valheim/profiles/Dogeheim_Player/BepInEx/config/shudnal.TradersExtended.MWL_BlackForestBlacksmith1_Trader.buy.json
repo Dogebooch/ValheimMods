@@ -146,5 +146,15 @@
     "stack": 1,
     "price": 20,
     "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "IronBountyToken",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "GoldBountyToken",
+    "stack": 1,
+    "price": 300
   }
-] 
+]
