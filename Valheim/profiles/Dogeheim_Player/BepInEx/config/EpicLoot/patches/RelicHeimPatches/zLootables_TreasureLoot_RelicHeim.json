@@ -296,21 +296,35 @@
         },
 
 	
-	{
+        {
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath')].Drops",
       "Action": "Overwrite",
       "Value": [ [1, 50], [2, 35], [3, 15] ]
 
     },
-	{
+        {
           "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath')].Loot",
           "Action": "Overwrite",
           "Value": [
                 { "Item": "HaldorChestPlains"}
           ]
         },
-	
-	{
+
+        {
+      "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath_hildir')].Drops",
+      "Action": "Overwrite",
+      "Value": [ [1, 50], [2, 35], [3, 15] ]
+
+    },
+        {
+          "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath_hildir')].Loot",
+          "Action": "Overwrite",
+          "Value": [
+                { "Item": "HaldorChestPlains"}
+          ]
+        },
+
+        {
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergrtown')].Drops",
       "Action": "Overwrite",
       "Value": [ [1, 50], [2, 35], [3, 15] ]
@@ -467,16 +481,81 @@
     },
 	
 	{
-	  "Path": "$.LootTables",
-	  "Action": "AppendAll",
-	  "Value": [
-	{
-	  "Object": "TreasureMapChest_DeepNorth",
-	  "Drops": [ [1, 0], [2, 0], [3, 70], [4, 30] ],
-	  "Loot": [
-		{ "Item": "HaldorChestAshDeep"}
-	  ]
-	}
+          "Path": "$.LootTables",
+          "Action": "AppendAll",
+          "Value": [
+        {
+          "Object": "TreasureMapChest_DeepNorth",
+          "WorldLevel": 7,
+          "Drops": [ [1, 0], [2, 0], [3, 70], [4, 30] ],
+          "Loot": [
+                { "Item": "HaldorChestAshDeep"}
+          ]
+        },
+        {
+          "Object": "TreasureChest_forestcrypt_hildir",
+          "WorldLevel": 2,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestBlackForest" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_heath_hildir",
+          "WorldLevel": 5,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestPlains" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_mountaincave_hildir",
+          "WorldLevel": 4,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestMountain" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_plainsfortress_hildir",
+          "WorldLevel": 5,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestPlains" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_DeepNorth_TW",
+          "WorldLevel": 7,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestAshDeep" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_CaveDeepNorth_TW",
+          "WorldLevel": 7,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestAshDeep" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_JotunnDungeon",
+          "WorldLevel": 7,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestAshDeep" }
+          ]
+        },
+        {
+          "Object": "TreasureChest_Muspelheim",
+          "WorldLevel": 7,
+          "Drops": [ [1, 50], [2, 35], [3, 15] ],
+          "Loot": [
+                { "Item": "HaldorChestAshDeep" }
+          ]
+        }
    ]
   }
  ]
