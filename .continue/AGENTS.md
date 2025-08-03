@@ -203,6 +203,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Balance magic vs static loot drop rates
 - Ensure boss-locked BiS items feel worth the grind
 - Streamline AI → config → game pipeline
+- Monitor increased Mushroom Monster spawn rates across biomes for balance
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.
