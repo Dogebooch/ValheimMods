@@ -319,4 +319,13 @@ git commit -m "Add/Update: [specific mod] configuration files"
 
 ---
 
-**🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**. 
+**🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**.
+
+### Recent Updates
+- Added Dragon world spawner in Mountain biomes during SnowStorms with altitude gating.
+- Introduced AvalancheDrake boss scaling with a rock-summoning affix.
+- Configured AvalancheDrake loot drops with world-level tiers.
+- Expanded AvalancheDrake loot with DragonTears and EpicLoot enchanting materials.
+- Gave AvalancheDrake a unique Spirit infusion, enlarged size, and boss-level visuals.
+- Capped AvalancheDrake spawn level at five stars to respect star limits.
+- Scaled AvalancheDrake loot with world levels, adding XP orbs and lowering drop rates to encourage repeat fights.
