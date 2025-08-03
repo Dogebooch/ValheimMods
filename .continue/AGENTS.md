@@ -219,6 +219,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Monitor increased Mushroom Monster spawn rates across biomes for balance
 - Balanced Mushroom boss drops: WL-scaled coins guaranteed, portal key guaranteed, and rare (~5%/1% overall via 2.5%/0.5% per-roll) gold/silver statues per player
 - Maintain progression-based loot tables for Mushroom Monsters (bosses excluded; rare mushrooms drop-one-per-player)
+- Add coin-gated Troll encounter in Black Forest requiring 500+ coins and heavy carry weight; uses separate CoinTroll prefab with boss visuals and WL-based loot: trophy/coins/finewood (WL2), runestone (WL3), iron scrap (WL4), and Yggdrasil wood (WL6+)
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.
