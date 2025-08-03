@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>Dogeheim.BountyBoard</RootNamespace>
+    <AssemblyName>Dogeheim-BountyBoard</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>../../core/BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>../../core/0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>../../core/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="EpicLoot">
+      <HintPath>../RandyKnapp-EpicLoot/EpicLoot.dll</HintPath>
+    </Reference>
+    <Reference Include="Jotunn">
+      <HintPath>../ValheimModding-Jotunn/Jotunn.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>../ValheimModding-JsonDotNET/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="GroupsAPI">
+      <HintPath>../Smoothbrain-Groups/GroupsAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
