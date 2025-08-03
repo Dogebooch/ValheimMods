@@ -169,6 +169,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **Tempest Serpent Boss Setup**
+- **Problem**: Tempest Serpent lacked distinct visuals and boss-worthy loot.
+- **Solution**: Capped level at 5-star limit, enlarged model with lightning infusion and armored effect, and expanded drop table with trophy, meat, coins, thunderstones, and legendary weapon rolls.
+- **Result**: Deep-ocean boss encounter now stands out and offers exciting rewards.
+
 ### **EpicMMO Dexterity Soft Cap**
 - **Problem**: Added Dexterity stamina soft cap entries were not recognized by EpicMMO System
 - **Solution**: Removed unsupported soft cap settings, keeping base stamina bonuses only
@@ -219,6 +224,8 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Monitor increased Mushroom Monster spawn rates across biomes for balance
 - Balanced Mushroom boss drops: WL-scaled coins guaranteed, portal key guaranteed, and rare (~5%/1% overall via 2.5%/0.5% per-roll) gold/silver statues per player
 - Maintain progression-based loot tables for Mushroom Monsters (bosses excluded; rare mushrooms drop-one-per-player)
+- Evaluate new Tempest Serpent deep-ocean boss spawn and loot balance
+- Tempest Serpent loot now world-level gated with rare XP orb drop; monitor balance and drop rates
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.
