@@ -239,6 +239,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Provide independent loot rolls for group boss fights to incentivize co-op play.
 - Run rotating boss events with temporary loot modifiers or event-exclusive items.
 - Drop relic fragments that players combine into upgraded or legendary versions.
+- Added Ashlands Stone Golem spawning near lava in clear weather with high fire resistance, CLLC scaling, and world-level gated loot (Flametal/Obsidian/MagmaCore) plus rare XP orbs.
 
 ## Roaming Bosses
 - **Tempest Neck** – Spawns along coastlines during thunderstorms; drops storm glands for early lightning gear.
