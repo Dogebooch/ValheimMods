@@ -524,15 +524,15 @@ MeadowsPack2Loot2:
     stackMax: 4
     weight: 2.0
   # Farming-specific items
-  - item: SeedCarrot
+  - item: CarrotSeeds
     stackMin: 2
     stackMax: 6
     weight: 1.8
-  - item: SeedTurnip
+  - item: TurnipSeeds
     stackMin: 2
     stackMax: 6
     weight: 1.8
-  - item: SeedOnion
+  - item: OnionSeeds
     stackMin: 2
     stackMax: 6
     weight: 1.8
