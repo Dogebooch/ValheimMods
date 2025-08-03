@@ -9,6 +9,10 @@ MeadowsLoot1:
   # Common locations - Basic weapons, armor, and survival items
   # Focus: Early-game equipment and essential materials for progression
   # Materials for enchanting economy
+  - item: Coins
+    stackMin: 5
+    stackMax: 20
+    weight: 1.0
   - item: DustMagic
     stackMin: 2
     stackMax: 5
@@ -113,6 +117,10 @@ MeadowsLoot2:
   # Uncommon locations - Enhanced weapons, armor, and better items
   # Focus: Mid-tier equipment and improved materials for progression
   # Materials for enchanting economy
+  - item: Coins
+    stackMin: 10
+    stackMax: 30
+    weight: 1.0
   - item: DustMagic
     stackMin: 3
     stackMax: 7
@@ -250,6 +258,10 @@ MeadowsLoot3:
   # Elite locations - Premium weapons, armor, and rare items
   # Focus: High-tier equipment and valuable materials for endgame progression
   # Materials for enchanting economy
+  - item: Coins
+    stackMin: 20
+    stackMax: 50
+    weight: 1.0
   - item: DustMagic
     stackMin: 4
     stackMax: 9
