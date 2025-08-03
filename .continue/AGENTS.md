@@ -169,6 +169,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **EpicMMO Dexterity Soft Cap**
+- **Problem**: Added Dexterity stamina soft cap entries were not recognized by EpicMMO System
+- **Solution**: Removed unsupported soft cap settings, keeping base stamina bonuses only
+- **Result**: Prevents non-functional config lines and maintains balanced stamina progression
+
 ### **Biome-Specific Treasure Loot**
 - **Problem**: Generic MagicMaterials set used across all chests limited biome-based progression
 - **Solution**: Replaced chest loot with biome-specific sets and boosted legendary/mythic weights for late biomes
