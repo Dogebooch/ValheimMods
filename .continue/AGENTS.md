@@ -365,4 +365,5 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Capped AvalancheDrake spawn level at five stars to respect star limits.
 - Completed roaming boss setup: added creature configs, unique spawners, and loot tables for TempestNeck, TollTroll, LeechMatron, RoyalLox, WeaverQueen, MagmaGolem, and FrostWyrm. Normalized spawn chances and world-level gating.
 - Scaled AvalancheDrake loot with world levels, adding XP orbs and lowering drop rates to encourage repeat fights.
+- Reduced overall monster density by doubling world spawner intervals and cutting spawn chances by 25% across world spawner configs to ease monster crowding.
 
