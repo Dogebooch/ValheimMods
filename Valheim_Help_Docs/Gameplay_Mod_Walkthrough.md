@@ -37,6 +37,14 @@ Centralises custom items, recipes and set bonuses.
 - Look in the crafting menu for **RelicHeim set pieces** and biome‑themed feasts.
 - Many recipes require materials dropped by roaming bosses or high WL creatures.
 
+## Enchanting & Gear Upgrades
+EpicLoot and the Valheim Enchantment System let you customise equipment.
+- **Disenchant** unwanted drops at the table to recover **Magic Dust**, runes and upgrade materials.
+- **Augment** slots to add new affixes; higher table tiers unlock more options.
+- Use **Enchanted Keys** from Haldor to open special chests filled with scrolls and crafting reagents.
+- Upgrade the table itself to improve success chances and batch‑convert junk trophies into enchanting mats.
+- Enchanted items keep their durability percentage, so repair before enchanting to avoid wasting resources.
+
 ## Smoothbrain Skill Mods
 Each skill module expands a survival activity.  Enable/disable in BepInEx configs if desired.
 - **Farming** – Tends crops automatically and adds new plants.
@@ -68,6 +76,20 @@ Unique world bosses appear under specific conditions.  Prepare before hunting th
 - **Magma Golem** – Rises in ashlands lava pools; drops **Magma Cores** for fire weapons.
 - **Frost Wyrm** – Patrols deep north blizzards; drops **Frozen Hearts** for frost enchantments.
 
+## Loot Hunting & Exploration
+Track world level and star ratings to target the best loot.
+- High star (2+) creatures and elites have improved drop tables and affix rolls.
+- Warpalicious dungeons hide locked chests; carry keys or bombs to reach their rewards.
+- Seasonal events and storms increase roaming boss spawns—follow thunder or blizzards for rare drops.
+- Use **Adventure Backpacks** or pack animals to haul treasures and crafting mats home.
+
+## Questing & Contracts
+Mods like **Biome Lords Quest** and **Traders Extended** provide structured goals.
+- Check quest boards in settlements or speak with Haldor for contracts.
+- Objectives often send you to specific biomes or bosses and reward coins, XP and reputation.
+- **Toll Tokens** from Toll Trolls unlock trader quest lines and rare stock.
+- Quests scale with world level; revisit them as the world advances for better loot.
+
 ## Item Sources
 | Item | Source |
 |------|-------|
@@ -89,5 +111,9 @@ RelicHeim crafting uses these materials to forge end‑game gear and feast recip
 - Use backpacks and mounts to manage the reduced base carry weight.
 - Seasonal storms can spawn roaming bosses—watch the skies.
 - Keep `important_files_updated.txt` and configs under version control when tweaking settings.
+- Disenchant duplicate drops for dust instead of selling them; enchant only fully repaired gear.
+- Upgrade the Enchanting Table early to improve success chances and unlock mass conversion recipes.
+- Turn in quests while rested for a small bonus to the XP rewards.
+- Party members share MMO XP, so group up for difficult hunts and faster progression.
 
 Enjoy exploring JewelHeim‑RelicHeim!
