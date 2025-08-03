@@ -1118,7 +1118,7 @@
     minor: 4
     patch: 9
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\JewelHeim-RelicHeim\5.4.9\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\JewelHeim-RelicHeim\icon.png
 - manifestVersion: 1
   name: TastyChickenLegs-AutomaticFuel
   authorName: TastyChickenLegs
@@ -2166,7 +2166,7 @@
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1753909842292
+  installedAtTime: 1754159127562
   loaders: []
   dependencies:
     - denikson-BepInExPack_Valheim-5.4.2202
@@ -2176,9 +2176,9 @@
   versionNumber:
     major: 1
     minor: 1
-    patch: 24
+    patch: 25
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ZenDragon-Zen_ModLib\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\ZenDragon-Zen_ModLib\1.1.25\icon.png
 - manifestVersion: 1
   name: VegettaPT-No_Food_Degradation
   authorName: VegettaPT
@@ -2212,16 +2212,17 @@
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1753532681938
+  installedAtTime: 1754159127388
   loaders: []
   dependencies:
     - denikson-BepInExPack_Valheim-5.4.2202
-    - ValheimModding-Jotunn-2.24.3
+    - ValheimModding-Jotunn-2.26.0
+    - ValheimModding-YamlDotNet-16.3.1
   incompatibilities: []
   optionalDependencies: []
   versionNumber:
     major: 0
-    minor: 16
+    minor: 17
     patch: 0
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\MSchmoecker-VNEI\icon.png
@@ -2298,3 +2299,97 @@
     patch: 0
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\WackyMole-Tone_Down_the_Twang\icon.png
+- manifestVersion: 1
+  name: blacks7ar-FineWoodFurnitures
+  authorName: blacks7ar
+  websiteUrl: https://thunderstore.io/c/valheim/p/blacks7ar/FineWoodFurnitures/
+  displayName: FineWoodFurnitures
+  description: As requested, split FineWoodPieces into 3 separate mods
+    (ClayBuildPieces, FineWoodBuildPieces and FineWoodFurnitures)
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754159041091
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 1
+    patch: 0
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\blacks7ar-FineWoodFurnitures\icon.png
+- manifestVersion: 1
+  name: blacks7ar-FineWoodBuildPieces
+  authorName: blacks7ar
+  websiteUrl: https://thunderstore.io/c/valheim/p/blacks7ar/FineWoodBuildPieces/
+  displayName: FineWoodBuildPieces
+  description: As requested, split FineWoodPieces into 3 separate mods
+    (ClayBuildPieces, FineWoodBuildPieces and FineWoodFurnitures)
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754159052233
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 1
+    patch: 7
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\blacks7ar-FineWoodBuildPieces\icon.png
+- manifestVersion: 1
+  name: OdinPlus-OdinArchitect
+  authorName: OdinPlus
+  websiteUrl: https://thunderstore.io/c/valheim/p/OdinPlus/OdinArchitect/
+  displayName: OdinArchitect
+  description: Odin Architect is a mod that will allow you to build more with more
+    structures and on a larger scale. You will find here not only larger
+    counterparts of basic buildings but also completely new ones
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754159058225
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+    - ValheimModding-Jotunn-2.23.1
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 5
+    patch: 3
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\OdinPlus-OdinArchitect\icon.png
+- manifestVersion: 1
+  name: ValheimModding-YamlDotNet
+  authorName: ValheimModding
+  websiteUrl: https://thunderstore.io/c/valheim/p/ValheimModding/YamlDotNet/
+  displayName: YamlDotNet
+  description: Shared version 16.3.0 of YamlDotNet from Antoine Aubry and
+    contributors, net47 package for use in Valheim mods. Maintained by the
+    ValheimModding team.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754159127207
+  loaders: []
+  dependencies: []
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 16
+    minor: 3
+    patch: 1
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ValheimModding-YamlDotNet\icon.png

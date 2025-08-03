@@ -1,0 +1,7 @@
+﻿{
+  "name": "FineWoodFurnitures",
+  "description": "As requested, split FineWoodPieces into 3 separate mods (ClayBuildPieces, FineWoodBuildPieces and FineWoodFurnitures)",
+  "version_number": "1.1.0",
+  "website_url": "https://www.nexusmods.com/valheim/mods/2643?tab=bugs",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2202"]
+}

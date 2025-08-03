@@ -3,6 +3,50 @@
 ## 🎯 Core Mission
 Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO progression, rewarding grind, and exploration.
 
+## 📊 Current Skill Progression Factors
+
+### **EpicMMO System (Primary RPG Progression)**
+- **Max Level**: 90 (reduced from default 100)
+- **Free Points Per Level**: 2 (reduced from default 5)
+- **Start Free Points**: 3 (reduced from default 5)
+- **Level Experience**: 300 XP base per level
+- **Experience Multiplier**: 1.043 (reduced from default 1.05)
+- **Add Level Experience**: Enabled (adds 300 XP per level)
+- **Experience Rate**: 1.0x (normal)
+- **Death Penalty**: 25-50% XP loss (increased from default 5-25%)
+- **Reset Cost**: 55 coins per point (increased from default 3)
+
+### **Attribute Scaling (Per Point)**
+- **Strength**: +0.3 damage, +4 weight, +0.3 block stamina, +0.5 crit damage
+- **Dexterity**: +0.3 attack speed, +0.3 attack stamina, +0.3 movement stamina
+- **Endurance**: +1 stamina, +0.5 stamina regen, +0.3 physical armor
+- **Intelligence**: +0.3 magic attack, +0.3 eitr regen, +1 eitr
+- **Vigour**: +1 health, +0.5 health regen, +0.3 magic armor
+- **Specializing**: +0.2% crit chance, +0.4 mining speed, +10 building health, +0.4 tree cutting
+
+### **SmartSkills (Vanilla Skill Enhancement)**
+- **Skill Recovery Bonus**: 50% XP boost until reaching previous highest level
+- **Weapon Catch-up Bonus**: 50% XP boost for weapon skills until caught up to highest weapon skill
+- **Swimming**: 100% XP bonus, no death penalty
+- **Sneak**: +10% XP on backstab, +25% backstab damage at level 100
+- **Blood Magic**: 33% XP sharing between shield caster and attacker
+
+### **Vanilla Skill Experience Factors**
+- **Farming**: 1.25x (boosted - most rewarding)
+- **Cooking**: 0.6x (reduced)
+- **Ranching**: 0.6x (reduced)
+- **Exploration**: 0.6x (reduced)
+- **Building**: 0.5x (reduced)
+- **Blacksmithing**: 0.5x (reduced)
+- **Foraging**: 0.5x (reduced)
+- **Lumberjacking**: 0.5x (reduced)
+- **Mining**: 0.5x (reduced)
+- **Sailing**: 0.5x (reduced)
+- **Pack Horse**: 0.5x (reduced)
+- **Tenacity**: 0.4x (reduced)
+- **Warfare Skills**: 1.0x (normal)
+- **Enchantment System**: 1.0x (normal)
+
 ## 🏗️ Project Architecture
 
 ### **Core Systems**
