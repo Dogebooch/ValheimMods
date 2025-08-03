@@ -422,3 +422,120 @@ StoneGolem:
   effect:
     armored: 100
     other: 0
+
+# Roaming Bosses
+TempestNeck:
+  size: 3
+  health: 1.05
+  health per star: 0.05
+  attack speed: 1.1
+  movement speed: 1.1
+  damage: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+TollTroll:
+  size: 1.3
+  health: 1.1
+  health per star: 0.1
+  attack speed: 1.1
+  movement speed: 1.1
+  damage: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+LeechMatron:
+  size: 4
+  health: 1.1
+  health per star: 0.1
+  attack speed: 1.1
+  movement speed: 1
+  damage: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+RoyalLox:
+  size: 1.6
+  health: 1.2
+  health per star: 0.08
+  attack speed: 1.1
+  movement speed: 1.1
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+WeaverQueen:
+  size: 1.5
+  health: 1.1
+  health per star: 0.05
+  attack speed: 1.1
+  movement speed: 1.1
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+MagmaGolem:
+  size: 2
+  health: 1.2
+  health per star: 0.1
+  attack speed: 1
+  movement speed: 1
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  damage taken:
+    Fire: 0.1
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1
+
+FrostWyrm:
+  size: 2
+  health: 1.2
+  health per star: 0.1
+  attack speed: 1.1
+  movement speed: 1.2
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  infusion:
+    Frost: 1
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    Mending: 10
+    other: 0
+  affix power:
+    Mending: 0.1

@@ -358,5 +358,6 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Expanded AvalancheDrake loot with DragonTears and EpicLoot enchanting materials.
 - Gave AvalancheDrake a unique Spirit infusion, enlarged size, and boss-level visuals.
 - Capped AvalancheDrake spawn level at five stars to respect star limits.
+- Completed roaming boss setup: added creature configs, unique spawners, and loot tables for TempestNeck, TollTroll, LeechMatron, RoyalLox, WeaverQueen, MagmaGolem, and FrostWyrm. Normalized spawn chances and world-level gating.
 - Scaled AvalancheDrake loot with world levels, adding XP orbs and lowering drop rates to encourage repeat fights.
 
