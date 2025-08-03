@@ -105,6 +105,12 @@ Mods like **Biome Lords Quest** and **Traders Extended** provide structured goal
 
 RelicHeim crafting uses these materials to forge end‑game gear and feast recipes for each biome.
 
+## Boss Trophy Uses
+Once the Forsaken altars are activated, extra boss trophies still provide value:
+- **Enchanting reagents** – Break trophies down at the Enchanting Table to produce Novus Reagent and other crafting materials.
+- **XP orbs and potions** – Wacky EpicMMO repurposes trophies, letting you grind bosses for ingredients used in XP orbs or experience potions.
+- **Reset tokens** – Spare trophies can become Reset Trophies, rare items the MMO system accepts in place of coins when refunding attribute points.
+
 ## Tips
 - Track world level progression and tackle biomes in order.
 - Carry repair materials; many mods increase durability loss.
