@@ -179,6 +179,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Renamed drop entry to `ShieldBronzeBuckler` and patched CoinTrollSpawn to register the custom troll during `ZNetScene.Awake`
 - **Result**: Prefabs now load correctly, eliminating configuration warnings
 
+### **Seed Prefab Warnings**
+- **Problem**: More World Locations loot lists referenced `SeedCarrot`, `SeedTurnip`, and `SeedOnion` prefabs that don't exist.
+- **Solution**: Replaced entries with correct base-game IDs (`CarrotSeeds`, `TurnipSeeds`, `OnionSeeds`) in `warpalicious.More_World_Locations_LootLists.yml`.
+- **Result**: Seed items now spawn without warning logs.
+
 ### **Tempest Serpent Boss Setup**
 - **Problem**: Tempest Serpent lacked distinct visuals and boss-worthy loot.
 - **Solution**: Capped level at 5-star limit, enlarged model with lightning infusion and armored effect, and expanded drop table with trophy, meat, coins, thunderstones, and legendary weapon rolls.
