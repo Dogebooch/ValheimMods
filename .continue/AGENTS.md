@@ -220,6 +220,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Balanced Mushroom boss drops: WL-scaled coins guaranteed, portal key guaranteed, and rare (~5%/1% overall via 2.5%/0.5% per-roll) gold/silver statues per player
 - Maintain progression-based loot tables for Mushroom Monsters (bosses excluded; rare mushrooms drop-one-per-player)
 - Add coin-gated Troll encounter in Black Forest requiring 500+ coins and heavy carry weight; uses separate CoinTroll prefab with boss visuals and WL-based loot: trophy/coins/finewood (WL2), runestone (WL3), iron scrap (WL4), and Yggdrasil wood (WL6+)
+- Track balance for new Leech Matron swamp spawns (rainy nights, deep water) and expanded loot (ooze, blood pearls, bloodbags, entrails, amber pearls, EpicLoot magic weapon) with lightning infusion visuals
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.
@@ -230,6 +231,17 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Provide independent loot rolls for group boss fights to incentivize co-op play.
 - Run rotating boss events with temporary loot modifiers or event-exclusive items.
 - Drop relic fragments that players combine into upgraded or legendary versions.
+
+## Roaming Bosses
+- **Tempest Neck** – Spawns along coastlines during thunderstorms; drops storm glands for early lightning gear.
+- **Toll Troll** – Haunts bridge crossings at night; drops coin sacks and toll tokens for trader unlocks.
+- **Leech Matron** – Emerges from deep swamp waters after dusk; yields blood sacs for mid-tier alchemy.
+- **Avalanche Drake** – Circles mountain peaks during blizzards; drops frost cores for cold-resist crafting.
+- **Royal Lox** – Roams plains herds in daylight; drops regal hides for high-tier saddles.
+- **Tempest Serpent** – Surfaces in ocean squalls; provides abyssal fangs for sea-raid gear.
+- **Weaver Queen** – Lurks in mistlands nests; drops silk bundles for advanced weaving.
+- **Magma Golem** – Rises in ashlands lava flows; drops magma cores for fire weapons.
+- **Frost Wyrm** – Patrols deep north blizzards; drops frozen hearts for frost enchantments.
 
 ## 🛠️ Common Tasks & Commands
 
