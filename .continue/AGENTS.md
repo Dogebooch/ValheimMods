@@ -120,6 +120,9 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Legendary items: fixed UniqueIDs, predefined stats
 - **CRITICAL**: `world_level_min` must equal Drop That's
 
+### **Spawn That Rules**
+- Global `SpawnFrequencyMultiplier` tuned to `0.95` across world and raid spawners for a slight overall spawn reduction
+
 ### **Data Formatting**
 - **Tab-delimited** for spreadsheets
 - **Grouped order**: Master List → DropThat Config → EpicLoot Config
