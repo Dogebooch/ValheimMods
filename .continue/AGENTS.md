@@ -183,6 +183,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Problem**: More World Locations loot lists referenced `SeedCarrot`, `SeedTurnip`, and `SeedOnion` prefabs that don't exist.
 - **Solution**: Replaced entries with correct base-game IDs (`CarrotSeeds`, `TurnipSeeds`, `OnionSeeds`) in `warpalicious.More_World_Locations_LootLists.yml`.
 - **Result**: Seed items now spawn without warning logs.
+- 
+### **Epic Loot Patch Errors**
+- **Problem**: Epic Loot reported missing paths for `TreasureChest_heath_hildir` in `zLootables_TreasureLoot_RelicHeim.json`
+- **Solution**: Removed overwrite entries so the chest is added only through `AppendAll`
+- **Result**: Patch applies cleanly without missing token errors
 
 ### **Tempest Serpent Boss Setup**
 - **Problem**: Tempest Serpent lacked distinct visuals and boss-worthy loot.
