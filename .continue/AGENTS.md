@@ -230,6 +230,9 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Run rotating boss events with temporary loot modifiers or event-exclusive items.
 - Drop relic fragments that players combine into upgraded or legendary versions.
 
+## Roaming Bosses
+- **Tempest Neck**: Giant Neck that roams Meadows only during thunderstorms. Uses scaled Neck prefab (x3), lightning infusion, spawns away from player structures, and drops world-level gated coins, enchant scrolls, and thunderstones with low drop rates (F/B/A scrolls at 50%/35%/20%, thunderstones at 25%).
+
 ## 🛠️ Common Tasks & Commands
 
 ### **File Management**
