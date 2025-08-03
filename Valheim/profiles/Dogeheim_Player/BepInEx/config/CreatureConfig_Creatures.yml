@@ -86,6 +86,12 @@ Surtling:
  Ashlands:
   health: 15
   health per star: 3
+# New swamp elite
+LeechMatron:
+  health: 10
+  health per star: 5
+  damage: 2
+  damage per star: 1
 #Mountains
 Ulv:
   health: 2.2
