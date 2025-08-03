@@ -10,6 +10,17 @@ Neck:
 Boar:
   health: 3
   health per star: 1
+TempestNeck:
+  health: 200
+  health per star: 100
+  damage: 40
+  damage per star: 20
+  effect:
+    Quick: 10
+    Aggressive: 10
+    Regenerating: 5
+  infusion:
+    Lightning: 100
 #BlackForest
 Greydwarf:
   health: 1.25
