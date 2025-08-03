@@ -230,6 +230,17 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Run rotating boss events with temporary loot modifiers or event-exclusive items.
 - Drop relic fragments that players combine into upgraded or legendary versions.
 
+## Roaming Bosses
+- **Tempest Neck** – Spawns along coastlines during thunderstorms; drops storm glands for early lightning gear.
+- **Toll Troll** – Haunts bridge crossings at night; drops coin sacks and toll tokens for trader unlocks.
+- **Leech Matron** – Emerges from deep swamp waters after dusk; yields blood sacs for mid-tier alchemy.
+- **Avalanche Drake** – Circles mountain peaks during blizzards; drops frost cores for cold-resist crafting.
+- **Royal Lox** – Roams plains herds in daylight; drops regal hides for high-tier saddles.
+- **Tempest Serpent** – Surfaces in ocean squalls; provides abyssal fangs for sea-raid gear.
+- **Weaver Queen** – Lurks in mistlands nests; drops silk bundles for advanced weaving.
+- **Magma Golem** – Rises in ashlands lava flows; drops magma cores for fire weapons.
+- **Frost Wyrm** – Patrols deep north blizzards; drops frozen hearts for frost enchantments.
+
 ## 🛠️ Common Tasks & Commands
 
 ### **File Management**
