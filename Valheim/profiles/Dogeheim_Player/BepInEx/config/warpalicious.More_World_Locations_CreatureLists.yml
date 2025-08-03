@@ -114,6 +114,11 @@ MeadowsCreatures3:
   - Skeleton_Poison
   - Skeleton_NoArcher
 
+# Meadows Pack 2 Barns - peaceful farm animal spawns
+MeadowsCreatures5:
+  - Boar
+  - Boar
+
 # Black Forest Pack 1 - Enhanced Creature Variety
 # Thematic consistency with Black Forest biome identity
 BlackforestCreatures1:
