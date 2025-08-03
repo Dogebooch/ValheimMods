@@ -381,3 +381,4 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Documented post-story boss trophy uses (enchanting reagents, XP orbs, reset tokens).
 - Refined Mushroom Monsters loot: replaced boss-exclusive fungi in Meadows and Black Forest with biome-appropriate resources and added drops for spore mobs.
 - Weighted mushroom monster drops toward biome-specific fungi for non-boss variants.
+- Enabled roaming bosses at all world levels and added world-level stat scaling for balanced difficulty progression.
