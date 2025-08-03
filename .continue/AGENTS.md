@@ -371,3 +371,4 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Reduced overall monster density by doubling world spawner intervals and cutting spawn chances by 25% across world spawner configs to ease monster crowding.
 - Added Mistlands dvergr chests dropping ShardQueen_TW with WL6 and defeated_queen gating.
 - Removed boss kill requirements from chest loot tables to eliminate gating on chest rewards.
+- Added Gameplay_Mod_Walkthrough.md summarizing gameplay mods and item sources.
