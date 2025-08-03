@@ -86,6 +86,12 @@ Surtling:
  Ashlands:
   health: 15
   health per star: 3
+# New swamp elite
+LeechMatron:
+  health: 10
+  health per star: 5
+  damage: 2
+  damage per star: 1
 #Mountains
 Ulv:
   health: 2.2
@@ -244,6 +250,12 @@ Lox:
   count: 5
  effect power:
   Regenerating: 0.5
+ world level:
+  health: 1.2
+  damage: 1.2
+ attacks:
+  charge:
+   damage: 1.5
  tamed:
   damage: 0.6
   damage per star: 0.1

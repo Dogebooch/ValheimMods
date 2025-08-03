@@ -66,6 +66,24 @@ Dragon:
   affix power:
     Mending: 0.1
 
+AvalancheDrake:
+  size: 1.6
+  infusion:
+    Spirit: 1
+  health: 1.1
+  health per star: 0.1
+  attack speed: 1.2
+  movement speed: 1.2
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  affix:
+    Enraged: 40
+    Elementalist: 40
+    Summoner: 10
+    RockSummoner: 10
+    other: 0
+  affix power:
+    RockSummoner: 0.1
+
 GoblinKing:
   health: 1.1
   health per star: 0.05
@@ -125,6 +143,23 @@ Fader:
     other: 0
   affix power:
     Mending: 0.1
+
+TempestSerpent:
+  size: 2.5
+  health: 1.15
+  health per star: 0.1
+  attack speed: 1.3
+  movement speed: 1.2
+  damage: [1.4, 1.5, 1.6, 1.7, 1.8, 2.0]
+  infusion:
+    lightning: 100
+  effect:
+    armored: 100
+  affix:
+    Enraged: 60
+    Elementalist: 30
+    Summoner: 10
+    other: 0
 
 MushroomBossSwamp_MP:
   health: 1.1
