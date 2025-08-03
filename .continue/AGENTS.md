@@ -319,8 +319,14 @@ git commit -m "Add/Update: [specific mod] configuration files"
 
 ---
 
-**🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**.
-
+**🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**. 
+## 🆕 Royal Lox Event
+- Added Harmony event hook (`RoyalLoxEvent.cs`) detecting 5-star Lox deaths and spawning an oversized replacement after a short delay.
+- Configured `spawn_that.world_spawners_advanced.cfg` with a `RoyalLoxEvent` trigger spawning scaled Lox in Plains grasslands.
+- Updated `CreatureConfig_Creatures.yml` to apply world-level scaling and amplified charge damage to Lox.
+- Expanded `drop_that.character_drop.cfg` loot table for Royal Lox with world-level gated drops and XP orbs.
+- Royal Lox gains magenta glow, boss status, and richer drops including scrap, linen, trophy, and pristine shard.
+- 
 ### Recent Updates
 - Added Dragon world spawner in Mountain biomes during SnowStorms with altitude gating.
 - Introduced AvalancheDrake boss scaling with a rock-summoning affix.
@@ -329,3 +335,4 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Gave AvalancheDrake a unique Spirit infusion, enlarged size, and boss-level visuals.
 - Capped AvalancheDrake spawn level at five stars to respect star limits.
 - Scaled AvalancheDrake loot with world levels, adding XP orbs and lowering drop rates to encourage repeat fights.
+
