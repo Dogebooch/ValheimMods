@@ -1,0 +1,7 @@
+{
+  "name": "RoyalLoxEvent",
+  "version_number": "0.1.1",
+  "website_url": "https://example.com",
+  "description": "Spawns a glowing royal lox with boss loot when a 5-star lox dies.",
+  "dependencies": []
+}
