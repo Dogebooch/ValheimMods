@@ -43,9 +43,10 @@ Bonemass:
     Blunt: 0.75
     Bows: 0.5
   affix:
-    Enraged: 80
+    Enraged: 70
     Summoner: 10
     Mending: 10
+    WebSnare: 10
     other: 0
   affix power:
     Mending: 0.2
@@ -119,9 +120,10 @@ SeekerQueen:
     Frost: 0.75
     Fire: 0.25
   affix:
-    Enraged: 80
+    Enraged: 70
     Summoner: 10
     Mending: 10
+    WebSnare: 10
     other: 0
   affix power:
     Mending: 0.1
