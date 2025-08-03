@@ -207,6 +207,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Ensure boss-locked BiS items feel worth the grind
 - Streamline AI → config → game pipeline
 - Monitor increased Mushroom Monster spawn rates across biomes for balance
+- Maintain progression-based loot tables for Mushroom Monsters (bosses excluded; rare mushrooms drop-one-per-player)
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.
