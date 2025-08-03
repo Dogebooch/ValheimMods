@@ -6,15 +6,17 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 ## 📊 Current Skill Progression Factors
 
 ### **EpicMMO System (Primary RPG Progression)**
-- **Max Level**: 90 (reduced from default 100)
+- **Max Level**: 120 (raised from 90)
 - **Free Points Per Level**: 2 (reduced from default 5)
 - **Start Free Points**: 3 (reduced from default 5)
 - **Level Experience**: 300 XP base per level
-- **Experience Multiplier**: 1.043 (reduced from default 1.05)
+- **Experience Multiplier**: 1.048 (raised for longer progression)
 - **Add Level Experience**: Enabled (adds 300 XP per level)
+- **Bonus Level Points**: +5 every 5 levels up to 120
 - **Experience Rate**: 1.0x (normal)
 - **Death Penalty**: 25-50% XP loss (increased from default 5-25%)
 - **Reset Cost**: 55 coins per point (increased from default 3)
+- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within the 13–18 month target.
 
 ### **Attribute Scaling (Per Point)**
 - **Strength**: +0.3 damage, +4 weight, +0.3 block stamina, +0.5 crit damage
@@ -74,6 +76,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **WL 0-1** → Meadows | **WL 2-3** → Black Forest | **WL 3-4** → Swamp
 - **WL 4-5** → Mountains | **WL 5-6** → Plains | **WL 6-7** → Mistlands
 - **WL 7+** → Deep North/Ashlands
+- **Age-Based WL progression**: WL1=15d, WL2=45d, WL3=90d, WL4=180d, WL5=300d, WL6=420d, WL7=540d
 
 ### **Loot Systems Integration**
 
