@@ -345,6 +345,8 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
 - Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.
 - Gated Dragon loot by world level with rare Magic Orb drops and added WL7 spawn requirement.
+- Added Ashlands charred fortress and stone chest loot tables with Flametal, cores, and Queen shard drops.
+- Added BlackForest and TrollCave chest tables with seeds, amber, coins, and troll hide.
 
 ---
 
@@ -365,4 +367,5 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Capped AvalancheDrake spawn level at five stars to respect star limits.
 - Completed roaming boss setup: added creature configs, unique spawners, and loot tables for TempestNeck, TollTroll, LeechMatron, RoyalLox, WeaverQueen, MagmaGolem, and FrostWyrm. Normalized spawn chances and world-level gating.
 - Scaled AvalancheDrake loot with world levels, adding XP orbs and lowering drop rates to encourage repeat fights.
+- Added Mistlands dvergr chests dropping ShardQueen_TW with WL6 and defeated_queen gating.
 
