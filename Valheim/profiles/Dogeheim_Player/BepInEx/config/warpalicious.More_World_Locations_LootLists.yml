@@ -1372,7 +1372,7 @@ BlackforestLoot3:
     stackMax: 2
     weight: 0.8
   # Silver tier weapons and tools
-  - item: AxeSilver
+  - item: AxeSilver_TW
     stackMin: 1
     stackMax: 1
     weight: 0.4
@@ -3059,7 +3059,7 @@ MountainsLoot1:
     stackMax: 2
     weight: 1.0
   # Silver tier weapons and tools
-  - item: AxeSilver
+  - item: AxeSilver_TW
     stackMin: 1
     stackMax: 1
     weight: 0.8
