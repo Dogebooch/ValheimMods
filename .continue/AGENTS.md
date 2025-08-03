@@ -186,6 +186,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Added validation in `generate_loot_configs.py` to detect duplicates and abort generation
 - **Result**: Prevents accidental probability stacking during loot config creation
 
+### **AxeSilver Prefab Error**
+- **Problem**: More World Locations loot lists referenced `AxeSilver` causing prefab errors.
+- **Solution**: Replaced with `AxeSilver_TW` to match modded prefab.
+- **Result**: AxeSilver loot lists load without errors.
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
