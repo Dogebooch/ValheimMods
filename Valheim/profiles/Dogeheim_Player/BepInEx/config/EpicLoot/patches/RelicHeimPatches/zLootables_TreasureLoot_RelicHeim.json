@@ -296,21 +296,35 @@
         },
 
 	
-	{
+        {
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath')].Drops",
       "Action": "Overwrite",
       "Value": [ [1, 50], [2, 35], [3, 15] ]
 
     },
-	{
+        {
           "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath')].Loot",
           "Action": "Overwrite",
           "Value": [
                 { "Item": "HaldorChestPlains"}
           ]
         },
-	
-	{
+
+        {
+      "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath_hildir')].Drops",
+      "Action": "Overwrite",
+      "Value": [ [1, 50], [2, 35], [3, 15] ]
+
+    },
+        {
+          "Path": "$.LootTables[?(@.Object == 'TreasureChest_heath_hildir')].Loot",
+          "Action": "Overwrite",
+          "Value": [
+                { "Item": "HaldorChestPlains"}
+          ]
+        },
+
+        {
       "Path": "$.LootTables[?(@.Object == 'TreasureChest_dvergrtown')].Drops",
       "Action": "Overwrite",
       "Value": [ [1, 50], [2, 35], [3, 15] ]
