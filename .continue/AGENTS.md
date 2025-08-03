@@ -169,6 +169,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Created comprehensive clarification table and progression flow
 - **Result**: Clear understanding of 4 distinct legendary systems
 
+### **Spawner and Drop Config Warnings**
+- **Problem**: Game logs reported unknown settings in `spawn_that.world_spawners_advanced.cfg` and `drop_that.character_drop.cfg`.
+- **Solution**: Aligned spawner config with Spawn That's current syntax, moved world-level conditions into `CreatureLevelAndLootControl` sections, and removed unsupported world-level and magic effect fields from Drop That character drops.
+- **Result**: Cleaner configuration files that avoid mod load warnings.
+
 ### **Missing Prefab Warnings**
 - **Problem**: Drop That and Spawn That reported missing prefabs (`ShieldBronze`, `CoinTroll`)
 - **Solution**: Renamed drop entry to `ShieldBronzeBuckler` and patched CoinTrollSpawn to register the custom troll during `ZNetScene.Awake`
