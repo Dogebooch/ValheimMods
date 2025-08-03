@@ -1,4 +1,5 @@
 using BepInEx;
+using HarmonyLib;
 using UnityEngine;
 
 using Object = UnityEngine.Object;
@@ -10,18 +11,18 @@ namespace CodexMods.CoinTrollSpawn
     {
         private Heightmap.Biome _lastBiome = Heightmap.Biome.None;
         private const int CoinThreshold = 500;
-        private GameObject _coinTrollPrefab;
+        private static GameObject _coinTrollPrefab;
 
-        private void Start()
+        private void Awake()
         {
-            RegisterCoinTrollPrefab();
+            new Harmony("codex.cointrollspawn").PatchAll();
         }
 
         private void Update()
         {
             if (_coinTrollPrefab == null)
             {
-                RegisterCoinTrollPrefab();
+                return;
             }
 
             var player = Player.m_localPlayer;
@@ -48,37 +49,7 @@ namespace CodexMods.CoinTrollSpawn
             _lastBiome = biome;
         }
 
-        private void RegisterCoinTrollPrefab()
-        {
-            var scene = ZNetScene.instance;
-            if (scene == null || _coinTrollPrefab != null)
-            {
-                return;
-            }
-
-            var basePrefab = scene.GetPrefab("Troll");
-            if (basePrefab == null)
-            {
-                return;
-            }
-
-            _coinTrollPrefab = Object.Instantiate(basePrefab);
-            _coinTrollPrefab.name = "CoinTroll";
-            _coinTrollPrefab.transform.localScale *= 1.5f;
-
-            foreach (var renderer in _coinTrollPrefab.GetComponentsInChildren<Renderer>())
-            {
-                var material = new Material(renderer.material);
-                material.color = Color.yellow;
-                renderer.material = material;
-            }
-
-            scene.m_prefabs.Add(_coinTrollPrefab);
-            scene.m_namedPrefabs[_coinTrollPrefab.name.GetHashCode()] = _coinTrollPrefab;
-            _coinTrollPrefab.SetActive(false);
-        }
-
-        private void SpawnTrollNearby(Vector3 position)
+        private static void SpawnTrollNearby(Vector3 position)
         {
             if (_coinTrollPrefab == null)
             {
@@ -86,9 +57,43 @@ namespace CodexMods.CoinTrollSpawn
             }
 
             Vector3 spawnPos = position + Vector3.forward * 5f;
-            var troll = Instantiate(_coinTrollPrefab, spawnPos, Quaternion.identity);
+            var troll = Object.Instantiate(_coinTrollPrefab, spawnPos, Quaternion.identity);
             troll.name = "CoinTroll";
             troll.SetActive(true);
         }
+
+        [HarmonyPatch(typeof(ZNetScene), nameof(ZNetScene.Awake))]
+        private static class ZNetSceneAwakePatch
+        {
+            private static void Postfix(ZNetScene __instance)
+            {
+                if (_coinTrollPrefab != null)
+                {
+                    return;
+                }
+
+                var basePrefab = __instance.GetPrefab("Troll");
+                if (basePrefab == null)
+                {
+                    return;
+                }
+
+                _coinTrollPrefab = Object.Instantiate(basePrefab);
+                _coinTrollPrefab.name = "CoinTroll";
+                _coinTrollPrefab.transform.localScale *= 1.5f;
+
+                foreach (var renderer in _coinTrollPrefab.GetComponentsInChildren<Renderer>())
+                {
+                    var material = new Material(renderer.material);
+                    material.color = Color.yellow;
+                    renderer.material = material;
+                }
+
+                __instance.m_prefabs.Add(_coinTrollPrefab);
+                __instance.m_namedPrefabs[_coinTrollPrefab.name.GetHashCode()] = _coinTrollPrefab;
+                _coinTrollPrefab.SetActive(false);
+            }
+        }
     }
 }
+
