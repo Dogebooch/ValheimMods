@@ -345,6 +345,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
 - Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.
 - Gated Dragon loot by world level with rare Magic Orb drops and added WL7 spawn requirement.
+- Added Ashlands charred fortress and stone chest loot tables with Flametal, cores, and Queen shard drops.
 - Added BlackForest and TrollCave chest tables with seeds, amber, coins, and troll hide.
 
 ---
