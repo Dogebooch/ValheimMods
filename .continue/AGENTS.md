@@ -326,6 +326,12 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - **❌ Exclude**: `.dll`, `.exe`, `.png`, `.mp3`, large data files
 - **🎯 Priority**: Configuration files, documentation, metadata
 
+## 🆕 Recent Config Updates
+- Added Frost Dragon world spawn in DeepNorth with SnowStorm condition and altitude >= 100.
+- Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
+- Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.
+- Gated Dragon loot by world level with rare Magic Orb drops and added WL7 spawn requirement.
+
 ---
 
 **🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**. 

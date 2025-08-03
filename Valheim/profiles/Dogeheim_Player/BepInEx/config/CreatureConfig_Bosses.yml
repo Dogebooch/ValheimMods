@@ -402,6 +402,18 @@ BossBrutalis_TW:
     other: 0
   affix power:
     Mending: 0.1
+
+FrostDragon:
+  stars: [0, 15, 50, 25, 10]
+  health: 1
+  health per star: 0.02
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.8]
+  damage taken:
+    Fire: 0.25
+    Bows: 0.5
+  infusion:
+    frost: 100
+
 StoneGolem:
   stars: [0, 15, 50, 25, 10]
   damage: [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]
