@@ -179,6 +179,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Renamed drop entry to `ShieldBronzeBuckler` and patched CoinTrollSpawn to register the custom troll during `ZNetScene.Awake`
 - **Result**: Prefabs now load correctly, eliminating configuration warnings
 
+### **Epic Loot Patch Errors**
+- **Problem**: Epic Loot reported missing paths for `TreasureChest_heath_hildir` in `zLootables_TreasureLoot_RelicHeim.json`
+- **Solution**: Removed overwrite entries so the chest is added only through `AppendAll`
+- **Result**: Patch applies cleanly without missing token errors
+
 ### **Tempest Serpent Boss Setup**
 - **Problem**: Tempest Serpent lacked distinct visuals and boss-worthy loot.
 - **Solution**: Capped level at 5-star limit, enlarged model with lightning infusion and armored effect, and expanded drop table with trophy, meat, coins, thunderstones, and legendary weapon rolls.
