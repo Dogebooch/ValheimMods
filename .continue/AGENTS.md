@@ -179,6 +179,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Updated drop tables to remove zero-roll chance, ensuring a minimum of one item.
 - **Result**: Treasure chests now always yield at least one piece of loot.
 
+### **Mod Creature Drop World Levels**
+- **Problem**: Newly added modded creature loot tables were not yet reviewed for biome/world-level balance.
+- **Solution**: Audited each mod creature drop list to ensure materials match the creature's intended biome (e.g., Fox_TW drops early-game LeatherScraps while CorruptedDvergerMage_TW yields Mistlands BlackCore/Softtissue).
+- **Result**: Mod creature loot tables align with world-level progression.
+
 ### **VNEI Load Performance**
 - **Problem**: VNEI UI loaded slowly with unknown items and recipes visible
 - **Solution**: Enabled "Show Only Known" (server-forced) in com.maxsch.valheim.vnei.cfg
@@ -208,6 +213,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Streamline AI → config → game pipeline
 - Monitor increased Mushroom Monster spawn rates across biomes for balance
 - Keep Runescape-style Mushroom boss drops balanced: WL-scaled coins, guaranteed key, and rare (~5%/1% overall via 2.5%/0.5% per-roll) statues per player
+- Maintain progression-based loot tables for Mushroom Monsters (bosses excluded; rare mushrooms drop-one-per-player)
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.
