@@ -207,6 +207,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Ensure boss-locked BiS items feel worth the grind
 - Streamline AI → config → game pipeline
 - Monitor increased Mushroom Monster spawn rates across biomes for balance
+- Keep Runescape-style Mushroom boss drops balanced: WL-scaled coins, guaranteed key, and rare (~5%/1% overall via 2.5%/0.5% per-roll) statues per player
 
 ## 💡 Loot System Ideas / TODO
 - Introduce boss-specific unique drops with rare rates and signature effects.

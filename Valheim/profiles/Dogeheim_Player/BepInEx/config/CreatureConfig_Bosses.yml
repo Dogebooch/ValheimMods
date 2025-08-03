@@ -124,6 +124,43 @@ Fader:
   affix power:
     Mending: 0.1
 
+MushroomBossSwamp_MP:
+  health: 1.1
+  health per star: 0.1
+  attack speed: 1.2
+  movement speed: 1.3
+  damage: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
+  damage taken:
+    Bows: 0.5
+    Fire: 0.75
+    Frost: 0.75
+  affix:
+    Enraged: 60
+    Summoner: 20
+    Mending: 20
+    other: 0
+  affix power:
+    Mending: 0.1
+
+MushroomBossDN_MP:
+  health: 1.2
+  health per star: 0.15
+  attack speed: 1.2
+  movement speed: 1.3
+  damage: [1.4, 1.5, 1.6, 1.7, 1.8, 2.0]
+  damage taken:
+    Bows: 0.5
+    Fire: 0.75
+    Frost: 0.75
+    Spirit: 0.75
+  affix:
+    Enraged: 60
+    Elementalist: 20
+    Summoner: 20
+    other: 0
+  affix power:
+    Mending: 0.1
+
 ##Mini bosses
 Fenring_Cultist_Hildir:
   stars: [0, 15, 50, 25, 10]
