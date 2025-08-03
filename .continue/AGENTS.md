@@ -370,3 +370,4 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Removed boss-exclusive Wizardry mushrooms from regular Mushroom Monsters drops to keep special loot boss-only.
 - Reduced overall monster density by doubling world spawner intervals and cutting spawn chances by 25% across world spawner configs to ease monster crowding.
 - Added Mistlands dvergr chests dropping ShardQueen_TW with WL6 and defeated_queen gating.
+- Removed boss kill requirements from chest loot tables to eliminate gating on chest rewards.
