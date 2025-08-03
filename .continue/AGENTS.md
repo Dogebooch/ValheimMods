@@ -212,6 +212,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - Managing multiple mod item lists without missing prefabs
 
 ### **Current Priorities**
+- Gate SeekerQueen world spawns behind BlackCore harvest flag with WL-scaled drops (silk, trophies, enchant mats, XP orbs)
 - Refine endgame loot pool using existing assets
 - Balance magic vs static loot drop rates
 - Ensure boss-locked BiS items feel worth the grind
