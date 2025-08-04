@@ -189,6 +189,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Removed overwrite entries so the chest is added only through `AppendAll`
 - **Result**: Patch applies cleanly without missing token errors
 
+### **Burial-Chamber Chest Loot Missing**
+- **Problem**: Forest crypt chests only listed item templates and lacked a base chest block, resulting in empty chests.
+- **Solution**: Restored `[TreasureChest_forestcrypt]` entry with drop min/max lines and raised SurtlingCore template weight to `1`.
+- **Result**: Burial-chamber chests again drop 2–4 items with a chance to include Surtling cores.
+
 ### **Tempest Serpent Boss Setup**
 - **Problem**: Tempest Serpent lacked distinct visuals and boss-worthy loot.
 - **Solution**: Capped level at 5-star limit, enlarged model with lightning infusion and armored effect, and expanded drop table with trophy, meat, coins, thunderstones, and legendary weapon rolls.
@@ -362,6 +367,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Gated Dragon loot by world level with rare Magic Orb drops and added WL7 spawn requirement.
 - Added Ashlands charred fortress and stone chest loot tables with Flametal, cores, and Queen shard drops.
 - Added BlackForest and TrollCave chest tables with seeds, amber, coins, and troll hide.
+- Restored Burial-chamber chest loot by adding missing `[TreasureChest_forestcrypt]` block and setting SurtlingCore weight to `1`.
 
 ---
 
