@@ -368,6 +368,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added Ashlands charred fortress and stone chest loot tables with Flametal, cores, and Queen shard drops.
 - Added BlackForest and TrollCave chest tables with seeds, amber, coins, and troll hide.
 - Restored Burial-chamber chest loot by adding missing `[TreasureChest_forestcrypt]` block and setting SurtlingCore weight to `1`.
+- Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
 
 ---
 
