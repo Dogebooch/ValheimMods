@@ -34,7 +34,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Blood Magic**: 33% XP sharing between shield caster and attacker
 
 ### **Vanilla Skill Experience Factors**
-- **Farming**: 1.25x (boosted - most rewarding)
+- **Farming**: 0.6x (reduced for slower progression)
 - **Cooking**: 0.6x (reduced)
 - **Ranching**: 0.6x (reduced)
 - **Exploration**: 0.6x (reduced)
@@ -88,6 +88,14 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 | **EpicLoot Mythic** | ✅ | Random drops | Top-tier RNG | Special effects |
 | **RelicHeim Sets** | ❌ | Crafted | Set bonuses | Static stats |
 | **T5 Legendaries** | ❌ | Boss kills | Best-in-slot | Static, boss-only |
+
+### **Skill Progression Philosophy**
+- **Early Levels**: Fast XP for levels 1–20 to encourage experimentation; progression slows sharply past 40 for an OSRS-style grind.
+- **Mid Game Spike**: Levels 50–70 (late Swamp/early Plains) should feel like a meaningful power increase.
+- **Late Game Mastery**: Levels 80–100 (mid–late Mistlands) fully realize bonuses—e.g., biome-free farming and large harvests.
+- **Targeted Training**: High levels require dedicated skill sessions; incidental play alone shouldn't reach mastery.
+- **Rewarding Investment**: Significant gap between low and high skill performance (e.g., up to 3× growth, 2× yield) to reward time spent.
+- **Pacing Goal**: Around day 90 characters sit near level 24 when entering Swamp; reaching level 70 should take until days 200–300.
 
 ## 📁 Critical File Structure
 
@@ -361,6 +369,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - **🎯 Priority**: Configuration files, documentation, metadata
 
 ## 🆕 Recent Config Updates
+- Enabled biome enforcement in PlantEverything and reduced Farming XP gain factor to 0.6.
 - Added Frost Dragon world spawn in DeepNorth with SnowStorm condition and altitude >= 100.
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
 - Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.

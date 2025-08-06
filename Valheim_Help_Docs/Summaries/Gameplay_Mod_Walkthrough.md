@@ -56,6 +56,25 @@ Each skill module expands a survival activity.  Enable/disable in BepInEx config
 - **PassivePowers** – Unlock passive abilities as you level vanilla skills.
 - **TargetPortal & Sailing/SailingSpeed** – Upgrade portal usage and ship handling.
 
+## Farming Guide
+Farming underpins late‑game self‑sufficiency and requires deliberate leveling to unlock its strongest perks.
+
+### Leveling Path
+- **Levels 1‑20:** Plant carrots and turnips in their native biomes to learn basics. Sleep between plantings to accelerate growth.
+- **Levels 21‑40:** Expand plots and replant immediately after harvest. Multi‑planting/harvesting increases every 10 levels.
+- **Levels 41‑70:** Dedicated farming sessions become essential. Larger harvest radii and stamina reductions make mass farming viable.
+- **Level 80+:** Biome restrictions lift (via PlantEverything `EnforceBiomes`), letting you consolidate crops in one safe hub.
+
+### Efficiency Tips
+- Keep fields near portals and use fenced grids to maximize space.
+- Sleep or pass time between cycles to advance growth timers.
+- Replant immediately for continuous XP; every plant/harvest action grants experience.
+
+### Power Spikes
+- **L40:** Harvest/plant four crops at a time with ~40% less stamina.
+- **L70:** Growth speed hits ~2.4× and yields ~1.7×, making farming a major resource source.
+- **L100:** Zero stamina cost and wide harvest radius enable massive automated fields.
+
 ## Content & World Mods
 - **Therzie Warfare, Armory and Monstrum** – Large collections of weapons, armours and enemies.  Craft items at new stations such as the **Warfare Forge**.
 - **Therzie Wizardry** and **Magic Revamp** – Adds staffs, spells and Eitr‑based combat.  Equip wands and cast from a dedicated hotbar.
