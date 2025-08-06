@@ -369,6 +369,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added BlackForest and TrollCave chest tables with seeds, amber, coins, and troll hide.
 - Restored Burial-chamber chest loot by adding missing `[TreasureChest_forestcrypt]` block and setting SurtlingCore weight to `1`.
 - Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
+- Switched CLLC creature scaling to use BossesKilled and set world level day thresholds to 9999 to disable time-based progression.
 
 ---
 
