@@ -1,0 +1,14 @@
+name: FishingRod
+clonePrefabName: FishingRod
+craftingStation: $piece_workbench
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- FineWood:20:0:True
+- BronzeNails:10:0:True
+- Feathers:5:0:True
+- LeatherScraps:2:0:True

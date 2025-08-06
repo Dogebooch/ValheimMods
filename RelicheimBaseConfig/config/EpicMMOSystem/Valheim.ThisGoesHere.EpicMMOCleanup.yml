@@ -1,0 +1,17 @@
+﻿PrintComment: ThisGoesHere is cleaning up EpicMMO Files
+DeleteFile:
+- config\EpicMMOSystem\MonsterDB_AirAnimals.json
+- config\EpicMMOSystem\MonsterDB_Default.json
+- config\EpicMMOSystem\MonsterDB_DoorDieMonsters.json
+- config\EpicMMOSystem\MonsterDB_Jewelcrafting.json
+- config\EpicMMOSystem\MonsterDB_LandAnimals.json
+- config\EpicMMOSystem\MonsterDB_MajesticChickens.json
+- config\EpicMMOSystem\MonsterDB_MonsterLabZ.json
+- config\EpicMMOSystem\MonsterDB_Outsiders.json
+- config\EpicMMOSystem\MonsterDB_SeaAnimals.json
+- config\EpicMMOSystem\MonsterDB_Therzie.Wizardry.json
+- config\EpicMMOSystem\MonsterDB-EpicValheimAdditions.json
+- config\EpicMMOSystem\MonsterDB-Fantasy-Creatures.json
+- config\EpicMMOSystem\MonsterDB-Monstrum.json
+- config\EpicMMOSystem\MonsterDB-Monstrum-DeepNorth.json
+- config\EpicMMOSystem\MonsterDB-Reforge_Krumpac.json
