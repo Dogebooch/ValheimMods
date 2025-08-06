@@ -6,37 +6,64 @@ This repository contains tools and analysis for parsing and understanding Valhei
 
 Valheim uses custom binary formats for storing world data, player information, and mod integration data. This project provides tools to parse these files and convert them into human-readable formats.
 
-## Recent Analysis: DogeheimTesting.db
+## Recent Analysis: DogeheimTesting Files
 
-### What is DogeheimTesting.db?
+### DogeheimTesting.db - World Database
 `DogeheimTesting.db` is a Valheim world database file containing:
 - Player character data (Dogeo)
 - Inventory and equipment information
 - Extensive mod integration data
 - World state and progression data
 
-### Key Findings
+#### Key Findings
 The database contains a well-developed character with:
 - **EpicLoot Enchanted Items**: Multiple items with magic enchantments
 - **Mod Integration**: EpicLoot, Blacksmithing, Cooking, and other mods
 - **Equipment**: Armor, weapons, tools, and accessories
 - **Materials**: Various crafting materials and resources
 
-### File Details
+#### File Details
 - **Size**: 10.37 MB
 - **Format**: Custom Valheim binary (not SQLite)
 - **Magic Number**: 35 (0x00000023)
 - **Data Structure**: Complex binary format with embedded strings and structured data
 
+### DogeheimTesting.fwl - World Metadata
+`DogeheimTesting.fwl` is a Valheim world metadata file containing:
+- World name and identification
+- Procedural generation seed
+- World configuration information
+- File format versioning
+
+#### Key Findings
+The world file contains:
+- **World Name**: "Dogeheim"
+- **World Seed**: 587202560
+- **Encoded Data**: "CdjvRssbHZq" (possibly base64 encoded metadata)
+- **File Structure**: Simple binary format with clear metadata sections
+
+#### File Details
+- **Size**: 49 bytes
+- **Format**: Custom Valheim binary format
+- **Magic Numbers**: 45 (0x2d) and 35 (0x23)
+- **Structure**: Header + metadata + padding
+
 ## Files in This Repository
 
 ### Analysis Results
+#### Database Files (.db)
 - `Valheim_Help_Docs/@Valheim_Binary_Readable/DogeheimTesting_readable_20250806_163647.json` - Complete JSON analysis
 - `Valheim_Help_Docs/@Valheim_Binary_Readable/DogeheimTesting_readable_20250806_163656.txt` - Human-readable text summary
 - `Valheim_Help_Docs/@Valheim_Binary_Readable/DogeheimTesting_Database_Analysis_Summary.md` - Comprehensive analysis document
 
+#### World Files (.fwl)
+- `Valheim_Help_Docs/@Valheim_Binary_Readable/DogeheimTesting_readable_20250806_164029.json` - Complete JSON analysis
+- `Valheim_Help_Docs/@Valheim_Binary_Readable/DogeheimTesting_readable_20250806_164029.txt` - Human-readable text summary
+- `Valheim_Help_Docs/@Valheim_Binary_Readable/DogeheimTesting_FWL_Analysis_Summary.md` - Comprehensive analysis document
+
 ### Tools
 - `scripts/parse_valheim_world_db.py` - Specialized parser for Valheim .db files
+- `scripts/parse_valheim_fwl.py` - Specialized parser for Valheim .fwl files
 - `scripts/parse_valheim_binaries.py` - General binary file parser
 - `scripts/parse_prefab_names.py` - Prefab name extraction tool
 - `scripts/identify_valuable_context_files.py` - File identification tool
@@ -47,6 +74,9 @@ The database contains a well-developed character with:
 ```bash
 # Parse a specific database file
 python scripts/parse_valheim_world_db.py
+
+# Parse a specific world file
+python scripts/parse_valheim_fwl.py
 
 # Parse all binary files
 python scripts/parse_valheim_binaries.py

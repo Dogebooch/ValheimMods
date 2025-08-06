@@ -1,0 +1,47 @@
+=== Valheim World File Analysis ===
+
+File: DogeheimTesting.fwl
+Size: 0.0 MB
+Parsed: 2025-08-06T16:40:29.948535
+
+=== Header Information ===
+Magic Number 1: 45
+Magic Hex 1: 0x0000002d
+Magic Number 2: 35
+Magic Hex 2: 0x00000023
+
+=== World Information ===
+World Seed: 587202560
+Seed Offset: 1
+
+=== Data Analysis ===
+Null Bytes: 17 (34.69%)
+Most Common Bytes:
+  0x00: 17 times
+  0x2d: 2 times
+  0x65: 2 times
+  0x73: 2 times
+  0x23: 1 times
+  0x08: 1 times
+  0x44: 1 times
+  0x6f: 1 times
+  0x67: 1 times
+  0x68: 1 times
+
+=== Extracted Strings ===
+ASCII Strings Found: 2
+Sample Strings:
+  1. CdjvRssbHZq
+  2. Dogeheim
+
+=== World Names ===
+
+=== Potential Names ===
+
+=== Data Sections ===
+Large Zero Runs: 0
+Data Regions: 1
+
+=== Compression Analysis ===
+Zlib Signatures: 0
+High Entropy Sections: 0
