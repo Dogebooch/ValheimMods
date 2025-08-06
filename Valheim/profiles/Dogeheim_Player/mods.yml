@@ -2178,7 +2178,7 @@
     minor: 1
     patch: 25
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\ZenDragon-Zen_ModLib\1.1.25\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ZenDragon-Zen_ModLib\icon.png
 - manifestVersion: 1
   name: VegettaPT-No_Food_Degradation
   authorName: VegettaPT
@@ -2212,7 +2212,7 @@
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1754159127388
+  installedAtTime: 1754253123382
   loaders: []
   dependencies:
     - denikson-BepInExPack_Valheim-5.4.2202
@@ -2223,9 +2223,9 @@
   versionNumber:
     major: 0
     minor: 17
-    patch: 0
+    patch: 1
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\MSchmoecker-VNEI\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\MSchmoecker-VNEI\0.17.1\icon.png
 - manifestVersion: 1
   name: ZenDragon-ZenUI
   authorName: ZenDragon

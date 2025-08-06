@@ -120,4 +120,44 @@ Thumbs.db
 !important_files_updated.txt
 !update_index.py
 !README.md
-!List_Important_files.py 
+!List_Important_files.py
+
+# Valheim PlayerWorldData - Exclude large binary files
+Valheim_PlayerWorldData/worlds_local/*.db
+Valheim_PlayerWorldData/worlds_local/*.fwl.old
+Valheim_PlayerWorldData/worlds_local/*TexCache
+Valheim_PlayerWorldData/worlds_local/*_backup_*
+
+# Character backup files
+Valheim_PlayerWorldData/characters_local/*.fch.old
+Valheim_PlayerWorldData/characters_local/*_backup_*
+Valheim_PlayerWorldData/characters_local/*.serverbackup
+Valheim_PlayerWorldData/characters_local/*.signature
+
+# Backup directories
+Valheim_PlayerWorldData/World_Backup/
+Valheim_PlayerWorldData/characters_local/backups/
+
+# Screenshots and cached content
+Valheim_PlayerWorldData/screenshots/
+Valheim_PlayerWorldData/Jotunn/CachedIcons/
+
+# Steam cloud files
+Valheim_PlayerWorldData/characters/steam_autocloud.vdf
+Valheim_PlayerWorldData/worlds/steam_autocloud.vdf
+
+# Keep only current character file and recent backups for context
+Valheim_PlayerWorldData/characters_local/*.fch
+!Valheim_PlayerWorldData/characters_local/dogeo.fch
+!Valheim_PlayerWorldData/characters_local/dogeo_backup_auto-20250805185236.fch
+!Valheim_PlayerWorldData/characters_local/dogeo_backup_auto-20250803210253.fch
+!Valheim_PlayerWorldData/characters_local/dogeo_backup_auto-20250803115742.fch
+!Valheim_PlayerWorldData/characters_local/dogeo_backup_auto-20250802202432.fch
+
+# Keep only current world metadata
+Valheim_PlayerWorldData/worlds_local/*.fwl
+!Valheim_PlayerWorldData/worlds_local/Dogeheim.fwl
+!Valheim_PlayerWorldData/worlds_local/DogeheimTesting.fwl
+
+# Keep cached icons for mod context (valuable for AI analysis)
+Valheim_PlayerWorldData/Jotunn/CachedIcons/*.png 

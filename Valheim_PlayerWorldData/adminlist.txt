@@ -1,0 +1,2 @@
+// List admin players ID  ONE per line
+steamid: 76561198070613648
