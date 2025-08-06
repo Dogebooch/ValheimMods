@@ -1,0 +1,4766 @@
+{
+  "parse_info": {
+    "parsed_at": "2025-08-05T21:28:30.810994",
+    "total_files_parsed": 30
+  },
+  "world_databases": {
+    "Dogeheim.db": {
+      "file_info": {
+        "filename": "Dogeheim.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.815609"
+      }
+    },
+    "DogeheimTesting.db": {
+      "file_info": {
+        "filename": "DogeheimTesting.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.815609"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250802202432.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250802202432.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.815609"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250803115742.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250803115742.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.815609"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250803210253.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250803210253.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.816607"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250805185237.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250805185237.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.816607"
+      }
+    },
+    "DogeheimTesting_backup_restore-20250802-165404.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_restore-20250802-165404.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.816607"
+      }
+    },
+    "DogeheimTesting_backup_restore-20250802-165408.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_restore-20250802-165408.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.816607"
+      }
+    },
+    "DogeheimTesting_backup_restore-20250802-165538.db": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_restore-20250802-165538.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.816607"
+      }
+    },
+    "Dogeheim_backup_auto-20250803162016.db": {
+      "file_info": {
+        "filename": "Dogeheim_backup_auto-20250803162016.db",
+        "error": "file is not a database",
+        "parsed_at": "2025-08-05T21:28:30.817715"
+      }
+    }
+  },
+  "r2z_exports": {
+    "Dogeheim_Player.r2z": {
+      "file_info": {
+        "filename": "Dogeheim_Player.r2z",
+        "error": "Invalid R2Z file format",
+        "parsed_at": "2025-08-05T21:28:30.817715"
+      }
+    },
+    "Testing Server.r2z": {
+      "file_info": {
+        "filename": "Testing Server.r2z",
+        "error": "Invalid R2Z file format",
+        "parsed_at": "2025-08-05T21:28:30.817715"
+      }
+    },
+    "ValheimServer1.0.0.r2z": {
+      "file_info": {
+        "filename": "ValheimServer1.0.0.r2z",
+        "error": "Invalid R2Z file format",
+        "parsed_at": "2025-08-05T21:28:30.817715"
+      }
+    }
+  },
+  "world_files": {
+    "Dogeheim.fwl": {
+      "file_info": {
+        "filename": "Dogeheim.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.817715"
+      }
+    },
+    "DogeheimTesting.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.817715"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250802202432.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250802202432.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250803115742.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250803115742.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250803210253.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250803210253.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "DogeheimTesting_backup_auto-20250805185237.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_auto-20250805185237.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "DogeheimTesting_backup_restore-20250802-165404.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_restore-20250802-165404.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "DogeheimTesting_backup_restore-20250802-165408.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_restore-20250802-165408.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "DogeheimTesting_backup_restore-20250802-165538.fwl": {
+      "file_info": {
+        "filename": "DogeheimTesting_backup_restore-20250802-165538.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    },
+    "Dogeheim_backup_auto-20250803162016.fwl": {
+      "file_info": {
+        "filename": "Dogeheim_backup_auto-20250803162016.fwl",
+        "error": "'utf-8' codec can't decode byte 0x8d in position 25: invalid start byte",
+        "parsed_at": "2025-08-05T21:28:30.818977"
+      }
+    }
+  },
+  "texture_caches": {
+    "DogeheimTesting_forestMaskTexCache": {
+      "file_info": {
+        "filename": "DogeheimTesting_forestMaskTexCache",
+        "size_mb": 0.53,
+        "parsed_at": "2025-08-05T21:28:30.820552"
+      },
+      "cache_info": {
+        "type": "texture_cache",
+        "format": "binary",
+        "data_size": 558067
+      },
+      "binary_info": {
+        "header_hex": "89504e470d0a1a0a0000000d49484452",
+        "total_bytes": 558067
+      }
+    },
+    "DogeheimTesting_heightTexCache": {
+      "file_info": {
+        "filename": "DogeheimTesting_heightTexCache",
+        "size_mb": 3.99,
+        "parsed_at": "2025-08-05T21:28:30.824777"
+      },
+      "cache_info": {
+        "type": "texture_cache",
+        "format": "binary",
+        "data_size": 4183022
+      },
+      "binary_info": {
+        "header_hex": "89504e470d0a1a0a0000000d49484452",
+        "total_bytes": 4183022
+      }
+    },
+    "DogeheimTesting_mapTexCache": {
+      "file_info": {
+        "filename": "DogeheimTesting_mapTexCache",
+        "size_mb": 0.22,
+        "parsed_at": "2025-08-05T21:28:30.824777"
+      },
+      "cache_info": {
+        "type": "texture_cache",
+        "format": "binary",
+        "data_size": 230336
+      },
+      "binary_info": {
+        "header_hex": "89504e470d0a1a0a0000000d49484452",
+        "total_bytes": 230336
+      }
+    },
+    "Dogeheim_forestMaskTexCache": {
+      "file_info": {
+        "filename": "Dogeheim_forestMaskTexCache",
+        "size_mb": 0.53,
+        "parsed_at": "2025-08-05T21:28:30.825773"
+      },
+      "cache_info": {
+        "type": "texture_cache",
+        "format": "binary",
+        "data_size": 558067
+      },
+      "binary_info": {
+        "header_hex": "89504e470d0a1a0a0000000d49484452",
+        "total_bytes": 558067
+      }
+    },
+    "Dogeheim_heightTexCache": {
+      "file_info": {
+        "filename": "Dogeheim_heightTexCache",
+        "size_mb": 3.99,
+        "parsed_at": "2025-08-05T21:28:30.831326"
+      },
+      "cache_info": {
+        "type": "texture_cache",
+        "format": "binary",
+        "data_size": 4183022
+      },
+      "binary_info": {
+        "header_hex": "89504e470d0a1a0a0000000d49484452",
+        "total_bytes": 4183022
+      }
+    },
+    "Dogeheim_mapTexCache": {
+      "file_info": {
+        "filename": "Dogeheim_mapTexCache",
+        "size_mb": 0.22,
+        "parsed_at": "2025-08-05T21:28:30.832323"
+      },
+      "cache_info": {
+        "type": "texture_cache",
+        "format": "binary",
+        "data_size": 230336
+      },
+      "binary_info": {
+        "header_hex": "89504e470d0a1a0a0000000d49484452",
+        "total_bytes": 230336
+      }
+    }
+  },
+  "wackydatabase": {
+    "file_info": {
+      "source_path": "Valheim\\profiles\\Dogeheim_Player\\BepInEx\\config\\wackysDatabase",
+      "parsed_at": "2025-08-05T21:28:30.832323"
+    },
+    "categories": {
+      "Cache": {
+        "files": {},
+        "file_count": 0
+      },
+      "Creatures": {
+        "files": {},
+        "file_count": 0
+      },
+      "Effects": {
+        "files": {
+          "Effects\\SE_Bandage1_JH.yml": {
+            "size_bytes": 2074,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Bandage1_JH",
+              "Status_m_name": "Bandage+",
+              "Category": "healthpotion",
+              "IconName": "potion_health_minor",
+              "ClonedSE": "Potion_health_minor",
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_Bandage2_JH.yml": {
+            "size_bytes": 2077,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Bandage2_JH",
+              "Status_m_name": "Suture Kit",
+              "Category": "healthpotion",
+              "IconName": "potion_health_minor",
+              "ClonedSE": "Potion_health_minor",
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_Bandage_JH.yml": {
+            "size_bytes": 2066,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Bandage_JH",
+              "Status_m_name": "Bandage",
+              "Category": "healthpotion",
+              "IconName": "potion_health_minor",
+              "ClonedSE": "Potion_health_minor",
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_Demister_JH.yml": {
+            "size_bytes": 1754,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Demister_JH",
+              "Status_m_name": "$item_demister",
+              "Category": "",
+              "IconName": "demister",
+              "ClonedSE": "Demister",
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_Freezing.yml": {
+            "size_bytes": 1808,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Freezing",
+              "Status_m_name": "$se_freezing_name",
+              "Category": "",
+              "IconName": "Cold_lvl2",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_NoiseReduction_JH.yml": {
+            "size_bytes": 1471,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_NoiseReduction_JH",
+              "Status_m_name": "Noise",
+              "Category": "",
+              "IconName": null,
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_PinnedModer.yml": {
+            "size_bytes": 1897,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "PinnedModer",
+              "Status_m_name": "$SE_Pinned_TW",
+              "Category": "",
+              "IconName": "CrippledIcon",
+              "ClonedSE": null,
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SE_Potion_hasty.yml": {
+            "size_bytes": 2301,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_hasty",
+              "Status_m_name": "$item_mead_hasty",
+              "Category": "cooldownwindrun",
+              "IconName": "potion_hasty",
+              "ClonedSE": null,
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SE_Potion_LightFoot.yml": {
+            "size_bytes": 2411,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_LightFoot",
+              "Status_m_name": "$item_mead_lightfoot",
+              "Category": "arcanescroll",
+              "IconName": "potion_lightfoot",
+              "ClonedSE": null,
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SE_Potion_poisonresist.yml": {
+            "size_bytes": 1386,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_poisonresist",
+              "Status_m_name": "$item_mead_poisonres",
+              "Category": "",
+              "IconName": "potion_poisonresist",
+              "CustomIcon": null,
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_BlackMetalBelt.yml": {
+            "size_bytes": 1342,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SetEffect_BlackMetalBelt",
+              "Status_m_name": "BlackMetal Belt",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "BeltYmir_TW1.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_DvergrBelt.yml": {
+            "size_bytes": 1334,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SetEffect_DvergrBelt",
+              "Status_m_name": "Dvergr Belt",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "BeltYmir_TW3.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_FishJerky.yml": {
+            "size_bytes": 1326,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_FishJerky",
+              "Status_m_name": "Angler",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "FishJerky_JH.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_LoxJerky.yml": {
+            "size_bytes": 1330,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_LoxJerky",
+              "Status_m_name": "Lox",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "LoxJerky_JH.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_NeckJerky.yml": {
+            "size_bytes": 1321,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_NeckJerky",
+              "Status_m_name": "Angler",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "NeckJerky_JH.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_SeekerJerky.yml": {
+            "size_bytes": 1341,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_SeekerJerky",
+              "Status_m_name": "Seeker",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "SeekerJerky_JH.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_SerpentJerky.yml": {
+            "size_bytes": 1318,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_SerpentJerky",
+              "Status_m_name": "Angler",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "SerpentJerky_JH.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_SetEffect_SilverBelt.yml": {
+            "size_bytes": 1334,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SetEffect_SilverBelt",
+              "Status_m_name": "Silver Belt",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "BeltYmir_TW2.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_Slimed.yml": {
+            "size_bytes": 1319,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Slimed",
+              "Status_m_name": "$se_slimed_name",
+              "Category": "",
+              "IconName": "Slimed",
+              "CustomIcon": null,
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\SE_StaffofHOT2_JH.yml": {
+            "size_bytes": 2098,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "StaffofHOT2_JH",
+              "Status_m_name": "Recovery",
+              "Category": null,
+              "IconName": "potion_health_minor",
+              "ClonedSE": "Potion_health_minor",
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_StaffofHOT_JH.yml": {
+            "size_bytes": 2096,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "StaffofHOT_JH",
+              "Status_m_name": "Recovery",
+              "Category": null,
+              "IconName": "potion_health_minor",
+              "ClonedSE": "Potion_health_minor",
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SE_WindPotion_JH.yml": {
+            "size_bytes": 2383,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SE_WindPotion_JH",
+              "Status_m_name": "Tail Wind",
+              "Category": "cooldowntailwind",
+              "IconName": null,
+              "ClonedSE": "GP_Moder",
+              "... (22 more items)": null
+            }
+          },
+          "Effects\\SE_WindRun_JH.yml": {
+            "size_bytes": 2639,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "WindRun_JH",
+              "Status_m_name": "$se_windrun_name",
+              "Category": "cooldownwindrun",
+              "IconName": "capeasksvin",
+              "ClonedSE": "WindRun_TW",
+              "... (22 more items)": null
+            }
+          },
+          "Effects\\EpicLoot\\SE_LeatherBelt_JH.yml": {
+            "size_bytes": 1307,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "LeatherBelt_JH",
+              "Status_m_name": "Leather Belt",
+              "Category": "",
+              "IconName": null,
+              "CustomIcon": "LeatherBelt_JH.png",
+              "... (17 more items)": null
+            }
+          },
+          "Effects\\HealthEffects\\SE_Potion_health_major.yml": {
+            "size_bytes": 2055,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_health_major",
+              "Status_m_name": "$item_mead_hp_major",
+              "Category": "healthpotion",
+              "IconName": "potion_health_major",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\HealthEffects\\SE_Potion_health_medium.yml": {
+            "size_bytes": 2059,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_health_medium",
+              "Status_m_name": "$item_mead_hp_medium",
+              "Category": "healthpotion",
+              "IconName": "potion_health_medium",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\HealthEffects\\SE_Potion_health_minor.yml": {
+            "size_bytes": 2054,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_health_minor",
+              "Status_m_name": "$item_mead_hp_minor",
+              "Category": "healthpotion",
+              "IconName": "potion_health_minor",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionAxe_JH.yml": {
+            "size_bytes": 2340,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionAxe_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionClub_JH.yml": {
+            "size_bytes": 2345,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionClub_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionKnives_JH.yml": {
+            "size_bytes": 2352,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionKnives_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionPolearm_JH.yml": {
+            "size_bytes": 2357,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionPolearm_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionSpear_JH.yml": {
+            "size_bytes": 2349,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionSpear_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionSword_JH.yml": {
+            "size_bytes": 2349,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionSword_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\SkillPotions\\SE_SkillPotionUnarmed_JH.yml": {
+            "size_bytes": 2357,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "SkillPotionUnarmed_JH",
+              "Status_m_name": "Skill Gain",
+              "Category": "skills",
+              "IconName": "Potion_LightFoot",
+              "ClonedSE": "Potion_LightFoot",
+              "... (24 more items)": null
+            }
+          },
+          "Effects\\StaminaEffects\\SE_Potion_stamina_lingering.yml": {
+            "size_bytes": 2098,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_stamina_lingering",
+              "Status_m_name": "$item_mead_stamina_lingering",
+              "Category": "staminapotionregen",
+              "IconName": "potion_stamina_lingering",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\StaminaEffects\\SE_Potion_stamina_medium.yml": {
+            "size_bytes": 2076,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_stamina_medium",
+              "Status_m_name": "$item_mead_stamina_medium",
+              "Category": "staminapotion",
+              "IconName": "potion_stamina_medium",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\StaminaEffects\\SE_Potion_stamina_minor.yml": {
+            "size_bytes": 2064,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion_stamina_minor",
+              "Status_m_name": "$item_mead_stamina_minor",
+              "Category": "staminapotion",
+              "IconName": "potion_stamina_minor",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\StaminaEffects\\SE_Potion__medium_stamina_lingering_TW.yml": {
+            "size_bytes": 2121,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion__medium_stamina_lingering_TW",
+              "Status_m_name": "$mead_lingeringstamina_medium_TW",
+              "Category": "staminapotionregen",
+              "IconName": "MeadStaminaLingeringMedium_TW",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\StaminaEffects\\SE_Potion__minor_stamina_lingering_TW.yml": {
+            "size_bytes": 2117,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "Potion__minor_stamina_lingering_TW",
+              "Status_m_name": "$mead_lingeringstamina_minor_TW",
+              "Category": "staminapotionregen",
+              "IconName": "MeadStaminaLingeringMinor_TW",
+              "ClonedSE": null,
+              "... (21 more items)": null
+            }
+          },
+          "Effects\\zCooldowns\\SE_CoolDownTailWind_JH.yml": {
+            "size_bytes": 1553,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "CoolDownTailWind_JH",
+              "Status_m_name": "Tail Wind",
+              "Category": "cooldowntailwind",
+              "IconName": "WindPotion_JH.png",
+              "ClonedSE": "Potion_tasty",
+              "... (22 more items)": null
+            }
+          },
+          "Effects\\zCooldowns\\SE_CoolDownWindRun_JH.yml": {
+            "size_bytes": 1543,
+            "content_type": "dict",
+            "sample_data": {
+              "Name": "CoolDownWindRun_JH",
+              "Status_m_name": "Wind Run",
+              "Category": "cooldownwindrun",
+              "IconName": "WindRun_JH.png",
+              "ClonedSE": "Potion_tasty",
+              "... (22 more items)": null
+            }
+          }
+        },
+        "file_count": 41
+      },
+      "Icons": {
+        "files": {},
+        "file_count": 0
+      },
+      "Items": {
+        "files": {
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_Bandage1_JH.yml": {
+            "size_bytes": 1635,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bandage1_JH",
+              "m_weight": 0.5,
+              "m_name": "Bandage Improved",
+              "m_description": "An improved bandage to clean your wounds.",
+              "clonePrefabName": "JuteBlack_TW",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_Bandage2_JH.yml": {
+            "size_bytes": 1627,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bandage2_JH",
+              "m_weight": 0.5,
+              "m_name": "Suture Kit",
+              "m_description": "Needles and thread, for closing wounds.",
+              "clonePrefabName": "JuteBlack_TW",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_Bandage_JH.yml": {
+            "size_bytes": 1620,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bandage_JH",
+              "m_weight": 0.5,
+              "m_name": "Bandage",
+              "m_description": "A simple bandage to clean your wounds.",
+              "clonePrefabName": "JuteBlack_TW",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_CookedEntrails.yml": {
+            "size_bytes": 937,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CookedEntrails",
+              "m_weight": 1,
+              "m_name": "Cooked Entrails",
+              "m_description": "Cooked Entrails",
+              "clonePrefabName": "Entrails",
+              "... (32 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_DandelionTea_JH.yml": {
+            "size_bytes": 1692,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DandelionTea_JH",
+              "m_weight": 1,
+              "m_name": "Dandelion Tea",
+              "m_description": "A very healthy beverage",
+              "clonePrefabName": "QueensJam",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_FishCooked.yml": {
+            "size_bytes": 1006,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishCooked",
+              "m_weight": 0.5,
+              "m_name": "$item_fish_cooked",
+              "m_description": "$item_fish_cooked_description",
+              "clonePrefabName": null,
+              "... (35 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_FishJerky.yml": {
+            "size_bytes": 969,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishJerky_JH",
+              "m_weight": 1,
+              "m_name": "Fish Jerky",
+              "m_description": "Salty but filling",
+              "clonePrefabName": "BoarJerky",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_FishMeatSkewer.yml": {
+            "size_bytes": 996,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishMeatSkewer",
+              "m_weight": 0.5,
+              "m_name": "Fish Skewer",
+              "m_description": "Salty yet satisfying",
+              "clonePrefabName": "WolfMeatSkewer",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_FishNLoxSkewer.yml": {
+            "size_bytes": 1000,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishNLoxSkewer",
+              "m_weight": 0.5,
+              "m_name": "Fish&Lox Skewer",
+              "m_description": "Salty and Savory",
+              "clonePrefabName": "WolfMeatSkewer",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_FishStew_JH.yml": {
+            "size_bytes": 998,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishStew_JH",
+              "m_weight": 1,
+              "m_name": "Fish Stew",
+              "m_description": "Smells of honey and fish...",
+              "clonePrefabName": "SerpentStew",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_Honey.yml": {
+            "size_bytes": 1661,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Honey",
+              "m_weight": 0.2,
+              "m_name": "$item_honey",
+              "m_description": "$item_honey_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_HoneyGlazedDeer.yml": {
+            "size_bytes": 1013,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedDeer",
+              "m_weight": 1,
+              "m_name": "Honey Glazed Deer",
+              "m_description": "Deer Meat slathered in honey",
+              "clonePrefabName": "CookedDeerMeat",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_HoneyGlazedFish.yml": {
+            "size_bytes": 1012,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedFish",
+              "m_weight": 1,
+              "m_name": "Honey Glazed Fish",
+              "m_description": "Cooked fish slathered in honey",
+              "clonePrefabName": "FishCooked",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_HoneyGlazedLox.yml": {
+            "size_bytes": 1009,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedLox",
+              "m_weight": 1,
+              "m_name": "Honey Glazed Lox",
+              "m_description": "Lox Meat slathered in honey",
+              "clonePrefabName": "CookedLoxMeat",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_HoneyGlazedMeat.yml": {
+            "size_bytes": 977,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedMeat",
+              "m_weight": 1,
+              "m_name": "Honey Glazed Meat",
+              "m_description": "Boar Meat slathered in honey",
+              "clonePrefabName": "CookedMeat",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_HoneyGlazedNeck.yml": {
+            "size_bytes": 984,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedNeck",
+              "m_weight": 0.5,
+              "m_name": "Honey Glazed Neck",
+              "m_description": "Neck Tail slathered in honey",
+              "clonePrefabName": "NeckTailGrilled",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_HoneyGlazedWolf.yml": {
+            "size_bytes": 982,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedWolf",
+              "m_weight": 1,
+              "m_name": "Honey Glazed Wolf",
+              "m_description": "Wolf Meat slathered in honey",
+              "clonePrefabName": "CookedWolfMeat",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_JellyGlazedHare.yml": {
+            "size_bytes": 982,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "JellyGlazedHare",
+              "m_weight": 1,
+              "m_name": "Jelly Glazed Hare",
+              "m_description": "Hare Meat slathered in jelly",
+              "clonePrefabName": "CookedHareMeat",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_JellyGlazedSeeker.yml": {
+            "size_bytes": 988,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "JellyGlazedSeeker",
+              "m_weight": 1,
+              "m_name": "Jelly Glazed Seeker",
+              "m_description": "Seeker Meat slathered in jelly",
+              "clonePrefabName": "CookedBugMeat",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_LoxJerky_JH.yml": {
+            "size_bytes": 979,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "LoxJerky_JH",
+              "m_weight": 0.5,
+              "m_name": "Lox Jerky",
+              "m_description": "Tender and full of flavor",
+              "clonePrefabName": "WolfJerky",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_MeadBaseNoise_JH.yml": {
+            "size_bytes": 1613,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadBaseNoise_JH",
+              "m_weight": 1,
+              "m_name": "Mead Base Noise Reduction",
+              "m_description": "Needs to be fermented.",
+              "clonePrefabName": "MeadBaseTasty",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_MeadHealthMajor.yml": {
+            "size_bytes": 1622,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadHealthMajor",
+              "m_weight": 1,
+              "m_name": "$item_mead_hp_major",
+              "m_description": "$item_mead_hp_major_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_MeadHealthMedium.yml": {
+            "size_bytes": 1627,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadHealthMedium",
+              "m_weight": 1,
+              "m_name": "$item_mead_hp_medium",
+              "m_description": "$item_mead_hp_medium_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_MeadHealthMinor.yml": {
+            "size_bytes": 1622,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadHealthMinor",
+              "m_weight": 1,
+              "m_name": "$item_mead_hp_minor",
+              "m_description": "$item_mead_hp_minor_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_MushroomSoup_JH.yml": {
+            "size_bytes": 1745,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MushroomSoup_JH",
+              "m_weight": 1,
+              "m_name": "Mushroom Soup",
+              "m_description": "A delicious meal with an earthly taste.",
+              "clonePrefabName": "MinceMeatSauce",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_NeckJerky.yml": {
+            "size_bytes": 959,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "NeckJerky_JH",
+              "m_weight": 1,
+              "m_name": "Neck Jerky",
+              "m_description": "Tasty and lean",
+              "clonePrefabName": "BoarJerky",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_NoisePotion_JH.yml": {
+            "size_bytes": 1662,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "NoisePotion_JH",
+              "m_weight": 0.5,
+              "m_name": "Quiet Potion",
+              "m_description": "Reduce the noise you make to hopefully feel safe...",
+              "clonePrefabName": "MeadStaminaMedium",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_SeekerJerky_JH.yml": {
+            "size_bytes": 995,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SeekerJerky_JH",
+              "m_weight": 0.5,
+              "m_name": "Seeker Jerky",
+              "m_description": "Crunchy and full of flavor",
+              "clonePrefabName": "WolfJerky",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_SerpentJerky.yml": {
+            "size_bytes": 992,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SerpentJerky_JH",
+              "m_weight": 1,
+              "m_name": "Serpent Jerky",
+              "m_description": "Tough but full of flavor",
+              "clonePrefabName": "BoarJerky",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_SerpentMeatCooked.yml": {
+            "size_bytes": 973,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SerpentMeatCooked",
+              "m_weight": 1,
+              "m_name": "$item_serpentmeatcooked",
+              "m_description": "$item_serpentmeatcooked_description",
+              "clonePrefabName": null,
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_SerpentStew.yml": {
+            "size_bytes": 1331,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SerpentStew",
+              "m_weight": 1,
+              "m_name": "$item_serpentstew",
+              "m_description": "$item_serpentstew_description",
+              "clonePrefabName": null,
+              "... (43 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_VegetableSoup_JH.yml": {
+            "size_bytes": 1027,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "VegetableSoup_JH",
+              "m_weight": 1,
+              "m_name": "Vegetable Soup",
+              "m_description": "A warm soup made from various vegetables.",
+              "clonePrefabName": "SerpentStew",
+              "... (34 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_WindPotion_JH.yml": {
+            "size_bytes": 1046,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "WindPotion_JH",
+              "m_weight": 1,
+              "m_name": "Tail Wind Potion",
+              "m_description": "Gives you tail wind",
+              "clonePrefabName": "MeadFrostResist",
+              "... (39 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_WindRun_JH.yml": {
+            "size_bytes": 2177,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "WindRun_JH",
+              "m_weight": 1,
+              "m_name": "Wind Run Potion",
+              "m_description": "Who knew the wind can be so helpful..",
+              "clonePrefabName": "MeadHasty",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Item_WispPotion_JH.yml": {
+            "size_bytes": 1642,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "WispPotion_JH",
+              "m_weight": 1,
+              "m_name": "Wisp Potion",
+              "m_description": "Consuming this potion releases a Wisp for a short time.",
+              "clonePrefabName": "MeadStaminaMinor",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastAshlands.yml": {
+            "size_bytes": 1712,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastAshlands",
+              "m_weight": 10,
+              "m_name": "$item_feastashlands",
+              "m_description": "$item_feastashlands_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastBlackforest.yml": {
+            "size_bytes": 1721,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastBlackforest",
+              "m_weight": 10,
+              "m_name": "$item_feastblackforest",
+              "m_description": "$item_feastblackforest_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastMeadows.yml": {
+            "size_bytes": 1708,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastMeadows",
+              "m_weight": 10,
+              "m_name": "$item_feastmeadows",
+              "m_description": "$item_feastmeadows_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastMistlands.yml": {
+            "size_bytes": 1715,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastMistlands",
+              "m_weight": 10,
+              "m_name": "$item_feastmistlands",
+              "m_description": "$item_feastmistlands_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastMountains.yml": {
+            "size_bytes": 1715,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastMountains",
+              "m_weight": 10,
+              "m_name": "$item_feastmountains",
+              "m_description": "$item_feastmountains_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastOceans.yml": {
+            "size_bytes": 1705,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastOceans",
+              "m_weight": 10,
+              "m_name": "$item_feastoceans",
+              "m_description": "$item_feastoceans_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastPlains.yml": {
+            "size_bytes": 1706,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastPlains",
+              "m_weight": 10,
+              "m_name": "$item_feastplains",
+              "m_description": "$item_feastplains_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\Feasts\\Item_FeastSwamps.yml": {
+            "size_bytes": 1706,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FeastSwamps",
+              "m_weight": 10,
+              "m_name": "$item_feastswamps",
+              "m_description": "$item_feastswamps_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionAxe_JH.yml": {
+            "size_bytes": 2218,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionAxe_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Axes",
+              "m_description": "A potion favored by vikings that fight with axes",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionClub_JH.yml": {
+            "size_bytes": 2223,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionClub_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Clubs",
+              "m_description": "A potion favored by vikings that fight with clubs",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionKnives_JH.yml": {
+            "size_bytes": 2230,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionKnives_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Knives",
+              "m_description": "A potion favored by vikings that fight with knives",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionPolearm_JH.yml": {
+            "size_bytes": 2234,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionPolearm_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Polearm",
+              "m_description": "A potion favored by vikings that fight with polearms",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionSpear_JH.yml": {
+            "size_bytes": 2226,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionSpear_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Spear",
+              "m_description": "A potion favored by vikings that fight with spears",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionSword_JH.yml": {
+            "size_bytes": 2227,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionSword_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Swords",
+              "m_description": "A potion favored by vikings that fight with swords",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Item_SkillPotionUnarmed_JH.yml": {
+            "size_bytes": 2239,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionUnarmed_JH",
+              "m_weight": 1,
+              "m_name": "Skill Potion - Unarmed",
+              "m_description": "A potion favored by vikings that fight with their fists",
+              "clonePrefabName": "MeadLightningResist_TW",
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenAbomination.yml": {
+            "size_bytes": 553,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenAbomination",
+              "m_weight": 1,
+              "m_name": "Golden Abomination Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyAbomination",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenAsmodeus.yml": {
+            "size_bytes": 548,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenAsmodeus",
+              "m_weight": 1,
+              "m_name": "Golden Asmodeus Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyAsmodeus_TW",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenBonemass.yml": {
+            "size_bytes": 545,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenBonemass",
+              "m_weight": 1,
+              "m_name": "Golden Trophy Bonemass",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyBonemass",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenBrute.yml": {
+            "size_bytes": 542,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenBrute",
+              "m_weight": 1,
+              "m_name": "Golden Brute Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyGoblinBrute",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenDragon.yml": {
+            "size_bytes": 543,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenDragon",
+              "m_weight": 1,
+              "m_name": "Golden Trophy Moder",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyDragonQueen",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenEikthyr.yml": {
+            "size_bytes": 542,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenEikthyr",
+              "m_weight": 1,
+              "m_name": "Golden Eikthyr Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyEikthyr",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenElder.yml": {
+            "size_bytes": 539,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenElder",
+              "m_weight": 1,
+              "m_name": "Golden Trophy Elder",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyTheElder",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenGjall.yml": {
+            "size_bytes": 536,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenGjall",
+              "m_weight": 1,
+              "m_name": "Golden Gjall Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyGjall",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenKing.yml": {
+            "size_bytes": 542,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenKing",
+              "m_weight": 1,
+              "m_name": "Golden Trophy Yagluth",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyGoblinKing",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenQueen.yml": {
+            "size_bytes": 542,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenQueen",
+              "m_weight": 1,
+              "m_name": "Golden Trophy Queen",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophySeekerQueen",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenSGolem.yml": {
+            "size_bytes": 538,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenSGolem",
+              "m_weight": 1,
+              "m_name": "Golden Golem Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophySGolem",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenSvalt.yml": {
+            "size_bytes": 539,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenSvalt",
+              "m_weight": 1,
+              "m_name": "Golden Trophy Svalt",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophySvalt_TW",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenTroll.yml": {
+            "size_bytes": 541,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenTroll",
+              "m_weight": 1,
+              "m_name": "Golden Troll Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyFrostTroll",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\GoldenTrophy\\Item_TrophyGoldenVrykolathas.yml": {
+            "size_bytes": 556,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TrophyGoldenVrykolathas",
+              "m_weight": 1,
+              "m_name": "Golden Vrykolathas Trophy",
+              "m_description": "a rare drop, Haldor would buy this for a hefty price",
+              "clonePrefabName": "TrophyVrykolathas_TW",
+              "... (20 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\MonsterAttacks\\Item_Abomination_attack2.yml": {
+            "size_bytes": 3349,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Abomination_attack2",
+              "m_weight": 1,
+              "m_name": "Slam attack",
+              "m_description": "",
+              "clonePrefabName": null,
+              "... (42 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\MonsterAttacks\\Item_Abomination_attack3.yml": {
+            "size_bytes": 3358,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Abomination_attack3",
+              "m_weight": 1,
+              "m_name": "Stub to the ground",
+              "m_description": "",
+              "clonePrefabName": null,
+              "... (42 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\MonsterAttacks\\Item_blob_attack_aoe.yml": {
+            "size_bytes": 3280,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "blob_attack_aoe",
+              "m_weight": 1,
+              "m_name": "fart",
+              "m_description": "",
+              "clonePrefabName": null,
+              "... (42 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\MonsterAttacks\\Item_DvergerArbalest_shootAshlands.yml": {
+            "size_bytes": 6399,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DvergerArbalest_shootAshlands",
+              "m_weight": 1.5,
+              "m_name": "$item_crossbow_arbalest",
+              "m_description": "$item_crossbow_arbalest_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_BlackMetalDevastator_JH.yml": {
+            "size_bytes": 6488,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BlackMetalDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Blackmetal Eruptor",
+              "m_description": "A charged weapon capable of shooting blackmetal shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_BronzeDevastator_JH.yml": {
+            "size_bytes": 6213,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BronzeDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Bronze Eruptor",
+              "m_description": "A charged weapon capable of shooting bronze shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_DwarvenDevastator_JH.yml": {
+            "size_bytes": 6502,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DwarvenDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Dwarven Eruptor",
+              "m_description": "A charged dwarven weapon capable of shooting refined shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_FlametalDevastator_JH.yml": {
+            "size_bytes": 6840,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FlametalDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Flametal Eruptor",
+              "m_description": "A charged weapon shooting flametal shrapnel at your foes capable of stopping them in their tracks",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_FlintDevastator_JH.yml": {
+            "size_bytes": 6477,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FlintDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Flint Eruptor",
+              "m_description": "A charged weapon capable of shooting 10 flint shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_IronDevastator_JH.yml": {
+            "size_bytes": 5941,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "IronDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Iron Eruptor",
+              "m_description": "A charged weapon capable of shooting iron shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (46 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_RagnoriteDevastator_JH.yml": {
+            "size_bytes": 6784,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "RagnoriteDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Ragnorite Eruptor",
+              "m_description": "A charged weapon shooting ragnorite shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_SilverDevastator_JH.yml": {
+            "size_bytes": 6478,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SilverDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Silver Eruptor",
+              "m_description": "A charged weapon capable of shooting silver shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffBurst_JH.yml": {
+            "size_bytes": 5970,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffBurst_JH",
+              "m_weight": 1.5,
+              "m_name": "Magic Burst Shot",
+              "m_description": "A charged weapon capable of shooting magic infused shrapnel at your foes.",
+              "clonePrefabName": "StaffLightning",
+              "... (47 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffFireBurst_JH.yml": {
+            "size_bytes": 6581,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffFireBurst_JH",
+              "m_weight": 1.5,
+              "m_name": "Fire Burst Shot",
+              "m_description": "A charged weapon capable of shooting fire-infused shrapnel at your foes.",
+              "clonePrefabName": "StaffLightning",
+              "... (46 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffFrostBurst_JH.yml": {
+            "size_bytes": 7216,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffFrostBurst_JH",
+              "m_weight": 1.5,
+              "m_name": "Frost Burst Shot",
+              "m_description": "A charged weapon capable of shooting frost-infused shrapnel at your foes.",
+              "clonePrefabName": "StaffLightning",
+              "... (46 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffLightningBurst_JH.yml": {
+            "size_bytes": 7895,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffLightningBurst_JH",
+              "m_weight": 1.5,
+              "m_name": "Lightning Burst Shot",
+              "m_description": "A charged weapon capable of shooting lightning-infused shrapnel at your foes.",
+              "clonePrefabName": "StaffLightning",
+              "... (46 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffofHealing2_JH.yml": {
+            "size_bytes": 5657,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffofHealing2_JH",
+              "m_weight": 0.3,
+              "m_name": "Staff of Major Healing",
+              "m_description": "Staff that heals you and your allies in a small radius over time.",
+              "clonePrefabName": "StaffShield",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffofHealing_JH.yml": {
+            "size_bytes": 5665,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffofHealing_JH",
+              "m_weight": 0.3,
+              "m_name": "Staff of Minor Healing",
+              "m_description": "Staff that heals you and your allies in a small radius over time.",
+              "clonePrefabName": "StaffShield",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_StaffPoisonBurst_JH.yml": {
+            "size_bytes": 7545,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffPoisonBurst_JH",
+              "m_weight": 1.5,
+              "m_name": "Poison Burst Shot",
+              "m_description": "A charged weapon capable of shooting toxic-infused shrapnel at your foes.",
+              "clonePrefabName": "StaffLightning",
+              "... (46 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\StaffBurst\\Item_TyraniumDevastator_JH.yml": {
+            "size_bytes": 6784,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TyraniumDevastator_JH",
+              "m_weight": 1.5,
+              "m_name": "Tyranium Eruptor",
+              "m_description": "A charged weapon shooting tyranium shrapnel at your foes",
+              "clonePrefabName": "StaffLightning",
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_ArmorRagsChest.yml": {
+            "size_bytes": 1584,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorRagsChest",
+              "m_weight": 2,
+              "m_name": "$item_chest_rags",
+              "m_description": "$item_chest_rags_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_ArmorRagsLegs.yml": {
+            "size_bytes": 1580,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorRagsLegs",
+              "m_weight": 2,
+              "m_name": "$item_legs_rags",
+              "m_description": "$item_legs_rags_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_ArmorRootChest.yml": {
+            "size_bytes": 1256,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorRootChest",
+              "m_weight": 10,
+              "m_name": "$item_chest_root",
+              "m_description": "$item_chest_pcuirass_description",
+              "clonePrefabName": null,
+              "... (42 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_AxeBlackMetal.yml": {
+            "size_bytes": 6632,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeBlackMetal",
+              "m_weight": 2,
+              "m_name": "$item_axe_blackmetal",
+              "m_description": "$item_axe_blackmetal_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_AxeBronze.yml": {
+            "size_bytes": 6618,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeBronze",
+              "m_weight": 2,
+              "m_name": "$item_axe_bronze",
+              "m_description": "$item_axe_bronze_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_AxeFlint.yml": {
+            "size_bytes": 6622,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeFlint",
+              "m_weight": 1.5,
+              "m_name": "$item_axe_flint",
+              "m_description": "$item_axe_flint_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_AxeIron.yml": {
+            "size_bytes": 6613,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeIron",
+              "m_weight": 2,
+              "m_name": "$item_axe_iron",
+              "m_description": "$item_axe_iron_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_AxeJotunBane.yml": {
+            "size_bytes": 7255,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeJotunBane",
+              "m_weight": 2,
+              "m_name": "$item_axe_jotunbane",
+              "m_description": "$item_axe_jotunbane_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_AxeStone.yml": {
+            "size_bytes": 6622,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeStone",
+              "m_weight": 1.5,
+              "m_name": "$item_axe_stone",
+              "m_description": "$item_axe_stone_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_BoltBone.yml": {
+            "size_bytes": 3758,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BoltBone",
+              "m_weight": 0.1,
+              "m_name": "$item_bolt_bone",
+              "m_description": "$item_bolt_bone_description",
+              "clonePrefabName": null,
+              "... (43 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_Club.yml": {
+            "size_bytes": 6654,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Club",
+              "m_weight": 2,
+              "m_name": "$item_club",
+              "m_description": "$item_club_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_Ironpit.yml": {
+            "size_bytes": 1224,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Ironpit",
+              "m_weight": 10,
+              "m_name": "$item_ironpit",
+              "m_description": "$item_ironpit_description",
+              "clonePrefabName": null,
+              "... (43 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_KnifeChitin.yml": {
+            "size_bytes": 3461,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "KnifeChitin",
+              "m_weight": 0.3,
+              "m_name": "$item_knife_chitin",
+              "m_description": "$item_knife_chitin_description",
+              "clonePrefabName": null,
+              "... (41 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_MaceSilver.yml": {
+            "size_bytes": 6676,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MaceSilver",
+              "m_weight": 2,
+              "m_name": "$item_mace_silver",
+              "m_description": "$item_mace_silver_description",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_PickaxeAntler.yml": {
+            "size_bytes": 3467,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeAntler",
+              "m_weight": 2,
+              "m_name": "$item_pickaxe_antler",
+              "m_description": "$item_pickaxe_antler_description",
+              "clonePrefabName": null,
+              "... (41 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_PickaxeBlackMetal.yml": {
+            "size_bytes": 3481,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeBlackMetal",
+              "m_weight": 2,
+              "m_name": "$item_pickaxe_blackmetal",
+              "m_description": "$item_pickaxe_blackmetal_description",
+              "clonePrefabName": null,
+              "... (41 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_PickaxeBronze.yml": {
+            "size_bytes": 3468,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeBronze",
+              "m_weight": 2,
+              "m_name": "$item_pickaxe_bronze",
+              "m_description": "$item_pickaxe_bronze_description",
+              "clonePrefabName": null,
+              "... (41 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_PickaxeStone_JH.yml": {
+            "size_bytes": 5214,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeStone_JH",
+              "m_weight": 2,
+              "m_name": "Stone Pickaxe",
+              "m_description": "Pickaxe made of stone but only capable of terraforming",
+              "clonePrefabName": "PickaxeStone",
+              "... (43 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_StaffIceShards.yml": {
+            "size_bytes": 6190,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffIceShards",
+              "m_weight": 0.3,
+              "m_name": "$item_stafficeshards",
+              "m_description": "$item_stafficeshards_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\VanillaItems\\Item_Torch.yml": {
+            "size_bytes": 5708,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Torch",
+              "m_weight": 1,
+              "m_name": "$item_torch",
+              "m_description": "$item_torch_description",
+              "clonePrefabName": null,
+              "... (45 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_Bow.yml": {
+            "size_bytes": 6336,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bow",
+              "m_weight": 1.5,
+              "m_name": "$item_bow",
+              "m_description": "$item_bow_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowAshlands.yml": {
+            "size_bytes": 6363,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowAshlands",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_ashlands",
+              "m_description": "$item_bow_ashlands_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowAshlandsBlood.yml": {
+            "size_bytes": 6691,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowAshlandsBlood",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_ashlandsblood",
+              "m_description": "$item_bow_ashlandsblood_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowAshlandsRoot.yml": {
+            "size_bytes": 6704,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowAshlandsRoot",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_ashlandsroot",
+              "m_description": "$item_bow_ashlandsroot_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowAshlandsStorm.yml": {
+            "size_bytes": 6724,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowAshlandsStorm",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_ashlandsstorm",
+              "m_description": "$item_bow_ashlandsstorm_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowBlackmetal_TW.yml": {
+            "size_bytes": 6377,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowBlackmetal_TW",
+              "m_weight": 1.5,
+              "m_name": "$bow_blackmetal_TW",
+              "m_description": "$bow_blackmetal_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowDraugrFang.yml": {
+            "size_bytes": 6369,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowDraugrFang",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_draugrfang",
+              "m_description": "$item_bow_draugrfang_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowFineWood.yml": {
+            "size_bytes": 6361,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowFineWood",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_finewood",
+              "m_description": "$item_bow_finewood_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowHuntsman.yml": {
+            "size_bytes": 6361,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowHuntsman",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_huntsman",
+              "m_description": "$item_bow_huntsman_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowNjord_TW.yml": {
+            "size_bytes": 6363,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowNjord_TW",
+              "m_weight": 1.5,
+              "m_name": "$bow_njord_TW",
+              "m_description": "$bow_njord_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowSpineSnap.yml": {
+            "size_bytes": 6366,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowSpineSnap",
+              "m_weight": 1.5,
+              "m_name": "$item_bow_snipesnap",
+              "m_description": "$item_bow_snipesnap_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowSurtr_TW.yml": {
+            "size_bytes": 6363,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowSurtr_TW",
+              "m_weight": 1.5,
+              "m_name": "$bow_surtr_TW",
+              "m_description": "$bow_surtr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_BowTrollBone_TW.yml": {
+            "size_bytes": 6373,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BowTrollBone_TW",
+              "m_weight": 1.5,
+              "m_name": "$bow_trollbone_TW",
+              "m_description": "$bow_trollbone_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_GreatbowBlackmetal_TW.yml": {
+            "size_bytes": 6444,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GreatbowBlackmetal_TW",
+              "m_weight": 3,
+              "m_name": "$greatbow_blackmetal_TW",
+              "m_description": "$greatbow_blackmetal_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_GreatbowDvergr_TW.yml": {
+            "size_bytes": 6460,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GreatbowDvergr_TW",
+              "m_weight": 3,
+              "m_name": "$greatbow_dvergr_TW",
+              "m_description": "$greatbow_dvergr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_GreatbowModer_TW.yml": {
+            "size_bytes": 6430,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GreatbowModer_TW",
+              "m_weight": 3,
+              "m_name": "$greatbow_moder_TW",
+              "m_description": "$greatbow_moder_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_GreatbowNjord_TW.yml": {
+            "size_bytes": 6429,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GreatbowNjord_TW",
+              "m_weight": 5,
+              "m_name": "$greatbow_njord_TW",
+              "m_description": "$greatbow_njord_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Bows\\Item_GreatbowSurtr_TW.yml": {
+            "size_bytes": 6429,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GreatbowSurtr_TW",
+              "m_weight": 5,
+              "m_name": "$greatbow_surtr_TW",
+              "m_description": "$greatbow_surtr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowArbalest.yml": {
+            "size_bytes": 6412,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowArbalest",
+              "m_weight": 1.5,
+              "m_name": "$item_crossbow_arbalest",
+              "m_description": "$item_crossbow_arbalest_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowBlackmetal_TW.yml": {
+            "size_bytes": 6429,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowBlackmetal_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_blackmetal_TW",
+              "m_description": "$crossbow_blackmetal_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowBronze_TW.yml": {
+            "size_bytes": 6413,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowBronze_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_bronze_TW",
+              "m_description": "$crossbow_bronze_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowChitin_TW.yml": {
+            "size_bytes": 6413,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowChitin_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_chitin_TW",
+              "m_description": "$crossbow_chitin_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowIron_TW.yml": {
+            "size_bytes": 6408,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowIron_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_iron_TW",
+              "m_description": "$crossbow_iron_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowNjord_TW.yml": {
+            "size_bytes": 6414,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowNjord_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_njord_TW",
+              "m_description": "$crossbow_njord_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowRipper.yml": {
+            "size_bytes": 6406,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowRipper",
+              "m_weight": 1.5,
+              "m_name": "$item_crossbow_ripper",
+              "m_description": "$item_crossbow_ripper_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowRipperBlood.yml": {
+            "size_bytes": 6728,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowRipperBlood",
+              "m_weight": 1.5,
+              "m_name": "$item_crossbow_ripper_blood",
+              "m_description": "$item_crossbow_ripper_blood_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowRipperLightning.yml": {
+            "size_bytes": 6774,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowRipperLightning",
+              "m_weight": 1.5,
+              "m_name": "$item_crossbow_ripper_lightning",
+              "m_description": "$item_crossbow_ripper_lightning_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowRipperNature.yml": {
+            "size_bytes": 6747,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowRipperNature",
+              "m_weight": 1.5,
+              "m_name": "$item_crossbow_ripper_nature",
+              "m_description": "$item_crossbow_ripper_nature_description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowSilver_TW.yml": {
+            "size_bytes": 6417,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowSilver_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_silver_TW",
+              "m_description": "$crossbow_silver_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Crossbows\\Item_CrossbowSurtr_TW.yml": {
+            "size_bytes": 6413,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowSurtr_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_surtr_TW",
+              "m_description": "$crossbow_surtr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistBlackmetal_TW.yml": {
+            "size_bytes": 7685,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistBlackmetal_TW",
+              "m_weight": 2,
+              "m_name": "$fist_blackmetal_TW",
+              "m_description": "$fist_blackmetal_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistBronze_TW.yml": {
+            "size_bytes": 7059,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistBronze_TW",
+              "m_weight": 2,
+              "m_name": "$fist_bronze_TW",
+              "m_description": "$fist_bronze_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistChitin_TW.yml": {
+            "size_bytes": 7663,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistChitin_TW",
+              "m_weight": 2,
+              "m_name": "$fist_chitin_TW",
+              "m_description": "$fist_chitin_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistDvergr_TW.yml": {
+            "size_bytes": 7737,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistDvergr_TW",
+              "m_weight": 2,
+              "m_name": "$fist_dvergr_TW",
+              "m_description": "$fist_dvergr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistFenrir_TW.yml": {
+            "size_bytes": 7687,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistFenrir_TW",
+              "m_weight": 2,
+              "m_name": "$fist_fenrir_TW",
+              "m_description": "$fist_fenrir_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistFlametal_TW.yml": {
+            "size_bytes": 7372,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistFlametal_TW",
+              "m_weight": 2,
+              "m_name": "$fist_flametal_TW",
+              "m_description": "$fist_flametal_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistFlint_TW.yml": {
+            "size_bytes": 6986,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistFlint_TW",
+              "m_weight": 2,
+              "m_name": "$fist_flint_TW",
+              "m_description": "$fist_flint_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistIron_TW.yml": {
+            "size_bytes": 7363,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistIron_TW",
+              "m_weight": 2,
+              "m_name": "$fist_iron_TW",
+              "m_description": "$fist_iron_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistNjord_TW.yml": {
+            "size_bytes": 8929,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistNjord_TW",
+              "m_weight": 2,
+              "m_name": "$fist_njord_TW",
+              "m_description": "$fist_njord_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistSilver_TW.yml": {
+            "size_bytes": 7668,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistSilver_TW",
+              "m_weight": 2,
+              "m_name": "$fist_silver_TW",
+              "m_description": "$fist_silver_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\Weapons_Fists\\Item_FistSurtr_TW.yml": {
+            "size_bytes": 7674,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FistSurtr_TW",
+              "m_weight": 2,
+              "m_name": "$fist_surtr_TW",
+              "m_description": "$fist_surtr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_BlackMetal_JH.yml": {
+            "size_bytes": 1241,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BlackMetalBelt_JH",
+              "m_weight": 2,
+              "m_name": "BlackMetal Belt",
+              "m_description": "Gives the wearer extra superhuman strength",
+              "clonePrefabName": "BeltYmir_TW",
+              "... (41 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_DvergrBelt_JH.yml": {
+            "size_bytes": 1242,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DvergrBelt_JH",
+              "m_weight": 2,
+              "m_name": "Dvergr Belt",
+              "m_description": "Dvergr would wear this belt to help carry their meads",
+              "clonePrefabName": "BeltYmir_TW",
+              "... (41 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_EnchantedKey.yml": {
+            "size_bytes": 998,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "EnchantedKey",
+              "m_weight": 0.1,
+              "m_name": "Enchanted Key",
+              "m_description": "Haldor has granted you access to his key for supporting him in finding his treasure chests in the realm, it will unlock his enchanted chest which inside will help you in enchanting your equipment",
+              "clonePrefabName": "CryptKey",
+              "... (31 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_EssenceMagic.yml": {
+            "size_bytes": 1673,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "EssenceMagic",
+              "m_weight": 0.1,
+              "m_name": "$mod_epicloot_magic $mod_epicloot_assets_essence",
+              "m_description": "Converted from Creature Essence, main ingredient to upgrade to higher rarities",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_FreyjaEssence_TW.yml": {
+            "size_bytes": 1600,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FreyjaEssence_TW",
+              "m_weight": 0.1,
+              "m_name": "Creature Essence",
+              "m_description": "$mat_freyjaessence_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_InfusedCrystal_JH.yml": {
+            "size_bytes": 923,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "InfusedCrystal_JH",
+              "m_weight": 0.1,
+              "m_name": "Infused Crystal",
+              "m_description": "A mysterious crystal containing some kind of energy within.",
+              "clonePrefabName": "Ruby",
+              "... (32 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Item_SilverBelt_JH.yml": {
+            "size_bytes": 928,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SilverBelt_JH",
+              "m_weight": 2,
+              "m_name": "Silver Belt",
+              "m_description": "Gives the wearer some more superhuman strength",
+              "clonePrefabName": "BeltYmir_TW",
+              "... (33 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\EpicLoot\\Item_LeatherBelt.yml": {
+            "size_bytes": 1614,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "LeatherBelt",
+              "m_weight": 0.5,
+              "m_name": "$mod_epicloot_assets_leatherbelt",
+              "m_description": "$mod_epicloot_assets_leatherbelt_introduce",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\OdinsKingdomCups\\Item_GB_Bronze_Cup.yml": {
+            "size_bytes": 1861,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Bronze_Cup",
+              "m_weight": 1,
+              "m_name": "$GB_Bronze_Cup",
+              "m_description": "$GB_Bronze_Cup_Description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\OdinsKingdomCups\\Item_GB_Gold_Cup.yml": {
+            "size_bytes": 1855,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Gold_Cup",
+              "m_weight": 1,
+              "m_name": "$GB_Gold_Cup",
+              "m_description": "$GB_Gold_Cup_Description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\OdinsKingdomCups\\Item_GB_Silver_Cup.yml": {
+            "size_bytes": 1861,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Silver_Cup",
+              "m_weight": 1,
+              "m_name": "$GB_Silver_Cup",
+              "m_description": "$GB_Silver_Cup_Description",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_AxeDvergr_TW.yml": {
+            "size_bytes": 6703,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeDvergr_TW",
+              "m_weight": 2,
+              "m_name": "$axe_dvergr_TW",
+              "m_description": "$axe_dvergr_description_TW",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_AxeFlametal_TW.yml": {
+            "size_bytes": 6680,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeFlametal_TW",
+              "m_weight": 2,
+              "m_name": "$axe_flametal_TW",
+              "m_description": "$axe_flametal_description_TW",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_AxeSilver_TW.yml": {
+            "size_bytes": 6673,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AxeSilver_TW",
+              "m_weight": 2,
+              "m_name": "$axe_silver_TW",
+              "m_description": "$axe_silver_description_TW",
+              "clonePrefabName": null,
+              "... (48 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_CrossbowEikthyr_TW.yml": {
+            "size_bytes": 6463,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowEikthyr_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_eikthyr_TW",
+              "m_description": "$crossbow_eikthyr_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_CrossbowWood_TW.yml": {
+            "size_bytes": 6412,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowWood_TW",
+              "m_weight": 1.5,
+              "m_name": "$crossbow_wood_TW",
+              "m_description": "$crossbow_wood_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_DualScytheBloodthirst_TW.yml": {
+            "size_bytes": 6752,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DualScytheBloodthirst_TW",
+              "m_weight": 0.3,
+              "m_name": "$dual_scythebloodthirst_TW",
+              "m_description": "$dual_scythebloodthirst_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_KnifeViper_TW.yml": {
+            "size_bytes": 6712,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "KnifeViper_TW",
+              "m_weight": 0.3,
+              "m_name": "$knife_viper_TW",
+              "m_description": "$knife_viper_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_ScytheVampiric_TW.yml": {
+            "size_bytes": 7391,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ScytheVampiric_TW",
+              "m_weight": 2.5,
+              "m_name": "$scythe_vampiric_TW",
+              "m_description": "$scythe_vampiric_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_StaffMistlands_TW.yml": {
+            "size_bytes": 7590,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffMistlands_TW",
+              "m_weight": 0.3,
+              "m_name": "$staff_mistlands_TW",
+              "m_description": "$staff_mistlands_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_StaffPlains_TW.yml": {
+            "size_bytes": 7544,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffPlains_TW",
+              "m_weight": 0.3,
+              "m_name": "$staff_plains_TW",
+              "m_description": "$staff_plains_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          },
+          "Items\\_RelicHeimWDB2.0\\zOther\\Therzie\\Item_StaffSwamp_TW.yml": {
+            "size_bytes": 7564,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffSwamp_TW",
+              "m_weight": 0.3,
+              "m_name": "$staff_swamp_TW",
+              "m_description": "$staff_swamp_description_TW",
+              "clonePrefabName": null,
+              "... (49 more items)": null
+            }
+          }
+        },
+        "file_count": 167
+      },
+      "Materials": {
+        "files": {},
+        "file_count": 0
+      },
+      "Objects": {
+        "files": {},
+        "file_count": 0
+      },
+      "Pickables": {
+        "files": {
+          "Pickables\\Pickable_goblin_totempole.yml": {
+            "size_bytes": 294,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "goblin_totempole",
+              "itemPrefab": "GoblinTotem",
+              "cloneOfWhatPickable": null,
+              "material": null,
+              "amount": 1,
+              "... (7 more items)": null
+            }
+          },
+          "Pickables\\Treebase_AshlandsTree1.yml": {
+            "size_bytes": 87,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AshlandsTree1",
+              "treeHealth": 200,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          },
+          "Pickables\\Treebase_AshlandsTree3.yml": {
+            "size_bytes": 87,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AshlandsTree3",
+              "treeHealth": 200,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          },
+          "Pickables\\Treebase_AshlandsTree4.yml": {
+            "size_bytes": 87,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AshlandsTree4",
+              "treeHealth": 200,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          },
+          "Pickables\\Treebase_AshlandsTree5.yml": {
+            "size_bytes": 87,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AshlandsTree5",
+              "treeHealth": 200,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          },
+          "Pickables\\Treebase_AshlandsTree6.yml": {
+            "size_bytes": 87,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AshlandsTree6",
+              "treeHealth": 200,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          },
+          "Pickables\\Treebase_AshlandsTree6_big.yml": {
+            "size_bytes": 91,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "AshlandsTree6_big",
+              "treeHealth": 200,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          },
+          "Pickables\\Treebase_Oak1.yml": {
+            "size_bytes": 78,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Oak1",
+              "treeHealth": 150,
+              "cloneOfWhatTree": null,
+              "material": null,
+              "size": null,
+              "... (1 more items)": null
+            }
+          }
+        },
+        "file_count": 8
+      },
+      "Pieces": {
+        "files": {
+          "Pieces\\_RelicHeimWDB2.0\\Piece_BatteringRam.yml": {
+            "size_bytes": 1095,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BatteringRam",
+              "piecehammer": "Hammer",
+              "m_name": "$tool_batteringram",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_blastfurnace.yml": {
+            "size_bytes": 1823,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "blastfurnace",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_blastfurnace",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (29 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_Cart.yml": {
+            "size_bytes": 958,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Cart",
+              "piecehammer": "Hammer",
+              "m_name": "$tool_cart",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (29 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_Catapult.yml": {
+            "size_bytes": 1090,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Catapult",
+              "piecehammer": "Hammer",
+              "m_name": "$tool_catapult",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_fermenter.yml": {
+            "size_bytes": 2496,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "fermenter",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_fermenter",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (29 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_fire_pit.yml": {
+            "size_bytes": 1338,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "fire_pit",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_firepit",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_forge_ext3.yml": {
+            "size_bytes": 1073,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "forge_ext3",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_forge_ext3",
+              "sizeMultiplier": 1,
+              "m_description": "$piece_forge $piece_upgrade",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_incinerator.yml": {
+            "size_bytes": 9193,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "incinerator",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_incinerator",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (30 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_piece_cookingstation.yml": {
+            "size_bytes": 1875,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_cookingstation",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_cookingstation",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (30 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_piece_cookingstation_iron.yml": {
+            "size_bytes": 2255,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_cookingstation_iron",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_cookingstation_iron",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (30 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_piece_groundtorch_wood.yml": {
+            "size_bytes": 923,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_groundtorch_wood",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_groundtorchwood",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_piece_stonecutter.yml": {
+            "size_bytes": 1296,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_stonecutter",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_stonecutter",
+              "sizeMultiplier": 1,
+              "m_description": "$piece_craftingstation",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_portal_wood.yml": {
+            "size_bytes": 1229,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "portal_wood",
+              "piecehammer": "Hammer",
+              "m_name": "$piece_portal",
+              "sizeMultiplier": 1,
+              "m_description": "$piece_portal_description",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_RoyalBeehive_JH.yml": {
+            "size_bytes": 2077,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "RoyalBeehive_JH",
+              "piecehammer": "Hammer",
+              "m_name": "Royal Beehive",
+              "sizeMultiplier": 1,
+              "m_description": "Queen Bee eating succulant royal jelly now produces jelly instead of honey.",
+              "... (29 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\Piece_VikingShip.yml": {
+            "size_bytes": 1100,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "VikingShip",
+              "piecehammer": "Hammer",
+              "m_name": "$ship_longship",
+              "sizeMultiplier": 1,
+              "m_description": "",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\EpicLoot Chest\\Piece_Enchanted_Chest.yml": {
+            "size_bytes": 1099,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Enchanted_Chest",
+              "piecehammer": "Hammer",
+              "m_name": "Enchanted Chest",
+              "sizeMultiplier": 1,
+              "m_description": "an enchanted chest that contains a random assortment of magical items for enchanting",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\EpicLoot Stations\\Piece_piece_augmenter.yml": {
+            "size_bytes": 871,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_augmenter",
+              "piecehammer": "Hammer",
+              "m_name": "Blue Shard Decoration",
+              "sizeMultiplier": 1,
+              "m_description": "An old Augmentor now turned in to a decoration piece",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\EpicLoot Stations\\Piece_piece_enchanter.yml": {
+            "size_bytes": 870,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_enchanter",
+              "piecehammer": "Hammer",
+              "m_name": "Red Shard Decoration",
+              "sizeMultiplier": 1,
+              "m_description": "An old Enchanter now turned in to a decoration piece",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\EpicLoot Stations\\Piece_piece_enchantingtable.yml": {
+            "size_bytes": 990,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "piece_enchantingtable",
+              "piecehammer": "Hammer",
+              "m_name": "$mod_epicloot_assets_enchantingtable",
+              "sizeMultiplier": 1,
+              "m_description": "$mod_epicloot_assets_enchantingtable_desc",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_GB_Castle_Hearth_JH.yml": {
+            "size_bytes": 1266,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Castle_Hearth_JH",
+              "piecehammer": "Hammer",
+              "m_name": "Castle Hearth",
+              "sizeMultiplier": 1,
+              "m_description": "Quiet Smokeless Hearth",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_GB_Fire_Pit_JH.yml": {
+            "size_bytes": 1280,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Fire_Pit_JH",
+              "piecehammer": "Hammer",
+              "m_name": "Castle Campfire",
+              "sizeMultiplier": 1,
+              "m_description": "Quiet Smokeless Campfire, better than the Campfire",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_GB_Kingdom_Ale_Keg.yml": {
+            "size_bytes": 3779,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Kingdom_Ale_Keg",
+              "piecehammer": "Hammer",
+              "m_name": "$GB_Kingdom_Ale_Keg",
+              "sizeMultiplier": 1,
+              "m_description": "A keg for brewing meads",
+              "... (36 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_GB_Oven.yml": {
+            "size_bytes": 2500,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Oven",
+              "piecehammer": "_GBCastleKit",
+              "m_name": "$GB_Oven",
+              "sizeMultiplier": 1,
+              "m_description": "$GB_Oven_Description",
+              "... (35 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_GB_Oven_JH.yml": {
+            "size_bytes": 2484,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Oven_JH",
+              "piecehammer": "Hammer",
+              "m_name": "Kingdom Oven",
+              "sizeMultiplier": 1,
+              "m_description": "A Quiet custom oven",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_RDCross.yml": {
+            "size_bytes": 1020,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "RDCross",
+              "piecehammer": "Hammer",
+              "m_name": "Raid Ward Cross",
+              "sizeMultiplier": 1,
+              "m_description": "This cross will help prevent raids from happening within 100 distance.",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_RDSittingSkeleton.yml": {
+            "size_bytes": 1075,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "RDSittingSkeleton",
+              "piecehammer": "Hammer",
+              "m_name": "Raid Ward Skeleton",
+              "sizeMultiplier": 1,
+              "m_description": "This skeleton will help prevent raids from happening within 100 distance.",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\OdinsKingdom\\Piece_RDSkeletonPole.yml": {
+            "size_bytes": 1095,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "RDSkeletonPole",
+              "piecehammer": "Hammer",
+              "m_name": "Raid Ward Pole",
+              "sizeMultiplier": 1,
+              "m_description": "This skeleton pole will help prevent raids from happening within 100 distance.",
+              "... (26 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\SmallerVersions\\Piece_blastfurnace_JH_Tiny.yml": {
+            "size_bytes": 2094,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "blastfurnace_JH_Tiny",
+              "piecehammer": "Hammer",
+              "m_name": "Small Blast Furnace",
+              "sizeMultiplier": 0.75,
+              "m_description": "",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\SmallerVersions\\Piece_eitrrefinery_JH_Tiny.yml": {
+            "size_bytes": 1569,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "eitrrefinery_JH_Tiny",
+              "piecehammer": "Hammer",
+              "m_name": "Small Eitr Refinery",
+              "sizeMultiplier": 0.6,
+              "m_description": "",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\SmallerVersions\\Piece_GB_Oven_JH_Tiny.yml": {
+            "size_bytes": 2595,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Oven_JH_Tiny",
+              "piecehammer": "Hammer",
+              "m_name": "Small Kingdom Oven",
+              "sizeMultiplier": 0.75,
+              "m_description": "A Quiet custom oven",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\SmallerVersions\\Piece_SmallerKiln_JH.yml": {
+            "size_bytes": 1524,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SmallerKiln_JH",
+              "piecehammer": "Hammer",
+              "m_name": "Small Kiln",
+              "sizeMultiplier": 0.5,
+              "m_description": "A tiny version of the Charcoal Kiln",
+              "... (34 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\SmallerVersions\\Piece_smelter_JH_Tiny.yml": {
+            "size_bytes": 1849,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "smelter_JH_Tiny",
+              "piecehammer": "Hammer",
+              "m_name": "Small Smelter",
+              "sizeMultiplier": 0.7,
+              "m_description": "",
+              "... (38 more items)": null
+            }
+          },
+          "Pieces\\_RelicHeimWDB2.0\\SmallerVersions\\Piece_windmill_JH_Tiny.yml": {
+            "size_bytes": 1485,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "windmill_JH_Tiny",
+              "piecehammer": "Hammer",
+              "m_name": "Small Windmill",
+              "sizeMultiplier": 0.7,
+              "m_description": "",
+              "... (38 more items)": null
+            }
+          }
+        },
+        "file_count": 33
+      },
+      "Recipes": {
+        "files": {
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_Bandage1_JH.yml": {
+            "size_bytes": 255,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bandage1_JH",
+              "clonePrefabName": "Bandage1_JH",
+              "craftingStation": "",
+              "minStationLevel": null,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_Bandage2_JH.yml": {
+            "size_bytes": 254,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bandage2_JH",
+              "clonePrefabName": "Bandage2_JH",
+              "craftingStation": "",
+              "minStationLevel": null,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_Bandage_JH.yml": {
+            "size_bytes": 226,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Bandage_JH",
+              "clonePrefabName": "Bandage_JH",
+              "craftingStation": "",
+              "minStationLevel": null,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_DandelionTea_JH.yml": {
+            "size_bytes": 248,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DandelionTea_JH",
+              "clonePrefabName": "DandelionTea_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_FishJerky.yml": {
+            "size_bytes": 238,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishJerky_JH",
+              "clonePrefabName": "FishJerky_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_FishMeatSkewer.yml": {
+            "size_bytes": 263,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishMeatSkewer",
+              "clonePrefabName": "FishMeatSkewer",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_FishNLoxSkewer.yml": {
+            "size_bytes": 266,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishNLoxSkewer",
+              "clonePrefabName": "FishNLoxSkewer",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 4,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_FishRaw.yml": {
+            "size_bytes": 436,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishRaw",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_FishStew.yml": {
+            "size_bytes": 256,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishStew_JH",
+              "clonePrefabName": "FishStew_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_HoneyGlazedDeer.yml": {
+            "size_bytes": 254,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedDeer",
+              "clonePrefabName": "HoneyGlazedDeer",
+              "craftingStation": "",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_HoneyGlazedFish.yml": {
+            "size_bytes": 244,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedFish",
+              "clonePrefabName": "HoneyGlazedFish",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_HoneyGlazedLox.yml": {
+            "size_bytes": 258,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedLox",
+              "clonePrefabName": "HoneyGlazedLox",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 4,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_HoneyGlazedMeat.yml": {
+            "size_bytes": 250,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedMeat",
+              "clonePrefabName": "HoneyGlazedMeat",
+              "craftingStation": "",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_HoneyGlazedNeck.yml": {
+            "size_bytes": 255,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedNeck",
+              "clonePrefabName": "HoneyGlazedNeck",
+              "craftingStation": "",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_HoneyGlazedWolf.yml": {
+            "size_bytes": 261,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HoneyGlazedWolf",
+              "clonePrefabName": "HoneyGlazedWolf",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_JellyGlazedHare.yml": {
+            "size_bytes": 266,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "JellyGlazedHare",
+              "clonePrefabName": "JellyGlazedHare",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 5,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_JellyGlazedSeeker.yml": {
+            "size_bytes": 269,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "JellyGlazedSeeker",
+              "clonePrefabName": "JellyGlazedSeeker",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 5,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_LoxJerky_JH.yml": {
+            "size_bytes": 258,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "LoxJerky_JH",
+              "clonePrefabName": "LoxJerky_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 4,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_MeadBaseNoise_JH.yml": {
+            "size_bytes": 274,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadBaseNoise_JH",
+              "clonePrefabName": "MeadBaseNoise_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_MushroomSoup_JH.yml": {
+            "size_bytes": 254,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MushroomSoup_JH",
+              "clonePrefabName": "MushroomSoup_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_NeckJerky.yml": {
+            "size_bytes": 239,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "NeckJerky_JH",
+              "clonePrefabName": "NeckJerky_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_SeekerJerky_JH.yml": {
+            "size_bytes": 269,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SeekerJerky_JH",
+              "clonePrefabName": "SeekerJerky_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 5,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_SerpentJerky.yml": {
+            "size_bytes": 248,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SerpentJerky_JH",
+              "clonePrefabName": "SerpentJerky_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_SerpentStew.yml": {
+            "size_bytes": 272,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SerpentStew",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_VegetableSoup_JH.yml": {
+            "size_bytes": 266,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "VegetableSoup_JH",
+              "clonePrefabName": "VegetableSoup_JH",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_WindPotion_JH.yml": {
+            "size_bytes": 301,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "WindPotion_JH",
+              "clonePrefabName": "WindPotion_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_WindRun_JH.yml": {
+            "size_bytes": 296,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "WindRun_JH",
+              "clonePrefabName": "WindRun_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\Recipe_WispPotion_JH.yml": {
+            "size_bytes": 245,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "WispPotion_JH",
+              "clonePrefabName": "WispPotion_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionAxe_JH.yml": {
+            "size_bytes": 313,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionAxe_JH",
+              "clonePrefabName": "SkillPotionAxe_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionClub_JH.yml": {
+            "size_bytes": 315,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionClub_JH",
+              "clonePrefabName": "SkillPotionClub_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionKnives_JH.yml": {
+            "size_bytes": 319,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionKnives_JH",
+              "clonePrefabName": "SkillPotionKnives_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionPolearm_JH.yml": {
+            "size_bytes": 321,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionPolearm_JH",
+              "clonePrefabName": "SkillPotionPolearm_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionSpear_JH.yml": {
+            "size_bytes": 317,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionSpear_JH",
+              "clonePrefabName": "SkillPotionSpear_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionSword_JH.yml": {
+            "size_bytes": 317,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionSword_JH",
+              "clonePrefabName": "SkillPotionSword_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\Food\\SkillPotions\\Recipe_SkillPotionUnarmed_JH.yml": {
+            "size_bytes": 321,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SkillPotionUnarmed_JH",
+              "clonePrefabName": "SkillPotionUnarmed_JH",
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_BlackMetalDevastator_JH.yml": {
+            "size_bytes": 370,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BlackMetalDevastator_JH",
+              "clonePrefabName": "BlackMetalDevastator_JH",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 4,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_BronzeDevastator_JH.yml": {
+            "size_bytes": 355,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BronzeDevastator_JH",
+              "clonePrefabName": "BronzeDevastator_JH",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_DwarvenDevastator_JH.yml": {
+            "size_bytes": 367,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DwarvenDevastator_JH",
+              "clonePrefabName": "DwarvenDevastator_JH",
+              "craftingStation": "$piece_blackforge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_FlametalDevastator_JH.yml": {
+            "size_bytes": 382,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FlametalDevastator_JH",
+              "clonePrefabName": "FlametalDevastator_JH",
+              "craftingStation": "$piece_blackforge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_FlintDevastator_JH.yml": {
+            "size_bytes": 351,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FlintDevastator_JH",
+              "clonePrefabName": "FlintDevastator_JH",
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_IronDevastator_JH.yml": {
+            "size_bytes": 346,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "IronDevastator_JH",
+              "clonePrefabName": "IronDevastator_JH",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_RagnoriteDevastator_JH.yml": {
+            "size_bytes": 401,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "RagnoriteDevastator_JH",
+              "clonePrefabName": "RagnoriteDevastator_JH",
+              "craftingStation": "$piece_ymirforge_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_SilverDevastator_JH.yml": {
+            "size_bytes": 357,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SilverDevastator_JH",
+              "clonePrefabName": "SilverDevastator_JH",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffBurst_JH.yml": {
+            "size_bytes": 340,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffBurst_JH",
+              "clonePrefabName": "StaffBurst_JH",
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffFireBurst_JH.yml": {
+            "size_bytes": 425,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffFireBurst_JH",
+              "clonePrefabName": "StaffFireBurst_JH",
+              "craftingStation": "$piece_wizardtable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffFrostBurst_JH.yml": {
+            "size_bytes": 420,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffFrostBurst_JH",
+              "clonePrefabName": "StaffFrostBurst_JH",
+              "craftingStation": "$piece_wizardtable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffLightningBurst_JH.yml": {
+            "size_bytes": 431,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffLightningBurst_JH",
+              "clonePrefabName": "StaffLightningBurst_JH",
+              "craftingStation": "$piece_wizardtable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffofHealing2_JH.yml": {
+            "size_bytes": 387,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffofHealing2_JH",
+              "clonePrefabName": "StaffofHealing2_JH",
+              "craftingStation": "$piece_wizardtable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffofHealing_JH.yml": {
+            "size_bytes": 396,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffofHealing_JH",
+              "clonePrefabName": "StaffofHealing_JH",
+              "craftingStation": "$piece_wizardtable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_StaffPoisonBurst_JH.yml": {
+            "size_bytes": 410,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "StaffPoisonBurst_JH",
+              "clonePrefabName": "StaffPoisonBurst_JH",
+              "craftingStation": "$piece_wizardtable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\StaffBurst\\Recipe_TyraniumDevastator_JH.yml": {
+            "size_bytes": 393,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "TyraniumDevastator_JH",
+              "clonePrefabName": "TyraniumDevastator_JH",
+              "craftingStation": "$piece_ymirforge_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_BlackCore_JH.yml": {
+            "size_bytes": 251,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BlackCore_JH",
+              "clonePrefabName": "BlackCore",
+              "craftingStation": "$piece_magetable",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_BronzeScrap.yml": {
+            "size_bytes": 248,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BronzeScrap",
+              "clonePrefabName": "BronzeScrap",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_BronzeScrapx5.yml": {
+            "size_bytes": 250,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BronzeScrapx5",
+              "clonePrefabName": "BronzeScrap",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_Chain.yml": {
+            "size_bytes": 230,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Chain",
+              "clonePrefabName": "Chain",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_Club.yml": {
+            "size_bytes": 243,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Club",
+              "clonePrefabName": null,
+              "craftingStation": "",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_DvergrNeedle.yml": {
+            "size_bytes": 277,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DvergrNeedle",
+              "clonePrefabName": "DvergrNeedle",
+              "craftingStation": "$piece_blackforge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_MaceSilver.yml": {
+            "size_bytes": 273,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MaceSilver",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_MeadBaseFrostResist.yml": {
+            "size_bytes": 282,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadBaseFrostResist",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_MeadBaseHealthMajor.yml": {
+            "size_bytes": 267,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadBaseHealthMajor",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_MeadBasePoisonResist.yml": {
+            "size_bytes": 276,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadBasePoisonResist",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_MeadBaseTasty.yml": {
+            "size_bytes": 278,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "MeadBaseTasty",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_meadcauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_PickaxeStone_JH.yml": {
+            "size_bytes": 242,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeStone_JH",
+              "clonePrefabName": "PickaxeStone_JH",
+              "craftingStation": null,
+              "minStationLevel": null,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_QueensJam.yml": {
+            "size_bytes": 231,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "QueensJam",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_Recipe_Bronze.yml": {
+            "size_bytes": 221,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Recipe_Bronze",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Recipe_Recipe_Bronze5.yml": {
+            "size_bytes": 222,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "Recipe_Bronze5",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorBronzeChest.yml": {
+            "size_bytes": 260,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorBronzeChest",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorBronzeLegs.yml": {
+            "size_bytes": 259,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorBronzeLegs",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorIronChest.yml": {
+            "size_bytes": 270,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorIronChest",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorIronLegs.yml": {
+            "size_bytes": 281,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorIronLegs",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorPaddedCuirass.yml": {
+            "size_bytes": 269,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorPaddedCuirass",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorPaddedGreaves.yml": {
+            "size_bytes": 269,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorPaddedGreaves",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorWolfChest.yml": {
+            "size_bytes": 267,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorWolfChest",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_ArmorWolfLegs.yml": {
+            "size_bytes": 247,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ArmorWolfLegs",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_HelmetBronze.yml": {
+            "size_bytes": 256,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HelmetBronze",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_HelmetDrake.yml": {
+            "size_bytes": 274,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HelmetDrake",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_HelmetIron.yml": {
+            "size_bytes": 249,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HelmetIron",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_HelmetPadded.yml": {
+            "size_bytes": 263,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "HelmetPadded",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_KnifeChitin.yml": {
+            "size_bytes": 256,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "KnifeChitin",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_PickaxeAntler.yml": {
+            "size_bytes": 231,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeAntler",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Equipment\\Recipe_PickaxeBlackMetal.yml": {
+            "size_bytes": 241,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "PickaxeBlackMetal",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 4,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Fishing\\Recipe_FishingBait.yml": {
+            "size_bytes": 220,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishingBait",
+              "clonePrefabName": "FishingBait",
+              "craftingStation": "$piece_cauldron",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VanillaRecipes\\Fishing\\Recipe_FishingRod.yml": {
+            "size_bytes": 289,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "FishingRod",
+              "clonePrefabName": "FishingRod",
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 3,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_A.yml": {
+            "size_bytes": 275,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_A",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_B.yml": {
+            "size_bytes": 270,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_B",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_Blessed_A.yml": {
+            "size_bytes": 323,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_Blessed_A",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_Blessed_B.yml": {
+            "size_bytes": 320,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_Blessed_B",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_Blessed_C.yml": {
+            "size_bytes": 317,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_Blessed_C",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_Blessed_D.yml": {
+            "size_bytes": 329,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_Blessed_D",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_Blessed_F.yml": {
+            "size_bytes": 311,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_Blessed_F",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_Blessed_S.yml": {
+            "size_bytes": 315,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_Blessed_S",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_C.yml": {
+            "size_bytes": 271,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_C",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_D.yml": {
+            "size_bytes": 286,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_D",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_F.yml": {
+            "size_bytes": 267,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_F",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Armor_S.yml": {
+            "size_bytes": 268,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Armor_S",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_A.yml": {
+            "size_bytes": 276,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_A",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_B.yml": {
+            "size_bytes": 271,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_B",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_Blessed_A.yml": {
+            "size_bytes": 324,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_Blessed_A",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_Blessed_B.yml": {
+            "size_bytes": 322,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_Blessed_B",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_Blessed_C.yml": {
+            "size_bytes": 319,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_Blessed_C",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_Blessed_D.yml": {
+            "size_bytes": 331,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_Blessed_D",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_Blessed_F.yml": {
+            "size_bytes": 313,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_Blessed_F",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_Blessed_S.yml": {
+            "size_bytes": 317,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_Blessed_S",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_C.yml": {
+            "size_bytes": 272,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_C",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_D.yml": {
+            "size_bytes": 287,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_D",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_F.yml": {
+            "size_bytes": 268,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_F",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\VES\\Recipe_kg_EnchantScroll_Weapon_S.yml": {
+            "size_bytes": 269,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "kg_EnchantScroll_Weapon_S",
+              "clonePrefabName": null,
+              "craftingStation": "Scroll Station",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Recipe_BlackMetalBelt_JH.yml": {
+            "size_bytes": 279,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "BlackMetalBelt_JH",
+              "clonePrefabName": "BlackMetalBelt_JH",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 5,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Recipe_DvergrBelt_JH.yml": {
+            "size_bytes": 274,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DvergrBelt_JH",
+              "clonePrefabName": "DvergrBelt_JH",
+              "craftingStation": "$piece_blackforge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Recipe_GB_Kingdom_Ale_Base.yml": {
+            "size_bytes": 280,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "GB_Kingdom_Ale_Base",
+              "clonePrefabName": null,
+              "craftingStation": "$GB_Odins_Book",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Recipe_InfusedCrystal.yml": {
+            "size_bytes": 279,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "InfusedCrystal_JH",
+              "clonePrefabName": "InfusedCrystal_JH",
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Recipe_InfusedCrystalx5.yml": {
+            "size_bytes": 283,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "InfusedCrystal_JHx5",
+              "clonePrefabName": "InfusedCrystal_JH",
+              "craftingStation": "$piece_workbench",
+              "minStationLevel": 1,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Recipe_SilverBelt_JH.yml": {
+            "size_bytes": 267,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "SilverBelt_JH",
+              "clonePrefabName": "SilverBelt_JH",
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 4,
+              "maxStationLevelCap": null,
+              "... (5 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Therzie\\Recipe_CrossbowEikthyr_TW.yml": {
+            "size_bytes": 1137,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "CrossbowEikthyr_TW",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_fletchertable_TW",
+              "minStationLevel": 1,
+              "maxStationLevelCap": 5,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Therzie\\Recipe_DualScytheBloodthirst_TW.yml": {
+            "size_bytes": 1176,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "DualScytheBloodthirst_TW",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 4,
+              "maxStationLevelCap": 7,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Therzie\\Recipe_KnifeViper_TW.yml": {
+            "size_bytes": 1108,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "KnifeViper_TW",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 2,
+              "maxStationLevelCap": 7,
+              "... (7 more items)": null
+            }
+          },
+          "Recipes\\_RelicHeimWDB2.0\\zOther\\Therzie\\Recipe_ScytheVampiric_TW.yml": {
+            "size_bytes": 1161,
+            "content_type": "dict",
+            "sample_data": {
+              "name": "ScytheVampiric_TW",
+              "clonePrefabName": null,
+              "craftingStation": "$piece_forge",
+              "minStationLevel": 4,
+              "maxStationLevelCap": 7,
+              "... (7 more items)": null
+            }
+          }
+        },
+        "file_count": 117
+      },
+      "Textures": {
+        "files": {},
+        "file_count": 0
+      }
+    },
+    "summary": {
+      "Cache": {
+        "file_count": 0,
+        "total_size_mb": 0.0
+      },
+      "Creatures": {
+        "file_count": 0,
+        "total_size_mb": 0.0
+      },
+      "Effects": {
+        "file_count": 41,
+        "total_size_mb": 0.07
+      },
+      "Icons": {
+        "file_count": 0,
+        "total_size_mb": 0.0
+      },
+      "Items": {
+        "file_count": 167,
+        "total_size_mb": 0.64
+      },
+      "Materials": {
+        "file_count": 0,
+        "total_size_mb": 0.0
+      },
+      "Objects": {
+        "file_count": 0,
+        "total_size_mb": 0.0
+      },
+      "Pickables": {
+        "file_count": 8,
+        "total_size_mb": 0.0
+      },
+      "Pieces": {
+        "file_count": 33,
+        "total_size_mb": 0.06
+      },
+      "Recipes": {
+        "file_count": 117,
+        "total_size_mb": 0.04
+      },
+      "Textures": {
+        "file_count": 0,
+        "total_size_mb": 0.0
+      }
+    }
+  }
+}

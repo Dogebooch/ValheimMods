@@ -1,0 +1,50 @@
+=== Valheim Binary File Analysis v2 ===
+
+Analysis Date: 2025-08-05T21:28:30.810994
+Total Files Parsed: 30
+
+=== File Categories ===
+World Databases: 10
+R2Z Exports: 3
+World Files: 10
+Texture Caches: 6
+WackyDatabase: Yes
+
+=== File Details ===
+
+WORLD_DATABASES:
+  - Dogeheim.db: Unknown MB
+  - DogeheimTesting.db: Unknown MB
+  - DogeheimTesting_backup_auto-20250802202432.db: Unknown MB
+  - DogeheimTesting_backup_auto-20250803115742.db: Unknown MB
+  - DogeheimTesting_backup_auto-20250803210253.db: Unknown MB
+  - DogeheimTesting_backup_auto-20250805185237.db: Unknown MB
+  - DogeheimTesting_backup_restore-20250802-165404.db: Unknown MB
+  - DogeheimTesting_backup_restore-20250802-165408.db: Unknown MB
+  - DogeheimTesting_backup_restore-20250802-165538.db: Unknown MB
+  - Dogeheim_backup_auto-20250803162016.db: Unknown MB
+
+R2Z_EXPORTS:
+  - Dogeheim_Player.r2z: Unknown MB
+  - Testing Server.r2z: Unknown MB
+  - ValheimServer1.0.0.r2z: Unknown MB
+
+WORLD_FILES:
+  - Dogeheim.fwl: Unknown MB
+  - DogeheimTesting.fwl: Unknown MB
+  - DogeheimTesting_backup_auto-20250802202432.fwl: Unknown MB
+  - DogeheimTesting_backup_auto-20250803115742.fwl: Unknown MB
+  - DogeheimTesting_backup_auto-20250803210253.fwl: Unknown MB
+  - DogeheimTesting_backup_auto-20250805185237.fwl: Unknown MB
+  - DogeheimTesting_backup_restore-20250802-165404.fwl: Unknown MB
+  - DogeheimTesting_backup_restore-20250802-165408.fwl: Unknown MB
+  - DogeheimTesting_backup_restore-20250802-165538.fwl: Unknown MB
+  - Dogeheim_backup_auto-20250803162016.fwl: Unknown MB
+
+TEXTURE_CACHES:
+  - DogeheimTesting_forestMaskTexCache: 0.53 MB
+  - DogeheimTesting_heightTexCache: 3.99 MB
+  - DogeheimTesting_mapTexCache: 0.22 MB
+  - Dogeheim_forestMaskTexCache: 0.53 MB
+  - Dogeheim_heightTexCache: 3.99 MB
+  - Dogeheim_mapTexCache: 0.22 MB
