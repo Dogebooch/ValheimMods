@@ -403,3 +403,5 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Weighted mushroom monster drops toward biome-specific fungi for non-boss variants.
 - Introduced Prefab Icon Loader plugin that derives icon filenames, loads textures with placeholder fallback, and stores a Texture2D reference for each prefab.
 - Added prefab name parser script to extract internal and localized names from VNEI exports.
+- Added juvenile world spawns for Boar piggies, Wolf cubs, and Lox calves with reduced adult spawn frequencies to limit overhead.
+- Added juvenile world spawns for Fox cubs, Razorback piglets, Black Bear cubs, Grizzly cubs, and Prowler cubs with matched world-level gating and further reduced adult spawn frequencies.
