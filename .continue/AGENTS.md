@@ -34,7 +34,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Blood Magic**: 33% XP sharing between shield caster and attacker
 
 ### **Vanilla Skill Experience Factors**
-- **Farming**: 1.25x (boosted - most rewarding)
+- **Farming**: 0.6x (reduced for slower progression)
 - **Cooking**: 0.6x (reduced)
 - **Ranching**: 0.6x (reduced)
 - **Exploration**: 0.6x (reduced)
@@ -362,6 +362,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 
 ## 🆕 Recent Config Updates
 - Removed event boss loot sections (TempestNeck, Dragon, MagmaGolem, SeekerQueen, RoyalLox, AvalancheDrake, CoinTroll, WeaverQueen, FrostWyrm) from central drop table
+- Enabled biome enforcement in PlantEverything and reduced Farming XP gain factor to 0.6.
 - Added Frost Dragon world spawn in DeepNorth with SnowStorm condition and altitude >= 100.
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
 - Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.
