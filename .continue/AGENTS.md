@@ -248,7 +248,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 
 ### **Current Priorities**
 - Integrate bounty board plugin enabling random rewards, group hunts, and skill-gated bounties
-- Gate SeekerQueen world spawns behind BlackCore harvest flag with WL-scaled drops (silk, trophies, enchant mats, XP orbs)
+- Add spawn entries for baby animal prefabs (BlackBearCub_TW, GrizzlyBearCub_TW) to restore natural spawns
 - Refine endgame loot pool using existing assets
 - Balance magic vs static loot drop rates
 - Ensure boss-locked BiS items feel worth the grind
@@ -361,6 +361,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - **🎯 Priority**: Configuration files, documentation, metadata
 
 ## 🆕 Recent Config Updates
+- Removed event boss loot sections (TempestNeck, Dragon, MagmaGolem, SeekerQueen, RoyalLox, AvalancheDrake, CoinTroll, WeaverQueen, FrostWyrm) from central drop table
 - Added Frost Dragon world spawn in DeepNorth with SnowStorm condition and altitude >= 100.
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
 - Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.
