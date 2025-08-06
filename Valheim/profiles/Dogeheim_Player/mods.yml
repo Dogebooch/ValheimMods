@@ -2157,29 +2157,6 @@
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Azumatt-AzuWorkbenchTweaks\icon.png
 - manifestVersion: 1
-  name: ZenDragon-Zen_ModLib
-  authorName: ZenDragon
-  websiteUrl: https://thunderstore.io/c/valheim/p/ZenDragon/Zen_ModLib/
-  displayName: Zen_ModLib
-  description: Shared code library used in all ZenMods.
-  gameVersion: "0"
-  networkMode: both
-  packageType: other
-  installMode: managed
-  installedAtTime: 1754159127562
-  loaders: []
-  dependencies:
-    - denikson-BepInExPack_Valheim-5.4.2202
-    - ValheimModding-Jotunn-2.24.3
-  incompatibilities: []
-  optionalDependencies: []
-  versionNumber:
-    major: 1
-    minor: 1
-    patch: 25
-  enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ZenDragon-Zen_ModLib\icon.png
-- manifestVersion: 1
   name: VegettaPT-No_Food_Degradation
   authorName: VegettaPT
   websiteUrl: https://thunderstore.io/c/valheim/p/VegettaPT/No_Food_Degradation/
@@ -2225,32 +2202,7 @@
     minor: 17
     patch: 1
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\MSchmoecker-VNEI\0.17.1\icon.png
-- manifestVersion: 1
-  name: ZenDragon-ZenUI
-  authorName: ZenDragon
-  websiteUrl: https://thunderstore.io/c/valheim/p/ZenDragon/ZenUI/
-  displayName: ZenUI
-  description: Visual crafting panel with grouping, sorting, and filtering.
-    colored durability bars, colored food bars, ammo remaining, biome
-    notifications, disable slide animations, auto open skills panel, remove lens
-    dirt, etc.
-  gameVersion: "0"
-  networkMode: both
-  packageType: other
-  installMode: managed
-  installedAtTime: 1753575295276
-  loaders: []
-  dependencies:
-    - ZenDragon-Zen_ModLib-1.1.20
-  incompatibilities: []
-  optionalDependencies: []
-  versionNumber:
-    major: 0
-    minor: 5
-    patch: 10
-  enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ZenDragon-ZenUI\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\MSchmoecker-VNEI\icon.png
 - manifestVersion: 1
   name: shudnal-Seasons
   authorName: shudnal
