@@ -239,6 +239,11 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 - **Solution**: Replaced with `AxeSilver_TW` to match modded prefab.
 - **Result**: AxeSilver loot lists load without errors.
 
+### **Loot Prefab Validation**
+- **Problem**: Loot lists could reference item prefabs that don't exist.
+- **Solution**: Extended `validate_mwl_loot.py` to cross-check items against the VNEI registry and warn on unknown prefabs.
+- **Result**: Invalid loot entries are detected and reported.
+
 ## 🚨 Current Pain Points
 
 ### **Technical Challenges**
