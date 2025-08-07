@@ -388,6 +388,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Restored Burial-chamber chest loot by adding missing `[TreasureChest_forestcrypt]` block and setting SurtlingCore weight to `1`.
 - Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
 - Switched CLLC creature scaling to use BossesKilled and set world level day thresholds to 9999 to disable time-based progression.
+- Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, and small death XP loss.
 
 ---
 
@@ -422,3 +423,4 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added juvenile world spawns for Boar piggies, Wolf cubs, and Lox calves with reduced adult spawn frequencies to limit overhead.
 - Added juvenile world spawns for Fox cubs, Razorback piglets, Black Bear cubs, Grizzly cubs, and Prowler cubs with matched world-level gating and further reduced adult spawn frequencies.
 - Tuned Pack Horse skill to use a 0.75 effect factor, curbing late-game carry weight inflation.
+- Tuned Run skill balance: reduced run stamina reductions and speed bonuses in seasonal and potion configs to keep late-game mobility in check.
