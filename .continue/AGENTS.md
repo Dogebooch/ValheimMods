@@ -391,10 +391,11 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Increased Foraging yield factor to 3 and XP gain factor to 0.6 for better late-game resource scaling.
 - Tuned mining skill balance: reduced level 100 damage multiplier to 1.8, raised explosion level requirement to 50 with 2% chance, and cut Specializing mining speed bonus to 0.2.
 - Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, and small death XP loss.
+- Raised eitr regeneration multipliers across jerky foods (Neck 1.02, Fish 1.04, Serpent 1.06, Lox 1.08, Seeker 1.10) to create a progression and offset Staff of Major Healing eitr costs.
 
 ---
 
-**🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**. 
+**🎯 Remember**: This is a **comprehensive Valheim modding reference** focused on JewelHeim-RelicHeim. Every change impacts mod compatibility, user experience, and maintainability. **Progression balance is paramount**.
 ## 🆕 Royal Lox Event
 - Added Harmony event hook (`RoyalLoxEvent.cs`) detecting 5-star Lox deaths and spawning an oversized replacement after a short delay.
 - Configured `spawn_that.world_spawners_advanced.cfg` with a `RoyalLoxEvent` trigger spawning scaled Lox in Plains grasslands.

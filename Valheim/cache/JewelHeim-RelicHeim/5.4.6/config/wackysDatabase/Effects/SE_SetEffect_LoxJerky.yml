@@ -35,7 +35,7 @@ SeData:
   m_eitrOverTimeDuration: 0
   m_healthRegenMultiplier: 1
   m_staminaRegenMultiplier: 1
-  m_eitrRegenMultiplier: 1
+  m_eitrRegenMultiplier: 1.08
   m_raiseSkill: None
   m_raiseSkillModifier: 0
   m_skillLevel: None
