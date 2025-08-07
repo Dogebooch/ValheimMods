@@ -42,13 +42,13 @@ StartEffect_PLUS:
   m_scale: false
   m_childTransform: ''
 StopEffect_PLUS: []
-Cooldown: 0
+Cooldown: 60
 ActivationAnimation: gpower
 SeData:
   m_tickInterval: 0
   m_healthPerTickMinHealthPercentage: 0
   m_healthPerTick: 0
-  m_healthOverTime: 100
+  m_healthOverTime: 50
   m_healthOverTimeDuration: 10
   m_healthOverTimeInterval: 1
   m_staminaOverTime: 0
