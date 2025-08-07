@@ -16,7 +16,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Experience Rate**: 1.0x (normal)
 - **Death Penalty**: 25-50% XP loss (increased from default 5-25%)
 - **Reset Cost**: 55 coins per point (increased from default 3)
-- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within the 13–18 month target.
+- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within a 6–12 month target for weeknight players (10–15 hrs/week) and roughly 800 hours overall.
 
 ### **Attribute Scaling (Per Point)**
 - **Strength**: +0.3 damage, +4 weight, +0.3 block stamina, +0.5 crit damage
@@ -34,7 +34,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Blood Magic**: 33% XP sharing between shield caster and attacker
 
 ### **Vanilla Skill Experience Factors**
-- **Farming**: 1.25x (boosted - most rewarding)
+- **Farming**: 0.6x (reduced for slower progression)
 - **Cooking**: 0.6x (reduced)
 - **Ranching**: 0.6x (reduced)
 - **Exploration**: 0.6x (reduced)
@@ -78,6 +78,13 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **WL 7+** → Deep North/Ashlands
 - **Age-Based WL progression**: WL1=15d, WL2=45d, WL3=90d, WL4=180d, WL5=300d, WL6=420d, WL7=540d
 
+### **Playtime & Pacing Targets**
+- **Total Playthrough**: Designed for ~800 hours of exploration, progression, skill training, and endgame content.
+- **Skill Mastery**: 24 base skills—frequently used ones (combat, crafting) take ~80–100 hours to master, while rarer opt-in skills (ranching, enchanting) need ~50–60 hours, with multiple skills advancing in parallel.
+- **EpicMMO Stat Levels**: 120 MMO-style stat levels; early levels come fast, late-game levels slow for long-term growth.
+- **Biome/Boss Phase**: Each biome arc provides roughly 100–120 hours of bosses, gear upgrades, side goals, and skill progression.
+- **Weeknight Gamer**: At 10–15 hours per week, the full journey spans about 6–12 months with consistent progression and no dead zones.
+
 ### **Loot Systems Integration**
 
 | System | RNG? | Source | Purpose | Affixes |
@@ -88,6 +95,15 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 | **EpicLoot Mythic** | ✅ | Random drops | Top-tier RNG | Special effects |
 | **RelicHeim Sets** | ❌ | Crafted | Set bonuses | Static stats |
 | **T5 Legendaries** | ❌ | Boss kills | Best-in-slot | Static, boss-only |
+
+### **Skill Progression Philosophy**
+- **Early Levels**: Fast XP for levels 1–20 to encourage experimentation; progression slows sharply past 40 for an OSRS-style grind.
+- **Mid Game Spike**: Levels 50–70 (late Swamp/early Plains) should feel like a meaningful power increase.
+- **Late Game Mastery**: Levels 80–100 (mid–late Mistlands) fully realize bonuses—e.g., biome-free farming and large harvests.
+- **Targeted Training**: High levels require dedicated skill sessions; incidental play alone shouldn't reach mastery.
+- **Rewarding Investment**: Significant gap between low and high skill performance (e.g., up to 3× growth, 2× yield) to reward time spent.
+- **Biome Alignment**: Level bands should track biome progression—~30 at Swamp entry, ~50 in early Plains, ~70 on arriving to Mistlands, and ~100 by late Mistlands.
+- **Skill Count & Mastery**: 24 base skills. Frequently used ones (combat, crafting) target ~80–100 hours to reach level 100, while rarer opt-in skills (e.g., Farming, Ranching) take ~50–60 hours; players naturally progress multiple skills at once.
 
 ## 📁 Critical File Structure
 
@@ -361,6 +377,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - **🎯 Priority**: Configuration files, documentation, metadata
 
 ## 🆕 Recent Config Updates
+- Enabled biome enforcement in PlantEverything and reduced Farming XP gain factor to 0.6.
 - Added Frost Dragon world spawn in DeepNorth with SnowStorm condition and altitude >= 100.
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
 - Created Dragon loot table dropping FrostScale, Silver, and a Legendary Weapon Schematic.
