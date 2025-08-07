@@ -2345,3 +2345,77 @@
     patch: 1
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ValheimModding-YamlDotNet\icon.png
+- manifestVersion: 1
+  name: VAG-SharedRecipeFinder
+  authorName: VAG
+  websiteUrl: https://thunderstore.io/c/valheim/p/VAG/SharedRecipeFinder/
+  displayName: SharedRecipeFinder
+  description: The mod detects items that have not yet been added to the player's
+    inventory and informs the player about this. This ensures that players do
+    not miss out on items that they have not previously obtained and may be
+    potentially valuable.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754526813351
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 0
+    patch: 0
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\VAG-SharedRecipeFinder\icon.png
+- manifestVersion: 1
+  name: Roses-SmarterContainers
+  authorName: Roses
+  websiteUrl: https://thunderstore.io/c/valheim/p/Roses/SmarterContainers/
+  displayName: SmarterContainers
+  description: Want to quickly drop your loot? Tired of looking for chest with a
+    specific item-stack in order to store some more of it? Teach your containers
+    to arrange items with their neighbors!
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754527081234
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 7
+    patch: 0
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Roses-SmarterContainers\icon.png
+- manifestVersion: 1
+  name: Soloredis-RtDMagic
+  authorName: Soloredis
+  websiteUrl: https://thunderstore.io/c/valheim/p/Soloredis/RtDMagic/
+  displayName: RtDMagic
+  description: A multitude of Magic staffs, wands, four tiers of healing staffs
+    with AOE, early game Eitr food and mage armor.Has recipes upon installation,
+    and automatically unlocks more if RtDMonsters & or RtDMonstrum is detected.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754527468833
+  loaders: []
+  dependencies:
+    - ValheimModding-Jotunn-2.24.2
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 0
+    minor: 4
+    patch: 8
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\Soloredis-RtDMagic\0.4.8\icon.png

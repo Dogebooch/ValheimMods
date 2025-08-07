@@ -1,0 +1,12 @@
+{
+  "name": "RtDMagic",
+  "version_number": "0.4.8",
+  "website_url": "https://discord.gg/GQxe8AdpT2",
+  "description": "A multitude of Magic staffs, wands, four tiers of healing staffs with AOE, early game Eitr food and mage armor.Has recipes upon installation, and automatically unlocks more if RtDMonsters & or RtDMonstrum is detected.",
+    "dependencies": [
+        "ValheimModding-Jotunn-2.24.2",
+        "denikson-BepInExPack_Valheim-5.4.2202"
+    ]
+}
+
+

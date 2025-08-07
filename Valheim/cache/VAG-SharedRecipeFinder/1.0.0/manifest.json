@@ -1,0 +1,9 @@
+{
+  "name": "SharedRecipeFinder",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/berkpekatik/ValheimMod",
+  "description": "The mod detects items that have not yet been added to the player's inventory and informs the player about this. This ensures that players do not miss out on items that they have not previously obtained and may be potentially valuable.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}
