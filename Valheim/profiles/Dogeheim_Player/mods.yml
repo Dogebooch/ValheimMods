@@ -3,12 +3,13 @@
   authorName: denikson
   websiteUrl: https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/
   displayName: BepInExPack_Valheim
-  description: BepInEx pack for Valheim. Preconfigured and includes unstripped Unity DLLs.
+  description: BepInEx pack for Valheim. Preconfigured with the correct entry
+    point for mods and preferred defaults for the community.
   gameVersion: "0"
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1749131736279
+  installedAtTime: 1754598654014
   loaders: []
   dependencies: []
   incompatibilities: []
@@ -16,9 +17,9 @@
   versionNumber:
     major: 5
     minor: 4
-    patch: 2202
+    patch: 2332
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\denikson-BepInExPack_Valheim\5.4.2202\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\denikson-BepInExPack_Valheim\5.4.2332\icon.png
 - manifestVersion: 1
   name: Azumatt-Official_BepInEx_ConfigurationManager
   authorName: Azumatt
@@ -63,6 +64,51 @@
     patch: 3
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\CATALYSTC-Hamunii_Detour_Context_Dispose_Fix_Valheim_Publish\icon.png
+- manifestVersion: 1
+  name: Azumatt-Azus_UnOfficial_ConfigManager
+  authorName: Azumatt
+  websiteUrl: https://thunderstore.io/c/valheim/p/Azumatt/Azus_UnOfficial_ConfigManager/
+  displayName: Azus_UnOfficial_ConfigManager
+  description: Mod to assist with configuration of BepInEx mods
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754598654160
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 18
+    minor: 4
+    patch: 1
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Azumatt-Azus_UnOfficial_ConfigManager\icon.png
+- manifestVersion: 1
+  name: ValheimModding-YamlDotNet
+  authorName: ValheimModding
+  websiteUrl: https://thunderstore.io/c/valheim/p/ValheimModding/YamlDotNet/
+  displayName: YamlDotNet
+  description: Shared version 16.3.0 of YamlDotNet from Antoine Aubry and
+    contributors, net47 package for use in Valheim mods. Maintained by the
+    ValheimModding team.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754159127207
+  loaders: []
+  dependencies: []
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 16
+    minor: 3
+    patch: 1
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ValheimModding-YamlDotNet\icon.png
 - manifestVersion: 1
   name: ValheimModding-Jotunn
   authorName: ValheimModding
@@ -1062,12 +1108,12 @@
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1754080550826
+  installedAtTime: 1754598654358
   loaders: []
   dependencies:
-    - denikson-BepInExPack_Valheim-5.4.2202
+    - denikson-BepInExPack_Valheim-5.4.2332
+    - Azumatt-Azus_UnOfficial_ConfigManager-18.4.1
     - Azumatt-FactionAssigner-1.0.4
-    - Azumatt-TrueInstantLootDrop-1.0.2
     - Azumatt-PetPantry-1.0.5
     - Azumatt-CurrencyPocket-1.0.9
     - Azumatt-MouseTweaks-1.0.2
@@ -1116,7 +1162,7 @@
   versionNumber:
     major: 5
     minor: 4
-    patch: 9
+    patch: 10
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\JewelHeim-RelicHeim\icon.png
 - manifestVersion: 1
@@ -1311,6 +1357,30 @@
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\MSchmoecker-MultiUserChest\icon.png
 - manifestVersion: 1
+  name: Roses-SmarterContainers
+  authorName: Roses
+  websiteUrl: https://thunderstore.io/c/valheim/p/Roses/SmarterContainers/
+  displayName: SmarterContainers
+  description: Want to quickly drop your loot? Tired of looking for chest with a
+    specific item-stack in order to store some more of it? Teach your containers
+    to arrange items with their neighbors!
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754527081234
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 7
+    patch: 0
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Roses-SmarterContainers\icon.png
+- manifestVersion: 1
   name: OdinPlus-PotionPlus
   authorName: OdinPlus
   websiteUrl: https://thunderstore.io/c/valheim/p/OdinPlus/PotionPlus/
@@ -1435,7 +1505,7 @@
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1752536619143
+  installedAtTime: 1754598653865
   loaders: []
   dependencies:
     - ValheimModding-Jotunn-2.25.0
@@ -1444,7 +1514,7 @@
   versionNumber:
     major: 4
     minor: 0
-    patch: 3
+    patch: 4
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Shawesome-Shawesomes_Divine_Armaments\icon.png
 - manifestVersion: 1
@@ -2323,29 +2393,6 @@
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\OdinPlus-OdinArchitect\icon.png
 - manifestVersion: 1
-  name: ValheimModding-YamlDotNet
-  authorName: ValheimModding
-  websiteUrl: https://thunderstore.io/c/valheim/p/ValheimModding/YamlDotNet/
-  displayName: YamlDotNet
-  description: Shared version 16.3.0 of YamlDotNet from Antoine Aubry and
-    contributors, net47 package for use in Valheim mods. Maintained by the
-    ValheimModding team.
-  gameVersion: "0"
-  networkMode: both
-  packageType: other
-  installMode: managed
-  installedAtTime: 1754159127207
-  loaders: []
-  dependencies: []
-  incompatibilities: []
-  optionalDependencies: []
-  versionNumber:
-    major: 16
-    minor: 3
-    patch: 1
-  enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ValheimModding-YamlDotNet\icon.png
-- manifestVersion: 1
   name: VAG-SharedRecipeFinder
   authorName: VAG
   websiteUrl: https://thunderstore.io/c/valheim/p/VAG/SharedRecipeFinder/
@@ -2371,30 +2418,6 @@
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\VAG-SharedRecipeFinder\icon.png
 - manifestVersion: 1
-  name: Roses-SmarterContainers
-  authorName: Roses
-  websiteUrl: https://thunderstore.io/c/valheim/p/Roses/SmarterContainers/
-  displayName: SmarterContainers
-  description: Want to quickly drop your loot? Tired of looking for chest with a
-    specific item-stack in order to store some more of it? Teach your containers
-    to arrange items with their neighbors!
-  gameVersion: "0"
-  networkMode: both
-  packageType: other
-  installMode: managed
-  installedAtTime: 1754527081234
-  loaders: []
-  dependencies:
-    - denikson-BepInExPack_Valheim-5.4.2202
-  incompatibilities: []
-  optionalDependencies: []
-  versionNumber:
-    major: 1
-    minor: 7
-    patch: 0
-  enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Roses-SmarterContainers\icon.png
-- manifestVersion: 1
   name: Soloredis-RtDMagic
   authorName: Soloredis
   websiteUrl: https://thunderstore.io/c/valheim/p/Soloredis/RtDMagic/
@@ -2418,4 +2441,96 @@
     minor: 4
     patch: 8
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\Soloredis-RtDMagic\0.4.8\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\Soloredis-RtDMagic\icon.png
+- manifestVersion: 1
+  name: ChebGonaz-ChebsMythicalWeapons
+  authorName: ChebGonaz
+  websiteUrl: https://thunderstore.io/c/valheim/p/ChebGonaz/ChebsMythicalWeapons/
+  displayName: ChebsMythicalWeapons
+  description: Adds mythical weapons to Valheim. The weapons are found in special
+    locations; eg. Excalibur must be found somewhere in the world and only
+    someone with 100 sword skill can remove it from the stone and use it.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754602723776
+  loaders: []
+  dependencies:
+    - ValheimModding-Jotunn-2.19.3
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 4
+    minor: 5
+    patch: 4
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ChebGonaz-ChebsMythicalWeapons\icon.png
+- manifestVersion: 1
+  name: WackyMole-WackyItemRequiresSkillLevel
+  authorName: WackyMole
+  websiteUrl: https://thunderstore.io/c/valheim/p/WackyMole/WackyItemRequiresSkillLevel/
+  displayName: WackyItemRequiresSkillLevel
+  description: Set your items to require skills or VLS attributes to be equipped or crafted.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754603601604
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 3
+    patch: 6
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\WackyMole-WackyItemRequiresSkillLevel\icon.png
+- manifestVersion: 1
+  name: turbero-DetailedLevels
+  authorName: turbero
+  websiteUrl: https://thunderstore.io/c/valheim/p/turbero/DetailedLevels/
+  displayName: DetailedLevels
+  description: Mod for skills tracking with more details. Enough guessing progress
+    only with the bottom bar.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754603657519
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 3
+    patch: 6
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\turbero-DetailedLevels\icon.png
+- manifestVersion: 1
+  name: Azumatt-AzuSkillTweaks
+  authorName: Azumatt
+  websiteUrl: https://thunderstore.io/c/valheim/p/Azumatt/AzuSkillTweaks/
+  displayName: AzuSkillTweaks
+  description: Mod that allows tweaking of skill gain factors and percent of skill
+    loss on death. Ripped out from OdinsQOL.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754604264756
+  loaders: []
+  dependencies:
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 1
+    minor: 0
+    patch: 5
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\Azumatt-AzuSkillTweaks\1.0.5\icon.png

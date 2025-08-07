@@ -1,0 +1,8 @@
+| `Version` | `Update Notes`                                                                                                                                                                   |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0.5     | - Update for Valheim latest update (0.220.3)                                                                                                                                     |
+| 1.0.4     | - Bog Witch Update                                                                                                                                                               |
+| 1.0.3     | - Fix skill level notifications. New configuration options are tied to this, filter added for the run skill to help mods that don't handle the notificationss like vanilla does. |
+| 1.0.2     | - If you set it to exactly -100, it didn't work because I forgot an equals. Well, should work now.                                                                               |
+| 1.0.1     | - Update for Valheim's Latest version                                                                                                                                            |
+| 1.0.0     | - Initial Release                                                                                                                                                                |

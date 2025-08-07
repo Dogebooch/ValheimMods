@@ -1,0 +1,78 @@
+{
+  "TargetFile": "iteminfo.json",
+  "Author": "Majestic",
+  "RequireAll": true,
+  "Patches": [
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_eikthyr",
+      "Action": "AppendAll",
+      "Value": ["FlintDevastator_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_gdking",
+      "Action": "AppendAll",
+      "Value": ["BronzeDevastator_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_bonemass",
+      "Action": "AppendAll",
+      "Value": ["IronDevastator_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_dragon",
+      "Action": "AppendAll",
+      "Value": ["SilverDevastator_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_goblinking",
+      "Action": "AppendAll",
+      "Value": ["BlackMetalDevastator_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_queen",
+      "Action": "AppendAll",
+      "Value": ["DwarvenDevastator_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Bows')].ItemsByBoss.defeated_fader",
+      "Action": "AppendAll",
+      "Value": ["FlametalDevastator_JH"]
+    },
+	
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_eikthyr",
+      "Action": "AppendAll",
+      "Value": ["StaffBurst_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_gdking",
+      "Action": "AppendAll",
+      "Value": ["StaffFireBurst_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_bonemass",
+      "Action": "AppendAll",
+      "Value": ["StaffPoisonBurst_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_dragon",
+      "Action": "AppendAll",
+      "Value": ["StaffFrostBurst_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_goblinking",
+      "Action": "AppendAll",
+      "Value": ["StaffLightningBurst_JH"]
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_queen",
+      "Action": "AppendAll",
+      "Value": []
+    },
+    {
+      "Path": "$.ItemInfo[?(@.Type == 'Staffs')].ItemsByBoss.defeated_fader",
+      "Action": "AppendAll",
+      "Value": []
+    }
+  ]
+}
