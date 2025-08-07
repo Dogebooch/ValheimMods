@@ -1,0 +1,115 @@
+## Creatures in biomes get increase chance of Aggressive and Spirit once that biomes boss is killed
+Meadows:
+  key_defeated_eikthyr:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+BlackForest:
+  key_defeated_gdking:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+Swamp:
+  key_defeated_Bonemass:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+Mountain:
+  key_defeated_Dragon:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+Plains:
+  damage taken:
+    Bows: 0.75
+  key_defeated_goblinking:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+Mistlands:
+  damage taken:
+    Bows: 0.75
+  key_defeated_queen:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+Ashlands:
+  damage taken:
+    Bows: 0.75
+  key_defeated_fader:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+## Therzies Creatures in biomes get increase chance of Aggressive and Spirit once that biomes boss is killed
+MeadowsTherzie:
+  key_defeated_eikthyr:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+BlackForestTherzie:
+  key_defeated_gdking:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+SwampTherzie:
+  key_defeated_Bonemass:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+MountainTherzie:
+  key_defeated_Dragon:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+PlainsTherzie:
+  damage taken:
+    Bows: 0.75
+  key_defeated_goblinking:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]
+
+MistlandsTherzie:
+  damage taken:
+    Bows: 0.75
+  key_defeated_queen:
+   effect:
+    Aggressive: [30, 35, 40, 45, 50]
+   infusion:
+    Spirit: [10, 15, 20, 25, 30]
+    Chaos: [10, 15, 20, 25, 30]

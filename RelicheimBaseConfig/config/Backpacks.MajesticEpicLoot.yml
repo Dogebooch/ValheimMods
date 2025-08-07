@@ -1,0 +1,139 @@
+EpicLoot Backpack:
+  description: "This backpack will only hold epic loot materials."
+  size: 6x4
+  appearance:
+    Sleepbag: hidden
+    BackpackFlap: f72a0a
+    RingBottomLeft: f72a0a
+    MetalclipLeft: hidden
+    ToolstrapTop: f72a0a
+    PouchFront: f72a0a
+    PouchLeft: hidden
+    Knifesheath: hidden
+    Knife: hidden
+    Pickaxe: 000000
+    Pot: hidden
+    Teapot: hidden
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    BackpackBody: f72a0a
+    BackpackStrapTop: hidden
+    BackpackStrapBottom: 000000
+    ToolstrapBottom: f72a0a
+  valid items:
+    - RunestoneMagic
+    - RunestoneRare
+    - RunestoneEpic
+    - RunestoneLegendary
+    - RunestoneMythic
+    - ShardMagic
+    - ShardRare
+    - ShardEpic
+    - ShardLegendary
+    - ShardMythic
+    - DustMagic
+    - DustRare
+    - DustEpic
+    - DustLegendary
+    - DustMythic
+    - ReagentMagic
+    - ReagentRare
+    - ReagentEpic
+    - ReagentLegendary
+    - ReagentMythic
+    - EssenceMagic
+    - EssenceRare
+    - EssenceEpic
+    - EssenceLegendary
+    - EssenceMythic
+    - ForestToken
+    - IronBountyToken
+    - GoldBountyToken
+    - Coins
+    - FreyjaEssence_TW
+    - InfusedCrystal_JH
+  weight factor: 1
+  crafting:
+    station: Forge
+    level: 1
+    costs:
+      Bronze: 5
+      BronzeNails: 10
+      DeerHide: 10
+      LeatherScraps: 10
+  upgrade:
+    1:
+      Iron: 5
+      ElderBark: 10
+      Guck: 2
+      size: 7x4
+Andvaranaut Backpack:
+  description: "This backpack has tucked the Andvaranaut Ring deep in its pouches, guiding you to Haldors Treasures when equipped, Effect removed till its fixed."
+  size: 5x2
+  unique: type
+  appearance:
+    Sleepbag: hidden
+    BackpackFlap: fcba03
+    RingBottomLeft: fcba03
+    MetalclipLeft: hidden
+    PouchFront: fcba03
+    PouchLeft: hidden
+    Knifesheath: hidden
+    ToolstrapTop: hidden
+    ToolstrapBottom: hidden
+    Knife: hidden
+    Pickaxe: hidden
+    Pot: hidden
+    Teapot: hidden
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    BackpackBody: fcba03
+    BackpackStrapTop: hidden
+    BackpackStrapBottom: 000000
+  valid items:
+    - RunestoneMagic
+    - RunestoneRare
+    - RunestoneEpic
+    - RunestoneLegendary
+    - RunestoneMythic
+    - ShardMagic
+    - ShardRare
+    - ShardEpic
+    - ShardLegendary
+    - ShardMythic
+    - DustMagic
+    - DustRare
+    - DustEpic
+    - DustLegendary
+    - DustMythic
+    - ReagentMagic
+    - ReagentRare
+    - ReagentEpic
+    - ReagentLegendary
+    - ReagentMythic
+    - EssenceMagic
+    - EssenceRare
+    - EssenceEpic
+    - EssenceLegendary
+    - EssenceMythic
+    - ForestToken
+    - IronBountyToken
+    - GoldBountyToken
+    - Coins
+    - FreyjaEssence_TW
+    - InfusedCrystal_JH
+  weight factor: 1
+  crafting:
+    station: Forge
+    level: 1
+    costs:
+      Andvaranaut: 1
+      Coins: 100
+      DeerHide: 10
+      LeatherScraps: 10
+  upgrade:
+    1:
+      Iron: 5
+      ElderBark: 10
+      Guck: 2
+      size: 5x3

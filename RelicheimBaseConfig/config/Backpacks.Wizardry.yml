@@ -1,0 +1,215 @@
+Novice Backpack:
+  description: "A Novice backpack to match with your Novice Gear, holds only BlackForest Wizardry Items"
+  size: 4x4
+  appearance:
+    BackpackFlap: f2fc32
+    PouchFront: f2fc32
+    BackpackStrapBottom: f2fc32
+    RingBottomLeft: 000000
+    BackpackBody: 000000
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    Sleepbag: hidden
+    MetalclipLeft: hidden
+    PouchLeft: hidden
+    Knifesheath: hidden
+    Knife: hidden
+    Pickaxe: hidden
+    Pot: hidden
+    Teapot: hidden
+    BackpackStrapTop: hidden
+    ToolstrapTop: hidden
+    ToolstrapBottom: hidden
+  valid items:
+    - ShardElder_TW
+    - EnchantedWoodBlackForest_TW
+    - FabricBundle_Blackforest_TW
+    - WoolScraps_TW
+    - ArcaneScroll_BlackForest_TW
+    - ShroomSoupBlackForest_TW
+    - EitrPlateBlackForest_TW
+    - BerryCandyBlackForest_TW
+  weight factor: 0.9
+  crafting:
+    station: WizardTable_TW
+    level: 1
+    costs:
+      FabricBundle_Blackforest_TW: 2
+      Bronze: 2
+  upgrade:
+    1:
+      FabricBundle_Blackforest_TW: 4
+      Bronze: 4
+      size: 5x4
+Scholar Backpack:
+  description: "A Scholar backpack to match with your Scholar Gear, holds only Swamp Wizardry Items"
+  size: 4x4
+  appearance:
+    BackpackFlap: 4bf200
+    PouchFront: 4bf200
+    BackpackStrapBottom: 4bf200
+    RingBottomLeft: 000000
+    BackpackBody: 000000
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    Sleepbag: hidden
+    MetalclipLeft: hidden
+    PouchLeft: hidden
+    Knifesheath: hidden
+    Knife: hidden
+    Pickaxe: hidden
+    Pot: hidden
+    Teapot: hidden
+    BackpackStrapTop: hidden
+    ToolstrapTop: hidden
+    ToolstrapBottom: hidden
+  valid items:
+    - ShardBonemass_TW
+    - EnchantedWoodSwamp_TW
+    - FabricBundle_Swamp_TW
+    - WoolScraps_TW
+    - ArcaneScroll_Swamp_TW
+    - ShroomSoupSwamp_TW
+    - EitrPlateSwamp_TW
+    - JellyCakeSwamp_TW
+  weight factor: 0.9
+  crafting:
+    station: WizardTable_TW
+    level: 1
+    costs:
+      FabricBundle_Swamp_TW: 2
+      Iron: 2
+  upgrade:
+    1:
+      FabricBundle_Swamp_TW: 4
+      Iron: 4
+      size: 5x4
+Magus Backpack:
+  description: "A Magus backpack to match with your Magus Gear, holds only Mountain Wizardry Items"
+  size: 4x4
+  appearance:
+    BackpackFlap: blue
+    PouchFront: blue
+    BackpackStrapBottom: blue
+    RingBottomLeft: ffffff
+    BackpackBody: ffffff
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    Sleepbag: hidden
+    MetalclipLeft: hidden
+    PouchLeft: hidden
+    Knifesheath: hidden
+    Knife: hidden
+    Pickaxe: hidden
+    Pot: hidden
+    Teapot: hidden
+    BackpackStrapTop: hidden
+    ToolstrapTop: hidden
+    ToolstrapBottom: hidden
+  valid items:
+    - ShardModer_TW
+    - EnchantedWoodMountain_TW
+    - FabricBundle_Mountain_TW
+    - WoolScraps_TW
+    - ArcaneScroll_Mountain_TW
+    - ShroomSoupMountain_TW
+    - EitrPlateMountain_TW
+    - IceHornMountain_TW
+  weight factor: 0.9
+  crafting:
+    station: WizardTable_TW
+    level: 1
+    costs:
+      FabricBundle_Mountain_TW: 2
+      Silver: 2
+  upgrade:
+    1:
+      FabricBundle_Mountain_TW: 4
+      Silver: 4
+      size: 5x4
+Wizard Backpack:
+  description: "A Wizard backpack to match with your Wizard Gear, holds only Plains Wizardry Items"
+  size: 4x4
+  appearance:
+    BackpackFlap: red
+    PouchFront: red
+    BackpackStrapBottom: red
+    RingBottomLeft: 000000
+    BackpackBody: 000000
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    Sleepbag: hidden
+    MetalclipLeft: hidden
+    PouchLeft: hidden
+    Knifesheath: hidden
+    Knife: hidden
+    Pickaxe: hidden
+    Pot: hidden
+    Teapot: hidden
+    BackpackStrapTop: hidden
+    ToolstrapTop: hidden
+    ToolstrapBottom: hidden
+  valid items:
+    - ShardYagluth_TW
+    - EnchantedWoodPlains_TW
+    - FabricBundle_Plains_TW
+    - WoolScraps_TW
+    - ArcaneScroll_Plains_TW
+    - ShroomSoupPlains_TW
+    - EitrPlatePlains_TW
+    - BerryCakePlains_TW
+  weight factor: 0.9
+  crafting:
+    station: WizardTable_TW
+    level: 1
+    costs:
+      FabricBundle_Plains_TW: 2
+      BlackMetal: 2
+  upgrade:
+    1:
+      FabricBundle_Plains_TW: 4
+      BlackMetal: 4
+      size: 5x4
+Electromancer Backpack:
+  description: "An Electromancer backpack to match with your Electromancer Gear, holds only Mistlands Wizardry Items"
+  size: 4x4
+  appearance:
+    BackpackFlap: 2cbdff
+    PouchFront: 2cbdff
+    BackpackStrapBottom: 2cbdff
+    RingBottomLeft: 000000
+    BackpackBody: 000000
+    MetalclipFrontLeft: visible
+    MetalclipFrontRight: visible
+    Sleepbag: hidden
+    MetalclipLeft: hidden
+    PouchLeft: hidden
+    Knifesheath: hidden
+    Knife: hidden
+    Pickaxe: hidden
+    Pot: hidden
+    Teapot: hidden
+    BackpackStrapTop: hidden
+    ToolstrapTop: hidden
+    ToolstrapBottom: hidden
+  valid items:
+    - ShardQueen_TW
+    - EnchantedWoodMistlands_TW
+    - FabricBundle_Mistlands_TW
+    - WoolScraps_TW
+    - ArcaneScroll_Mistlands_TW
+    - YggdrasilPorridge
+    - MagicallyStuffedShroom
+    - SeekerAspic
+  weight factor: 0.9
+  crafting:
+    station: WizardTable_TW
+    level: 1
+    costs:
+      FabricBundle_Mistlands_TW: 2
+      Carapace: 2
+  upgrade:
+    1:
+      FabricBundle_Mistlands_TW: 4
+      Carapace: 4
+      size: 5x4
