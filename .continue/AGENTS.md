@@ -36,15 +36,15 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 ### **Vanilla Skill Experience Factors**
 - **Farming**: 0.6x (reduced for slower progression)
 - **Cooking**: 0.6x (reduced)
-- **Ranching**: 0.6x (reduced)
+- **Ranching**: 0.8x (boosted)
 - **Exploration**: 0.6x (reduced)
 - **Building**: 0.5x (reduced)
 - **Blacksmithing**: 0.5x (reduced)
-- **Foraging**: 0.5x (reduced)
+- **Foraging**: 0.6x (reduced)
 - **Lumberjacking**: 0.5x (reduced)
 - **Mining**: 0.5x (reduced)
-- **Sailing**: 0.5x (reduced)
-- **Pack Horse**: 0.5x (reduced)
+- **Sailing**: 0.4x (reduced)
+- **Pack Horse**: 0.75x (boosted)
 - **Tenacity**: 0.4x (reduced)
 - **Warfare Skills**: 1.0x (normal)
 - **Enchantment System**: 1.0x (normal)
@@ -389,8 +389,10 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
 - Switched CLLC creature scaling to use BossesKilled and set world level day thresholds to 9999 to disable time-based progression.
 - Increased Foraging yield factor to 3 and XP gain factor to 0.6 for better late-game resource scaling.
+- Raised Pack Horse skill XP gain factor to 0.75 to ease carry-weight grind.
+- Reduced Sailing skill XP gain factor to 0.4 to slow progression.
 - Tuned mining skill balance: reduced level 100 damage multiplier to 1.8, raised explosion level requirement to 50 with 2% chance, and cut Specializing mining speed bonus to 0.2.
-- Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, and small death XP loss.
+- Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, small death XP loss, and XP gain factor increased to 0.8.
 
 ---
 
