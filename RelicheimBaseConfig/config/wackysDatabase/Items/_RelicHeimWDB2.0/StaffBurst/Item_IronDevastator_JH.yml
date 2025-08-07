@@ -19,7 +19,7 @@ Primary_Attack:
   Hit_Terrain: true
   Custom_AttackSpeed: 1
   m_attackStamina: 18
-  m_eitrCost: 0
+  m_eitrCost: 15
   AttackHealthCost: 0
   m_attackHealthPercentage: 0
   SpeedFactor: 0.3
@@ -62,7 +62,7 @@ Primary_Attack:
   Projectiles: 1
   Skill_Accuracy: false
   Launch_Angle: -2
-  Projectile_Burst: 8
+  Projectile_Burst: 5
   Burst_Interval: 0.01
   Destory_Previous_Projectile: false
   PerBurst_Resourse_usage: false
@@ -84,7 +84,7 @@ Secondary_Attack:
   Hit_Terrain: true
   Custom_AttackSpeed: 1
   m_attackStamina: 20
-  m_eitrCost: 0
+  m_eitrCost: 15
   AttackHealthCost: 0
   m_attackHealthPercentage: 0
   SpeedFactor: 0.2
@@ -163,9 +163,6 @@ Damage_Per_Level:
   Poison: 0
   Slash: 0
   Spirit: 0
-Armor:
-  armor: 15
-  armorPerLevel: 1
 FoodStats: 
 Moddifiers:
   m_movementModifier: -0.05
@@ -181,12 +178,6 @@ Moddifiers:
   m_runStaminaModifier: 0
 SE_Equip: 
 SE_SET_Equip: 
-ShieldStats:
-  m_blockPower: 14
-  m_blockPowerPerLevel: 0
-  m_timedBlockBonus: 2
-  m_deflectionForce: 20
-  m_deflectionForcePerLevel: 5
 m_maxStackSize: 1
 m_canBeReparied: true
 m_destroyBroken: false
