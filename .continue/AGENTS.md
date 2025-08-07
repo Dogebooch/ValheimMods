@@ -24,7 +24,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Endurance**: +1 stamina, +0.5 stamina regen, +0.3 physical armor
 - **Intelligence**: +0.3 magic attack, +0.3 eitr regen, +1 eitr
 - **Vigour**: +1 health, +0.5 health regen, +0.3 magic armor
-- **Specializing**: +0.2% crit chance, +0.4 mining speed, +10 building health, +0.4 tree cutting
+- **Specializing**: +0.2% crit chance, +0.2 mining speed, +10 building health, +0.4 tree cutting
 
 ### **SmartSkills (Vanilla Skill Enhancement)**
 - **Skill Recovery Bonus**: 50% XP boost until reaching previous highest level
@@ -388,6 +388,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Restored Burial-chamber chest loot by adding missing `[TreasureChest_forestcrypt]` block and setting SurtlingCore weight to `1`.
 - Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
 - Switched CLLC creature scaling to use BossesKilled and set world level day thresholds to 9999 to disable time-based progression.
+- Tuned mining skill balance: reduced level 100 damage multiplier to 1.8, raised explosion level requirement to 50 with 2% chance, and cut Specializing mining speed bonus to 0.2.
 - Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, and small death XP loss.
 
 ---
