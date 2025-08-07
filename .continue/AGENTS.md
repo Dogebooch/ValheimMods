@@ -16,7 +16,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Experience Rate**: 1.0x (normal)
 - **Death Penalty**: 25-50% XP loss (increased from default 5-25%)
 - **Reset Cost**: 55 coins per point (increased from default 3)
-- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within the 13–18 month target.
+- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within a 6–12 month target for weeknight players (10–15 hrs/week) and roughly 800 hours overall.
 
 ### **Attribute Scaling (Per Point)**
 - **Strength**: +0.3 damage, +4 weight, +0.3 block stamina, +0.5 crit damage
@@ -24,7 +24,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Endurance**: +1 stamina, +0.5 stamina regen, +0.3 physical armor
 - **Intelligence**: +0.3 magic attack, +0.3 eitr regen, +1 eitr
 - **Vigour**: +1 health, +0.5 health regen, +0.3 magic armor
-- **Specializing**: +0.2% crit chance, +0.4 mining speed, +10 building health, +0.4 tree cutting
+- **Specializing**: +0.2% crit chance, +0.2 mining speed, +10 building health, +0.4 tree cutting
 
 ### **SmartSkills (Vanilla Skill Enhancement)**
 - **Skill Recovery Bonus**: 50% XP boost until reaching previous highest level
@@ -78,6 +78,13 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **WL 7+** → Deep North/Ashlands
 - **Age-Based WL progression**: WL1=15d, WL2=45d, WL3=90d, WL4=180d, WL5=300d, WL6=420d, WL7=540d
 
+### **Playtime & Pacing Targets**
+- **Total Playthrough**: Designed for ~800 hours of exploration, progression, skill training, and endgame content.
+- **Skill Mastery**: 24 base skills—frequently used ones (combat, crafting) take ~80–100 hours to master, while rarer opt-in skills (ranching, enchanting) need ~50–60 hours, with multiple skills advancing in parallel.
+- **EpicMMO Stat Levels**: 120 MMO-style stat levels; early levels come fast, late-game levels slow for long-term growth.
+- **Biome/Boss Phase**: Each biome arc provides roughly 100–120 hours of bosses, gear upgrades, side goals, and skill progression.
+- **Weeknight Gamer**: At 10–15 hours per week, the full journey spans about 6–12 months with consistent progression and no dead zones.
+
 ### **Loot Systems Integration**
 
 | System | RNG? | Source | Purpose | Affixes |
@@ -88,6 +95,15 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 | **EpicLoot Mythic** | ✅ | Random drops | Top-tier RNG | Special effects |
 | **RelicHeim Sets** | ❌ | Crafted | Set bonuses | Static stats |
 | **T5 Legendaries** | ❌ | Boss kills | Best-in-slot | Static, boss-only |
+
+### **Skill Progression Philosophy**
+- **Early Levels**: Fast XP for levels 1–20 to encourage experimentation; progression slows sharply past 40 for an OSRS-style grind.
+- **Mid Game Spike**: Levels 50–70 (late Swamp/early Plains) should feel like a meaningful power increase.
+- **Late Game Mastery**: Levels 80–100 (mid–late Mistlands) fully realize bonuses—e.g., biome-free farming and large harvests.
+- **Targeted Training**: High levels require dedicated skill sessions; incidental play alone shouldn't reach mastery.
+- **Rewarding Investment**: Significant gap between low and high skill performance (e.g., up to 3× growth, 2× yield) to reward time spent.
+- **Biome Alignment**: Level bands should track biome progression—~30 at Swamp entry, ~50 in early Plains, ~70 on arriving to Mistlands, and ~100 by late Mistlands.
+- **Skill Count & Mastery**: 24 base skills. Frequently used ones (combat, crafting) target ~80–100 hours to reach level 100, while rarer opt-in skills (e.g., Farming, Ranching) take ~50–60 hours; players naturally progress multiple skills at once.
 
 ## 📁 Critical File Structure
 
@@ -248,7 +264,7 @@ Valheim/profiles/Dogeheim_Player/BepInEx/config/
 
 ### **Current Priorities**
 - Integrate bounty board plugin enabling random rewards, group hunts, and skill-gated bounties
-- Gate SeekerQueen world spawns behind BlackCore harvest flag with WL-scaled drops (silk, trophies, enchant mats, XP orbs)
+- Add spawn entries for baby animal prefabs (BlackBearCub_TW, GrizzlyBearCub_TW) to restore natural spawns
 - Refine endgame loot pool using existing assets
 - Balance magic vs static loot drop rates
 - Ensure boss-locked BiS items feel worth the grind
@@ -361,6 +377,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - **🎯 Priority**: Configuration files, documentation, metadata
 
 ## 🆕 Recent Config Updates
+- Removed event boss loot sections (TempestNeck, Dragon, MagmaGolem, SeekerQueen, RoyalLox, AvalancheDrake, CoinTroll, WeaverQueen, FrostWyrm) from central drop table
 - Enabled biome enforcement in PlantEverything and reduced Farming XP gain factor to 0.6.
 - Added Frost Dragon world spawn in DeepNorth with SnowStorm condition and altitude >= 100.
 - Introduced FrostDragon boss entry featuring frost breath and world-level scaling.
@@ -371,6 +388,9 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Restored Burial-chamber chest loot by adding missing `[TreasureChest_forestcrypt]` block and setting SurtlingCore weight to `1`.
 - Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
 - Switched CLLC creature scaling to use BossesKilled and set world level day thresholds to 9999 to disable time-based progression.
+- Increased Foraging yield factor to 3 and XP gain factor to 0.6 for better late-game resource scaling.
+- Tuned mining skill balance: reduced level 100 damage multiplier to 1.8, raised explosion level requirement to 50 with 2% chance, and cut Specializing mining speed bonus to 0.2.
+- Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, and small death XP loss.
 
 ---
 
@@ -402,3 +422,7 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Weighted mushroom monster drops toward biome-specific fungi for non-boss variants.
 - Introduced Prefab Icon Loader plugin that derives icon filenames, loads textures with placeholder fallback, and stores a Texture2D reference for each prefab.
 - Added prefab name parser script to extract internal and localized names from VNEI exports.
+- Added juvenile world spawns for Boar piggies, Wolf cubs, and Lox calves with reduced adult spawn frequencies to limit overhead.
+- Added juvenile world spawns for Fox cubs, Razorback piglets, Black Bear cubs, Grizzly cubs, and Prowler cubs with matched world-level gating and further reduced adult spawn frequencies.
+- Tuned Pack Horse skill to use a 0.75 effect factor, curbing late-game carry weight inflation.
+- Tuned Run skill balance: reduced run stamina reductions and speed bonuses in seasonal and potion configs to keep late-game mobility in check.
