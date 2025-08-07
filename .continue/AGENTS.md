@@ -97,6 +97,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Rewarding Investment**: Significant gap between low and high skill performance (e.g., up to 3× growth, 2× yield) to reward time spent.
 - **Biome Alignment**: Level bands should track biome progression—~30 at Swamp entry, ~50 in early Plains, ~70 on arriving to Mistlands, and ~100 by late Mistlands.
 - **OSRS Ratio Target**: Aim for maxing any single skill to take roughly twice as long as completing the main biome questline, mirroring RuneScape's quest-to-skill ratio but with a softer 2:1 grind.
+- **Maxing Time Target**: Plan for ~50–60 hours of active play (~120–150k actions at ~40 APM) to bring any skill from 0 to 100.
 - **Pacing Goal**: Tune each skill so casual play lands around level 20–30 by day 90 (Swamp entry), while the level‑70 power spike isn't reached until days 200–300 and requires targeted sessions; use this timeline to keep progression consistent across skills.
 
 ## 📁 Critical File Structure
