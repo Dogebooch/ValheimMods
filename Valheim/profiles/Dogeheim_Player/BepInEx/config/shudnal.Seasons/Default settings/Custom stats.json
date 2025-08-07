@@ -39,7 +39,7 @@
     "m_healthPerTick": 0.0,
     "m_healthHitType": "",
     "m_staminaDrainPerSec": 0.0,
-    "m_runStaminaDrainModifier": -0.1,
+    "m_runStaminaDrainModifier": -0.05,
     "m_jumpStaminaUseModifier": -0.1,
     "m_healthRegenMultiplier": 1.1,
     "m_staminaRegenMultiplier": 1.0,
