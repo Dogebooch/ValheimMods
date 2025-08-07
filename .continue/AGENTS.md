@@ -422,4 +422,5 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added prefab name parser script to extract internal and localized names from VNEI exports.
 - Added juvenile world spawns for Boar piggies, Wolf cubs, and Lox calves with reduced adult spawn frequencies to limit overhead.
 - Added juvenile world spawns for Fox cubs, Razorback piglets, Black Bear cubs, Grizzly cubs, and Prowler cubs with matched world-level gating and further reduced adult spawn frequencies.
+- Tuned Pack Horse skill to use a 0.75 effect factor, curbing late-game carry weight inflation.
 - Tuned Run skill balance: reduced run stamina reductions and speed bonuses in seasonal and potion configs to keep late-game mobility in check.
