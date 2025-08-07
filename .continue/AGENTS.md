@@ -16,7 +16,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Experience Rate**: 1.0x (normal)
 - **Death Penalty**: 25-50% XP loss (increased from default 5-25%)
 - **Reset Cost**: 55 coins per point (increased from default 3)
-- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within the 13–18 month target.
+- **Tuning Note**: XP multiplier and world-level schedule may be fine-tuned later to keep progression within a 6–12 month target for weeknight players (10–15 hrs/week) and roughly 800 hours overall.
 
 ### **Attribute Scaling (Per Point)**
 - **Strength**: +0.3 damage, +4 weight, +0.3 block stamina, +0.5 crit damage
@@ -78,6 +78,13 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **WL 7+** → Deep North/Ashlands
 - **Age-Based WL progression**: WL1=15d, WL2=45d, WL3=90d, WL4=180d, WL5=300d, WL6=420d, WL7=540d
 
+### **Playtime & Pacing Targets**
+- **Total Playthrough**: Designed for ~800 hours of exploration, progression, skill training, and endgame content.
+- **Skill Mastery**: 24 base skills—frequently used ones (combat, crafting) take ~80–100 hours to master, while rarer opt-in skills (ranching, enchanting) need ~50–60 hours, with multiple skills advancing in parallel.
+- **EpicMMO Stat Levels**: 120 MMO-style stat levels; early levels come fast, late-game levels slow for long-term growth.
+- **Biome/Boss Phase**: Each biome arc provides roughly 100–120 hours of bosses, gear upgrades, side goals, and skill progression.
+- **Weeknight Gamer**: At 10–15 hours per week, the full journey spans about 6–12 months with consistent progression and no dead zones.
+
 ### **Loot Systems Integration**
 
 | System | RNG? | Source | Purpose | Affixes |
@@ -95,7 +102,8 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Late Game Mastery**: Levels 80–100 (mid–late Mistlands) fully realize bonuses—e.g., biome-free farming and large harvests.
 - **Targeted Training**: High levels require dedicated skill sessions; incidental play alone shouldn't reach mastery.
 - **Rewarding Investment**: Significant gap between low and high skill performance (e.g., up to 3× growth, 2× yield) to reward time spent.
-- **Pacing Goal**: Around day 90 characters sit near level 24 when entering Swamp; reaching level 70 should take until days 200–300.
+- **Biome Alignment**: Level bands should track biome progression—~30 at Swamp entry, ~50 in early Plains, ~70 on arriving to Mistlands, and ~100 by late Mistlands.
+- **Skill Count & Mastery**: 24 base skills. Frequently used ones (combat, crafting) target ~80–100 hours to reach level 100, while rarer opt-in skills (e.g., Farming, Ranching) take ~50–60 hours; players naturally progress multiple skills at once.
 
 ## 📁 Critical File Structure
 
