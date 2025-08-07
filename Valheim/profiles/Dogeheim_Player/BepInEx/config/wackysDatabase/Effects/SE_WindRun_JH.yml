@@ -66,7 +66,7 @@ SeData:
   m_staminaOverTime: 0
   m_staminaOverTimeDuration: 0
   m_staminaDrainPerSec: 0
-  m_runStaminaDrainModifier: -0.10
+  m_runStaminaDrainModifier: -0.05
   m_jumpStaminaUseModifier: 0
   m_attackStaminaUseModifier: 0
   m_blockStaminaUseModifier: 0
@@ -83,7 +83,7 @@ SeData:
   m_raiseSkill: None
   m_raiseSkillModifier: 0
   m_skillLevel: Run
-  m_skillLevelModifier: 5
+  m_skillLevelModifier: 3
   m_skillLevel2: None
   m_skillLevelModifier2: 0
   m_mods: []

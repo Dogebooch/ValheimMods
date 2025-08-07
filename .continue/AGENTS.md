@@ -24,7 +24,7 @@ Build a **RuneScape + Solo Leveling** inspired Valheim experience with RPG/MMO p
 - **Endurance**: +1 stamina, +0.5 stamina regen, +0.3 physical armor
 - **Intelligence**: +0.3 magic attack, +0.3 eitr regen, +1 eitr
 - **Vigour**: +1 health, +0.5 health regen, +0.3 magic armor
-- **Specializing**: +0.2% crit chance, +0.4 mining speed, +10 building health, +0.4 tree cutting
+- **Specializing**: +0.2% crit chance, +0.2 mining speed, +10 building health, +0.4 tree cutting
 
 ### **SmartSkills (Vanilla Skill Enhancement)**
 - **Skill Recovery Bonus**: 50% XP boost until reaching previous highest level
@@ -389,6 +389,8 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added Drop That chest entries for Hildir quest and Deep North/Muspelheim chests to restore loot generation.
 - Switched CLLC creature scaling to use BossesKilled and set world level day thresholds to 9999 to disable time-based progression.
 - Increased Foraging yield factor to 3 and XP gain factor to 0.6 for better late-game resource scaling.
+- Tuned mining skill balance: reduced level 100 damage multiplier to 1.8, raised explosion level requirement to 50 with 2% chance, and cut Specializing mining speed bonus to 0.2.
+- Tweaked Ranching skill config: faster taming at high levels, later feature unlocks, and small death XP loss.
 
 ---
 
@@ -422,3 +424,5 @@ git commit -m "Add/Update: [specific mod] configuration files"
 - Added prefab name parser script to extract internal and localized names from VNEI exports.
 - Added juvenile world spawns for Boar piggies, Wolf cubs, and Lox calves with reduced adult spawn frequencies to limit overhead.
 - Added juvenile world spawns for Fox cubs, Razorback piglets, Black Bear cubs, Grizzly cubs, and Prowler cubs with matched world-level gating and further reduced adult spawn frequencies.
+- Tuned Pack Horse skill to use a 0.75 effect factor, curbing late-game carry weight inflation.
+- Tuned Run skill balance: reduced run stamina reductions and speed bonuses in seasonal and potion configs to keep late-game mobility in check.
