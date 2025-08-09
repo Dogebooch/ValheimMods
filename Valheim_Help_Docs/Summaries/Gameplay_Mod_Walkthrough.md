@@ -17,8 +17,8 @@ The primary RPG layer.  Gain experience from combat and activities to level up.
 
 ### SmartSkills
 Enhances the vanilla skill system.
-- Lost skill levels regain 50% faster until your previous peak is reached.
-- Weapon skills below your highest weapon skill receive a 50% catch‑up bonus.
+- **Skill Recovery Bonus** – lost skill levels regain XP 50% faster until your previous peak is reached.
+- **Weapon Catch-up Bonus** – weapon skills below your highest weapon skill earn 50% extra XP until they catch up.
 - Swimming and Sneak have additional XP bonuses.
 
 ### EpicLoot
