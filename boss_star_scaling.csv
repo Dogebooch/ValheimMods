@@ -1,0 +1,7 @@
+stars,hp_mult,dmg_mult,loot_bonus_mult,spawn_weight_mult,notes
+0,1.0,1.0,1.0,1.0,"Base boss scaling; +20% HP/DMG and +50% loot per star"
+1,1.2,1.2,1.5,0.8,"Low-star boss (rare)"
+2,1.4,1.4,2.0,0.6,"Low-star boss (rare)"
+3,1.6,1.6,2.5,0.4,"Mid-star boss (rare)"
+4,1.8,1.8,3.0,0.2,"Standard boss star; ~80% chance"
+5,2.0,2.0,3.5,0.1,"High boss star; ~20% chance"
