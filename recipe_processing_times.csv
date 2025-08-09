@@ -1,0 +1,6 @@
+station_type,recipe_name,wl_min,wl_max,time_seconds_per_unit,batch_size,fuel_consumption_per_batch,notes
+MeadCauldron,WispPotion_JH,6,7,15,3,0,"Craft time assumed; see recipe file for ingredients"
+MeadCauldron,WindPotion_JH,3,7,20,1,0,"Assumed time"
+Forge,IronIngot,3,4,30,10,1,"Representative smelting batch (if applicable to your setup)"
+Smelter,SilverIngot,4,5,30,10,1,"Representative"
+Workbench,ArrowWood,1,2,2,20,0,"Representative craft throughput"

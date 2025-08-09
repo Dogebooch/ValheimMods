@@ -1,9 +1,0 @@
-{
-    "name": "Azus_UnOfficial_ConfigManager",
-    "version_number": "18.4.1",
-    "website_url": "https://github.com/AzumattDev/BepInEx.ConfigurationManager",
-    "description": "Mod to assist with configuration of BepInEx mods",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2202"
-    ]
-}

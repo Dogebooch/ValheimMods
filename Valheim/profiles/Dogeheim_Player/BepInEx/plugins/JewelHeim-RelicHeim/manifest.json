@@ -1,12 +1,12 @@
 {
     "name": "RelicHeim",
-    "version_number": "5.4.10",
+    "version_number": "5.4.9",
     "website_url": "https://discord.gg/6HMJ6uqmKJ",
     "description": "Public Modpack using EpicLoot that's balanced and focuses on enchanting instead of mass drops, moderate to very-hard difficulty [Patch 0.220.5]",
     "dependencies": [
-		"denikson-BepInExPack_Valheim-5.4.2332",
-		"Azumatt-Azus_UnOfficial_ConfigManager-18.4.1",
+		"denikson-BepInExPack_Valheim-5.4.2202",
 		"Azumatt-FactionAssigner-1.0.4",
+		"Azumatt-TrueInstantLootDrop-1.0.2",
 		"Azumatt-PetPantry-1.0.5",
 		"Azumatt-CurrencyPocket-1.0.9",
 		"Azumatt-MouseTweaks-1.0.2",

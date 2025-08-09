@@ -1,9 +1,0 @@
-{
-  "name": "AzuSkillTweaks",
-  "version_number": "1.0.5",
-  "website_url": "https://discord.gg/pdHgy6Bsng",
-  "description": "Mod that allows tweaking of skill gain factors and percent of skill loss on death. Ripped out from OdinsQOL.",
-  "dependencies": [
-    "denikson-BepInExPack_Valheim-5.4.2202"
-  ]
-}

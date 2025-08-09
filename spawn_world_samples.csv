@@ -1,0 +1,7 @@
+biome,creature_prefab,wl_min,wl_max,time_of_day,weather,group_size_min,group_size_max,spawn_chance_pct,spawn_interval_s,max_spawned,notes
+Meadows,TempestNeck,0,1,Night,Thunderstorm,1,1,37.5,1200,1,"Spawn That advanced [WorldSpawner.676]; TemplateId=TempestNeck; Chance 37.5%"
+BlackForest,CoinTroll,2,3,Any,Any,1,1,7.5,1200,1,"[WorldSpawner.675] WL≥2"
+Ocean,TempestSerpent,3,7,Night,Thunderstorm,1,1,37.5,1800,1,"[WorldSpawner.678] WL≥3; LevelMin/Max=6"
+Plains,RoyalLox,5,6,Any,Any,1,1,75,1200,1,"[WorldSpawner.679] RequiresGlobalKey=RoyalLoxEvent"
+DeepNorth,FrostWyrm,7,7,Night,SnowStorm,1,1,7.5,1200,1,"[WorldSpawner.684] WL≥7"
+DeepNorth,Dragon,7,7,Night,SnowStorm,1,1,7.5,1200,1,"[WorldSpawner.674] WL≥7"

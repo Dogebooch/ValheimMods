@@ -1,9 +1,0 @@
-{
-	"name": "SkillControl",
-	"version_number": "1.0.5",
-	"website_url": "https://github.com/RustyMods/SkillControl/tree/master/SkillControl",
-	"description": "Control skill experience gain through selectable, customizable jobs.",
-	"dependencies": [
-		"denikson-BepInExPack_Valheim-5.4.2105"
-	]
-}

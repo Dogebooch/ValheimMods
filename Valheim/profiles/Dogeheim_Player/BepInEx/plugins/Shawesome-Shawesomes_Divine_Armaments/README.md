@@ -117,11 +117,9 @@ I’ve included full item_IDs so fellow warriors can summon relics with ease. (P
 The tale is still being forged in the fires of creation. More shall come, as the winds of the North whisper of greater glory yet to be revealed...
 ##
 
-📦 What’s New in v4.0.4
+📦 What’s New in v4.0.3
 
-Visual effects from weapons now registered in code- everyone should be able to see the awesome sauce now!! XD
-
-Full config support for all weapons, armor, food and potion! (still working on making the build pieces configurable)
+Full config support for most items (still working on making the build pieces and the original 6 capes - shawesomecape, MeldursonCape, dhakharcape, fire & ice capes and valkyrie's Grace cape - configurable)
 
 Visual updates to capes and armor
 
@@ -402,7 +400,6 @@ __Special Thanks__
  Date | Version | Notes 
 --- | --- | ---
 
-08/04/2025 | 4.0.4 | all vfx have been registered in code! all items other than build pieces have configurable recipes nd crafting stations. Thanks again for the endless help Meldurson! 
 07/07/2025 | 4.0.3 | sorry for all the updates in a few days - i noticed the asgardian food table was acting weird so fixed it. 
 07/07/2025 | 4.0.2 | mostly an update for the readme added icon images of all items. Updated some more items that were lacking sfx(hopefully i got em all) OH FINALLY ADDED FIRE ARMOR XD
 07/05/2025 | 4.0.1 | lol i spelled arcanium wrong in a few lines of code - sorry about that! - should be gucci now ^.^ please dont hesitate to send any bug reports :D thanks to October for finding that! 

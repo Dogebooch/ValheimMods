@@ -1,0 +1,2 @@
+solo_ratio,avg_party_size,night_skip_rate_pct,avg_deaths_per_hour,avg_session_minutes,logout_after_boss_minutes,notes
+0.6,2.1,35,0.25,120,15,"Assumed based on co-op bias and sleep use; adjust if telemetry available"

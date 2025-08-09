@@ -1,0 +1,4 @@
+source,rarity,base_drop_chance_pct,pity_trigger_kills,pity_increment_pct,resets_on_drop,notes
+Boss_Kill,Legendary,5,20,1.0,true,"Design sample; align with EpicLoot zLootables_BossDrops_RelicHeim.json"
+Boss_Kill,Mythic,1,40,0.5,true,"Design sample"
+Elite_Kill,Legendary,2,50,0.5,true,"Design sample"

@@ -1,0 +1,6 @@
+event_name,wl_min,wl_max,chance_per_hour,cooldown_hours,spawn_composition_notes,loot_notes
+Vanilla_Random,0,7,40,2,"Uses EventTriggerChance=40% per hour; EventCheckInterval=60m","General mob loot; see Drop That"
+Ragnarok (preset),4,7,0,5,"Disabled by default; requires defeated_dragon; spawns multiple bosses/waves","N/A unless enabled; file: .../custom_raids.supplemental.ragnarok.cfg"
+CoinTroll_Wave,2,3,10,3,"Simulated via world spawn TemplateId=CoinTroll; can schedule via CustomRaids if desired","High coins; see drop_that.character_drop.cfg [CoinTroll.*]"
+TempestSerpent_Storm,3,7,8,3,"ThunderStorm ocean checks; TemplateId=TempestSerpent","High chitin/scales/meat; see Drop That"
+Weaver_Queen_Hunt,6,7,4,6,"Mistlands WL≥6; TemplateId=WeaverQueen; night bias","Silk/Trophies/rarities; see Drop That"

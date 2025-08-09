@@ -1,0 +1,7 @@
+weather_type,damage_mult,movement_mult,xp_mult,spawn_rate_mult,duration_minutes,frequency_per_hour,notes
+Thunderstorm,1.0,0.95,1.0,1.1,30,2,"XP multiplier applies to skill/character XP. Tempest events; serpent/neck spawns up; see Spawn That advanced"
+SnowStorm,1.0,0.9,1.0,1.0,30,1,"Movement slower; no XP change. Affects Deep North/Mountains; Seasons reduces particles for FPS"
+Winter (season),1.0,0.95,1.0,1.0,1440,0.04,"Farming growth=0 (design) and crops die after 3 days unless near fire; Seasons cfg: Crops will die after set day in winter=3; Crops will survive if protected by fire=true; Day length=1800s"
+Summer (season),1.0,1.0,1.0,1.0,1440,0.04,"Baseline; normal crop growth"
+Spring (season),1.0,1.0,1.0,1.0,1440,0.04,"Farming growth=1.2 (design). Use Seasons 'Crops to control growth' list"
+Fall (season),1.0,1.0,1.0,1.0,1440,0.04,"Farming growth=0.8 (design). Use Seasons controls"

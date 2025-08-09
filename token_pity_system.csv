@@ -1,0 +1,3 @@
+source,wl_min,tokens_per_kill,pity_trigger_kills,pity_increment_chance_add,weekly_cap,item_target,token_cost,notes
+Bosses,3,1,10,0.1,50,Legendary_Set_Weapon,50,"Design sample token ladder; integrate with traders/quests if desired"
+Elites,2,0.1,25,0.05,200,Upgrade_Material,10,"Design sample"

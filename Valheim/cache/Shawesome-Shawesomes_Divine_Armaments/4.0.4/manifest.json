@@ -1,9 +1,0 @@
-{
-    "name": "Shawesomes_Divine_Armaments",
-    "version_number": "4.0.4",
-    "website_url": "https://www.youtube.com/@shawesomeification",
-    "description": "Become your own Hero of Legend with this mythic end-game Valheim mod featuring god-tier weapons, armor, and relics. Ascend from mortal to legend with Asgardian gear, celestial effects, and epic lore to match. Wield power forged for the divine!",
-    "dependencies": [
-        "ValheimModding-Jotunn-2.25.0"
-    ]
-}

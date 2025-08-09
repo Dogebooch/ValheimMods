@@ -1,0 +1,8 @@
+source_type,wl_min,rarity,drop_weight,guaranteed_effect_pool,notes
+Creatures (general),0,Magic,1.0,,"Weights defined per lootable patch: .../EpicLoot/patches/RelicHeimPatches/zLootables_CreatureDrops_RelicHeim.json"
+Creatures (elite),2,Rare,0.6,GuaranteedMagicEffects: Physical/Elemental small,"Representative; elites bias to higher rarity"
+Bosses,3,Legendary,0.3,GuaranteedMagicEffects: BossPool,"See zLootables_BossDrops_RelicHeim.json"
+Treasure Chests,2,Rare,0.5,,"See zLootables_TreasureLoot_RelicHeim.json; WLMin on Mistlands+ chests"
+Bounties (EpicLoot),2,Magic,0.8,,"AdventureData_Bounties_RelicHeim.json controls radius/levels"
+Gamble/Secret Stash,3,Rare,0.7,,"AdventureData_Gamble/SecretStash_RelicHeim.json"
+Bosses (late),6,Mythic,0.05,GuaranteedMagicEffects: LateBoss,"Top-tier mythics; design target"

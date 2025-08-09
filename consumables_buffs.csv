@@ -1,0 +1,7 @@
+item_name,type_food_or_potion,wl_min,duration_s,dps_delta_pct,ehp_delta_pct,craft_time_s,gold_cost,recipe_ref,notes
+WispPotion_JH,potion,6,1200,5,5,15,0,Valheim/cache/JewelHeim-RelicHeim/5.4.9/config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Food/Recipe_WispPotion_JH.yml,"+wisp utility; made at mead cauldron; amount=3; reqs: Wisp x3, MeadTasty x3"
+WindPotion_JH,potion,3,600,7,0,20,0,Valheim/cache/JewelHeim-RelicHeim/5.4.9/config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Food/Recipe_WindPotion_JH.yml,"storm mobility; mead cauldron; reqs: MeadTasty x1, SurtlingCore x1, Thistle x5, InfusedCrystal_JH x5"
+SkillPotion_Sword_JH,potion,3,900,8,0,25,0,Valheim/cache/JewelHeim-RelicHeim/5.4.9/config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Food/SkillPotions/Recipe_SkillPotionSword_JH.yml,"representative of skill potions category (all similar unless stated)"
+SkillPotion_Knives_JH,potion,3,900,8,0,25,0,Valheim/cache/JewelHeim-RelicHeim/5.4.9/config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Food/SkillPotions/Recipe_SkillPotionKnives_JH.yml,"all similar unless stated"
+Berry_Cake,food,2,1800,3,6,30,0,N/A,"Representative food buff; exact recipe path not sampled here"
+Serpent_Stew,food,3,1800,4,10,35,0,Valheim/cache/JewelHeim-RelicHeim/5.4.9/config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Food/Recipe_SerpentStew.yml,"Representative; boosts EHP; path present in cache"

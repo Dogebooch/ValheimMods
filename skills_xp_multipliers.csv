@@ -1,0 +1,21 @@
+skill,xp_mult
+Swords,1.0
+Bows,1.0
+Blocking,1.0
+Blacksmithing,0.5
+Mining,0.5
+Lumberjacking,0.5
+Foraging,0.5
+Exploration,0.6
+Sailing,0.5
+PackHorse,0.5
+Tenacity,0.4
+Farming,1.25
+Ranching,0.6
+Cooking,0.6
+Building,0.5
+BloodMagic,1.0
+Swimming,2.0
+Sneak,1.1
+Weapon_Catchup_Bonus,1.5,"SmartSkills: Skill catch up bonus = 50%"
+Skill_Recovery_Bonus,1.5,"SmartSkills: Skill recovery bonus = 50%" 

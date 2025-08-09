@@ -1,57 +1,5 @@
 #
 ```yaml
-📌 Changelog for RelicHeim v5.4.10 [Patch 0.220.5]
-```
-```markdown
-Note: Any files you configure make sure to make backups.
-# EpicLoot:
-- Modified some patch files to stop throwing warings when logging enabled.
-- BloodLust will now only appear as an available effect when augmenting if you have lifesteal.
-- AttackHealthUse will now properly appear when you have bloodlust on your weapon.
-- Slightly increase the values for AttackHealthUse effect
-- To help make lifesteal bit better on one-handed weapons, you can now enchant shields with lifesteal
-- Lifesteal values were adjusted.
-  ➼ Please let me know if this change makes lfiesteal too strong.
-- Several values and increments for effects were adjusted
-# DropThat:
-- Disabled AlwaysAutoStack in the config to prevent issues with items
-- Items will not drop in stacks.
-  ➼ This is vanillas default behaviour
-# Other:
-- Trolls will now drop Rubys instead of coins
-- Goblin family will now drop AmberPearls instead of coins
-- Dverger family will now drop Amber instead of coins 
-  ➼ The above are to match the default coins values when dropped (or more)
-  ➼ This is to prevent massive amounts of coins dropping or cause lag.
-# New Mod:
-- Azumatt-Azus_UnOfficial_ConfigManager-18.4.1
-  ➼ Client mod.
-# Removed Mod:
-- Azumatt-TrueInstantLootDrop-1.0.2
-  ➼ Causing issues with DropThat in multiplayer with item stacks and not following loot tables.
-  ➼ Remove TrueInstantLootDrop on your server if you're not using it anymore.
-```
-*-If you're playing on a server, just copy the below updated files/folders to your server after updating*
-*-Always delete the cache folder inside __config\wackysDatabase\Cache__*
-```yaml
-!Configs:
-- Folder: _RelicHeimFiles
-- Folder: EpicLoot [Don't copy YOUR "BountySaves" folder]
-- File: drop_that.cfg
-```
-*-If you're playing on a server, update the plugin(s) folder on your server*
-```yaml
-!Plugins:
-- None
-```
-#
-
-<details>
-<summary><b>Changelog History v5.3.0+ [Bog Witch Update]</b> (<i>click to expand</i>)</summary>
-<br/>
-
-#
-```yaml
 📌 Changelog for RelicHeim v5.4.9 [Patch 0.220.5]
 ```
 ```markdown
@@ -87,6 +35,12 @@ Note: Any files you configure make sure to make backups.
 !Plugins:
 - WackyMole-Tone_Down_the_Twang
 ```
+#
+
+<details>
+<summary><b>Changelog History v5.3.0+ [Bog Witch Update]</b> (<i>click to expand</i>)</summary>
+<br/>
+
 #
 ```yaml
 📌 Changelog for RelicHeim v5.4.8 [Patch 0.220.5]
