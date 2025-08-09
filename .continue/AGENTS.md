@@ -50,15 +50,16 @@ Target: ~800 hrs total, 6–12 month playthrough at 10–15 hrs/week.
 ---
 
 ## 🌍 World Level Gating
-| WL | Biome        | Days to Unlock |
-|----|--------------|----------------|
-| 0-1| Meadows      | 15             |
-| 2-3| Black Forest | 45             |
-| 3-4| Swamp        | 90             |
-| 4-5| Mountains    | 180            |
-| 5-6| Plains       | 300            |
-| 6-7| Mistlands    | 420            |
-| 7+ | Deep North / Ashlands | 540  |
+| WL | Biome        | Boss Requirement |
+|----|--------------|------------------|
+| 0  | Meadows      | Start            |
+| 1  | Black Forest | Defeat Eikthyr   |
+| 2  | Swamp        | Defeat The Elder |
+| 3  | Mountains    | Defeat Bonemass  |
+| 4  | Plains       | Defeat Moder     |
+| 5  | Mistlands    | Defeat Yagluth   |
+| 6  | Deep North   | Defeat The Queen |
+| 7+ | Ashlands     | Defeat Fader     |
 
 ---
 
@@ -110,6 +111,7 @@ Target: ~800 hrs total, 6–12 month playthrough at 10–15 hrs/week.
 | Restored biome-specific chest loot | Better progression |
 | Integrated bounty board API | Co-op rewards |
 | Validated mod creature drops | WL alignment |
+| Switched WL progression to boss kills | Removes day-based gating |
 
 ---
 
