@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+from tkinter import ttk, messagebox, filedialog, scrolledtext
 import os
 import json
 import yaml
@@ -13,7 +13,7 @@ class ValheimModManager:
     def __init__(self, root):
         self.root = root
         self.root.title("Valheim Mod Manager")
-        self.root.geometry("1400x900")
+        self.root.geometry("1600x1000")  # Increased size for notes panel
         
         # Paths - try multiple possible locations
         possible_valheim_paths = [
@@ -38,6 +38,11 @@ class ValheimModManager:
         self.profiles_path = self.valheim_path / "profiles"
         self.config_path = self.profiles_path / "Dogeheim_Player" / "BepInEx" / "config"
         
+        # Notes storage
+        self.notes_file = Path("mod_manager_notes.json")
+        self.notes_data = {}
+        self.current_selected_item = None
+        
         # Data storage
         self.mods_data = {}
         self.filtered_mods = []
@@ -61,9 +66,63 @@ class ValheimModManager:
             "🔧 Framework & Utilities": ["framework", "utility", "bepinex", "jotunn"]
         }
         
+        # Load notes data
+        self.load_notes()
+        
         self.setup_ui()
         self.load_mods_data()
         self.load_vnei_data()
+        
+        # Update notes counter
+        self.update_notes_counter()
+        
+    def load_notes(self):
+        """Load notes from JSON file"""
+        if self.notes_file.exists():
+            try:
+                with open(self.notes_file, 'r', encoding='utf-8') as f:
+                    self.notes_data = json.load(f)
+                print(f"Loaded notes for {len(self.notes_data)} items")
+            except Exception as e:
+                print(f"Error loading notes: {e}")
+                self.notes_data = {}
+        else:
+            self.notes_data = {}
+            
+    def save_notes(self):
+        """Save notes to JSON file"""
+        try:
+            with open(self.notes_file, 'w', encoding='utf-8') as f:
+                json.dump(self.notes_data, f, indent=2, ensure_ascii=False)
+            print("Notes saved successfully")
+        except Exception as e:
+            print(f"Error saving notes: {e}")
+            messagebox.showerror("Error", f"Could not save notes: {e}")
+            
+    def get_item_key(self, item_type, item_name):
+        """Generate a unique key for an item"""
+        return f"{item_type}:{item_name}"
+        
+    def get_note(self, item_type, item_name):
+        """Get note for an item"""
+        key = self.get_item_key(item_type, item_name)
+        return self.notes_data.get(key, "")
+        
+    def set_note(self, item_type, item_name, note_text):
+        """Set note for an item"""
+        key = self.get_item_key(item_type, item_name)
+        if note_text.strip():
+            self.notes_data[key] = note_text
+        else:
+            # Remove empty notes
+            self.notes_data.pop(key, None)
+        self.save_notes()
+        self.update_notes_counter()
+        
+    def update_notes_counter(self):
+        """Update the notes counter display"""
+        notes_count = len(self.notes_data)
+        self.notes_count_label.config(text=f"Notes: {notes_count}")
         
     def setup_ui(self):
         # Main frame
@@ -107,6 +166,10 @@ class ValheimModManager:
         # Refresh button
         refresh_btn = ttk.Button(search_frame, text="🔄 Refresh", command=self.refresh_data)
         refresh_btn.grid(row=0, column=6, padx=5, pady=5)
+        
+        # Notes counter
+        self.notes_count_label = ttk.Label(search_frame, text="Notes: 0")
+        self.notes_count_label.grid(row=0, column=7, padx=5, pady=5, sticky=tk.W)
         
         # Zoom controls
         zoom_frame = ttk.LabelFrame(control_frame, text="Zoom Controls")
@@ -173,6 +236,13 @@ class ValheimModManager:
         # Apply initial scaling
         self.update_tree_scaling()
         
+        # Configure tree styling for notes indicators
+        style = ttk.Style()
+        style.configure("Treeview", rowheight=25)
+        style.map("Treeview", 
+                 background=[("tag", "has_notes", "#e6f3ff")],  # Light blue background for items with notes
+                 foreground=[("tag", "has_notes", "#000000")])  # Black text
+        
         # Scrollbar for mod list
         mod_scrollbar = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.mod_tree.yview)
         self.mod_tree.configure(yscrollcommand=mod_scrollbar.set)
@@ -183,13 +253,13 @@ class ValheimModManager:
         # Bind selection event
         self.mod_tree.bind('<<TreeviewSelect>>', self.on_mod_select)
         
-        # Right panel - Mod details
+        # Right panel - Mod details and notes
         right_frame = ttk.Frame(mods_content_frame)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(5, 0))
         
         # Mod details frame
         details_frame = ttk.LabelFrame(right_frame, text="Mod Details")
-        details_frame.pack(fill=tk.BOTH, expand=True)
+        details_frame.pack(fill=tk.X, pady=(0, 10))
         
         # Mod icon
         self.icon_label = ttk.Label(details_frame, text="No mod selected")
@@ -197,7 +267,7 @@ class ValheimModManager:
         
         # Mod info text
         info_frame = ttk.Frame(details_frame)
-        info_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        info_frame.pack(fill=tk.X, padx=10, pady=10)
         
         # Mod name
         self.mod_name_label = ttk.Label(info_frame, text="", font=("Arial", 12, "bold"))
@@ -242,11 +312,29 @@ class ValheimModManager:
         ttk.Button(action_frame, text="View Readme", command=self.view_readme).pack(side=tk.LEFT, padx=2)
         ttk.Button(action_frame, text="Toggle Status", command=self.toggle_mod_status).pack(side=tk.LEFT, padx=2)
         
+        # Notes section for mods
+        notes_frame = ttk.LabelFrame(right_frame, text="Notes")
+        notes_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Notes text area
+        self.mod_notes_text = scrolledtext.ScrolledText(notes_frame, height=8, wrap=tk.WORD)
+        self.mod_notes_text.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        
+        # Notes buttons
+        notes_btn_frame = ttk.Frame(notes_frame)
+        notes_btn_frame.pack(fill=tk.X, padx=5, pady=5)
+        
+        ttk.Button(notes_btn_frame, text="Save Note", command=self.save_mod_note).pack(side=tk.LEFT, padx=2)
+        ttk.Button(notes_btn_frame, text="Clear Note", command=self.clear_mod_note).pack(side=tk.LEFT, padx=2)
+        
         # Status bar
         self.status_var = tk.StringVar()
         self.status_var.set("Ready")
         status_bar = ttk.Label(main_frame, textvariable=self.status_var, relief=tk.SUNKEN, anchor=tk.W)
         status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        # Bind window close event to save notes
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         
         # VNEI Items tab content
         self.setup_vnei_ui(vnei_frame)
@@ -536,13 +624,19 @@ class ValheimModManager:
                         icon_photo = photo
                         break
                 
+                # Check if mod has notes
+                has_notes = bool(self.get_note("mod", mod_data['name']))
+                note_tag = "has_notes" if has_notes else ""
+                
                 # Insert with icon or placeholder
                 if icon_photo:
                     self.mod_tree.insert(category_item, "end", image=icon_photo,
-                                       values=(mod_data['name'], mod_data['version'], mod_data['status']))
+                                       values=(mod_data['name'], mod_data['version'], mod_data['status']),
+                                       tags=(note_tag,))
                 else:
                     self.mod_tree.insert(category_item, "end", text="📦",
-                                       values=(mod_data['name'], mod_data['version'], mod_data['status']))
+                                       values=(mod_data['name'], mod_data['version'], mod_data['status']),
+                                       tags=(note_tag,))
                                    
         # Expand all categories
         for item in self.mod_tree.get_children():
@@ -601,7 +695,13 @@ class ValheimModManager:
         # Only handle mod items, not category items
         if parent:
             mod_name = self.mod_tree.item(selected_item, "values")[0]
+            self.current_selected_item = mod_name
             self.show_mod_details(mod_name)
+            
+            # Load and display note for this mod
+            note_text = self.get_note("mod", mod_name)
+            self.mod_notes_text.delete("1.0", tk.END)
+            self.mod_notes_text.insert("1.0", note_text)
             
     def show_mod_details(self, mod_name):
         """Show details for the selected mod"""
@@ -740,6 +840,36 @@ class ValheimModManager:
         """Toggle mod status (placeholder for future implementation)"""
         messagebox.showinfo("Info", "Mod status toggle functionality would be implemented here.\nThis could involve enabling/disabling mods in the mods.yml file.")
         
+    def save_mod_note(self):
+        """Save the note for the currently selected mod"""
+        if self.current_selected_item:
+            mod_name = self.current_selected_item
+            if mod_name in self.mods_data:
+                note_text = self.mod_notes_text.get("1.0", tk.END).strip()
+                self.set_note("mod", mod_name, note_text)
+                messagebox.showinfo("Info", f"Note for '{mod_name}' saved.")
+                # Refresh the tree to update visual indicators
+                self.populate_mod_tree()
+            else:
+                messagebox.showwarning("Warning", "No mod selected to save note for.")
+        else:
+            messagebox.showwarning("Warning", "Please select a mod first to save a note.")
+            
+    def clear_mod_note(self):
+        """Clear the note for the currently selected mod"""
+        if self.current_selected_item:
+            mod_name = self.current_selected_item
+            if mod_name in self.mods_data:
+                self.set_note("mod", mod_name, "")
+                self.mod_notes_text.delete("1.0", tk.END)
+                messagebox.showinfo("Info", f"Note for '{mod_name}' cleared.")
+                # Refresh the tree to update visual indicators
+                self.populate_mod_tree()
+            else:
+                messagebox.showwarning("Warning", "No mod selected to clear note for.")
+        else:
+            messagebox.showwarning("Warning", "Please select a mod first to clear a note.")
+            
     def setup_vnei_ui(self, parent_frame):
         """Setup the VNEI items interface"""
         # VNEI control frame
@@ -779,8 +909,12 @@ class ValheimModManager:
         vnei_content_frame = ttk.Frame(parent_frame)
         vnei_content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
         
+        # Left panel - VNEI items tree
+        vnei_left_frame = ttk.Frame(vnei_content_frame)
+        vnei_left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 5))
+        
         # VNEI items tree
-        vnei_list_frame = ttk.LabelFrame(vnei_content_frame, text="Items by Mod")
+        vnei_list_frame = ttk.LabelFrame(vnei_left_frame, text="Items by Mod")
         vnei_list_frame.pack(fill=tk.BOTH, expand=True)
         
         # Create Treeview for VNEI items
@@ -807,6 +941,14 @@ class ValheimModManager:
         # Apply initial scaling
         self.update_tree_scaling()
         
+        # Configure VNEI tree styling for notes indicators
+        style = ttk.Style()
+        style.configure("VNEITreeview", rowheight=25)
+        style.map("VNEITreeview", 
+                 background=[("tag", "has_notes", "#e6f3ff")],  # Light blue background for items with notes
+                 foreground=[("tag", "has_notes", "#000000")])  # Black text
+        self.vnei_tree.configure(style="VNEITreeview")
+        
         # Scrollbar for VNEI items
         vnei_scrollbar = ttk.Scrollbar(vnei_list_frame, orient=tk.VERTICAL, command=self.vnei_tree.yview)
         self.vnei_tree.configure(yscrollcommand=vnei_scrollbar.set)
@@ -817,6 +959,49 @@ class ValheimModManager:
         # Bind selection event
         self.vnei_tree.bind('<<TreeviewSelect>>', self.on_vnei_item_select)
         
+        # Right panel - VNEI item details and notes
+        vnei_right_frame = ttk.Frame(vnei_content_frame)
+        vnei_right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(5, 0))
+        
+        # VNEI item details frame
+        vnei_details_frame = ttk.LabelFrame(vnei_right_frame, text="Item Details")
+        vnei_details_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        # Item info
+        vnei_info_frame = ttk.Frame(vnei_details_frame)
+        vnei_info_frame.pack(fill=tk.X, padx=10, pady=10)
+        
+        # Item name
+        self.vnei_item_name_label = ttk.Label(vnei_info_frame, text="", font=("Arial", 12, "bold"))
+        self.vnei_item_name_label.pack(anchor=tk.W, pady=(0, 5))
+        
+        # Item prefab
+        self.vnei_item_prefab_label = ttk.Label(vnei_info_frame, text="")
+        self.vnei_item_prefab_label.pack(anchor=tk.W, pady=(0, 5))
+        
+        # Item type
+        self.vnei_item_type_label = ttk.Label(vnei_info_frame, text="")
+        self.vnei_item_type_label.pack(anchor=tk.W, pady=(0, 5))
+        
+        # Item description
+        self.vnei_item_desc_label = ttk.Label(vnei_info_frame, text="", wraplength=400)
+        self.vnei_item_desc_label.pack(anchor=tk.W, pady=(0, 10))
+        
+        # Notes section for VNEI items
+        vnei_notes_frame = ttk.LabelFrame(vnei_right_frame, text="Notes")
+        vnei_notes_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Notes text area
+        self.vnei_notes_text = scrolledtext.ScrolledText(vnei_notes_frame, height=12, wrap=tk.WORD)
+        self.vnei_notes_text.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        
+        # Notes buttons
+        vnei_notes_btn_frame = ttk.Frame(vnei_notes_frame)
+        vnei_notes_btn_frame.pack(fill=tk.X, padx=5, pady=5)
+        
+        ttk.Button(vnei_notes_btn_frame, text="Save Note", command=self.save_vnei_note).pack(side=tk.LEFT, padx=2)
+        ttk.Button(vnei_notes_btn_frame, text="Clear Note", command=self.clear_vnei_note).pack(side=tk.LEFT, padx=2)
+
     def load_vnei_data(self):
         """Load VNEI items data from CSV and icons"""
         self.status_var.set("Loading VNEI data...")
@@ -948,19 +1133,25 @@ class ValheimModManager:
                 # Create display name with prefab
                 display_name = f"{item_data['localized_name']} ({item_data['internal_name']})"
                 
+                # Check if item has notes
+                has_notes = bool(self.get_note(item_data['item_type'], item_data['localized_name']))
+                note_tag = "has_notes" if has_notes else ""
+                
                 # Insert with icon or placeholder
                 if icon_photo:
                     self.vnei_tree.insert(mod_item, "end", image=icon_photo,
                                         values=(item_data['localized_name'], 
                                                item_data['internal_name'],
                                                item_data['item_type'],
-                                               item_data['description']))
+                                               item_data['description']),
+                                        tags=(note_tag,))
                 else:
                     self.vnei_tree.insert(mod_item, "end", text="📦",
                                         values=(item_data['localized_name'], 
                                                item_data['internal_name'],
                                                item_data['item_type'],
-                                               item_data['description']))
+                                               item_data['description']),
+                                        tags=(note_tag,))
         
         # Update filter dropdowns
         types = ["All Types"] + sorted(list(types))
@@ -1034,9 +1225,96 @@ class ValheimModManager:
             item_type = item_values[2]
             item_desc = item_values[3]
             
+            # Update item details display
+            self.vnei_item_name_label.config(text=item_name)
+            self.vnei_item_prefab_label.config(text=f"Prefab: {item_prefab}")
+            self.vnei_item_type_label.config(text=f"Type: {item_type}")
+            self.vnei_item_desc_label.config(text=item_desc)
+            
+            # Load and display note for this item
+            note_text = self.get_note(item_type, item_name)
+            self.vnei_notes_text.delete("1.0", tk.END)
+            self.vnei_notes_text.insert("1.0", note_text)
+            
             # Show item details in status bar
             self.status_var.set(f"Selected: {item_name} ({item_prefab}) - {item_type}")
             
+    def save_vnei_note(self):
+        """Save the note for the currently selected VNEI item"""
+        selection = self.vnei_tree.selection()
+        if not selection:
+            messagebox.showwarning("Warning", "Please select an item first to save a note.")
+            return
+            
+        selected_item = selection[0]
+        parent = self.vnei_tree.parent(selected_item)
+        
+        if not parent:
+            return
+            
+        item_values = self.vnei_tree.item(selected_item, "values")
+        item_name = item_values[0]
+        item_type = item_values[2]
+        
+        note_text = self.vnei_notes_text.get("1.0", tk.END).strip()
+        self.set_note(item_type, item_name, note_text)
+        messagebox.showinfo("Info", f"Note for '{item_name}' saved.")
+        # Refresh the tree to update visual indicators
+        self.populate_vnei_tree()
+        
+    def clear_vnei_note(self):
+        """Clear the note for the currently selected VNEI item"""
+        selection = self.vnei_tree.selection()
+        if not selection:
+            messagebox.showwarning("Warning", "Please select an item first to clear a note.")
+            return
+            
+        selected_item = selection[0]
+        parent = self.vnei_tree.parent(selected_item)
+        
+        if not parent:
+            return
+            
+        item_values = self.vnei_tree.item(selected_item, "values")
+        item_name = item_values[0]
+        item_type = item_values[2]
+        
+        self.set_note(item_type, item_name, "")
+        self.vnei_notes_text.delete("1.0", tk.END)
+        messagebox.showinfo("Info", f"Note for '{item_name}' cleared.")
+        # Refresh the tree to update visual indicators
+        self.populate_vnei_tree()
+        
+    def clear_notes_display(self):
+        """Clear the notes display when no item is selected"""
+        self.mod_notes_text.delete("1.0", tk.END)
+        self.vnei_notes_text.delete("1.0", tk.END)
+        
+    def on_closing(self):
+        """Handle window closing - save any unsaved notes"""
+        # Save current note if any item is selected
+        if self.current_selected_item:
+            note_text = self.mod_notes_text.get("1.0", tk.END).strip()
+            if note_text:
+                self.set_note("mod", self.current_selected_item, note_text)
+                
+        # Save VNEI note if any item is selected
+        selection = self.vnei_tree.selection()
+        if selection:
+            selected_item = selection[0]
+            parent = self.vnei_tree.parent(selected_item)
+            if parent:
+                item_values = self.vnei_tree.item(selected_item, "values")
+                item_name = item_values[0]
+                item_type = item_values[2]
+                note_text = self.vnei_notes_text.get("1.0", tk.END).strip()
+                if note_text:
+                    self.set_note(item_type, item_name, note_text)
+                    
+        # Save notes and close
+        self.save_notes()
+        self.root.destroy()
+        
     def resize_image_with_zoom(self, image, base_size):
         """Resize image with current zoom level"""
         zoomed_size = int(base_size * self.zoom_level)

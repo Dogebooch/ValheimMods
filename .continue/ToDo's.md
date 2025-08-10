@@ -10,11 +10,6 @@
 - Estimated time to kill: Regular mobs (10-30s), Elite mobs (45s to 3 minutes), Mini bosses (7-12 minutes), Regular/Elite Bosses (10-15 minutes)
 
 ---
-## BIGGEST TODO
-- [x] Review every mod's configuration to understand and document gameplay impact
-- [x] Raise Max level EpicMMO to 120
-- [x] Make the death XP cost less punishing
-- [] Make resetting attributes easier, so that we can respec pretty much whenever we want
 
 ## 2. Core Design Pillars
 
@@ -30,7 +25,7 @@
 - Adjust Creature Spawns to match target density and reward curve
 
 **ToDos:**
-  - [] Set Target Densities per Biome ([poi_density.csv](./poi_density.csv))
+  - [] Set Target Densities per Biome as below
     - [x] See how the Warpalicious mods interacts with the poi_density.csv
     - [x] Decide on estimated time to kill for:
           - [x] Regular Mobs - 10-30s
@@ -38,26 +33,15 @@
           - [x] Mini Bosses - 7-12 minutes
           - [x] Regular/Elite Bosses - 10-15 minutes
     - [x] Target "Exploration:Combat" ratio of about 3:1 most of the game, can be 2:1 in the Ashlands. Can estimate it by taking into account the density, chance to spawn and time interval for spawn for each mob
-    - [] Set Meadows = 0.40 targets per Km^2
-      - [] Adjust for Meadows Pack 1 & 2: 24 unique location types, 205 total instances
-        - [] Balance the amount of monsters per POI (decrease to decrease the overhead), or adjust the loot so it's stronger at those areas.
-      - [] Adjust for the Resource Nodes: ~40
-      - [] Adjust for Creature Spawns: +7-11 from Monstrum and MushroomMonsters
-        - [] Adjust the Creature Spawns to improve fps/overhead, adjust for +400% HP of the monsters, and change drops to compensate for the decreased spawn locations
-    - [] Set Blackforest = 0.30 targets per Km^2
-      - [] Adjust for Blackforest Packs 1 & 2, Forbidden Catacombs
-    - [] Set Swamp set = 0.28 targets per Km^2
-      - [] Adjust for Swamp Pack 1, Underground Ruins
-    - [] Set Mountains = 0.22 targets per Km^2
-      - [] Adjust for Mountains Pack 1
-    - [] Set Plains = 0.32 targets per Km^2
-      - [] Adjust for Plains Pack 1
-    - [] Set Mistlands = 0.20 targets per Km^2
-      - [] Adjust for Mistlands Pack 1
-    - [] Set DeepNorth = 0.14 targets per Km^2
-    - [] Set Ashlands = 0.16 targets per Km^2
-      - [] Adjust for Ashlands Pack 1
-    - [] Set Oceans = 0.06 Targets per Km^2
+    - [x] Set Meadows from 0.535/km^2 reduce to 0.4/km² (0.3 standard, 0.1 elite/challenge).
+    - [] Set Blackforest = _ targets per Km^2
+    - [] Set Swamp set = _ targets per Km^2
+    - [] Set Mountains = _ targets per Km^2
+    - [] Set Plains = _ targets per Km^2
+    - [] Set Mistlands = _ targets per Km^2
+    - [] Set DeepNorth = _ targets per Km^2: 24 new Creature spawns + 6 boss spawns
+    - [] Set Ashlands = _ targets per Km^2
+    - [] Set Oceans = _ Targets per Km^2  
     - [] Adjust for the More_World_Traders & the Adventure_Map_Pack
 
 ### 2.2 Boss → World Level Gating
@@ -386,3 +370,11 @@
 - Introduce boss-specific unique drops with rare rates and signature effects.
 - Expand RelicHeim armor sets with scalable set bonuses tied to world levels.
 - Implement tiered loot tables that unlock stronger rewards at higher world levels.
+
+
+### Finished (See Change Log):
+- [x] Review every mod's configuration to understand and document gameplay impact
+- [x] Raise Max level EpicMMO to 120
+- [x] Make the death XP cost less punishing
+- [x] Make resetting attributes easier, so that we can respec pretty much whenever we want
+
