@@ -12,15 +12,37 @@
 - Turned off non-combat XP
 - Lower EpicMMO attribute reset cost to 5 coins per point
 - XP loss on death : 25%-50% -> 5-15%
+- World Level start times : x days -> 9999 and changed "Second Factor" to BossesKilled (makes world level progression from boss killing, not in game days)
 
 ## Crafting & Recipes
 
-## Spawns
-- Raised global SpawnFrequencyMultiplier to 1.0; GoblinMage_TW, CorruptedDvergerMage_TW and SummonedSeeker_TW remain at 0.85
-- Spaced Mistlands uniques and ore: Mushrooms 750s, Queens 3% chance, giant_brain node 1200s
-- Thinned Mistlands POI density (~15%) and elite/rare weights
-- Stretched Mistlands raid intervals: Gjall 50s, Tick 25s, Brood 25s
-- Removed Tempest Neck Spawn
-- Extended POI RespawnTime Values: Standard site cooldown 1200, elite 1500
-- Standardized guarded resource nodes: 1200s interval with 15-20% spawn chance
+
+**Meadows**
+    - Lowered the global SpawnFrequencyMultiplier to 0.85
+    - Pruned Mushroom world spawns: Set longer intervals and lower chances
+    - Removed Tempest Neck Spawn
+    - Extended POI RespawnTime Values: Standard site cooldown 1200, elite 1500
+    - Standardized guarded resource nodes: 1200s interval with 15-20% spawn chance
+**Black Forest**
+    - Blackforest Greydwarf daytime spawns capped at 3
+    - Decreased daytime Blackforest Greydwarf daytime spawns to 12%
+    - Troll respawn -> from 600 to 900 for both day and night
+    - Greydwarf nest spawn ticks : increased to 25s
+    - Decreased Elites in Underground Ruins by replacing final wave with regular Greydwarfs
+    - Trimmed overlapping Black Forest POI's by removing GuardTower1 and RootsTower1 entries from Blackforest Pack2 configs
+**Swamp**
+    - Cut skeleton and poison skeleton spawn chances to 14%
+    - Abomination intervals increased to 2400s
+    - Bone pile respawn to 25s
+    - Draugr pile respawn to 25s
+    - Decreased spawn quantities of SwampTower1 to 13, SwampGrave1 to 16, SwampHouse1 to 13
+    - Reduced Elite listings in SwampHouse creature sets
+    - Replaced one BlobElite with a regular Blob inside Sunken Crypt halls
+    - Reduced Draugr_Ranged spawn chance to 35% during Bonemass fight
+**Mountains**
+    - Mushroom Mountain now checking every 750s
+    - Avalanche Drake checks every 1500s
+    - StoneForst1, StoneHall1, StoneTavern1, StoneTower1, StoneTower2 - Reduced spawn quantity to six
+    - elite and rare weights in mountains creature lists decreased
+    - extended Wild Lightning Wolf's spawn - increased to 1200s
 
