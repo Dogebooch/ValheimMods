@@ -1,3 +1,4 @@
+
 SpawnInterval = 750
 SpawnChance = 15.00
 SpawnInterval = 1500
