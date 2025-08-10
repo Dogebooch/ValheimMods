@@ -21,8 +21,8 @@ Armor:
   armorPerLevel: 1
 FoodStats:
   feastStacks: 10
-  m_foodHealth: 80
-  m_foodStamina: 80
+  m_foodHealth: 68
+  m_foodStamina: 92
   m_foodRegen: 6
   m_foodBurnTime: 3000
   m_FoodEitr: 40
