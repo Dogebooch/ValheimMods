@@ -1,7 +1,5 @@
 # Valheim Modpack Design Document
 
-## 1. Core Vision
-
 **One Sentence Summary:** Exploration‑first, **boss‑gated** Valheim with **RuneScape‑style skilling/progression** and **MMORPG‑style RNG itemization with soft class archetypes** (build‑defined, not hard‑locked), where **materials dominate routine drops** and **items are rare but meaningfully powerful**; **crafting (blacksmithing)** provides the base power ladder while **enchanting** is the primary customization, with Solo‑Leveling undertones across a \~350 to 400‑hour journey.
 
 **Timeframe Target:** 
@@ -10,59 +8,6 @@
 - Estimated time to kill: Regular mobs (10-30s), Elite mobs (45s to 3 minutes), Mini bosses (5 minutes), Regular/Elite Bosses (10-15 minutes)
 
 ---
-
-## 2. Core Design Pillars
-
-### 2.1 Exploration Over Treadmill
-
-**Goal:** POIs, routes, and biome mastery matter more than raw ARPG loot rain.
-
-**Objectives:**
-- Set POI density targets per biome and adjust mods/POI packs accordingly
-- Ensure monsters per POI and loot per POI are balanced for FPS and difficulty
-- Make engagements fun but not overwhelming by making an exploration:Combat ratio
-- Ensure breathing room for combat AND exploration
-- Adjust Creature Spawns to match target density and reward curve
-
-**ToDos:**
-  - [] Set Target Densities per Biome as below
-    - [x] See how the Warpalicious mods interacts with the poi_density.csv
-    - [x] Decide on estimated time to kill for:
-          - [x] Regular Mobs - 10-30s
-          - [x] Elite Mobs - 45 seconds to 3 minutes
-          - [x] Mini Bosses - 7-12 minutes
-          - [x] Regular/Elite Bosses - 10-15 minutes
-    - [x] Target "Exploration:Combat" ratio of about 3:1 most of the game, can be 2:1 in the Ashlands. Can estimate it by taking into account the density, chance to spawn and time interval for spawn for each mob
-    - [x] Set Meadows from 0.535/km^2 reduce to 0.4/km² (0.3 standard, 0.1 elite/challenge).
-    - [x] Set Blackforest = _ targets per Km^2
-    - [x] Set Swamp set = _ targets per Km^2
-    - [] Set Mountains = _ targets per Km^2
-    - [] Set Plains = _ targets per Km^2
-    - [] Set Mistlands = _ targets per Km^2
-    - [] Set DeepNorth = _ targets per Km^2: 24 new Creature spawns + 6 boss spawns
-    - [] Set Ashlands = _ targets per Km^2
-    - [] Set Oceans = _ Targets per Km^2  
-    - [] Adjust for the More_World_Traders & the Adventure_Map_Pack
-
-### 2.2 Boss → World Level Gating
-
-**Goal:** The world only advances after the relevant boss dies (server-wide), letting players set their own pace.
-
-**Objectives:**
-    - Enforce server-wide progression pacing via bosses
-
-**ToDos:**
-- [] Look for all of the mods that change boss gating/World Leveling
-- [] Ensure all biomes scale appropriately when unlocked
-- [x] Change gating so that the WL only increases when the base bosses are killed (WL1-8)
-  - [x] Eikthyr kill -> WL2
-  - [x] Elder Kill -> WL3
-  - [x] Bonemass Kill -> WL4
-  - [x] Moder Kill -> WL5
-  - [x] Yagluth Kill -> WL6
-  - [x] The Queen -> WL7
-  - [x] Deep North Boss -> WL8
-  - [x] Ashlands Boss -> WL9
 
 #### Boss Loot Configuration Tasks
 
@@ -230,7 +175,10 @@
 - **Note:** the factors may change based on balancing
 
 **ToDos:**
+**ToDos:**
 - [] Adjust the base Relicheim skilling levels so that it's adjusted for the new prolonged gametime: 400% XP boost
+- [] Conduct a comprehensive skills audit to identify balance issues
+- [] Add level gating to all soft skills
 - [] Set the Exp Factor gain for Tier 1 skills
   - [] Run
   - [] Weapon Skills
@@ -311,7 +259,6 @@
 - [] Space out POI density in late biomes to reduce clustering
 - [] Lower passive raid frequency to avoid constant interruptions
 - [] Slow or cap routine world spawns in high-density areas
-- [] Apply stronger global spawn throttles for peak load times
 - [] Calibrate loot drops to account for decreased monster spawns
 
 ### 3.2 Itemization & Drop Table Management
@@ -330,13 +277,6 @@
 - [] Consolidate crafting to fewer, more versatile crafting tables
 - [] Assign blacksmithing level requirements to item crafting
 - [] Adjust Durability to compensate for the 400% HP boost of the monsters
-
-### 3.4 Skills & Gating
-
-**ToDos:**
-- [] Pace skilling rates (integrate with AzuExp if applicable)
-- [] Conduct a comprehensive skills audit to identify balance issues
-- [] Add level gating to all soft skills
 
 ### 3.5 Balance & Mod Configuration
 
@@ -435,9 +375,49 @@ Seasonal & vanilla event pressure
 (Exact JSON/YAML knobs depend on your Seasons/Events files; mirror the same pattern you used for Meadows/Black Forest: set allowed biomes, weights, RequiredEnvironments, and WorldLevel conditions.)
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
 ### Finished (See Change Log):
+**Goal:** POIs, routes, and biome mastery matter more than raw ARPG loot rain.
+**Goal:** Set POI density targets per biome and adjust mods/POI packs accordingly
+**Goal:** Ensure monsters per POI and loot per POI are balanced for FPS and difficulty
+**Goal:** Make engagements fun but not overwhelming by making an exploration:Combat ratio
+**Goal:** Ensure breathing room for combat AND exploration
+**Goal:** Adjust Creature Spawns to match target density and reward curve\
+**Goal:** The world only advances after the relevant boss dies (server-wide), letting players set their own pace.
+
+
 - [x] Review every mod's configuration to understand and document gameplay impact
 - [x] Raise Max level EpicMMO to 120
 - [x] Make the death XP cost less punishing
 - [x] Make resetting attributes easier, so that we can respec pretty much whenever we want
+- [x] Set Target Densities per Biome as below
+    - [x] See how the Warpalicious mods interacts with the poi_density.csv
+    - [x] Decide on estimated time to kill for:
+          - [x] Regular Mobs - 10-30s
+          - [x] Elite Mobs - 45 seconds to 3 minutes
+          - [x] Mini Bosses - 7-12 minutes
+          - [x] Regular/Elite Bosses - 10-15 minutes
+    - [x] Target "Exploration:Combat" ratio of about 3:1 most of the game, can be 2:1 in the Ashlands. Can estimate it by taking into account the density, chance to spawn and time interval for spawn for each mob
+    - [x] Set Meadows from 0.535/km^2 reduce to 0.4/km² (0.3 standard, 0.1 elite/challenge).
+    - [x] Set Blackforest = _ targets per Km^2
+    - [x] Set Swamp set = _ targets per Km^2
+    - [x] Set Mountains = _ targets per Km^2
+    - [x] Set Plains = _ targets per Km^2
+    - [x] Set Mistlands = _ targets per Km^2
+    - [x] Set DeepNorth = _ targets per Km^2: 24 new Creature spawns + 6 boss spawns
+    - [x] Set Ashlands = _ targets per Km^2
+    - [x] Set Oceans = _ Targets per Km^2  
+    - [x] Adjust for the More_World_Traders & the Adventure_Map_Pack
+    - [x] Look for all of the mods that change boss gating/World Leveling
+- [x] Ensure all biomes scale appropriately when unlocked
+- [x] Change gating so that the WL only increases when the base bosses are killed (WL1-8)
+  - [x] Eikthyr kill -> WL2
+  - [x] Elder Kill -> WL3
+  - [x] Bonemass Kill -> WL4
+  - [x] Moder Kill -> WL5
+  - [x] Yagluth Kill -> WL6
+  - [x] The Queen -> WL7
+  - [x] Deep North Boss -> WL8
+  - [x] Ashlands Boss -> WL9
 

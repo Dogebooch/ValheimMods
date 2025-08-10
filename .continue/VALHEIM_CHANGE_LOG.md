@@ -63,3 +63,7 @@
     - Added atmospheric patrol life via small Arctic Wolf packs and a rare Jotunn Scout to hint at late-game threats
 **Ashlands**
     - Reduced the Mushroom Ashlands world-spawner’s spawn chance to 18%, spacing out mushroom spawns for a slightly lower density in the Ashlands biome
+**More World Traders**
+    - Reduced the number of world-generation attempts for the Plains Tavern trader POI from four to three, aligning its spawn rate with the desired configuration
+    - Updated both Black Forest blacksmith locations so each now spawns only three traders instead of four
+    - Lowered spawn quantities to three for the Mountains Blacksmith, Mistlands Camp, Ocean Tavern, and Plains Camp trader POIs, ensuring consistent trader density across all More World Traders locations
