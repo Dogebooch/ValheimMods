@@ -16,7 +16,7 @@
 
 ## Crafting & Recipes
 
-## Spawns
+
 **Meadows**
     - Lowered the global SpawnFrequencyMultiplier to 0.85
     - Pruned Mushroom world spawns: Set longer intervals and lower chances
@@ -45,3 +45,4 @@
     - StoneForst1, StoneHall1, StoneTavern1, StoneTower1, StoneTower2 - Reduced spawn quantity to six
     - elite and rare weights in mountains creature lists decreased
     - extended Wild Lightning Wolf's spawn - increased to 1200s
+
