@@ -1,0 +1,7 @@
+Copyright 2023 Soloredis
+
+No permissions are granted to end users beyond the use of the DLL for modding the game. End users may repackage the DLL in modpacks without consequence. However, ripping or reuploading assets is expressly not permitted.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software") to use the Software strictly for personal or server-based game modding. The extraction and use of custom or licensed assets is not granted. Anyone wishing to use such assets must request permission.
+
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

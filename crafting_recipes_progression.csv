@@ -1,6 +1,0 @@
-item_name,workstation,station_level_req,wl_min,wl_max,ingredients,batch_output,notes
-CrossbowEikthyr_TW,$piece_fletchertable_TW,1,2,3,"RoundLog:30; HardAntler:16; DeerHide:16; TrophyEikthyr:1",1,"Recipe: Valheim/cache/JewelHeim-RelicHeim/5.4.9/config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_CrossbowEikthyr_TW.yml"
-DualScytheBloodthirst_TW,$piece_forge,4,5,7,"Iron:40; RottenPelt_TW:20; Bloodbag:20; TrophyVrykolathas_TW:1",1,"Recipe: .../zOther/Therzie/Recipe_DualScytheBloodthirst_TW.yml; BiS static legendary"
-WispPotion_JH,$piece_meadcauldron,1,6,7,"Wisp:3; MeadTasty:3",3,"Recipe: .../Food/Recipe_WispPotion_JH.yml"
-WindPotion_JH,$piece_meadcauldron,1,3,7,"MeadTasty:1; SurtlingCore:1; Thistle:5; InfusedCrystal_JH:5",1,"Recipe: .../Food/Recipe_WindPotion_JH.yml"
-ShardElder_TW (chest),N/A,N/A,2,3,N/A,N/A,"Obtained from chests: see drop_that.drop_table.Chests.cfg [TreasureChest_*]"

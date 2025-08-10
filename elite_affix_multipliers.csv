@@ -1,9 +1,0 @@
-affix_name,hp_mult,dmg_mult,projectile_factor,aoe_factor,resist_mods,loot_bonus_mult,notes
-Aggressive,1.0,1.15,,,"-",1.0,"CLLC: Aggressive effect chance 20%; power implied. File: .../org.bepinex.plugins.creaturelevelcontrol.cfg (effects on)"
-Quick,1.0,1.0,,1.1,"-",1.0,"CLLC: Quick effect chance 10%"
-Regenerating,1.1,1.0,,,"+HP regen",1.0,"CLLC: Regenerating effect chance 10%"
-Armored,1.2,0.95,,,"+physical resist",1.0,"CLLC: Armored effect chance 1% (rarer, tougher)"
-Elementalist (boss),1.0,1.25,,1.0,"+elemental dmg",1.0,"CLLC boss affix Elementalist damage increase 25%"
-Enraged (boss),1.0,1.25,,1.0,"+physical dmg",1.0,"CLLC boss affix Enraged damage increase 25%"
-Mending (boss),1.0,1.0,,1.0,"self-heal x0.1",1.0,"CLLC Mending healing factor 0.1"
-Summoner (boss),1.0,1.0,,1.0,"adds minions",1.0,"CLLC number of summons 3"

@@ -1,6 +1,0 @@
-effect_name,source_enemy_or_item,dot_dps,dot_duration_s,slow_pct,armor_reduction,stacks_max,prevalence_pct,notes
-Poison_Swamp,Blob/Abomination,8,10,0,0,1,30,"Common swamp DOT"
-Burn_Ashlands,Charred,10,8,0,0,1,20,"Ashlands mobs"
-Frost_Bite,Hatchling/Drake,6,6,15,0,1,25,"Move slow from frost hits"
-Lightning_Burst,Item_CrossbowEikthyr_TW,12,4,0,0,1,10,"SE from item: Warfare_LightningBurstStacking"
-Vampirism,ScytheVampiric_TW,0,0,0,0,1,5,"Leech on hit; see item set effects (representative)"

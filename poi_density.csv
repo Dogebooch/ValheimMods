@@ -1,9 +1,0 @@
-biome,poi_type,count_per_km2,avg_encounters_per_poi,avg_chests_per_poi,notes
-Meadows,Shipwreck,0.4,0.5,1.5,"Warpalicious Meadows Pack; see loot in drop_that.drop_table.Chests.cfg [shipwreck_*]"
-BlackForest,TrollCave,0.3,2.0,1.5,"Warpalicious Blackforest Packs; troll cave chests configured"
-Swamp,SunkenCrypt,0.25,3.0,4.0,"Crypts have high chest density; arrows disabled per file"
-Mountains,MountainCave,0.2,2.0,3.0,"Hildir caves present; crystal/coin chests"
-Plains,Forts/Stone,0.3,2.5,3.0,"Hildir plains fortress chests"
-Mistlands,DvergrTown,0.15,3.0,4.0,"Dvergr chests; ShardQueen WL6+"
-Ashlands,CharredFortress,0.1,3.0,4.0,"Fortress chests; 500–1000 coins and flametal (post-queen)"
-DeepNorth,Caves/Dungeons,0.08,2.5,3.0,"Deep North dungeon chests; YmirRemains"

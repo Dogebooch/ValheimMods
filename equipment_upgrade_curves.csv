@@ -1,6 +1,0 @@
-item_name,type,base_armor_or_damage,upgrade_level,armor_or_damage_at_level,resistances,wl_min,wl_max,notes
-CrossbowEikthyr_TW,weapon_pierce+lightning,"Pierce 38, Lightning 3",1,"Pierce 41, Lightning 5",-,2,3,"Item file: .../Items/_RelicHeimWDB2.0/zOther/Therzie/Item_CrossbowEikthyr_TW.yml (per-level: +3 pierce, +2 lightning; maxQuality=12)"
-CrossbowEikthyr_TW,weapon_pierce+lightning,"Pierce 38, Lightning 3",5,"Pierce 50, Lightning 11",-,2,3,"Same pattern"
-CrossbowEikthyr_TW,weapon_pierce+lightning,"Pierce 38, Lightning 3",10,"Pierce 65, Lightning 21",-,2,3,"Same pattern"
-GreatbowModer_TW,weapon_frost+pierce,"Frost 60, Pierce 25",1,"Frost 66, Pierce 29",-,4,6,"Item file: .../Items/_RelicHeimWDB2.0/Weapons_Bows/Item_GreatbowModer_TW.yml (per-level: +6 frost, +4 pierce; maxQuality=4)"
-Generic_T5_Shield,shield_block,"Block 90",1,"Block 95",+elemental resist,6,7,"Representative shield curve; per-level small block gains"

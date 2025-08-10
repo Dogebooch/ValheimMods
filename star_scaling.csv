@@ -1,6 +1,0 @@
-stars,hp_mult,dmg_mult,loot_bonus_mult,spawn_weight_mult,notes
-0,1.0,1.0,1.0,1.0,"Base; CLLC Base HP 400%/DMG 120% handled elsewhere"
-1,1.5,1.35,2.0,0.8,"Per-star from CLLC: +50% HP, +35% DMG; loot per star 100% for creatures"
-2,2.25,1.82,3.0,0.6,"Derived multiplicatively; fewer spawns"
-3,3.38,2.46,4.0,0.4,"High-star rare"
-4,5.06,3.32,5.0,0.2,"Derived multiplicatively; bosses use boss_star_scaling.csv"

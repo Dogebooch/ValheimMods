@@ -1,4 +1,0 @@
-set_name,pieces_required,wl_target,piece_bonuses,full_set_bonus,scales_with_wl,scaling_formula,notes
-Electromancer (Wizardry),4,6,"+Eitr, +EitrRegen","+Lightning damage, +Resist Lightning",yes,"+2% dmg per WL ≥6","Items spread across Therzie.Wizardry; see config/Therzie.Wizardry.cfg and WackyDB item YAMLs"
-Njord (Fists),3,6,"+Fist dmg","+Frost add-on on fists",no,,"Representative set; exact YAML paths distributed"
-Surtr (Fire),4,7,"+Fire res","+Fire dmg and periodic burn aura",yes,"+2% aura DPS per WL ≥7","Representative"

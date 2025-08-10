@@ -3,12 +3,13 @@
   authorName: denikson
   websiteUrl: https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/
   displayName: BepInExPack_Valheim
-  description: BepInEx pack for Valheim. Preconfigured and includes unstripped Unity DLLs.
+  description: BepInEx pack for Valheim. Preconfigured with the correct entry
+    point for mods and preferred defaults for the community.
   gameVersion: "0"
   networkMode: both
   packageType: other
   installMode: managed
-  installedAtTime: 1749131736279
+  installedAtTime: 1754768084391
   loaders: []
   dependencies: []
   incompatibilities: []
@@ -16,9 +17,9 @@
   versionNumber:
     major: 5
     minor: 4
-    patch: 2202
+    patch: 2332
   enabled: true
-  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\denikson-BepInExPack_Valheim\5.4.2202\icon.png
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\denikson-BepInExPack_Valheim\5.4.2332\icon.png
 - manifestVersion: 1
   name: Azumatt-Official_BepInEx_ConfigurationManager
   authorName: Azumatt
@@ -2345,3 +2346,28 @@
     patch: 1
   enabled: true
   icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Dogeheim_Player\BepInEx\plugins\ValheimModding-YamlDotNet\icon.png
+- manifestVersion: 1
+  name: Soloredis-RtDMagic
+  authorName: Soloredis
+  websiteUrl: https://thunderstore.io/c/valheim/p/Soloredis/RtDMagic/
+  displayName: RtDMagic
+  description: A multitude of Magic staffs, wands, four tiers of healing staffs
+    with AOE, early game Eitr food and mage armor.Has recipes upon installation,
+    and automatically unlocks more if RtDMonsters & or RtDMonstrum is detected.
+  gameVersion: "0"
+  networkMode: both
+  packageType: other
+  installMode: managed
+  installedAtTime: 1754768084562
+  loaders: []
+  dependencies:
+    - ValheimModding-Jotunn-2.26.0
+    - denikson-BepInExPack_Valheim-5.4.2202
+  incompatibilities: []
+  optionalDependencies: []
+  versionNumber:
+    major: 0
+    minor: 4
+    patch: 9
+  enabled: true
+  icon: C:\Users\drumm\AppData\Roaming\r2modmanPlus-local\Valheim\cache\Soloredis-RtDMagic\0.4.9\icon.png

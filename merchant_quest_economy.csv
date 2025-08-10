@@ -1,6 +1,0 @@
-vendor_name,item_name,wl_min,wl_max,buy_price,sell_price,daily_limit,quest_reward,quest_cooldown_days,notes
-PlainsTavern1_Trader,DragonEgg,4,6,500,,1,,,"File: Valheim/profiles/Dogeheim_Player/BepInEx/config/shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sell.json (requires defeated_dragon)"
-PlainsTavern1_Trader,BlackCore,6,7,300,,2,,,"Same file (requires defeated_queen)"
-PlainsTavern1_Trader,Cloudberry,4,6,4,,20,,,"Requires defeated_dragon"
-PlainsTavern1_Trader,Amber,3,4,100,,10,,,"Requires defeated_bonemass"
-PlainsTavern1_Trader,Coins,0,7,,1,500,,,"Representative buyback; not explicit in file"
