@@ -7,7 +7,7 @@
 **Timeframe Target:** 
 - **WL7 \~350h avg**
 - Full journey **\~350–400h** with WL8+
-- Estimated time to kill: Regular mobs (10-30s), Elite mobs (45s to 3 minutes), Mini bosses (7-12 minutes), Regular/Elite Bosses (10-15 minutes)
+- Estimated time to kill: Regular mobs (10-30s), Elite mobs (45s to 3 minutes), Mini bosses (5 minutes), Regular/Elite Bosses (10-15 minutes)
 
 ---
 
@@ -34,8 +34,8 @@
           - [x] Regular/Elite Bosses - 10-15 minutes
     - [x] Target "Exploration:Combat" ratio of about 3:1 most of the game, can be 2:1 in the Ashlands. Can estimate it by taking into account the density, chance to spawn and time interval for spawn for each mob
     - [x] Set Meadows from 0.535/km^2 reduce to 0.4/km² (0.3 standard, 0.1 elite/challenge).
-    - [] Set Blackforest = _ targets per Km^2
-    - [] Set Swamp set = _ targets per Km^2
+    - [x] Set Blackforest = _ targets per Km^2
+    - [x] Set Swamp set = _ targets per Km^2
     - [] Set Mountains = _ targets per Km^2
     - [] Set Plains = _ targets per Km^2
     - [] Set Mistlands = _ targets per Km^2
@@ -54,15 +54,15 @@
 **ToDos:**
 - [] Look for all of the mods that change boss gating/World Leveling
 - [] Ensure all biomes scale appropriately when unlocked
-- [] Change gating so that the WL only increases when the base bosses are killed (WL1-8)
-  - [] Eikthyr kill -> WL2
-  - [] Elder Kill -> WL3
-  - [] Bonemass Kill -> WL4
-  - [] Moder Kill -> WL5
-  - [] Yagluth Kill -> WL6
-  - [] The Queen -> WL7
-  - [] Deep North Boss -> WL8
-  - [] Ashlands Boss -> WL9
+- [x] Change gating so that the WL only increases when the base bosses are killed (WL1-8)
+  - [x] Eikthyr kill -> WL2
+  - [x] Elder Kill -> WL3
+  - [x] Bonemass Kill -> WL4
+  - [x] Moder Kill -> WL5
+  - [x] Yagluth Kill -> WL6
+  - [x] The Queen -> WL7
+  - [x] Deep North Boss -> WL8
+  - [x] Ashlands Boss -> WL9
 
 #### Boss Loot Configuration Tasks
 
@@ -370,7 +370,70 @@
 - Introduce boss-specific unique drops with rare rates and signature effects.
 - Expand RelicHeim armor sets with scalable set bonuses tied to world levels.
 - Implement tiered loot tables that unlock stronger rewards at higher world levels.
-
+- Expanding Deep North Content: 
+Raids (Custom Raids)
+Global framework
+You currently check raids every 60 min with a 40% global chance. In DN that can feel busy once seasonal & vanilla events pile on. Two good options:
+Option A (minimal change): keep global, but tone down DN raids locally by raising their per‑interval timers and lowering their per‑interval chances.
+Option B (cleaner long‑term): turn on UseIndividualRaidChecks = true and set:
+    MinimumTimeBetweenRaids = 120 (2 h biome breathing room)
+    lower the per‑raid chances (see below)
+Either way, DN raids should be short, sharp, and rarer than Meadows/Mistlands.
+Per‑raid edits (examples)
+DireWolf_Army_JH – stays scary, but fewer procs and smaller waves.
+# [DireWolf_Army_JH]
+Duration = 90
+# waves
+MaxSpawned = 2                    # keep cap tight
+SpawnInterval = 45                # was 30 → fewer rolls per raid
+SpawnChancePerInterval = 60       # was 95 → lower flood risk
+GroupSizeMin = 2
+GroupSizeMax = 3
+# optional: weather to make it “storm hunts”
+RequiredEnvironments = SnowStorm
+# If using individual checks:
+# ChanceToStart = 18   # instead of relying on global, keep DN raids rare
+Jotunn_Army_JH → Jotunn_Army1_JH – WL8+ set‑piece, trim frequency; keep spectacle.
+# [Jotunn_Army_JH]
+Duration = 90
+SpawnInterval = 45           # was 30
+SpawnChancePerInterval = 60  # was 95
+GroupSizeMin = 2
+GroupSizeMax = 3
+ConditionWorldLevelMin = 8   # push real Jotunn pushes to WL8
+# follow-up
+# [Jotunn_Army1_JH]
+Duration = 60
+SpawnInterval = 45
+SpawnChancePerInterval = 60
+ConditionWorldLevelMin = 8
+Storm_Army_JH – bind strictly to storms so it becomes a “weather event”.
+# [Storm_Army_JH]
+SpawnInterval = 45
+SpawnChancePerInterval = 55
+RequiredEnvironments = SnowStorm   # make it a true storm event
+ConditionWorldLevelMin = 7
+HelHounds/WarBringer/Doomcaller/Legionnaire/Daggerfang (Surtr set)
+These read as Ashlands‑aligned. Let them appear in DN only as night‑rarities at WL8, and cut density so they don’t dilute DN identity:
+# e.g., [WarBringer_Army_JH]
+SpawnAtNight = true
+SpawnAtDay = false
+SpawnInterval = 50
+SpawnChancePerInterval = 45
+GroupSizeMin = 2
+GroupSizeMax = 2
+ConditionWorldLevelMin = 8
+IceStalker_Army_JH (serpents) – keep spectacle but avoid shoreline spam:
+SpawnInterval = 75           # was 60
+SpawnChancePerInterval = 55  # was 95
+ConditionDistanceToCenterMin = 2500   # was 2000
+    TL;DR raids get longer intervals and lower per‑interval chance; late‑tier raids WL‑gated (Jotunn/Surtr at WL8), and several bind to SnowStorm or Night so you naturally get “quiet stretches.”
+Seasonal & vanilla event pressure
+    Seasonal: keep your “wolves in winter” weight bump, but set DN weights to 0 or 0.5 for off‑theme events (e.g., army_charred, army_charredspawners, army_seekers) so DN keeps its icy identity.
+    Vanilla: allow Bats only during Night and SnowStorm, and drop their per‑interval chance to avoid bat‑spam in DN.
+    Hildir bosses (in DN): WL‑gate them to 7+ and reduce their support minions’ SpawnChancePerInterval by ~30–40% in DN so they don’t crowd the biome baseline.
+(Exact JSON/YAML knobs depend on your Seasons/Events files; mirror the same pattern you used for Meadows/Black Forest: set allowed biomes, weights, RequiredEnvironments, and WorldLevel conditions.)
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Finished (See Change Log):
 - [x] Review every mod's configuration to understand and document gameplay impact

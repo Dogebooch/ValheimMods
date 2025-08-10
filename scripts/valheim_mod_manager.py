@@ -49,6 +49,7 @@ class ValheimModManager:
         self.mod_icons = {}
         self.vnei_data = {}
         self.vnei_icons = {}
+        self.loot_data = {}  # Loot table data
         self.zoom_level = 1.0  # Default zoom level
         self.categories = {
             "🛡️ Armor & Equipment": ["armor", "equipment", "clothing"],
@@ -72,6 +73,7 @@ class ValheimModManager:
         self.setup_ui()
         self.load_mods_data()
         self.load_vnei_data()
+        self.load_loot_data()
         
         # Update notes counter
         self.update_notes_counter()
@@ -202,6 +204,10 @@ class ValheimModManager:
         vnei_frame = ttk.Frame(self.notebook)
         self.notebook.add(vnei_frame, text="VNEI Items")
         
+        # Loot Tables tab
+        loot_frame = ttk.Frame(self.notebook)
+        self.notebook.add(loot_frame, text="Loot Tables")
+        
         # Mods tab content
         mods_content_frame = ttk.Frame(mods_frame)
         mods_content_frame.pack(fill=tk.BOTH, expand=True)
@@ -220,8 +226,12 @@ class ValheimModManager:
         
         # Configure tree style for better scaling
         style = ttk.Style()
-        self.mod_tree_style = style.theme_use()
-        self.mod_tree.configure(style=self.mod_tree_style)
+        # Use a more compatible theme approach
+        try:
+            self.mod_tree_style = style.theme_use()
+        except:
+            self.mod_tree_style = "default"
+        # Don't configure style directly to avoid vista layout issues
         
         # Configure columns
         self.mod_tree.heading("#0", text="Icon")
@@ -233,15 +243,15 @@ class ValheimModManager:
         self.mod_tree.heading("Status", text="Status")
         self.mod_tree.column("Status", width=80, minwidth=80)
         
-        # Apply initial scaling
-        self.update_tree_scaling()
-        
         # Configure tree styling for notes indicators
         style = ttk.Style()
-        style.configure("Treeview", rowheight=25)
-        style.map("Treeview", 
-                 background=[("tag", "has_notes", "#e6f3ff")],  # Light blue background for items with notes
-                 foreground=[("tag", "has_notes", "#000000")])  # Black text
+        try:
+            style.configure("Treeview", rowheight=25)
+            style.map("Treeview", 
+                     background=[("tag", "has_notes", "#e6f3ff")],  # Light blue background for items with notes
+                     foreground=[("tag", "has_notes", "#000000")])  # Black text
+        except Exception as e:
+            print(f"Warning: Could not configure Treeview style: {e}")
         
         # Scrollbar for mod list
         mod_scrollbar = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.mod_tree.yview)
@@ -338,6 +348,12 @@ class ValheimModManager:
         
         # VNEI Items tab content
         self.setup_vnei_ui(vnei_frame)
+        
+        # Loot Tables tab content
+        self.setup_loot_tables_ui(loot_frame)
+        
+        # Apply initial scaling after all UI components are initialized
+        self.update_tree_scaling()
         
     def load_mods_data(self):
         """Load mod data from cache and configuration"""
@@ -923,8 +939,12 @@ class ValheimModManager:
         
         # Configure tree style for better scaling
         style = ttk.Style()
-        self.vnei_tree_style = style.theme_use()
-        self.vnei_tree.configure(style=self.vnei_tree_style)
+        # Use a more compatible theme approach
+        try:
+            self.vnei_tree_style = style.theme_use()
+        except:
+            self.vnei_tree_style = "default"
+        # Don't configure style directly to avoid vista layout issues
         
         # Configure columns
         self.vnei_tree.heading("#0", text="Icon")
@@ -943,11 +963,14 @@ class ValheimModManager:
         
         # Configure VNEI tree styling for notes indicators
         style = ttk.Style()
-        style.configure("VNEITreeview", rowheight=25)
-        style.map("VNEITreeview", 
-                 background=[("tag", "has_notes", "#e6f3ff")],  # Light blue background for items with notes
-                 foreground=[("tag", "has_notes", "#000000")])  # Black text
-        self.vnei_tree.configure(style="VNEITreeview")
+        try:
+            style.configure("VNEITreeview", rowheight=25)
+            style.map("VNEITreeview", 
+                     background=[("tag", "has_notes", "#e6f3ff")],  # Light blue background for items with notes
+                     foreground=[("tag", "has_notes", "#000000")])  # Black text
+            self.vnei_tree.configure(style="VNEITreeview")
+        except Exception as e:
+            print(f"Warning: Could not configure VNEITreeview style: {e}")
         
         # Scrollbar for VNEI items
         vnei_scrollbar = ttk.Scrollbar(vnei_list_frame, orient=tk.VERTICAL, command=self.vnei_tree.yview)
@@ -1374,18 +1397,21 @@ class ValheimModManager:
         # Update tree styles with scaled fonts
         style = ttk.Style()
         
-        # Configure Treeview style with larger font
-        style.configure("Treeview", 
-                       font=("TkDefaultFont", scaled_font_size),
-                       rowheight=scaled_row_height)
-        
-        # Configure Treeview headings with larger font
-        style.configure("Treeview.Heading", 
-                       font=("TkDefaultFont", scaled_font_size, "bold"))
-        
-        # Apply the style to both trees
-        self.mod_tree.configure(style="Treeview")
-        self.vnei_tree.configure(style="Treeview")
+        try:
+            # Configure Treeview style with larger font
+            style.configure("Treeview", 
+                           font=("TkDefaultFont", scaled_font_size),
+                           rowheight=scaled_row_height)
+            
+            # Configure Treeview headings with larger font
+            style.configure("Treeview.Heading", 
+                           font=("TkDefaultFont", scaled_font_size, "bold"))
+            
+            # Apply the style to both trees
+            self.mod_tree.configure(style="Treeview")
+            self.vnei_tree.configure(style="Treeview")
+        except Exception as e:
+            print(f"Warning: Could not update tree scaling: {e}")
         
         # Update column widths for better text display
         name_width = max(150, int(200 * self.zoom_level))
@@ -1413,12 +1439,753 @@ class ValheimModManager:
         self.load_vnei_data()
         self.filter_vnei_items()
 
+    def setup_loot_tables_ui(self, parent_frame):
+        """Setup the loot tables interface"""
+        # Loot Tables control frame
+        loot_control_frame = ttk.LabelFrame(parent_frame, text="Loot Tables Analysis")
+        loot_control_frame.pack(fill=tk.X, padx=10, pady=10)
+        
+        # Parse button
+        ttk.Button(loot_control_frame, text="🔄 Parse Config Files", command=self.parse_loot_configs).pack(side=tk.LEFT, padx=5, pady=5)
+        
+        # Load data button
+        ttk.Button(loot_control_frame, text="📂 Load Data", command=self.load_loot_data).pack(side=tk.LEFT, padx=5, pady=5)
+        
+        # Export button
+        ttk.Button(loot_control_frame, text="💾 Export Data", command=self.export_loot_data).pack(side=tk.LEFT, padx=5, pady=5)
+        
+        # Search entry
+        ttk.Label(loot_control_frame, text="Search:").pack(side=tk.LEFT, padx=(20, 5), pady=5)
+        self.loot_search_var = tk.StringVar()
+        self.loot_search_var.trace('w', self.filter_loot_data)
+        loot_search_entry = ttk.Entry(loot_control_frame, textvariable=self.loot_search_var, width=20)
+        loot_search_entry.pack(side=tk.LEFT, padx=5, pady=5)
+        
+        # View selector
+        ttk.Label(loot_control_frame, text="View:").pack(side=tk.LEFT, padx=(20, 5), pady=5)
+        self.loot_view_var = tk.StringVar(value="overview")
+        loot_view_combo = ttk.Combobox(loot_control_frame, textvariable=self.loot_view_var, 
+                                      values=["overview", "loot_tables", "items", "sources", "statistics"],
+                                      state="readonly", width=15)
+        loot_view_combo.pack(side=tk.LEFT, padx=5, pady=5)
+        loot_view_combo.bind("<<ComboboxSelected>>", self.change_loot_view)
+        
+        # Loot Tables content area
+        loot_content_frame = ttk.Frame(parent_frame)
+        loot_content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+        
+        # Create notebook for different loot views
+        self.loot_notebook = ttk.Notebook(loot_content_frame)
+        self.loot_notebook.pack(fill=tk.BOTH, expand=True)
+        
+        # Overview tab
+        self.loot_overview_frame = ttk.Frame(self.loot_notebook)
+        self.loot_notebook.add(self.loot_overview_frame, text="Overview")
+        
+        # Loot Tables tab
+        self.loot_tables_frame = ttk.Frame(self.loot_notebook)
+        self.loot_notebook.add(self.loot_tables_frame, text="Loot Tables")
+        
+        # Items tab
+        self.loot_items_frame = ttk.Frame(self.loot_notebook)
+        self.loot_notebook.add(self.loot_items_frame, text="Items")
+        
+        # Sources tab
+        self.loot_sources_frame = ttk.Frame(self.loot_notebook)
+        self.loot_notebook.add(self.loot_sources_frame, text="Sources")
+        
+        # Statistics tab
+        self.loot_stats_frame = ttk.Frame(self.loot_notebook)
+        self.loot_notebook.add(self.loot_stats_frame, text="Statistics")
+        
+        # Setup individual tabs
+        self.setup_loot_overview_tab()
+        self.setup_loot_tables_tab()
+        self.setup_loot_items_tab()
+        self.setup_loot_sources_tab()
+        self.setup_loot_statistics_tab()
+
+    def setup_loot_overview_tab(self):
+        """Setup the loot overview tab"""
+        # Statistics display
+        stats_frame = ttk.LabelFrame(self.loot_overview_frame, text="Statistics", padding=10)
+        stats_frame.pack(fill=tk.X, padx=10, pady=10)
+        
+        self.loot_stats_text = tk.Text(stats_frame, height=8, wrap=tk.WORD)
+        self.loot_stats_text.pack(fill=tk.X)
+        
+        # Charts frame
+        charts_frame = ttk.Frame(self.loot_overview_frame)
+        charts_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Create matplotlib figure for charts
+        try:
+            import matplotlib.pyplot as plt
+            from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+            
+            self.loot_overview_fig, (self.loot_ax1, self.loot_ax2) = plt.subplots(1, 2, figsize=(12, 6))
+            self.loot_overview_canvas = FigureCanvasTkAgg(self.loot_overview_fig, charts_frame)
+            self.loot_overview_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+        except ImportError:
+            # Fallback if matplotlib is not available
+            self.loot_overview_canvas = None
+            ttk.Label(charts_frame, text="Matplotlib not available for charts").pack(pady=20)
+
+    def setup_loot_tables_tab(self):
+        """Setup the loot tables tab"""
+        # Treeview for loot tables
+        tree_frame = ttk.Frame(self.loot_tables_frame)
+        tree_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Create Treeview for loot tables
+        columns = ("Name", "Source", "Items", "Description")
+        self.loot_tables_tree = ttk.Treeview(tree_frame, columns=columns, show="headings", height=20)
+        
+        # Configure columns
+        for col in columns:
+            self.loot_tables_tree.heading(col, text=col, command=lambda c=col: self.sort_loot_treeview(self.loot_tables_tree, c, False))
+            self.loot_tables_tree.column(col, width=150)
+        
+        # Scrollbars
+        v_scrollbar = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.loot_tables_tree.yview)
+        h_scrollbar = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL, command=self.loot_tables_tree.xview)
+        self.loot_tables_tree.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+        
+        # Pack treeview and scrollbars
+        self.loot_tables_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        v_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        h_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        # Bind double-click to show details
+        self.loot_tables_tree.bind("<Double-1>", self.show_loot_table_details)
+
+    def setup_loot_items_tab(self):
+        """Setup the loot items tab"""
+        # Treeview for items
+        tree_frame = ttk.Frame(self.loot_items_frame)
+        tree_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Create Treeview for items
+        columns = ("Item", "Loot Tables", "Sources")
+        self.loot_items_tree = ttk.Treeview(tree_frame, columns=columns, show="headings", height=20)
+        
+        # Configure columns
+        for col in columns:
+            self.loot_items_tree.heading(col, text=col, command=lambda c=col: self.sort_loot_treeview(self.loot_items_tree, c, False))
+            self.loot_items_tree.column(col, width=200)
+        
+        # Scrollbars
+        v_scrollbar = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.loot_items_tree.yview)
+        h_scrollbar = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL, command=self.loot_items_tree.xview)
+        self.loot_items_tree.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+        
+        # Pack treeview and scrollbars
+        self.loot_items_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        v_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        h_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        # Bind double-click to show details
+        self.loot_items_tree.bind("<Double-1>", self.show_loot_item_details)
+
+    def setup_loot_sources_tab(self):
+        """Setup the loot sources tab"""
+        # Treeview for sources
+        tree_frame = ttk.Frame(self.loot_sources_frame)
+        tree_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Create Treeview for sources
+        columns = ("Source", "Loot Tables", "Items", "Description")
+        self.loot_sources_tree = ttk.Treeview(tree_frame, columns=columns, show="headings", height=20)
+        
+        # Configure columns
+        for col in columns:
+            self.loot_sources_tree.heading(col, text=col, command=lambda c=col: self.sort_loot_treeview(self.loot_sources_tree, c, False))
+            self.loot_sources_tree.column(col, width=150)
+        
+        # Scrollbars
+        v_scrollbar = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.loot_sources_tree.yview)
+        h_scrollbar = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL, command=self.loot_sources_tree.xview)
+        self.loot_sources_tree.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+        
+        # Pack treeview and scrollbars
+        self.loot_sources_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        v_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        h_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+
+    def setup_loot_statistics_tab(self):
+        """Setup the loot statistics tab"""
+        # Charts frame
+        charts_frame = ttk.Frame(self.loot_stats_frame)
+        charts_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Create matplotlib figure for detailed charts
+        try:
+            import matplotlib.pyplot as plt
+            from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+            
+            self.loot_stats_fig, ((self.loot_ax3, self.loot_ax4), (self.loot_ax5, self.loot_ax6)) = plt.subplots(2, 2, figsize=(14, 10))
+            self.loot_stats_canvas = FigureCanvasTkAgg(self.loot_stats_fig, charts_frame)
+            self.loot_stats_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+        except ImportError:
+            # Fallback if matplotlib is not available
+            self.loot_stats_canvas = None
+            ttk.Label(charts_frame, text="Matplotlib not available for statistics charts").pack(pady=20)
+
     def refresh_data(self):
         """Refresh all mod data"""
         self.mods_data.clear()
         self.mod_icons.clear()
         self.load_mods_data()
         self.filter_mods()
+
+    def load_loot_data(self):
+        """Load loot table data from JSON file"""
+        try:
+            data_file = Path("loot_table_data.json")
+            if data_file.exists():
+                with open(data_file, 'r', encoding='utf-8') as f:
+                    self.loot_data = json.load(f)
+                self.update_loot_views()
+                self.status_var.set(f"Loaded loot data: {len(self.loot_data.get('loot_tables', {}))} tables")
+            else:
+                self.status_var.set("No loot data file found. Please parse config files first.")
+        except Exception as e:
+            self.status_var.set(f"Error loading loot data: {e}")
+
+    def parse_loot_configs(self):
+        """Parse loot table configuration files"""
+        self.status_var.set("Parsing loot table configurations...")
+        self.root.update()
+        
+        try:
+            # Import the loot table parser functionality
+            from collections import defaultdict
+            import re
+            
+            # Initialize data structures
+            loot_tables = {}
+            item_mappings = defaultdict(list)
+            all_items = set()
+            
+            # Parse Warpalicious loot lists
+            loot_file = self.config_path / "warpalicious.More_World_Locations_LootLists.yml"
+            if loot_file.exists():
+                with open(loot_file, 'r', encoding='utf-8') as f:
+                    data = yaml.safe_load(f)
+                    
+                if data and isinstance(data, dict):
+                    for table_name, items in data.items():
+                        if table_name == "version":
+                            continue
+                            
+                        loot_items = []
+                        for item_data in items:
+                            if isinstance(item_data, dict) and "item" in item_data:
+                                loot_item = {
+                                    "item_name": item_data["item"],
+                                    "stack_min": item_data.get("stackMin", 1),
+                                    "stack_max": item_data.get("stackMax", 1),
+                                    "weight": item_data.get("weight", 1.0),
+                                    "rarity": None
+                                }
+                                loot_items.append(loot_item)
+                                all_items.add(item_data["item"])
+                        
+                        if loot_items:
+                            loot_tables[table_name] = {
+                                "name": table_name,
+                                "source": "Warpalicious More World Locations",
+                                "items": loot_items,
+                                "description": f"Loot table for {table_name}"
+                            }
+            
+            # Parse EpicLoot configurations
+            epicloot_path = self.config_path / "EpicLoot" / "patches" / "RelicHeimPatches"
+            if epicloot_path.exists():
+                for file_name in ["zLootables_CreatureDrops_RelicHeim.json", 
+                                 "zLootables_BossDrops_RelicHeim.json",
+                                 "zLootables_TreasureLoot_RelicHeim.json"]:
+                    file_path = epicloot_path / file_name
+                    if file_path.exists():
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                data = json.load(f)
+                                
+                            if "Patches" in data:
+                                for patch in data["Patches"]:
+                                    if patch.get("Action") == "AppendAll" and "Value" in patch:
+                                        for loot_table_data in patch["Value"]:
+                                            if "Object" in loot_table_data and "LeveledLoot" in loot_table_data:
+                                                table_name = f"{loot_table_data['Object']}_{file_name.replace('.json', '')}"
+                                                
+                                                loot_items = []
+                                                for level_data in loot_table_data["LeveledLoot"]:
+                                                    if "Loot" in level_data:
+                                                        for loot_data in level_data["Loot"]:
+                                                            if "Item" in loot_data:
+                                                                loot_item = {
+                                                                    "item_name": loot_data["Item"],
+                                                                    "stack_min": 1,
+                                                                    "stack_max": 1,
+                                                                    "weight": loot_data.get("Weight", 1.0),
+                                                                    "rarity": loot_data.get("Rarity")
+                                                                }
+                                                                loot_items.append(loot_item)
+                                                                all_items.add(loot_data["Item"])
+                                                
+                                                if loot_items:
+                                                    loot_tables[table_name] = {
+                                                        "name": table_name,
+                                                        "source": f"EpicLoot {file_name.replace('.json', '')}",
+                                                        "items": loot_items,
+                                                        "description": f"EpicLoot loot table for {loot_table_data['Object']}"
+                                                    }
+                        except Exception as e:
+                            print(f"Error parsing {file_path}: {e}")
+            
+            # Parse CLLC configurations
+            item_config = self.config_path / "ItemConfig_Base.yml"
+            if item_config.exists():
+                try:
+                    with open(item_config, 'r', encoding='utf-8') as f:
+                        data = yaml.safe_load(f)
+                        
+                    if data and isinstance(data, dict) and "groups" in data:
+                        for group_name, items in data["groups"].items():
+                            if isinstance(items, list):
+                                table_name = f"CLLC_Group_{group_name}"
+                                loot_items = []
+                                
+                                for item_name in items:
+                                    loot_item = {
+                                        "item_name": item_name,
+                                        "stack_min": 1,
+                                        "stack_max": 1,
+                                        "weight": 1.0,
+                                        "rarity": None
+                                    }
+                                    loot_items.append(loot_item)
+                                    all_items.add(item_name)
+                                
+                                if loot_items:
+                                    loot_tables[table_name] = {
+                                        "name": table_name,
+                                        "source": "Creature Level & Loot Control",
+                                        "items": loot_items,
+                                        "description": f"CLLC item group: {group_name}"
+                                    }
+                except Exception as e:
+                    print(f"Error parsing {item_config}: {e}")
+            
+            # Build item mappings
+            for table_name, loot_table in loot_tables.items():
+                for item in loot_table["items"]:
+                    item_mappings[item["item_name"]].append(table_name)
+            
+            # Create statistics
+            stats = {
+                "total_loot_tables": len(loot_tables),
+                "total_items": len(all_items),
+                "sources": defaultdict(int),
+                "items_per_table": [],
+                "most_common_items": [],
+                "largest_tables": []
+            }
+            
+            # Count sources
+            for table in loot_tables.values():
+                stats["sources"][table["source"]] += 1
+            
+            # Items per table
+            for table in loot_tables.values():
+                stats["items_per_table"].append({
+                    "table": table["name"],
+                    "count": len(table["items"]),
+                    "source": table["source"]
+                })
+            
+            # Most common items
+            stats["most_common_items"] = sorted(
+                [(item, len(tables)) for item, tables in item_mappings.items()],
+                key=lambda x: x[1],
+                reverse=True
+            )[:20]
+            
+            # Largest tables
+            stats["largest_tables"] = sorted(
+                stats["items_per_table"],
+                key=lambda x: x["count"],
+                reverse=True
+            )[:10]
+            
+            # Create final data structure
+            self.loot_data = {
+                "loot_tables": loot_tables,
+                "item_mappings": dict(item_mappings),
+                "statistics": stats,
+                "all_items": list(all_items)
+            }
+            
+            # Export data
+            self.export_loot_data()
+            
+            # Update views
+            self.update_loot_views()
+            
+            self.status_var.set(f"Parsed {len(loot_tables)} loot tables with {len(all_items)} unique items")
+            
+        except Exception as e:
+            self.status_var.set(f"Error parsing loot configs: {e}")
+            messagebox.showerror("Error", f"Failed to parse loot configurations: {e}")
+
+    def export_loot_data(self):
+        """Export loot table data to JSON file"""
+        if not self.loot_data:
+            messagebox.showwarning("Warning", "No loot data to export")
+            return
+            
+        try:
+            with open("loot_table_data.json", 'w', encoding='utf-8') as f:
+                json.dump(self.loot_data, f, indent=2, ensure_ascii=False)
+            self.status_var.set("Loot data exported successfully")
+        except Exception as e:
+            self.status_var.set(f"Error exporting loot data: {e}")
+            messagebox.showerror("Error", f"Could not export loot data: {e}")
+
+    def update_loot_views(self):
+        """Update all loot table views"""
+        if not self.loot_data:
+            return
+            
+        self.update_loot_overview()
+        self.update_loot_tables()
+        self.update_loot_items()
+        self.update_loot_sources()
+        self.update_loot_statistics()
+
+    def update_loot_overview(self):
+        """Update the loot overview tab"""
+        if not self.loot_data:
+            return
+            
+        stats = self.loot_data["statistics"]
+        
+        # Update statistics text
+        self.loot_stats_text.delete(1.0, tk.END)
+        stats_text = f"""
+Total Loot Tables: {stats['total_loot_tables']}
+Total Unique Items: {stats['total_items']}
+
+Sources:
+"""
+        for source, count in stats['sources'].items():
+            stats_text += f"  {source}: {count} tables\n"
+        
+        stats_text += f"\nTop 5 Most Common Items:\n"
+        for item, count in stats['most_common_items'][:5]:
+            stats_text += f"  {item}: {count} loot tables\n"
+        
+        stats_text += f"\nLargest Loot Tables:\n"
+        for table_info in stats['largest_tables'][:5]:
+            stats_text += f"  {table_info['table']}: {table_info['count']} items\n"
+        
+        self.loot_stats_text.insert(1.0, stats_text)
+        
+        # Update charts if available
+        if hasattr(self, 'loot_overview_canvas') and self.loot_overview_canvas:
+            self.update_loot_overview_charts()
+
+    def update_loot_overview_charts(self):
+        """Update overview charts"""
+        if not self.loot_data or not hasattr(self, 'loot_overview_canvas') or not self.loot_overview_canvas:
+            return
+            
+        stats = self.loot_data["statistics"]
+        
+        # Clear previous charts
+        self.loot_ax1.clear()
+        self.loot_ax2.clear()
+        
+        # Chart 1: Sources distribution
+        sources = list(stats['sources'].keys())
+        counts = list(stats['sources'].values())
+        
+        self.loot_ax1.pie(counts, labels=sources, autopct='%1.1f%%', startangle=90)
+        self.loot_ax1.set_title('Loot Tables by Source')
+        
+        # Chart 2: Items per table distribution
+        item_counts = [table['count'] for table in stats['items_per_table']]
+        self.loot_ax2.hist(item_counts, bins=20, alpha=0.7, edgecolor='black')
+        self.loot_ax2.set_xlabel('Items per Table')
+        self.loot_ax2.set_ylabel('Number of Tables')
+        self.loot_ax2.set_title('Distribution of Items per Loot Table')
+        
+        self.loot_overview_canvas.draw()
+
+    def update_loot_tables(self):
+        """Update the loot tables tab"""
+        if not self.loot_data:
+            return
+            
+        # Clear existing items
+        for item in self.loot_tables_tree.get_children():
+            self.loot_tables_tree.delete(item)
+        
+        # Add loot tables
+        for table_name, table_data in self.loot_data["loot_tables"].items():
+            self.loot_tables_tree.insert("", tk.END, values=(
+                table_name,
+                table_data["source"],
+                len(table_data["items"]),
+                table_data["description"][:50] + "..." if len(table_data["description"]) > 50 else table_data["description"]
+            ))
+
+    def update_loot_items(self):
+        """Update the loot items tab"""
+        if not self.loot_data:
+            return
+            
+        # Clear existing items
+        for item in self.loot_items_tree.get_children():
+            self.loot_items_tree.delete(item)
+        
+        # Add items
+        for item_name, table_names in self.loot_data["item_mappings"].items():
+            # Get unique sources for this item
+            sources = set()
+            for table_name in table_names:
+                if table_name in self.loot_data["loot_tables"]:
+                    sources.add(self.loot_data["loot_tables"][table_name]["source"])
+            
+            self.loot_items_tree.insert("", tk.END, values=(
+                item_name,
+                len(table_names),
+                ", ".join(sorted(sources))
+            ))
+
+    def update_loot_sources(self):
+        """Update the loot sources tab"""
+        if not self.loot_data:
+            return
+            
+        # Clear existing items
+        for item in self.loot_sources_tree.get_children():
+            self.loot_sources_tree.delete(item)
+        
+        # Group by source
+        source_data = defaultdict(lambda: {"tables": [], "items": set(), "descriptions": []})
+        
+        for table_name, table_data in self.loot_data["loot_tables"].items():
+            source = table_data["source"]
+            source_data[source]["tables"].append(table_name)
+            source_data[source]["descriptions"].append(table_data["description"])
+            
+            for item in table_data["items"]:
+                source_data[source]["items"].add(item["item_name"])
+        
+        # Add sources
+        for source, data in source_data.items():
+            self.loot_sources_tree.insert("", tk.END, values=(
+                source,
+                len(data["tables"]),
+                len(data["items"]),
+                f"{len(data['descriptions'])} loot tables"
+            ))
+
+    def update_loot_statistics(self):
+        """Update the loot statistics tab"""
+        if not self.loot_data or not hasattr(self, 'loot_stats_canvas') or not self.loot_stats_canvas:
+            return
+            
+        stats = self.loot_data["statistics"]
+        
+        # Clear previous charts
+        self.loot_ax3.clear()
+        self.loot_ax4.clear()
+        self.loot_ax5.clear()
+        self.loot_ax6.clear()
+        
+        # Chart 1: Top items by loot table count
+        top_items = stats['most_common_items'][:10]
+        items = [item[0] for item in top_items]
+        counts = [item[1] for item in top_items]
+        
+        self.loot_ax3.barh(items, counts)
+        self.loot_ax3.set_xlabel('Number of Loot Tables')
+        self.loot_ax3.set_title('Top 10 Items by Loot Table Count')
+        
+        # Chart 2: Largest loot tables
+        largest_tables = stats['largest_tables'][:10]
+        table_names = [table['table'][:20] + "..." if len(table['table']) > 20 else table['table'] for table in largest_tables]
+        table_counts = [table['count'] for table in largest_tables]
+        
+        self.loot_ax4.barh(table_names, table_counts)
+        self.loot_ax4.set_xlabel('Number of Items')
+        self.loot_ax4.set_title('Largest Loot Tables')
+        
+        # Chart 3: Items per table histogram
+        item_counts = [table['count'] for table in stats['items_per_table']]
+        self.loot_ax5.hist(item_counts, bins=30, alpha=0.7, edgecolor='black')
+        self.loot_ax5.set_xlabel('Items per Table')
+        self.loot_ax5.set_ylabel('Number of Tables')
+        self.loot_ax5.set_title('Distribution of Items per Table')
+        
+        # Chart 4: Sources pie chart
+        sources = list(stats['sources'].keys())
+        counts = list(stats['sources'].values())
+        
+        self.loot_ax6.pie(counts, labels=sources, autopct='%1.1f%%', startangle=90)
+        self.loot_ax6.set_title('Loot Tables by Source')
+        
+        self.loot_stats_canvas.draw()
+
+    def change_loot_view(self, event=None):
+        """Change the current loot view"""
+        view = self.loot_view_var.get()
+        if view == "overview":
+            self.loot_notebook.select(0)
+        elif view == "loot_tables":
+            self.loot_notebook.select(1)
+        elif view == "items":
+            self.loot_notebook.select(2)
+        elif view == "sources":
+            self.loot_notebook.select(3)
+        elif view == "statistics":
+            self.loot_notebook.select(4)
+
+    def filter_loot_data(self, event=None):
+        """Filter loot data based on search term"""
+        search_term = self.loot_search_var.get().lower()
+        
+        # Clear current view
+        current_tab = self.loot_notebook.index(self.loot_notebook.select())
+        
+        if current_tab == 1:  # Loot tables
+            for item in self.loot_tables_tree.get_children():
+                self.loot_tables_tree.delete(item)
+            
+            if self.loot_data:
+                for table_name, table_data in self.loot_data["loot_tables"].items():
+                    if (search_term in table_name.lower() or 
+                        search_term in table_data["source"].lower() or
+                        search_term in table_data["description"].lower()):
+                        self.loot_tables_tree.insert("", tk.END, values=(
+                            table_name,
+                            table_data["source"],
+                            len(table_data["items"]),
+                            table_data["description"][:50] + "..." if len(table_data["description"]) > 50 else table_data["description"]
+                        ))
+        
+        elif current_tab == 2:  # Items
+            for item in self.loot_items_tree.get_children():
+                self.loot_items_tree.delete(item)
+            
+            if self.loot_data:
+                for item_name, table_names in self.loot_data["item_mappings"].items():
+                    if search_term in item_name.lower():
+                        sources = set()
+                        for table_name in table_names:
+                            if table_name in self.loot_data["loot_tables"]:
+                                sources.add(self.loot_data["loot_tables"][table_name]["source"])
+                        
+                        self.loot_items_tree.insert("", tk.END, values=(
+                            item_name,
+                            len(table_names),
+                            ", ".join(sorted(sources))
+                        ))
+
+    def sort_loot_treeview(self, tree, col, reverse):
+        """Sort loot treeview by column"""
+        l = [(tree.set(k, col), k) for k in tree.get_children('')]
+        l.sort(reverse=reverse)
+        
+        # Rearrange items in sorted positions
+        for index, (val, k) in enumerate(l):
+            tree.move(k, '', index)
+        
+        # Reverse sort next time
+        tree.heading(col, command=lambda: self.sort_loot_treeview(tree, col, not reverse))
+
+    def show_loot_table_details(self, event):
+        """Show details for a selected loot table"""
+        selection = self.loot_tables_tree.selection()
+        if not selection:
+            return
+            
+        item = self.loot_tables_tree.item(selection[0])
+        table_name = item['values'][0]
+        
+        if self.loot_data and table_name in self.loot_data["loot_tables"]:
+            table_data = self.loot_data["loot_tables"][table_name]
+            
+            # Create detail window
+            detail_window = tk.Toplevel(self.root)
+            detail_window.title(f"Loot Table Details: {table_name}")
+            detail_window.geometry("600x400")
+            
+            # Create text widget
+            text_widget = tk.Text(detail_window, wrap=tk.WORD)
+            text_widget.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+            # Add details
+            details = f"Name: {table_name}\n"
+            details += f"Source: {table_data['source']}\n"
+            details += f"Description: {table_data['description']}\n"
+            details += f"Items ({len(table_data['items'])}):\n\n"
+            
+            for item in table_data['items']:
+                details += f"  {item['item_name']}\n"
+                details += f"    Stack: {item['stack_min']}-{item['stack_max']}\n"
+                details += f"    Weight: {item['weight']}\n"
+                if item['rarity']:
+                    details += f"    Rarity: {item['rarity']}\n"
+                details += "\n"
+            
+            text_widget.insert(1.0, details)
+            text_widget.config(state=tk.DISABLED)
+
+    def show_loot_item_details(self, event):
+        """Show details for a selected loot item"""
+        selection = self.loot_items_tree.selection()
+        if not selection:
+            return
+            
+        item = self.loot_items_tree.item(selection[0])
+        item_name = item['values'][0]
+        
+        if self.loot_data and item_name in self.loot_data["item_mappings"]:
+            table_names = self.loot_data["item_mappings"][item_name]
+            
+            # Create detail window
+            detail_window = tk.Toplevel(self.root)
+            detail_window.title(f"Item Details: {item_name}")
+            detail_window.geometry("600x400")
+            
+            # Create text widget
+            text_widget = tk.Text(detail_window, wrap=tk.WORD)
+            text_widget.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+            # Add details
+            details = f"Item: {item_name}\n"
+            details += f"Found in {len(table_names)} loot tables:\n\n"
+            
+            for table_name in table_names:
+                if table_name in self.loot_data["loot_tables"]:
+                    table_data = self.loot_data["loot_tables"][table_name]
+                    details += f"  {table_name} ({table_data['source']})\n"
+                    
+                    # Find the specific item data
+                    for item_data in table_data['items']:
+                        if item_data['item_name'] == item_name:
+                            details += f"    Stack: {item_data['stack_min']}-{item_data['stack_max']}\n"
+                            details += f"    Weight: {item_data['weight']}\n"
+                            if item_data['rarity']:
+                                details += f"    Rarity: {item_data['rarity']}\n"
+                            break
+                    details += "\n"
+            
+            text_widget.insert(1.0, details)
+            text_widget.config(state=tk.DISABLED)
 
 def main():
     root = tk.Tk()
