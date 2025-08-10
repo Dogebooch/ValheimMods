@@ -45,3 +45,18 @@
     - StoneForst1, StoneHall1, StoneTavern1, StoneTower1, StoneTower2 - Reduced spawn quantity to six
     - elite and rare weights in mountains creature lists decreased
     - extended Wild Lightning Wolf's spawn - increased to 1200s
+**Plains**
+    - Royal Lox added
+    - Reduced spawn chance of skeletons and gobin brutes
+    - Reduced lox spawns to 1200s interval and 4% chance
+    - Seeker, SeekerBrood, Tick, Charred Night spawns - decreased spawn chance to 3600s at 4%
+    - Increased Mushroom Plains spawn interval to 750 s and 
+    - softened POI spawns by reducing StoneTower1 goblin brute chance to 6% and 
+    - added a 900 s respawn to StoneHenge5 goblin mag
+**Mistlands**
+    - Restored default spawn timing across most creatures while slowing GoblinMage_TW, CorruptedDvergerMage_TW, and SummonedSeeker_TW checks to ease overlapping roamer pulls
+    - Stretched Mistlands exploration pacing by lengthening Mushroom spawn intervals, trimming Seeker/Weaver Queen chances, and spacing giant_brain ore nodes
+    - Reduced Mistlands point-of-interest density and elite surge potential to create more breathing room between fights
+    - Calibrated Mistlands creature lists and raid waves by trimming elite/rare weights and slowing Gjall, Tick, and Brood spawn intervals
+    - Logged the adjustments in the modpack change log for future tracking
+    
