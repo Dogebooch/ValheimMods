@@ -547,11 +547,7 @@ MountainsCreatures2:
   - Ulv
   - Hatchling
   - Hatchling
-  - Wolf
-  - Ulv
-  - Hatchling
-  - Wolf
-  # Elite variants for premium materials (55% chance)
+  # Elite variants for premium materials (45% chance)
   - Ulv
   - Hatchling
   - Ulv
@@ -561,30 +557,21 @@ MountainsCreatures2:
   - Ulv
   - Hatchling
   - Ulv
-  - Hatchling
-  - Ulv
-  - Hatchling
-  # Rare elite spawns for excitement (30% chance)
-  - Hatchling
-  - Ulv
+  # Rare elite spawns for excitement (25% chance)
   - Hatchling
   - Ulv
   - Hatchling
   - Ulv
   - Hatchling
-  - Ulv
 
 MountainsCreatures3:
   # Elite locations - Maximum challenge and rewards
   # Focus: Ultimate materials and rare drops for endgame progression
   # Maximum elite density for premium rewards
   - Wolf
-  - Wolf
-  - Ulv
   - Ulv
   - Hatchling
-  - Hatchling
-  # Elite variants for ultimate materials (70% chance)
+  # Elite variants for ultimate materials (60% chance)
   - Ulv
   - Hatchling
   - Ulv
@@ -603,11 +590,7 @@ MountainsCreatures3:
   - Hatchling
   - Ulv
   - Hatchling
-  - Ulv
-  - Hatchling
-  - Ulv
-  - Hatchling
-  # Rare elite spawns for maximum excitement (35% chance)
+  # Rare elite spawns for maximum excitement (30% chance)
   - Hatchling
   - Ulv
   - Hatchling
@@ -617,9 +600,6 @@ MountainsCreatures3:
   - Hatchling
   - Ulv
   - Hatchling
-  - Ulv
-  - Hatchling
-  - Ulv
 
 MountainsCreatures4:
   # Special locations - Balanced mix for unique encounters
@@ -699,7 +679,7 @@ PlainsCreatures2:
   - Deathsquito
   - Goblin
   - GoblinShaman
-  # Elite variants for premium materials (60% chance)
+  # Elite variants for premium materials (50% chance)
   - GoblinShaman
   - GoblinBrute
   - GoblinShaman
@@ -759,7 +739,7 @@ PlainsCreatures3:
   - GoblinBrute
   - GoblinShaman
   - GoblinBrute
-  # Rare elite spawns for maximum excitement (40% chance)
+  # Rare elite spawns for maximum excitement (35% chance)
   - GoblinBrute
   - Lox
   - GoblinBrute
@@ -820,7 +800,7 @@ SwampCreatures2:
   - Draugr_Elite
   - Wraith
   - Skeleton_NoArcher
-  # Elite variants for premium materials (60% chance)
+  # Elite variants for premium materials (50% chance)
   - Skeleton_Poison
   - Draugr_Elite
   - Wraith
@@ -876,7 +856,7 @@ SwampCreatures3:
   - Wraith
   - Skeleton_NoArcher
   - Draugr_Elite
-  # Rare elite spawns for maximum excitement (40% chance)
+  # Rare elite spawns for maximum excitement (35% chance)
   - Wraith
   - Draugr_Elite
   - Skeleton_Poison
@@ -1061,11 +1041,7 @@ MistlandsCreatures2:
   - Gjall
   - Seeker
   - SeekerBrute
-  # Elite variants for premium materials (60% chance)
-  - SeekerBrute
-  - Gjall
-  - SeekerBrute
-  - Gjall
+  # Elite variants for premium materials (50% chance)
   - SeekerBrute
   - Gjall
   - SeekerBrute
@@ -1117,9 +1093,7 @@ MistlandsCreatures3:
   - Gjall
   - SeekerBrute
   - Gjall
-  # Rare elite spawns for maximum excitement (40% chance)
-  - Gjall
-  - SeekerBrute
+  # Rare elite spawns for maximum excitement (35% chance)
   - Gjall
   - SeekerBrute
   - Gjall
@@ -1177,9 +1151,7 @@ MistlandsFortCreatures1:
   - SeekerBrute
   - Gjall
   - SeekerBrute
-  # Elite variants for better materials (55% chance)
-  - SeekerBrute
-  - Gjall
+  # Elite variants for better materials (45% chance)
   - SeekerBrute
   - Gjall
   - SeekerBrute
