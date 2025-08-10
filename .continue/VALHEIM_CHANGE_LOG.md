@@ -8,6 +8,7 @@ This file tracks major gameplay and configuration changes for the RelicHeim/Jewe
 ## Loot & Economy
 
 ## Skills & Progression
+- Lower EpicMMO attribute reset cost to 5 coins per point
 - Raise EpicMMO Max Level to 120
 - Raise orb XP output by 25% across the board
 - Turn off non-combat XP
