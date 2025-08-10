@@ -96,14 +96,14 @@ BlackforestCreatures2:
   - Greydwarf
   # Elite variants for premium materials (55% chance)
   - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
   - Greydwarf_Shaman
   - Greydwarf_Elite
   - Greydwarf_Shaman
@@ -408,16 +408,14 @@ UndergroundRuinsCreatures1:
   # Maximum elite spawns for ultimate underground excitement (40% chance)
   - Greydwarf_Shaman
   - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite 
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
+  - Greydwarf
 
 # Forbidden Catacombs - Swamp Biome Procedural Dungeon
 # Dual-section dungeon with thematic distinction between upper nobles and lower commoners
