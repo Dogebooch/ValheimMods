@@ -16,8 +16,11 @@
 ## Crafting & Recipes
 
 ## Spawns
-- Lowered the global SpawnFrequencyMultiplier to 0.85
-- Pruned Mushroom world spawns: Set longer intervals and lower chances
+- Raised global SpawnFrequencyMultiplier to 1.0; GoblinMage_TW, CorruptedDvergerMage_TW and SummonedSeeker_TW remain at 0.85
+- Spaced Mistlands uniques and ore: Mushrooms 750s, Queens 3% chance, giant_brain node 1200s
+- Thinned Mistlands POI density (~15%) and elite/rare weights
+- Stretched Mistlands raid intervals: Gjall 50s, Tick 25s, Brood 25s
 - Removed Tempest Neck Spawn
 - Extended POI RespawnTime Values: Standard site cooldown 1200, elite 1500
 - Standardized guarded resource nodes: 1200s interval with 15-20% spawn chance
+

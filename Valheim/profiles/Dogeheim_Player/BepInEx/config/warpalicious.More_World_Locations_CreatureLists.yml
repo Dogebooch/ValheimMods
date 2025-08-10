@@ -699,7 +699,7 @@ PlainsCreatures2:
   - Deathsquito
   - Goblin
   - GoblinShaman
-  # Elite variants for premium materials (60% chance)
+  # Elite variants for premium materials (50% chance)
   - GoblinShaman
   - GoblinBrute
   - GoblinShaman
@@ -759,7 +759,7 @@ PlainsCreatures3:
   - GoblinBrute
   - GoblinShaman
   - GoblinBrute
-  # Rare elite spawns for maximum excitement (40% chance)
+  # Rare elite spawns for maximum excitement (35% chance)
   - GoblinBrute
   - Lox
   - GoblinBrute
@@ -820,7 +820,7 @@ SwampCreatures2:
   - Draugr_Elite
   - Wraith
   - Skeleton_NoArcher
-  # Elite variants for premium materials (60% chance)
+  # Elite variants for premium materials (50% chance)
   - Skeleton_Poison
   - Draugr_Elite
   - Wraith
@@ -876,7 +876,7 @@ SwampCreatures3:
   - Wraith
   - Skeleton_NoArcher
   - Draugr_Elite
-  # Rare elite spawns for maximum excitement (40% chance)
+  # Rare elite spawns for maximum excitement (35% chance)
   - Wraith
   - Draugr_Elite
   - Skeleton_Poison
@@ -1061,11 +1061,7 @@ MistlandsCreatures2:
   - Gjall
   - Seeker
   - SeekerBrute
-  # Elite variants for premium materials (60% chance)
-  - SeekerBrute
-  - Gjall
-  - SeekerBrute
-  - Gjall
+  # Elite variants for premium materials (50% chance)
   - SeekerBrute
   - Gjall
   - SeekerBrute
@@ -1117,9 +1113,7 @@ MistlandsCreatures3:
   - Gjall
   - SeekerBrute
   - Gjall
-  # Rare elite spawns for maximum excitement (40% chance)
-  - Gjall
-  - SeekerBrute
+  # Rare elite spawns for maximum excitement (35% chance)
   - Gjall
   - SeekerBrute
   - Gjall
@@ -1177,9 +1171,7 @@ MistlandsFortCreatures1:
   - SeekerBrute
   - Gjall
   - SeekerBrute
-  # Elite variants for better materials (55% chance)
-  - SeekerBrute
-  - Gjall
+  # Elite variants for better materials (45% chance)
   - SeekerBrute
   - Gjall
   - SeekerBrute
