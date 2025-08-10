@@ -7,27 +7,14 @@
 **Timeframe Target:** 
 - **WL7 \~350h avg**
 - Full journey **\~350–400h** with WL8+
+- Estimated time to kill: Regular mobs (10-30s), Elite mobs (45s to 3 minutes), Mini bosses (7-12 minutes), Regular/Elite Bosses (10-15 minutes)
 
 ---
 ## BIGGEST TODO
 - [x] Review every mod's configuration to understand and document gameplay impact
-- [ ] Raise Max level EpicMMO to 120
-- [ ] Make the death XP cost less punishing
-- [ ] Make resetting attributes easier, so that we can respec
-- [ ] Ensure the rest of the following changes:
-
-### **EpicMMO System (Primary RPG Progression)**
-- **Max Level**: 120 (raised from 90)
-- **Free Points Per Level**: 2 (reduced from default 5)
-- **Start Free Points**: 3 (reduced from default 5)
-- **Level Experience**: 300 XP base per level
-- **Experience Multiplier**: 1.048 (raised for longer progression)
-- **Add Level Experience**: Enabled (adds 300 XP per level)
-- **Bonus Level Points**: +5 every 5 levels up to 120
-- **Experience Rate**: 1.0x (normal)
-- **Death Penalty**: 5-25% (default)
-- **Reset Cost**: 3 coins per point (default)
- - **Tuning Note**: Age-based WL schedule targets ~250–300 hours baseline to WL7. With ~+50 hours for added content, expect ~300–350 hours total. Assumes ~30 minutes per in-game day; frequent sleeping can reduce real time by ~15–25%.
+- [x] Raise Max level EpicMMO to 120
+- [x] Make the death XP cost less punishing
+- [] Make resetting attributes easier, so that we can respec pretty much whenever we want
 
 ## 2. Core Design Pillars
 
@@ -37,35 +24,41 @@
 
 **Objectives:**
 - Set POI density targets per biome and adjust mods/POI packs accordingly
-- Ensure monsters per POI and loot per POI are balanced for FPS and Difficulty
-- Make engagements fun but not overwhelming with too many spawns at one time
+- Ensure monsters per POI and loot per POI are balanced for FPS and difficulty
+- Make engagements fun but not overwhelming by making an exploration:Combat ratio
 - Ensure breathing room for combat AND exploration
 - Adjust Creature Spawns to match target density and reward curve
 
 **ToDos:**
-  - [ ] Set Target Densities per Biome ([poi_density.csv](./poi_density.csv))
+  - [] Set Target Densities per Biome ([poi_density.csv](./poi_density.csv))
     - [x] See how the Warpalicious mods interacts with the poi_density.csv
-    - [ ] Set Meadows = 0.40 targets per Km^2
-      - [ ] Adjust for Meadows Pack 1 & 2: 24 unique location types, 205 total instances
-        - [ ] Balance the amount of monsters per POI (decrease to decrease the overhead), or adjust the loot so it's stronger at those areas.
-      - [ ] Adjust for the Resource Nodes: ~40
-      - [ ] Adjust for Creature Spawns: +7-11 from Monstrum and MushroomMonsters
-        - [ ] Adjust the Creature Spawns to improve fps/overhead, adjust for +400% HP of the monsters, and change drops to compensate for the decreased spawn locations
-    - [ ] Set Blackforest = 0.30 targets per Km^2
-      - [ ] Adjust for Blackforest Packs 1 & 2, Forbidden Catacombs
-    - [ ] Set Swamp set = 0.28 targets per Km^2
-      - [ ] Adjust for Swamp Pack 1, Underground Ruins
-    - [ ] Set Mountains = 0.22 targets per Km^2
-      - [ ] Adjust for Mountains Pack 1
-    - [ ] Set Plains = 0.32 targets per Km^2
-      - [ ] Adjust for Plains Pack 1
-    - [ ] Set Mistlands = 0.20 targets per Km^2
-      - [ ] Adjust for Mistlands Pack 1
-    - [ ] Set DeepNorth = 0.14 targets per Km^2
-    - [ ] Set Ashlands = 0.16 targets per Km^2
-      - [ ] Adjust for Ashlands Pack 1
-    - [ ] Set Oceans = 0.06 Targets per Km^2
-    - [ ] Adjust for the More_World_Traders & the Adventure_Map_Pack
+    - [x] Decide on estimated time to kill for:
+          - [x] Regular Mobs - 10-30s
+          - [x] Elite Mobs - 45 seconds to 3 minutes
+          - [x] Mini Bosses - 7-12 minutes
+          - [x] Regular/Elite Bosses - 10-15 minutes
+    - [x] Target "Exploration:Combat" ratio of about 3:1 most of the game, can be 2:1 in the Ashlands. Can estimate it by taking into account the density, chance to spawn and time interval for spawn for each mob
+    - [] Set Meadows = 0.40 targets per Km^2
+      - [] Adjust for Meadows Pack 1 & 2: 24 unique location types, 205 total instances
+        - [] Balance the amount of monsters per POI (decrease to decrease the overhead), or adjust the loot so it's stronger at those areas.
+      - [] Adjust for the Resource Nodes: ~40
+      - [] Adjust for Creature Spawns: +7-11 from Monstrum and MushroomMonsters
+        - [] Adjust the Creature Spawns to improve fps/overhead, adjust for +400% HP of the monsters, and change drops to compensate for the decreased spawn locations
+    - [] Set Blackforest = 0.30 targets per Km^2
+      - [] Adjust for Blackforest Packs 1 & 2, Forbidden Catacombs
+    - [] Set Swamp set = 0.28 targets per Km^2
+      - [] Adjust for Swamp Pack 1, Underground Ruins
+    - [] Set Mountains = 0.22 targets per Km^2
+      - [] Adjust for Mountains Pack 1
+    - [] Set Plains = 0.32 targets per Km^2
+      - [] Adjust for Plains Pack 1
+    - [] Set Mistlands = 0.20 targets per Km^2
+      - [] Adjust for Mistlands Pack 1
+    - [] Set DeepNorth = 0.14 targets per Km^2
+    - [] Set Ashlands = 0.16 targets per Km^2
+      - [] Adjust for Ashlands Pack 1
+    - [] Set Oceans = 0.06 Targets per Km^2
+    - [] Adjust for the More_World_Traders & the Adventure_Map_Pack
 
 ### 2.2 Boss → World Level Gating
 
@@ -75,65 +68,65 @@
     - Enforce server-wide progression pacing via bosses
 
 **ToDos:**
-- [ ] Look for all of the mods that change boss gating/World Leveling
-- [ ] Ensure all biomes scale appropriately when unlocked
-- [ ] Change gating so that the WL only increases when the base bosses are killed (WL1-8)
-  - [ ] Eikthyr kill -> WL2
-  - [ ] Elder Kill -> WL3
-  - [ ] Bonemass Kill -> WL4
-  - [ ] Moder Kill -> WL5
-  - [ ] Yagluth Kill -> WL6
-  - [ ] The Queen -> WL7
-  - [ ] Deep North Boss -> WL8
-  - [ ] Ashlands Boss -> WL9
+- [] Look for all of the mods that change boss gating/World Leveling
+- [] Ensure all biomes scale appropriately when unlocked
+- [] Change gating so that the WL only increases when the base bosses are killed (WL1-8)
+  - [] Eikthyr kill -> WL2
+  - [] Elder Kill -> WL3
+  - [] Bonemass Kill -> WL4
+  - [] Moder Kill -> WL5
+  - [] Yagluth Kill -> WL6
+  - [] The Queen -> WL7
+  - [] Deep North Boss -> WL8
+  - [] Ashlands Boss -> WL9
 
 #### Boss Loot Configuration Tasks
 
 **Boss Enchantment Materials:**
-- [ ] In `Valheim/profiles/Dogeheim_Player/BepInEx/config/drop_that.character_drop.cfg`, create a `[BossName.*]` block for every boss (Eikthyr → Yagluth).
-- [ ] For each block:
-  - [ ] `PrefabName` → WL-appropriate enchantment material pack (e.g., `EnchantPack_T1`, `EnchantPack_T2`, … `EnchantPack_T7`).
-  - [ ] `SetAmountMin/Max` → tiered quantities (e.g., T1: 5–8, T7: 20–25).
-  - [ ] `SetChanceToDrop = 1`, `SetDropOnePerPlayer = true`, `SetScaleByLevel = false`.
-- [ ] Add a second entry `PrefabName = BossToken` with the same guarantees (always 1).
-- [ ] Gate each pair with `ConditionWorldLevelMin/Max` to match WL ranges.
-- [ ] Document the configuration change in `Valheim_Content_Mods_Summary.md`.
+- [] In `Valheim/profiles/Dogeheim_Player/BepInEx/config/drop_that.character_drop.cfg`, create a `[BossName.*]` block for every boss (Eikthyr → Yagluth).
+- [] For each block:
+  - [] `PrefabName` → WL-appropriate enchantment material pack (e.g., `EnchantPack_T1`, `EnchantPack_T2`, … `EnchantPack_T7`).
+  - [] `SetAmountMin/Max` → tiered quantities (e.g., T1: 5–8, T7: 20–25).
+  - [] `SetChanceToDrop = 1`, `SetDropOnePerPlayer = true`, `SetScaleByLevel = false`.
+- [] Add a second entry `PrefabName = BossToken` with the same guarantees (always 1).
+- [] Gate each pair with `ConditionWorldLevelMin/Max` to match WL ranges.
+- [] Document the configuration change in `Valheim_Content_Mods_Summary.md`.
 
 **Curated Rare Boss Items:**
-- [ ] Define curated rare items in `Valheim/profiles/Dogeheim_Player/BepInEx/config/EpicLoot/patches/RelicHeimPatches/ItemInfo_BossRare.json`:
-  - [ ] Fixed baseline stats, limited affix list.
-  - [ ] Separate sets per boss or WL tier.
-- [ ] In `zLootables_BossDrops_RelicHeim.json`, add `BossRare_T#` loot groups for each boss level:
-  - [ ] Early bosses (WL1–3): `Rarity` weights targeting ~10% total.
-  - [ ] Late bosses (WL4–7): scale to ~12–15%.
-- [ ] Update `drop_that.character_drop.cfg` to add a corresponding `[BossName.N]` entry that calls `BossRare_T#` so the rare roll only occurs once per kill.
-- [ ] Ensure `drop_one_per_player = true` and WL gates mirror Drop That/EpicLoot.
-- [ ] Remove any duplicate "always item" drops from boss tables — mats should be the default reward.
+- [] Define curated rare items in `Valheim/profiles/Dogeheim_Player/BepInEx/config/EpicLoot/patches/RelicHeimPatches/ItemInfo_BossRare.json`:
+  - [] Fixed baseline stats, limited affix list.
+  - [] Separate sets per boss or WL tier.
+- [] In `zLootables_BossDrops_RelicHeim.json`, add `BossRare_T#` loot groups for each boss level:
+  - [] Early bosses (WL1–3): `Rarity` weights targeting ~10% total.
+  - [] Late bosses (WL4–7): scale to ~12–15%.
+- [] Update `drop_that.character_drop.cfg` to add a corresponding `[BossName.N]` entry that calls `BossRare_T#` so the rare roll only occurs once per kill.
+- [] Ensure `drop_one_per_player = true` and WL gates mirror Drop That/EpicLoot.
+- [] Remove any duplicate "always item" drops from boss tables — mats should be the default reward.
 
 **T5 Legendary Items:**
-- [ ] Define T5 legendary items (static stats) in `RelicHeim/Legendaries_SetsLegendary_RelicHeim.json` or a new file.
-- [ ] In `zLootables_BossDrops_RelicHeim.json`, add a `Legendary_T5` loot group with `Rarity` ≈3%.
-- [ ] Develop a BepInEx plugin (e.g., `BossLegendaryPity.cs`) under `Valheim/BepInEx/plugins/`:
-  - [ ] Track per-player boss kill counts.
-  - [ ] Each kill rolls 3% chance; increment counter on failure.
-  - [ ] Force drop when counter ≥ streak threshold (target P50≈22, P95≤40) and reset counter.
-- [ ] Hook plugin into `OnBossDeath` to inject the item if pity triggers.
-- [ ] Document plugin purpose and configuration in `Valheim_Content_Mods_Summary.md`.
+- [] Define T5 legendary items (static stats) in `RelicHeim/Legendaries_SetsLegendary_RelicHeim.json` or a new file.
+- [] In `zLootables_BossDrops_RelicHeim.json`, add a `Legendary_T5` loot group with `Rarity` ≈3%.
+- [] Develop a BepInEx plugin (e.g., `BossLegendaryPity.cs`) under `Valheim/BepInEx/plugins/`:
+  - [] Track per-player boss kill counts.
+  - [] Each kill rolls 3% chance; increment counter on failure.
+  - [] Force drop when counter ≥ streak threshold (target P50≈22, P95≤40) and reset counter.
+- [] Hook plugin into `OnBossDeath` to inject the item if pity triggers.
+- [] Document plugin purpose and configuration in `Valheim_Content_Mods_Summary.md`.
 
 **Mythic (T7) Items:**
-- [ ] Create Mythic item definitions in `Legendaries_SetsMythic_RelicHeim.json` with minimal affix variance.
-- [ ] In `zLootables_BossDrops_RelicHeim.json`, append `Mythic_T7` loot group with `Rarity` set to ~1%.
-- [ ] Extend the pity plugin (`BossLegendaryPity.cs`) or make a sibling (`BossMythicPity.cs`):
-  - [ ] Activate only if `worldLevel >= 7`.
-  - [ ] Base drop: 1% (early WL7), scale up to 1.5% at WL8+.
-  - [ ] Track kill streaks; guarantee a mythic after threshold (e.g., 70 kills).
-- [ ] Add WL7+ gating (`ConditionWorldLevelMin = 7`) in both Drop That and EpicLoot configs.
+- [] Create Mythic item definitions in `Legendaries_SetsMythic_RelicHeim.json` with minimal affix variance.
+- [] In `zLootables_BossDrops_RelicHeim.json`, append `Mythic_T7` loot group with `Rarity` set to ~1%.
+- [] Extend the pity plugin (`BossLegendaryPity.cs`) or make a sibling (`BossMythicPity.cs`):
+  - [] Activate only if `worldLevel >= 7`.
+  - [] Base drop: 1% (early WL7), scale up to 1.5% at WL8+.
+  - [] Track kill streaks; guarantee a mythic after threshold (e.g., 70 kills).
+- [] Add WL7+ gating (`ConditionWorldLevelMin = 7`) in both Drop That and EpicLoot configs.
 
 **Materials > Items Ratio Guardrails:**
-- [ ] Maintain a global **~8:1 materials : items** ratio for all boss fights.
-- [ ] Boss fights should **always** drop mats + token; items are a separate rare roll.
-- [ ] Elites (non-boss) can drop small mat bundles + rare item chance ≤ 2%.
-- [ ] Keep legendary/mythic pity plugins active only for item drops — mats remain deterministic.
+- [] Maintain a global **~8:1 materials : items** ratio for all boss fights.
+- [] Boss fights should **always** drop mats + token; items are a separate rare roll.
+- [] Elites (non-boss) can drop small mat bundles + rare item chance ≤ 2%.
+- [] Keep legendary/mythic pity plugins active only for item drops — mats remain deterministic.
 
 ### 2.3 Materials > Items
 
@@ -149,11 +142,11 @@
 - Target split: **Enchant mats 40–50% | Items 15–25% | Raw mats 30–40%**
 
 **ToDos:**
-- [ ] Adjust drop that configs for drop ratio target (8 mats : 1 item)
-- [ ] Adjust RelicHeim patches to match drop ratio target (8 mats : 1 item)
-  - [ ] Adjust DeepNorth, Ashlands and Ocean Chests (see if there are any)
-- [ ] Appraise chests so that they prioritize enchanted materials and rare item drops
-- [ ] Ensure balance across the chests/drops so that rare items feel meaningful and earned
+- [] Adjust drop that configs for drop ratio target (8 mats : 1 item)
+- [] Adjust RelicHeim patches to match drop ratio target (8 mats : 1 item)
+  - [] Adjust DeepNorth, Ashlands and Ocean Chests (see if there are any)
+- [] Appraise chests so that they prioritize enchanted materials and rare item drops
+- [] Ensure balance across the chests/drops so that rare items feel meaningful and earned
 
 #### Lucky Spike Drops (Cross-Tier Enchant Mats)
 
@@ -169,45 +162,45 @@
 **ToDos:**
 
 **Config – Chests (EpicLoot `zLootables_*.json`):**
-- [ ] In each WL chest group, add a **Spike** sub-group:
-  - [ ] `EnchantPack_T{WL+1}` with `Rarity` targeting **0.2–0.5%** total chest chance
-  - [ ] `SetAmountMin/Max = 1–1`
-  - [ ] Keep normal WL mats dominant; this entry sits at the bottom with tiny weight
-- [ ] Ensure the chest group rolls **at most one spike** (use one sub-group, not multiple entries)
+- [] In each WL chest group, add a **Spike** sub-group:
+  - [] `EnchantPack_T{WL+1}` with `Rarity` targeting **0.2–0.5%** total chest chance
+  - [] `SetAmountMin/Max = 1–1`
+  - [] Keep normal WL mats dominant; this entry sits at the bottom with tiny weight
+- [] Ensure the chest group rolls **at most one spike** (use one sub-group, not multiple entries)
 
 **Config – Bosses (Drop That + EpicLoot):**
-- [ ] Boss guaranteed mats unchanged (WL-tier)
-- [ ] Add **BossSpike** roll:
-  - [ ] `EnchantPack_T{WL+1}` at **~1.0%**
-  - [ ] Optional **WL+2** at **0.2–0.3%** for late bosses only (WL6+)
-  - [ ] `SetAmountMin/Max = 1–1`, `SetDropOnePerPlayer = true`
-  - [ ] Keep in a **separate call** so spike can only occur **once per kill**
+- [] Boss guaranteed mats unchanged (WL-tier)
+- [] Add **BossSpike** roll:
+  - [] `EnchantPack_T{WL+1}` at **~1.0%**
+  - [] Optional **WL+2** at **0.2–0.3%** for late bosses only (WL6+)
+  - [] `SetAmountMin/Max = 1–1`, `SetDropOnePerPlayer = true`
+  - [] Keep in a **separate call** so spike can only occur **once per kill**
 
 **Guardrails:**
-- [ ] No spikes on **trash mobs**; elites may have **≤0.2%** WL+1 spike at WL6+ only
-- [ ] Keep **pity systems** for legendaries/mythics **off** for spikes (they must stay lucky)
-- [ ] Add **logging** tag `LuckySpike` to drops to audit frequency
+- [] No spikes on **trash mobs**; elites may have **≤0.2%** WL+1 spike at WL6+ only
+- [] Keep **pity systems** for legendaries/mythics **off** for spikes (they must stay lucky)
+- [] Add **logging** tag `LuckySpike` to drops to audit frequency
 
 **Optional Plugin – Soft Cap (BepInEx `LuckySpikeLimiter.cs`):**
-- [ ] Track per-player spike count (rolling 24h)
-- [ ] If cap reached (e.g., **2 per day**), suppress further spikes → convert to normal WL mat
-- [ ] Expose config:
-  - [ ] `DailyCap=2`, `BossSpikeChance=1.0%`, `BossSpikePlusTwo=0.25%`, `ChestSpikeChance=0.35%`
+- [] Track per-player spike count (rolling 24h)
+- [] If cap reached (e.g., **2 per day**), suppress further spikes → convert to normal WL mat
+- [] Expose config:
+  - [] `DailyCap=2`, `BossSpikeChance=1.0%`, `BossSpikePlusTwo=0.25%`, `ChestSpikeChance=0.35%`
 
 **Suggested Rates (start point):**
-- [ ] **Chests:** 0.35% for `EnchantPack_T{WL+1}`, 1 unit
-- [ ] **Bosses WL1–5:** 1.0% `T{WL+1}`, 0% `T{WL+2}`
-- [ ] **Bosses WL6–8+:** 1.0% `T{WL+1}` **and** 0.25% `T{WL+2}`, both single-roll capped to **max one spike**
-- [ ] **Elites WL6+:** ≤0.2% `T{WL+1}`, single unit
+- [] **Chests:** 0.35% for `EnchantPack_T{WL+1}`, 1 unit
+- [] **Bosses WL1–5:** 1.0% `T{WL+1}`, 0% `T{WL+2}`
+- [] **Bosses WL6–8+:** 1.0% `T{WL+1}` **and** 0.25% `T{WL+2}`, both single-roll capped to **max one spike**
+- [] **Elites WL6+:** ≤0.2% `T{WL+1}`, single unit
 
 **Testing:**
-- [ ] Simulate **1000 chests / WL** → expect **2–5** spikes total (0.2–0.5%)
-- [ ] Simulate **500 boss kills / tier** → expect **~5** WL+1 spikes; WL6–8 expect **~1** WL+2 spike
-- [ ] Verify **inventory impact minimal** (single units) and **time-to-first-enchant** remains ≤ 3h from WL entry
+- [] Simulate **1000 chests / WL** → expect **2–5** spikes total (0.2–0.5%)
+- [] Simulate **500 boss kills / tier** → expect **~5** WL+1 spikes; WL6–8 expect **~1** WL+2 spike
+- [] Verify **inventory impact minimal** (single units) and **time-to-first-enchant** remains ≤ 3h from WL entry
 
 **Documentation:**
-- [ ] Add a "Lucky Spike" blurb in `Valheim_Content_Mods_Summary.md` with the current rates and caps
-- [ ] In your in-game wiki/codex, explain: "**Very rare** chance to find a **future-tier** gem — cherish it!"
+- [] Add a "Lucky Spike" blurb in `Valheim_Content_Mods_Summary.md` with the current rates and caps
+- [] In your in-game wiki/codex, explain: "**Very rare** chance to find a **future-tier** gem — cherish it!"
 
 ### 2.4 Deterministic Safety Nets
 
@@ -217,11 +210,11 @@
 - Implement Token Systems and Streak breakers for unlucky players
 
 **ToDos:**
-- [ ] Add token currency drops for bosses
-  - [ ] Ensure the following - **Guaranteed:** WL‑appropriate **enchant‑mat packs** (tiered quantities) + **1 token**
-- [ ] Define token thresholds for guaranteed loot tiers
-- [ ] Configure traders to trade items for tokens (Will be end game loot)
-- [ ] Ensure early bosses cannot be exploited for easy tokens
+- [] Add token currency drops for bosses
+  - [] Ensure the following - **Guaranteed:** WL‑appropriate **enchant‑mat packs** (tiered quantities) + **1 token**
+- [] Define token thresholds for guaranteed loot tiers
+- [] Configure traders to trade items for tokens (Will be end game loot)
+- [] Ensure early bosses cannot be exploited for easy tokens
 
 ### 2.5 Power Without Trivialization
 
@@ -233,12 +226,12 @@
 - Maintain combat depth for all content tiers
 
 **ToDos:**
-- [ ] Tune EpicMMO point gain per level so that players are naturally encouraged to specialize in a build (e.g., melee, ranged, magic) without locking them into a single playstyle
-- [ ] Enable and simplify respecs so players can easily reset and redistribute their points at any stage of progression
-- [ ] Assess DPS burst potential in PvE by tuning attack speed, damage multipliers, and cooldown reduction stacking
-- [ ] Assess healing potentional in PvE by tuning healing staves, consumbales, and damage mitigation of armor, tenacity and Vitality (EpicMMO)
-- [ ] Introduce diminishing returns on certain stacking bonuses (crit chance, attack speed, lifesteal) to prevent runaway scaling
-- [ ] Ensure that the end game is still balanced after all of these, to feel powerful but not trivial
+- [] Tune EpicMMO point gain per level so that players are naturally encouraged to specialize in a build (e.g., melee, ranged, magic) without locking them into a single playstyle
+- [] Enable and simplify respecs so players can easily reset and redistribute their points at any stage of progression
+- [] Assess DPS burst potential in PvE by tuning attack speed, damage multipliers, and cooldown reduction stacking
+- [] Assess healing potentional in PvE by tuning healing staves, consumbales, and damage mitigation of armor, tenacity and Vitality (EpicMMO)
+- [] Introduce diminishing returns on certain stacking bonuses (crit chance, attack speed, lifesteal) to prevent runaway scaling
+- [] Ensure that the end game is still balanced after all of these, to feel powerful but not trivial
 
 ### 2.6 Skilling System
 
@@ -253,28 +246,69 @@
 - **Note:** the factors may change based on balancing
 
 **ToDos:**
-- [ ] Adjust the base Relicheim skilling levels so that it's adjusted for the new prolonged gametime: 400% XP boost
-- [ ] Set the Exp Factor gain for Tier 1 skills
-  - [ ] Run
-  - [ ] Weapon Skills
-- [ ] Set the Exp Factor Gain for Tier 2 Skills
-  - [ ] Sneak
-  - [ ] Pickaxe
-  - [ ] Exploration
-  - [ ] Foraging
-- [ ] Set the Exp Factor Gain for Tier 3 Skills
-  - [ ] Jump
-  - [ ] Swim
-  - [ ] Farming
-  - [ ] Cooking
-  - [ ] Ranching
-  - [ ] Pack Horse
-  - [ ] Tenacity
-  - [ ] Lumberjacking
-  - [ ] Building
-  - [ ] Enchantments
-  - [ ] Fishing
-- [ ] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
+- [] Adjust the base Relicheim skilling levels so that it's adjusted for the new prolonged gametime: 400% XP boost
+- [] Set the Exp Factor gain for Tier 1 skills
+  - [] Run
+  - [] Weapon Skills
+- [] Set the Exp Factor Gain for Tier 2 Skills
+  - [] Sneak
+  - [] Pickaxe
+  - [] Exploration
+  - [] Foraging
+- [] Set the Exp Factor Gain for Tier 3 Skills
+  - [] Jump
+  - [] Swim
+  - [] Farming
+  - [] Cooking
+  - [] Ranching
+  - [] Pack Horse
+  - [] Tenacity
+  - [] Lumberjacking
+  - [] Building
+  - [] Enchantments
+  - [] Fishing
+- [] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
+- [] Balance the combat around the new level 120
+    - [] Cap Exp Orb drops to 1.5x
+    - [] XP Curve & Progression
+        - [] Recalculate total XP from 1–120; keep 90–120 stretch engaging without grind spikes
+        - [] Distribute unlocks evenly across 90–120 to avoid "dead zones"
+        - [] Adjust XP source balance so combat, crafting, and exploration stay within ~10–15% of each other in leveling potential
+        - [] Add diminishing returns for farming low-level mobs
+        - [] Set group XP bonuses so co-op is rewarding but solo viable
+    - [] Skill Growth & Balance
+        - [] Flatten scaling or add soft caps for key stats beyond ~level 100 to prevent snowballing with +400% HP mobs
+        - [] Review cross-skill synergies (esp. damage multipliers) to avoid runaway stacking
+        - [] Decide if players should max few skills or keep many viable; adjust XP cost curves accordingly
+    - [] Combat Tuning (Target TTK)
+        - [] Set mob HP/damage to achieve:
+            - [] Regular mobs: 10–30 s
+            - [] Elites: 45 s–3 min
+            - [] Mini-bosses: 5–12 min
+            - [] Raid bosses: 10–15 min
+        - [] Modify attack speed, resistances, armor instead of raw HP bloat to keep fights dynamic
+        - [] Scale XP & loot directly with TTK and difficulty
+    - [] Gear & Stat Scaling
+        - [] Introduce gear tiers for levels 90–120; align stat curves to prevent trivializing content
+        - [] Add upgrade paths for legacy gear to retain player investment
+        - [] Implement stat soft caps to preserve challenge in Ashlands/Deep North
+    - [] Survivability & Player Power
+        - [] Tune armor/resistance curves so players can handle longer fights without becoming immortal
+        - [] Adjust resource mechanics (stamina, mana) to match longer combat pacing
+        - [] Keep cooldowns relevant—prevent ability spam at high levels
+    - [] Economy & Crafting
+        - [] Raise crafting costs for 90–120 gear; match drop rates to higher mob HP
+        - [] Ensure rare mats are tied to elites/bosses to encourage exploration
+        - [] Align crafting XP gains with combat XP to prevent bypassing intended progression
+    - [] Progression Flow & Player Experience
+        - [] Keep exploration:combat ratio ~2.5:1 to balance resource gathering and engagement
+        - [] Smooth level 90 transition to avoid a "power cliff"
+        - [] Add catch-up mechanics for new/alt characters post-launch
+        - [] Provide tangible rewards (cosmetics, titles, abilities) for late-game milestones
+    - [] Testing & Iteration
+        - [] Simulate XP gain rates & TTK across multiple builds before finalizing
+        - [] Run biome-by-biome playtests for pacing verification
+        - [] Plan for post-launch tuning based on player data
 
 ---
 
@@ -290,49 +324,49 @@
 - Maintain consistent configuration and balance across all mods
 
 **ToDos:**
-- [ ] Space out POI density in late biomes to reduce clustering
-- [ ] Lower passive raid frequency to avoid constant interruptions
-- [ ] Slow or cap routine world spawns in high-density areas
-- [ ] Apply stronger global spawn throttles for peak load times
-- [ ] Calibrate loot drops to account for decreased monster spawns
+- [] Space out POI density in late biomes to reduce clustering
+- [] Lower passive raid frequency to avoid constant interruptions
+- [] Slow or cap routine world spawns in high-density areas
+- [] Apply stronger global spawn throttles for peak load times
+- [] Calibrate loot drops to account for decreased monster spawns
 
 ### 3.2 Itemization & Drop Table Management
 
 **ToDos:**
-- [ ] Identify all items not currently obtainable in-game or missing from drop tables
-- [ ] Create a list of endgame or "drop-only" items (non-craftable)
-- [ ] Add modded items to loot tables via Drop That configuration
-- [ ] Configure drop rates so non-craftable items drop in pairs (one for me, one for Brett)
+- [] Identify all items not currently obtainable in-game or missing from drop tables
+- [] Create a list of endgame or "drop-only" items (non-craftable)
+- [] Add modded items to loot tables via Drop That configuration
+- [] Configure drop rates so non-craftable items drop in pairs (one for me, one for Brett)
 
 ### 3.3 Recipe & Crafting Progression
 
 **ToDos:**
-- [ ] Remove or lock recipes for early-game items that should be introduced later
-- [ ] Strategically reintroduce items across world levels instead of all at once
-- [ ] Consolidate crafting to fewer, more versatile crafting tables
-- [ ] Assign blacksmithing level requirements to item crafting
-- [ ] Adjust Durability to compensate for the 400% HP boost of the monsters
+- [] Remove or lock recipes for early-game items that should be introduced later
+- [] Strategically reintroduce items across world levels instead of all at once
+- [] Consolidate crafting to fewer, more versatile crafting tables
+- [] Assign blacksmithing level requirements to item crafting
+- [] Adjust Durability to compensate for the 400% HP boost of the monsters
 
 ### 3.4 Skills & Gating
 
 **ToDos:**
-- [ ] Pace skilling rates (integrate with AzuExp if applicable)
-- [ ] Conduct a comprehensive skills audit to identify balance issues
-- [ ] Add level gating to all soft skills
+- [] Pace skilling rates (integrate with AzuExp if applicable)
+- [] Conduct a comprehensive skills audit to identify balance issues
+- [] Add level gating to all soft skills
 
 ### 3.5 Balance & Mod Configuration
 
 **ToDos:**
-- [ ] Audit stacking effects of gear, consumables, and buffs for balance issues
-- [ ] Ensure Mushroom Monsters are correctly configured with biome-appropriate drops
-- [ ] Balance drops objectively with measurable rarity/ratio targets
-- [ ] Ensure world level progression is boss-kill gated (not tied to in-game days)
+- [] Audit stacking effects of gear, consumables, and buffs for balance issues
+- [] Ensure Mushroom Monsters are correctly configured with biome-appropriate drops
+- [] Balance drops objectively with measurable rarity/ratio targets
+- [] Ensure world level progression is boss-kill gated (not tied to in-game days)
 
 ### 3.6 Boats & Vehicles
 
 **ToDos:**
-- [ ] Ensure all boats are assigned to correct workbenches
-- [ ] Stratify boats by weight vs. speed and distribute them across world levels
+- [] Ensure all boats are assigned to correct workbenches
+- [] Stratify boats by weight vs. speed and distribute them across world levels
 
 **Update World**
 - genloc Loc_FungusGrove_MP
@@ -341,9 +375,10 @@
 - genloc Loc_Vegvisr_NonNon_MP
 - genloc Loc_Runestone_MonMon_MP
 - genloc Loc_Runestone_NonNon_MP
+- Reset known recipes (if VNEI doesn't accomodate them)
 
 
-### Other Ideas
+### Other Idea Dump
 - Highlight rare drops and track boss killcounts for social/cosmetic rewards.
 - Provide independent loot rolls for group boss fights to incentivize co-op play.
 - Run rotating boss events with temporary loot modifiers or event-exclusive items.
