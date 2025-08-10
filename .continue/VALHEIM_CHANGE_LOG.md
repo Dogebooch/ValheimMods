@@ -10,6 +10,7 @@ This file tracks major gameplay and configuration changes for the RelicHeim/Jewe
 ## Skills & Progression
 - Raised EpicMMO Max Level to 120
 - Turned off non-combat XP
+- Lower EpicMMO attribute reset cost to 5 coins per point
 - XP loss on death : 25%-50% -> 5-15%
 
 ## Crafting & Recipes
