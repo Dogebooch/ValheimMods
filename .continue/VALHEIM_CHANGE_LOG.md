@@ -3,13 +3,13 @@
 This file tracks major gameplay and configuration changes for the RelicHeim/JewelHeim overhaul.
 
 ## World & Combat
-- Monster HP: from 120% to 400%
+- Monster HP: 120% -> 400%
 
 ## Loot & Economy
 
 ## Skills & Progression
-- Raise EpicMMO Max Level to 120
-- Raise orb XP output by 25% across the board
-- Turn off non-combat XP
+- Raised EpicMMO Max Level to 120
+- Turned off non-combat XP
+- XP loss on death : 25%-50% -> 5-15%
 
 ## Crafting & Recipes
