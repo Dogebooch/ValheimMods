@@ -998,12 +998,10 @@ SwampHouseCreatures1:
   - Skeleton_Poison
   - Draugr
   - Skeleton_NoArcher
-  - Skeleton_Poison
   - Skeleton
   # Elite variants for better materials (40% chance)
   - Skeleton_Poison
   - Skeleton_NoArcher
-  - Draugr_Elite
   - Skeleton_Poison
   - Skeleton_NoArcher
   - Draugr_Elite
