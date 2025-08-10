@@ -1,8 +1,0 @@
-attribute,per_point_bonus,hard_cap,softcap_start,softcap_slope,notes
-Strength,"+0.3 dmg, +4 weight, +0.25 block stamina, +50% crit dmg",80,,,"EpicMMO cfg: Valheim/profiles/Dogeheim_Player/BepInEx/config/WackyMole.EpicMMOSystem.cfg"
-Dexterity,"+0.3 attack speed, +0.25 attack stamina, +0.25 run/jump stamina",80,,,"EpicMMO cfg"
-Endurance,"+1.8 stamina, +0.75 stamina regen, +0.3 physical armor",80,,,"EpicMMO cfg"
-Intellect,"+0.3 magic attack, +0.3 eitr regen, +1 eitr",80,,,"EpicMMO cfg (AddEitr applies when base Eitr > 1)"
-Vigour,"+1 health, +0.5 health regen, +0.3 magic armor",80,,,"EpicMMO cfg"
-Specializing,"+0.2% crit chance, +0.4 mining speed, +10 building health, +0.4 tree cutting",80,,,"EpicMMO cfg; Crit Start 1% then +0.2%/pt"
-# Note: All attributes capped at 80 points (hard cap) per EpicMMO cfg. No explicit softcap parameters found in configs.
