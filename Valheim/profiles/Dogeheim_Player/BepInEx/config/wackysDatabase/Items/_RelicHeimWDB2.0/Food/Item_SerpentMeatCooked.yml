@@ -10,8 +10,8 @@ customVisual:
 sizeMultiplier: 1
 scale_weight_by_quality: 0
 FoodStats:
-  m_foodHealth: 50
-  m_foodStamina: 16
+  m_foodHealth: 48
+  m_foodStamina: 18
   m_foodRegen: 3
   m_foodBurnTime: 1200
   m_FoodEitr: 0
