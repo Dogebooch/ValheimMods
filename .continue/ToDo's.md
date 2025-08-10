@@ -10,8 +10,10 @@
 
 ---
 ## BIGGEST TODO
-- [ ] Review every mod's configuration to understand and document gameplay impact
+- [x] Review every mod's configuration to understand and document gameplay impact
 - [ ] Raise Max level EpicMMO to 120
+- [ ] Make the death XP cost less punishing
+- [ ] Make resetting attributes easier, so that we can respec
 - [ ] Ensure the rest of the following changes:
 
 ### **EpicMMO System (Primary RPG Progression)**
@@ -271,6 +273,7 @@
   - [ ] Lumberjacking
   - [ ] Building
   - [ ] Enchantments
+  - [ ] Fishing
 - [ ] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
 
 ---
@@ -330,6 +333,15 @@
 **ToDos:**
 - [ ] Ensure all boats are assigned to correct workbenches
 - [ ] Stratify boats by weight vs. speed and distribute them across world levels
+
+**Update World**
+- genloc Loc_FungusGrove_MP
+- genloc Loc_MushroomGrove_MP
+- genloc Loc_Vegvisr_MonMon_MP
+- genloc Loc_Vegvisr_NonNon_MP
+- genloc Loc_Runestone_MonMon_MP
+- genloc Loc_Runestone_NonNon_MP
+
 
 ### Other Ideas
 - Highlight rare drops and track boss killcounts for social/cosmetic rewards.
