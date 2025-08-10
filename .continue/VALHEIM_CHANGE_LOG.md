@@ -4,8 +4,17 @@
 
 ## World & Combat
 - Monster HP: 120% -> 400%
+ - Stamina tuning for 4× TTK (EpicMMO cap 120):
+   - Base pool: +20% baseline; +30% from WL‑7 onward
+   - Regen: x1.35 out of combat; x1.20 in combat
+   - Action costs: Attacks −20%, Block/Parry −15%, Dodge/Roll −10%, Sprint −10%
+ - Durability: Global durability doubled (2× baseline)
 
 ## Loot & Economy
+ - Mushroom Monsters (Drop That):
+   - Swamp: `ThistleCap_MP` drop chance 15% -> 20% (reduce midgame grind)
+   - Plains: `Flax` drop chance 50% -> 40% (temper early flax snowball)
+   - Ashlands: `SurtlingCore` drop chance 50% -> 35% (reduce core flooding at very high TTK)
 
 ## Skills & Progression
 - Raised EpicMMO Max Level to 120
@@ -13,8 +22,13 @@
 - Lower EpicMMO attribute reset cost to 5 coins per point
 - XP loss on death : 25%-50% -> 5-15%
 - World Level start times : x days -> 9999 and changed "Second Factor" to BossesKilled (makes world level progression from boss killing, not in game days)
+ - Stamina progression scaling (optional, tied to EpicMMO Combat):
+   - Combat L0→60: −10% action costs, +10% regen
+   - Combat L61→90: −15% action costs, +20% regen
+   - Combat L91→120: −20% action costs, +30% regen
 
 ## Crafting & Recipes
+ - Endgame food balance: shift +15% of total stat budget into Stamina vs current endgame mix
 
 
 **Meadows**

@@ -167,11 +167,11 @@
 **Goal:** Skilling is separated into three tiers: tier 1 (Gamechangers), tier 2 (Strong Utilities), tier 3 (Flavor/minor)
 
 **Objectives:**
-- **Tier 1 (Gamechangers):** run, sailing, weapon skills - level 70 by early Ashlands (Early WL-8)
-- **Tier 2 (Strong Utilities):** sneak, pickaxe, mining, exploration, foraging, and blacksmithing - level 70 by deep north entry post world level 7 (Early WL-7)
-- **Tier 3 (Flavor/minor):** jump, swim, farming, ranching, pack horse, tenacity, lumberjacking, building, enchantment - level 70 by end of mist lands (Late WL-6)
+- **Tier 1 (Gamechangers):** jump, run, sailing, tenacity, weapon skills - level 70 by early Ashlands (Early WL-8)
+- **Tier 2 (Strong Utilities):** sneak, pickaxe, mining, exploration, foraging, enchantment and blacksmithing - level 70 by deep north entry post world level 7 (Early WL-7)
+- **Tier 3 (Flavor/minor):** swim, farming, ranching, pack horse, lumberjacking, building - level 70 by end of mistlands (Late WL-6)
 - Assess the Progression factor for sailing, which is going to be a little bit different given the XP per tick system
-- **Tier1:** multipliers ≥ **1.0–1.1**; **Tier2:** **0.6–0.75**; **Tier3:** **0.55–0.8** (Swimming may remain higher as QoL)
+- **Tier1:** multipliers ≥ **(insert % here)**; **Tier2:** **(insert % here)**; **Tier3:** **(insert % here)** (Swimming may remain higher as QoL)
 - **Note:** the factors may change based on balancing
 
 **ToDos:**
@@ -179,27 +179,28 @@
 - [] Adjust the base Relicheim skilling levels so that it's adjusted for the new prolonged gametime: 400% XP boost
 - [] Conduct a comprehensive skills audit to identify balance issues
 - [] Add level gating to all soft skills
-- [] Set the Exp Factor gain for Tier 1 skills
-  - [] Run
-  - [] Weapon Skills
-- [] Set the Exp Factor Gain for Tier 2 Skills
-  - [] Sneak
-  - [] Pickaxe
-  - [] Exploration
-  - [] Foraging
-- [] Set the Exp Factor Gain for Tier 3 Skills
-  - [] Jump
-  - [] Swim
-  - [] Farming
-  - [] Cooking
-  - [] Ranching
-  - [] Pack Horse
-  - [] Tenacity
-  - [] Lumberjacking
-  - [] Building
-  - [] Enchantments
-  - [] Fishing
-- [] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
+- [x] Set the Exp Factor gain for Tier 1 skills
+  - [x] Run: 1.10
+  - [x] Weapon Skills : 1.03
+- [x] Set the Exp Factor Gain for Tier 2 Skills
+  - [x] Sneak : 0.70
+  - [x] Pickaxe : 0.72
+  - [x] Exploration : 0.70
+  - [x] Foraging : 0.65
+  - [x] Blacksmithing : 0.65
+- [x] Set the Exp Factor Gain for Tier 3 Skills
+  - [x] Jump : 0.80
+  - [x] Swim : 1.5
+  - [x] Farming : 0.65
+  - [x] Cooking : 0.60
+  - [x] Ranching : 0.60
+  - [x] Pack Horse : 0.70
+  - [x] Tenacity : 0.65
+  - [x] Lumberjacking : 0.60
+  - [x] Building : 0.80
+  - [x] Enchantments : 0.55
+  - [x] Fishing : 0.75
+- [x] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
 - [] Balance the combat around the new level 120
     - [] Cap Exp Orb drops to 1.5x
     - [] XP Curve & Progression
@@ -233,7 +234,6 @@
         - [] Ensure rare mats are tied to elites/bosses to encourage exploration
         - [] Align crafting XP gains with combat XP to prevent bypassing intended progression
     - [] Progression Flow & Player Experience
-        - [] Keep exploration:combat ratio ~2.5:1 to balance resource gathering and engagement
         - [] Smooth level 90 transition to avoid a "power cliff"
         - [] Add catch-up mechanics for new/alt characters post-launch
         - [] Provide tangible rewards (cosmetics, titles, abilities) for late-game milestones
@@ -284,7 +284,6 @@
 - [] Audit stacking effects of gear, consumables, and buffs for balance issues
 - [] Ensure Mushroom Monsters are correctly configured with biome-appropriate drops
 - [] Balance drops objectively with measurable rarity/ratio targets
-- [] Ensure world level progression is boss-kill gated (not tied to in-game days)
 
 ### 3.6 Boats & Vehicles
 
