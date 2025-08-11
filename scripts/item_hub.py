@@ -76,21 +76,39 @@ class ItemHubApp(tk.Tk):
         self.filtered_items: List[Dict[str, str]] = []
         self.item_types: List[str] = []
         self.changes: Dict[str, Dict] = {}  # internal name -> metadata
+        self.growables: set[str] = set()
+        self.internal_to_localized: Dict[str, str] = {}
 
         # Images
         self.photo_cache: Dict[str, ImageTk.PhotoImage] = {}
         self.missing_icon: Optional[ImageTk.PhotoImage] = None
+        # Where to search for icons (VNEI export and Jotunn cached icons)
+        self.icon_search_dirs: List[str] = [
+            self.icons_dir,
+            os.path.abspath(
+                os.path.join(
+                    self.script_dir,
+                    "..",
+                    "Valheim_Help_Docs",
+                    "Valheim_PlayerWorldData",
+                    "Jotunn",
+                    "CachedIcons",
+                )
+            ),
+        ]
 
         # UI Vars
         self.var_filter_type = tk.StringVar(value="All")
         self.var_search = tk.StringVar()
         self.var_status = tk.StringVar(value="")
+        self.var_only_growables = tk.BooleanVar(value=False)
 
         # Build UI
         self._build_layout()
 
         # Load data
         self._load_items()
+        self._load_growables()
         self._load_recipes()
         self._load_changes()
         self._refresh_types()
@@ -165,6 +183,9 @@ class ItemHubApp(tk.Tk):
         ent_search.pack(side=tk.LEFT, padx=(6, 12), fill=tk.X, expand=True)
         ent_search.bind("<KeyRelease>", lambda e: self._apply_filters())
 
+        chk_grow = ttk.Checkbutton(top, text="Growables only", variable=self.var_only_growables, command=self._apply_filters)
+        chk_grow.pack(side=tk.LEFT, padx=(0, 12))
+
         btn_clear = ttk.Button(top, text="Clear Filters", command=self._clear_filters)
         btn_clear.pack(side=tk.LEFT)
 
@@ -178,6 +199,7 @@ class ItemHubApp(tk.Tk):
 
         # Use the tree column (#0) to show item name + icon.
         # Additional columns hold metadata. First column 'done' acts as a checkbox.
+        # We will add a 'grow' indicator column later after growables are loaded
         columns = ("done", "type", "mod", "internal")
         self.tree = ttk.Treeview(
             left,
@@ -297,6 +319,7 @@ class ItemHubApp(tk.Tk):
                     items.append(item)
 
         self.items = items
+        self.internal_to_localized = {it["Internal Name"]: it.get("Localized Name", it["Internal Name"]) for it in self.items}
 
     def _load_changes(self):
         if os.path.isfile(self.persist_path):
@@ -346,7 +369,10 @@ class ItemHubApp(tk.Tk):
                     it.get("Item Type", ""),
                     it.get("Source Mod", ""),
                 ]).lower()
-                return q in hay
+                if q not in hay:
+                    return False
+            if self.var_only_growables.get():
+                return it.get("Internal Name", "") in self.growables
             return True
 
         self.filtered_items = [it for it in self.items if match(it)]
@@ -355,11 +381,115 @@ class ItemHubApp(tk.Tk):
     def _clear_filters(self):
         self.var_filter_type.set("All")
         self.var_search.set("")
+        self.var_only_growables.set(False)
         self._apply_filters()
+
+    # ---------------------------
+    # Growables: parse PlantEverything to discover plantable items
+    # ---------------------------
+    def _load_growables(self):
+        self.growables = set()
+        # Build lookups for mapping arbitrary names to internal names
+        internal_by_internal = {it.get("Internal Name", ""): it.get("Internal Name", "") for it in self.items}
+        internal_by_internal_lower = {k.lower(): v for k, v in internal_by_internal.items()}
+        internal_by_localized_lower = {it.get("Localized Name", "").lower(): it.get("Internal Name", "") for it in self.items}
+        # Also support some common PlantEverything keys directly → internal names
+        direct_map = {
+            "barley": "Barley",
+            "carrot": "Carrot",
+            "flax": "Flax",
+            "onion": "Onion",
+            "seedcarrot": "SeedCarrot",
+            "seedonion": "SeedOnion",
+            "seedturnip": "SeedTurnip",
+            "turnip": "Turnip",
+            "magecap": "Magecap",
+            "jotunpuffs": "JotunPuffs",
+            "raspberry": "RaspberryBush",  # icon shows bush; internal may be Pickable_Raspberry etc.
+            "blueberry": "Blueberries",
+            "cloudberry": "Cloudberry",
+            "dandelion": "Dandelion",
+            "thistle": "Thistle",
+            "mushroom": "Mushroom",
+            "yellowmushroom": "MushroomYellow",
+            "bluemushroom": "MushroomBlue",
+            "smokepuff": "Smokepuff",
+        }
+
+        # Locate PlantEverything config
+        pe_cfg = os.path.abspath(os.path.join(self.script_dir, "..", "Valheim", "profiles", "Dogeheim_Player", "BepInEx", "config", "advize.PlantEverything.cfg"))
+        if not os.path.isfile(pe_cfg):
+            return
+        try:
+            with open(pe_cfg, "r", encoding="utf-8") as f:
+                for raw in f:
+                    line = raw.strip()
+                    if not line or line.startswith("#") or line.startswith("##"):
+                        continue
+                    if "Cost =" in line:
+                        # Example: BarleyCost = 1
+                        parts = line.split("=", 1)
+                        if len(parts) != 2:
+                            continue
+                        left = parts[0].strip()
+                        right = parts[1].strip()
+                        # Skip disabled (0 cost means disabled planting according to doc; keep >0)
+                        try:
+                            cost_val = int(right)
+                        except ValueError:
+                            continue
+                        if cost_val <= 0:
+                            continue
+                        if left.endswith("Cost"):
+                            name = left[:-4].strip()  # drop 'Cost'
+                        else:
+                            name = left
+
+                        def map_name(n: str) -> str | None:
+                            nl = n.lower()
+                            if nl in direct_map:
+                                target = direct_map[nl]
+                                # Return matching internal if present
+                                if target.lower() in internal_by_internal_lower:
+                                    return internal_by_internal_lower[target.lower()]
+                                if target.lower() in internal_by_localized_lower:
+                                    return internal_by_localized_lower[target.lower()]
+                            if nl in internal_by_internal_lower:
+                                return internal_by_internal_lower[nl]
+                            if nl in internal_by_localized_lower:
+                                return internal_by_localized_lower[nl]
+                            # Try simple pluralization variants
+                            if nl.endswith("y"):
+                                alt = nl[:-1] + "ies"
+                                if alt in internal_by_internal_lower:
+                                    return internal_by_internal_lower[alt]
+                                if alt in internal_by_localized_lower:
+                                    return internal_by_localized_lower[alt]
+                            if not nl.endswith("s"):
+                                alt = nl + "s"
+                                if alt in internal_by_internal_lower:
+                                    return internal_by_internal_lower[alt]
+                                if alt in internal_by_localized_lower:
+                                    return internal_by_localized_lower[alt]
+                            return None
+
+                        mapped = map_name(name)
+                        if mapped:
+                            self.growables.add(mapped)
+        except Exception:
+            # ignore parse errors gracefully
+            pass
 
     def _populate_tree(self):
         self.tree.delete(*self.tree.get_children())
         count = 0
+        # Ensure grow column exists if we have growables info
+        if "grow" not in self.tree["columns"]:
+            new_cols = ("done", "grow", "type", "mod", "internal")
+            self.tree.configure(columns=new_cols)
+            self.tree.heading("grow", text="Grow")
+            self.tree.column("grow", width=60, anchor=tk.CENTER)
+
         for idx, it in enumerate(self.filtered_items):
             internal = it.get("Internal Name", "")
             localized = it.get("Localized Name", internal)
@@ -369,12 +499,13 @@ class ItemHubApp(tk.Tk):
             if isinstance(meta, dict):
                 checked = bool(meta.get("checked", False))
             done_symbol = "☑" if checked else "☐"
+            grow_symbol = "🌱" if internal in self.growables else ""
             iid = self.tree.insert(
                 "",
                 tk.END,
                 text=localized,
                 image=icon,
-                values=(done_symbol, it.get("Item Type", ""), it.get("Source Mod", ""), internal),
+                values=(done_symbol, grow_symbol, it.get("Item Type", ""), it.get("Source Mod", ""), internal),
             )
             count += 1
         self._set_status(f"Showing {count} of {len(self.items)} items")
@@ -401,24 +532,46 @@ class ItemHubApp(tk.Tk):
 
         # Attempt to find icon file in icons dir by several strategies
         icon_path = None
-        if os.path.isdir(self.icons_dir):
-            # 1) Exact match (case-insensitive) with common extensions
+        lowered = internal_name.lower()
+        # Search through multiple directories
+        for base_dir in self.icon_search_dirs:
+            if not os.path.isdir(base_dir):
+                continue
+            # 1) Exact match
             for ext in (".png", ".jpg", ".jpeg"):
-                candidate = os.path.join(self.icons_dir, internal_name + ext)
+                candidate = os.path.join(base_dir, internal_name + ext)
                 if os.path.isfile(candidate):
                     icon_path = candidate
                     break
-
-            # 2) Fallback: scan for file starting with internal name
-            if icon_path is None:
-                lowered = internal_name.lower()
-                try:
-                    for fname in os.listdir(self.icons_dir):
-                        if fname.lower().startswith(lowered) and fname.lower().endswith((".png", ".jpg", ".jpeg")):
-                            icon_path = os.path.join(self.icons_dir, fname)
-                            break
-                except Exception:
-                    pass
+            if icon_path:
+                break
+            # 2) Start-with match on internal name
+            try:
+                for fname in os.listdir(base_dir):
+                    fnl = fname.lower()
+                    if not fnl.endswith((".png", ".jpg", ".jpeg")):
+                        continue
+                    if fnl.startswith(lowered):
+                        icon_path = os.path.join(base_dir, fname)
+                        break
+                if icon_path:
+                    break
+            except Exception:
+                pass
+            # 3) Try localized name variants
+            loc = self.internal_to_localized.get(internal_name, internal_name)
+            loc_low = loc.lower().replace(" ", "_")
+            for ext in (".png", ".jpg", ".jpeg"):
+                candidate = os.path.join(base_dir, loc + ext)
+                candidate2 = os.path.join(base_dir, loc_low + ext)
+                if os.path.isfile(candidate):
+                    icon_path = candidate
+                    break
+                if os.path.isfile(candidate2):
+                    icon_path = candidate2
+                    break
+            if icon_path:
+                break
 
         try:
             if icon_path and os.path.isfile(icon_path):
@@ -442,11 +595,25 @@ class ItemHubApp(tk.Tk):
         iid = sel[0]
         # Read from tree column (#0) and value columns
         localized = self.tree.item(iid, "text") or "-"
-        vals = self.tree.item(iid, "values") or ("", "", "", "")
-        # values order: done, type, mod, internal
-        item_type = vals[1] if len(vals) > 1 else ""
-        source_mod = vals[2] if len(vals) > 2 else ""
-        internal = vals[3] if len(vals) > 3 else ""
+        vals = self.tree.item(iid, "values") or ("", "", "", "", "")
+        # values order (after grow column added): done, grow, type, mod, internal
+        item_type = vals[2] if len(vals) > 2 else ""
+        source_mod = vals[3] if len(vals) > 3 else ""
+        internal = vals[4] if len(vals) > 4 else ""
+
+        self.lbl_name.config(text=f"Name: {localized}")
+        self.lbl_type.config(text=f"Type: {item_type}")
+        self.lbl_internal.config(text=f"Internal: {internal}")
+        self.lbl_mod.config(text=f"Source Mod: {source_mod}")
+        # Update crafting details
+        station, ingredients = self._lookup_recipe(internal)
+        self.lbl_station.config(text=station or "-")
+        self._set_text_readonly(self.txt_recipe, self._format_ingredients(ingredients))
+
+        meta = self.changes.get(internal, {})
+        self.var_item_status.set(meta.get("status", ""))
+        self._set_text(self.txt_tags, ", ".join(meta.get("tags", [])))
+        self._set_text(self.txt_notes, meta.get("notes", ""))
 
     def _on_tree_click(self, event):
         # Toggle checkbox if clicking in 'done' column

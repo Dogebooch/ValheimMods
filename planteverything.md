@@ -21,17 +21,17 @@ CloudberryCost = 5
 ## Number of minutes it takes for a raspberry bush to respawn berries.
 # Setting type: Int32
 # Default value: 300
-RaspberryRespawnTime = 120
+RaspberryRespawnTime = 180
 
 ## Number of minutes it takes for a blueberry bush to respawn berries.
 # Setting type: Int32
 # Default value: 300
-BlueberryRespawnTime = 120
+BlueberryRespawnTime = 240
 
 ## Number of minutes it takes for a cloudberry bush to respawn berries.
 # Setting type: Int32
 # Default value: 300
-CloudberryRespawnTime = 120
+CloudberryRespawnTime = 300
 
 ## Number of berries a raspberry bush will spawn.
 # Setting type: Int32
@@ -220,7 +220,7 @@ PickableBranchReturn = 1
 ## Number of minutes it takes for a pickable branch to respawn.
 # Setting type: Int32
 # Default value: 240
-PickableBranchRespawnTime = 120
+PickableBranchRespawnTime = 240
 
 ## Amount of stone required to place stone debris. Set to 0 to disable the ability to plant this resource.
 # Setting type: Int32
@@ -235,7 +235,7 @@ PickableStoneReturn = 1
 ## Number of minutes it takes for a pickable Stone to respawn.
 # Setting type: Int32
 # Default value: 0
-PickableStoneRespawnTime = 120
+PickableStoneRespawnTime = 240
 
 ## Amount of flint required to place flint debris. Set to 0 to disable the ability to plant this resource.
 # Setting type: Int32
@@ -250,7 +250,7 @@ PickableFlintReturn = 1
 ## Number of minutes it takes for pickable flint to respawn.
 # Setting type: Int32
 # Default value: 240
-PickableFlintRespawnTime = 120
+PickableFlintRespawnTime = 240
 
 [Difficulty]
 

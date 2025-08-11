@@ -29,19 +29,19 @@ Foraging Yield Factor = 2
 # Setting type: Int32
 # Default value: 30
 # Acceptable value range: From 0 to 100
-Minimum Level Respawn Display = 10
+Minimum Level Respawn Display = 30
 
 ## Mass picking radius at skill level 100 in meters.
 # Setting type: Int32
 # Default value: 10
 # Acceptable value range: From 0 to 20
-Maximum Mass Picking Range = 10
+Maximum Mass Picking Range = 8
 
 ## Multiplier for the respawn speed at skill level 100.
 # Setting type: Single
 # Default value: 2
 # Acceptable value range: From 1 to 10
-Multiplier for Respawn Speed = 2
+Multiplier for Respawn Speed = 1.5
 
 [3 - Other]
 
@@ -49,7 +49,7 @@ Multiplier for Respawn Speed = 2
 # Setting type: Single
 # Default value: 1
 # Acceptable value range: From 0.01 to 5
-Skill Experience Gain Factor = 0.65
+Skill Experience Gain Factor = 0.60
 
 ## How much experience to lose in the foraging skill on death.
 # Setting type: Int32

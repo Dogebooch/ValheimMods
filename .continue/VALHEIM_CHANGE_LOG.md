@@ -1,4 +1,4 @@
-# Valheim Configuration Change Log
+# Dogeheim Configuration Change Log
 
 ## 🌍 World & Combat Balance
 
@@ -34,9 +34,33 @@
 - **Second Factor**: Changed to **BossesKilled** (world level progression from boss kills only)
 
 ### Farming
-- **Grow Speed Factor**: Changed from 3 → **2** (slightly longer growth cycle for slightly harder food)
+- **Grow Speed Factor**: Changed from 3 → **1.6** (slightly longer growth cycle for slightly harder food)
+- **Grow Experience Gain Factor**: Changed from 0.65 -> 0.57 (slightly more balanced from play testing)
+
+## Foraging
+- **Maximum Mass Picking Range** = 8 (Decreased for decreased "vacuuming")
+- **Skill Experience Gain Factor** = 0.60 (slightly lower than the tier 3 goal, from play testing)
 
 ## 🍳 Crafting & Recipes
+
+## 🌿 Seasonal Plant Cadence (PlantEverything)
+
+- Berries/Flowers (slight Spring/Summer “pop”)
+  - RaspberryRespawnTime: 180 → 160
+  - BlueberryRespawnTime: 240 → 220
+  - CloudberryRespawnTime: 300 → 300 (unchanged; Plains gating)
+  - ThistleRespawnTime: 120 → 110
+  - DandelionRespawnTime: 120 → 100
+
+- Mushrooms (Fall loops feel ~10–15% snappier)
+  - MushroomRespawnTime: 120 → 110
+  - YellowMushroomRespawnTime: 120 → 110
+  - BlueMushroomRespawnTime: 120 → 110
+  - SmokepuffRespawnTime: 120 → 100
+
+- Crops will die after set day in winter = 4
+
+Impact: subtle seasonal rhythm with near‑neutral long‑term resource flow; noticeable over extended sessions.
 
 ## 🏞️ Biome-Specific Changes
 
