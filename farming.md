@@ -1,4 +1,4 @@
-##Changes made by Dogeheim: Changed growth speed factor to 1.6, Ignore Biome Level to 80, Skill Experience Gain Factor to 0.65
+##Changes made by Dogeheim: Changed growth speed factor to 2.0, Ignore Biome Level to 80, Skill Experience Gain Factor to 0.65
 
 ## Settings file was created by plugin Farming v2.2.1
 ## Plugin GUID: org.bepinex.plugins.farming
@@ -17,7 +17,7 @@ Lock Configuration = On
 # Setting type: Single
 # Default value: 3
 # Acceptable value range: From 1 to 10
-Grow Speed Factor = 1.6
+Grow Speed Factor = 2.0
 
 ## Item yield factor for crops at skill level 100.
 # Setting type: Single
@@ -29,7 +29,7 @@ Crop Yield Factor = 2
 # Setting type: Int32
 # Default value: 30
 # Acceptable value range: From 0 to 100
-Show Progress Level = 25
+Show Progress Level = 10
 
 ## Required skill level to ignore the required biome of planted crops. 0 is disabled.
 # Setting type: Int32
@@ -41,19 +41,19 @@ Ignore Biome Level = 80
 # Setting type: Int32
 # Default value: 20
 # Acceptable value range: From 0 to 100
-Plant Increase Interval = 15
+Plant Increase Interval = 10
 
 ## Level interval to increase the radius harvested at the same time. 0 is disabled.
 # Setting type: Int32
 # Default value: 20
 # Acceptable value range: From 0 to 100
-Harvest Increase Interval = 15
+Harvest Increase Interval = 10
 
 ## Reduces the stamina usage while planting and harvesting your crops. Percentage stamina reduction per level. 0 is disabled.
 # Setting type: Int32
 # Default value: 1
 # Acceptable value range: From 0 to 100
-Stamina Reduction per Level = 0.5
+Stamina Reduction per Level = 1
 
 ## Rotates each crop randomly. Some people say this looks more natural.
 # Setting type: Toggle
@@ -67,7 +67,7 @@ Random Rotation = On
 # Setting type: Single
 # Default value: 1
 # Acceptable value range: From 0.01 to 5
-Skill Experience Gain Factor = 0.57
+Skill Experience Gain Factor = 0.65
 
 ## How much experience to lose in the farming skill on death.
 # Setting type: Int32

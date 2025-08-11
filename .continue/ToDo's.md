@@ -175,32 +175,36 @@
 - **Note:** the factors may change based on balancing
 
 **ToDos:**
-**ToDos:**
+- [] Add level gating to all soft skills
+      - [] OdinsKingdom
+      - [] Blacksmithing
+      - [] Building
+      - [] Conversionssizesspeed
+      - [] Cooking
+            - [] CookingAdditions
+      - [] Exploration
+      - [] Farming
+            - []PlantEverything
+      - [] Foraging
+      - [] Lumberjacking
+      - [] Mining
+      - [] Packhorse
+      - [] PassivePowers
+      - [] Ranching
+      - [] Sailing
+      - [] Sailing Speed
+      - [] SmartSkills
+      - [] Tenacity
+      - [] Backpacks
+      - [] Wizardry
+      - [] FineWoodBuildPieces
+      - [] FineWoodFurnitures
+      - [] MagicRevamp
+      - [] potionsplus
+      - [] ValheimEnchantmentSystem
+      - [] OdinShipPlus
 - [] Adjust the base Relicheim skilling levels so that it's adjusted for the new prolonged gametime: 400% XP boost
 - [] Conduct a comprehensive skills audit to identify balance issues
-- [] Add level gating to all soft skills
-- [x] Set the Exp Factor gain for Tier 1 skills
-  - [x] Run: 1.10
-  - [x] Weapon Skills : 1.03
-- [x] Set the Exp Factor Gain for Tier 2 Skills
-  - [x] Sneak : 0.70
-  - [x] Pickaxe : 0.72
-  - [x] Exploration : 0.70
-  - [x] Foraging : 0.65
-  - [x] Blacksmithing : 0.65
-- [x] Set the Exp Factor Gain for Tier 3 Skills
-  - [x] Jump : 0.80
-  - [x] Swim : 1.5
-  - [x] Farming : 0.65
-  - [x] Cooking : 0.60
-  - [x] Ranching : 0.60
-  - [x] Pack Horse : 0.70
-  - [x] Tenacity : 0.65
-  - [x] Lumberjacking : 0.60
-  - [x] Building : 0.80
-  - [x] Enchantments : 0.55
-  - [x] Fishing : 0.75
-- [x] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
 - [] Balance the combat around the new level 120
     - [] Cap Exp Orb drops to 1.5x
     - [] XP Curve & Progression
@@ -384,6 +388,7 @@ Seasonal & vanilla event pressure
 **Goal:** Ensure breathing room for combat AND exploration
 **Goal:** Adjust Creature Spawns to match target density and reward curve\
 **Goal:** The world only advances after the relevant boss dies (server-wide), letting players set their own pace.
+**Goal:** Balance all skills so that there is a natural mix of skilling and progression (exp factor multipliers)
 
 
 - [x] Review every mod's configuration to understand and document gameplay impact
@@ -419,4 +424,25 @@ Seasonal & vanilla event pressure
   - [x] The Queen -> WL7
   - [x] Deep North Boss -> WL8
   - [x] Ashlands Boss -> WL9
-
+- [x] Set the Exp Factor gain for Tier 1 skills
+  - [x] Run: 1.10
+  - [x] Weapon Skills : 1.03
+- [x] Set the Exp Factor Gain for Tier 2 Skills
+  - [x] Sneak : 0.70
+  - [x] Pickaxe : 0.72
+  - [x] Exploration : 0.70
+  - [x] Foraging : 0.65
+  - [x] Blacksmithing : 0.65
+- [x] Set the Exp Factor Gain for Tier 3 Skills
+  - [x] Jump : 0.80
+  - [x] Swim : 1.5
+  - [x] Farming : 0.65
+  - [x] Cooking : 0.60
+  - [x] Ranching : 0.60
+  - [x] Pack Horse : 0.70
+  - [x] Tenacity : 0.65
+  - [x] Lumberjacking : 0.60
+  - [x] Building : 0.80
+  - [x] Enchantments : 0.55
+  - [x] Fishing : 0.75
+- [x] Adjust Stamina exp factor gain to take into account the prolonged enounters (400% HP boost)
