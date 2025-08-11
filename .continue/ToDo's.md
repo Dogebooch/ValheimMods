@@ -183,9 +183,10 @@
       - [] Cooking
             - [] CookingAdditions
       - [] Exploration
-      - [] Farming
-            - []PlantEverything
-      - [] Foraging
+      - [x] Farming
+            - [x]PlantEverything
+            - [] To make Skill gating for Farming, you'll have to make a plugin with BepInEx. See online to do it, seems fairly straight forward.
+      - [x] Foraging
       - [] Lumberjacking
       - [] Mining
       - [] Packhorse
