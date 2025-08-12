@@ -435,6 +435,14 @@ class ConfigChangeTrackerApp:
         self.root = root
         self.config_root = config_root
         self.snapshot = ConfigSnapshot(config_root)
+        # Hidden entries persistence
+        self.hidden_changes_file = self.snapshot.snapshots_dir / "hidden_changes.json"
+        self.hidden_files: set[str] = set()
+        self._load_hidden_changes()
+        # Custom summary overrides persistence
+        self.custom_summaries_file = self.snapshot.snapshots_dir / "custom_summaries.json"
+        self.custom_summaries: dict[str, str] = {}
+        self._load_custom_summaries()
         
         # UI State
         self.base_font_size = 10
@@ -581,7 +589,7 @@ class ConfigChangeTrackerApp:
                                 bg=self.colors["bg"], fg=self.colors["text"])
         compare_label.pack(anchor="w")
         
-        self.compare_var = tk.StringVar(value="Since Last Snapshot (This Session)")
+        self.compare_var = tk.StringVar(value="Since Baseline (All-Time)")
         self.compare_combo = ttk.Combobox(filter_frame, textvariable=self.compare_var, 
                                          state="readonly", width=30)
         self.compare_combo['values'] = [
@@ -618,7 +626,7 @@ class ConfigChangeTrackerApp:
         changes_frame = ttk.Frame(left_frame)
         changes_frame.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
         
-        self.changes_header_var = tk.StringVar(value="Changes vs Last Snapshot (Most Recent First):")
+        self.changes_header_var = tk.StringVar(value="Changes vs Baseline (Most Recent First):")
         changes_label = tk.Label(changes_frame, textvariable=self.changes_header_var, 
                                 bg=self.colors["bg"], fg=self.colors["text"])
         changes_label.pack(anchor="w")
@@ -642,6 +650,27 @@ class ConfigChangeTrackerApp:
         
         self.changes_tree.pack(fill=tk.BOTH, expand=True, pady=(3, 0))
         self.changes_tree.bind("<<TreeviewSelect>>", self.on_change_select)
+        # Context menu for edit/hide entries
+        self._changes_menu = tk.Menu(self.root, tearoff=False)
+        self._changes_menu.add_command(label="Edit Summary…", command=lambda: self.edit_selected_summary(from_summary_tab=False))
+        self._changes_menu.add_command(label="Clear Custom Summary", command=lambda: self.clear_selected_summary(from_summary_tab=False))
+        self._changes_menu.add_separator()
+        self._changes_menu.add_command(label="Hide (persist)", command=self.hide_selected_change)
+        self._changes_menu.add_separator()
+        self._changes_menu.add_command(label="Manage Hidden…", command=self.manage_hidden_changes)
+        def on_changes_right_click(event):
+            try:
+                rowid = self.changes_tree.identify_row(event.y)
+                if rowid:
+                    self.changes_tree.selection_set(rowid)
+                self._changes_menu.tk_popup(event.x_root, event.y_root)
+            finally:
+                self._changes_menu.grab_release()
+        self.changes_tree.bind("<Button-3>", on_changes_right_click)
+        # Delete key hides selected
+        self.root.bind("<Delete>", lambda e: self.hide_selected_change())
+        # Double-click Summary cell to edit
+        self.changes_tree.bind("<Double-1>", self._on_changes_double_click)
         
         # Scrollbar for changes
         changes_scroll = ttk.Scrollbar(changes_frame, orient=tk.VERTICAL, 
@@ -649,36 +678,64 @@ class ConfigChangeTrackerApp:
         self.changes_tree.configure(yscrollcommand=changes_scroll.set)
         changes_scroll.pack(side=tk.RIGHT, fill=tk.Y)
         
-        # Right panel: Diff viewer
+        # Right panel: Notebook with Diff and All-Time Summary
         right_frame = ttk.Frame(main_paned)
         main_paned.add(right_frame, weight=2)
-        
-        diff_label = tk.Label(right_frame, text="Diff View:", 
-                             bg=self.colors["bg"], fg=self.colors["text"])
-        diff_label.pack(anchor="w", padx=6, pady=(6, 0))
-        
-        # Diff text widget
-        self.diff_text = tk.Text(right_frame, bg=self.colors["panel"], 
-                                fg=self.colors["text"], 
-                                insertbackground=self.colors["text"], 
-                                wrap=tk.NONE, font=self.font)
-        self.diff_text.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
-        
-        # Diff scrollbars
-        diff_yscroll = ttk.Scrollbar(right_frame, orient=tk.VERTICAL, 
-                                    command=self.diff_text.yview)
-        diff_xscroll = ttk.Scrollbar(right_frame, orient=tk.HORIZONTAL, 
-                                    command=self.diff_text.xview)
-        self.diff_text.configure(yscrollcommand=diff_yscroll.set, 
-                                xscrollcommand=diff_xscroll.set)
+
+        self.right_notebook = ttk.Notebook(right_frame)
+        self.right_notebook.pack(fill=tk.BOTH, expand=True)
+
+        # Diff tab
+        self.diff_tab = ttk.Frame(self.right_notebook)
+        self.right_notebook.add(self.diff_tab, text="Diff View")
+
+        self.diff_text = tk.Text(self.diff_tab, bg=self.colors["panel"],
+                                 fg=self.colors["text"],
+                                 insertbackground=self.colors["text"],
+                                 wrap=tk.NONE, font=self.font)
+        self.diff_text.pack(fill=tk.BOTH, expand=True, padx=6, pady=(6, 0))
+
+        diff_yscroll = ttk.Scrollbar(self.diff_tab, orient=tk.VERTICAL, command=self.diff_text.yview)
+        diff_xscroll = ttk.Scrollbar(self.diff_tab, orient=tk.HORIZONTAL, command=self.diff_text.xview)
+        self.diff_text.configure(yscrollcommand=diff_yscroll.set, xscrollcommand=diff_xscroll.set)
         diff_yscroll.pack(side=tk.RIGHT, fill=tk.Y)
         diff_xscroll.pack(side=tk.BOTTOM, fill=tk.X)
-        
-        # Configure diff text tags
-        self.diff_text.tag_configure("added", foreground=self.colors["added"])
-        self.diff_text.tag_configure("removed", foreground=self.colors["removed"])
-        self.diff_text.tag_configure("header", foreground=self.colors["accent"])
-        self.diff_text.tag_configure("modified", foreground=self.colors["modified"])
+
+        self.diff_text.tag_configure("added", foreground=self.colors["added"]) 
+        self.diff_text.tag_configure("removed", foreground=self.colors["removed"]) 
+        self.diff_text.tag_configure("header", foreground=self.colors["accent"]) 
+        self.diff_text.tag_configure("modified", foreground=self.colors["modified"]) 
+
+        # All-Time Summary tab
+        self.summary_tab = ttk.Frame(self.right_notebook)
+        self.right_notebook.add(self.summary_tab, text="All-Time Summary")
+
+        cols = ("status", "file", "summary")
+        self.summary_tree = ttk.Treeview(self.summary_tab, columns=cols, show="headings")
+        for c, w in [("status", 90), ("file", 520), ("summary", 520)]:
+            self.summary_tree.heading(c, text=c.capitalize())
+            self.summary_tree.column(c, width=w)
+        self.summary_tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT, padx=6, pady=6)
+
+        summary_yscroll = ttk.Scrollbar(self.summary_tab, orient=tk.VERTICAL, command=self.summary_tree.yview)
+        self.summary_tree.configure(yscrollcommand=summary_yscroll.set)
+        summary_yscroll.pack(fill=tk.Y, side=tk.RIGHT)
+
+        # Double-click: open diff or edit summary depending on column
+        self.summary_tree.bind("<Double-1>", self._open_from_summary)
+        # Right-click menu on summary list
+        self._summary_menu = tk.Menu(self.root, tearoff=False)
+        self._summary_menu.add_command(label="Edit Summary…", command=lambda: self.edit_selected_summary(from_summary_tab=True))
+        self._summary_menu.add_command(label="Clear Custom Summary", command=lambda: self.clear_selected_summary(from_summary_tab=True))
+        def on_summary_right_click(event):
+            try:
+                rowid = self.summary_tree.identify_row(event.y)
+                if rowid:
+                    self.summary_tree.selection_set(rowid)
+                self._summary_menu.tk_popup(event.x_root, event.y_root)
+            finally:
+                self._summary_menu.grab_release()
+        self.summary_tree.bind("<Button-3>", on_summary_right_click)
         
         # Status bar
         self.status_var = tk.StringVar(value="Ready")
@@ -773,7 +830,15 @@ class ConfigChangeTrackerApp:
                     self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
                 self.root.after(0, update_info)
 
-                self.root.after(0, self.refresh_changes)
+                # Auto-scan for changes and open All-Time Summary by default
+                def do_initial_scan():
+                    try:
+                        self.compare_var.set("Since Baseline (All-Time)")
+                        self.on_compare_change()
+                        self.show_baseline_summary()
+                    except Exception:
+                        self.refresh_changes()
+                self.root.after(0, do_initial_scan)
             except Exception as e:
                 self.root.after(0, lambda: self._set_status(f"Error: {e}"))
         
@@ -866,6 +931,9 @@ class ConfigChangeTrackerApp:
                 changes_with_time = []
                 added = modified = deleted = 0
                 for status, file_path, mod, session in changes:
+                    # Skip hidden
+                    if file_path in self.hidden_files:
+                        continue
                     try:
                         file_obj = self.config_root / file_path
                         if file_obj.exists():
@@ -882,6 +950,9 @@ class ConfigChangeTrackerApp:
                     try:
                         compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
                         summary = self.snapshot.summarize_change(file_path, compare_against)
+                        # Apply custom override if present
+                        if file_path in self.custom_summaries:
+                            summary = self.custom_summaries[file_path]
                     except Exception:
                         summary = ""
 
@@ -966,6 +1037,12 @@ class ConfigChangeTrackerApp:
         try:
             self.btn_revert.state(["!disabled"])
             self.btn_accept.state(["!disabled"])
+        except Exception:
+            pass
+
+        # Ensure Diff tab is visible
+        try:
+            self.right_notebook.select(self.diff_tab)
         except Exception:
             pass
 
@@ -1062,6 +1139,272 @@ class ConfigChangeTrackerApp:
         self.diff_text.config(state=tk.DISABLED)
         self._set_status(f"Viewing diff: {file_path}")
 
+    # --- Hidden changes persistence and actions ---
+    def _load_hidden_changes(self) -> None:
+        try:
+            if self.hidden_changes_file.exists():
+                data = json.loads(self.hidden_changes_file.read_text(encoding='utf-8'))
+                if isinstance(data, list):
+                    self.hidden_files = set(str(x) for x in data)
+                elif isinstance(data, dict) and 'files' in data:
+                    self.hidden_files = set(str(x) for x in data.get('files') or [])
+        except Exception:
+            self.hidden_files = set()
+
+        # Ensure file exists
+        try:
+            self.hidden_changes_file.parent.mkdir(parents=True, exist_ok=True)
+            if not self.hidden_changes_file.exists():
+                self.hidden_changes_file.write_text("[]", encoding='utf-8', newline='\n')
+        except Exception:
+            pass
+
+    def _save_hidden_changes(self) -> None:
+        try:
+            self.hidden_changes_file.parent.mkdir(parents=True, exist_ok=True)
+            self.hidden_changes_file.write_text(
+                json.dumps(sorted(self.hidden_files), indent=2, ensure_ascii=False),
+                encoding='utf-8', newline='\n'
+            )
+        except Exception:
+            pass
+
+    def hide_selected_change(self) -> None:
+        selection = self.changes_tree.selection()
+        if not selection:
+            return
+        vals = self.changes_tree.item(selection[0]).get('values', [])
+        if len(vals) < 2:
+            return
+        file_path = vals[1]
+        if not file_path:
+            return
+        # Persist and remove from UI
+        self.hidden_files.add(file_path)
+        self._save_hidden_changes()
+        try:
+            self.changes_tree.delete(selection[0])
+        except Exception:
+            pass
+        self._set_status(f"Hidden change: {file_path}")
+
+    def manage_hidden_changes(self) -> None:
+        try:
+            win = tk.Toplevel(self.root)
+            win.title("Hidden Changes")
+            win.geometry("700x500")
+            win.configure(bg=self.colors["bg"])
+
+            top = ttk.Frame(win)
+            top.pack(fill=tk.X, padx=8, pady=6)
+            tk.Label(top, text="Hidden file entries (persisted):", bg=self.colors["bg"], fg=self.colors["text"]).pack(anchor="w")
+
+            container = ttk.Frame(win)
+            container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+            listbox = tk.Listbox(container, selectmode=tk.EXTENDED, bg=self.colors["panel"], fg=self.colors["text"], activestyle='dotbox')
+            listbox.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+            yscroll = ttk.Scrollbar(container, orient=tk.VERTICAL, command=listbox.yview)
+            listbox.configure(yscrollcommand=yscroll.set)
+            yscroll.pack(fill=tk.Y, side=tk.RIGHT)
+
+            for fp in sorted(self.hidden_files):
+                listbox.insert(tk.END, fp)
+
+            btns = ttk.Frame(win)
+            btns.pack(fill=tk.X, padx=8, pady=6)
+            def unhide_selected():
+                sel = list(listbox.curselection())
+                if not sel:
+                    return
+                items = [listbox.get(i) for i in sel]
+                changed = False
+                for it in items:
+                    if it in self.hidden_files:
+                        self.hidden_files.remove(it)
+                        changed = True
+                if changed:
+                    self._save_hidden_changes()
+                    # Remove from listbox
+                    for i in reversed(sel):
+                        listbox.delete(i)
+                    self._set_status(f"Unhid {len(items)} entr{'y' if len(items)==1 else 'ies'}")
+                    # Refresh main list asynchronously
+                    self.refresh_changes()
+
+            def unhide_all():
+                if not self.hidden_files:
+                    return
+                if not messagebox.askyesno("Unhide All", "Remove all hidden entries?"):
+                    return
+                self.hidden_files.clear()
+                self._save_hidden_changes()
+                listbox.delete(0, tk.END)
+                self._set_status("All hidden entries cleared")
+                self.refresh_changes()
+
+            ttk.Button(btns, text="Unhide Selected", style="Action.TButton", command=unhide_selected).pack(side=tk.LEFT, padx=(0,6))
+            ttk.Button(btns, text="Unhide All", style="Action.TButton", command=unhide_all).pack(side=tk.LEFT)
+
+            # Keyboard delete in manager
+            win.bind("<Delete>", lambda e: unhide_selected())
+        except Exception as e:
+            self._set_status(f"Error managing hidden entries: {e}")
+
+    # --- Custom summary overrides ---
+    def _load_custom_summaries(self) -> None:
+        try:
+            if self.custom_summaries_file.exists():
+                data = json.loads(self.custom_summaries_file.read_text(encoding='utf-8'))
+                if isinstance(data, dict):
+                    self.custom_summaries = {str(k): str(v) for k, v in data.items()}
+        except Exception:
+            self.custom_summaries = {}
+        try:
+            self.custom_summaries_file.parent.mkdir(parents=True, exist_ok=True)
+            if not self.custom_summaries_file.exists():
+                self.custom_summaries_file.write_text("{}", encoding='utf-8', newline='\n')
+        except Exception:
+            pass
+
+    def _save_custom_summaries(self) -> None:
+        try:
+            self.custom_summaries_file.parent.mkdir(parents=True, exist_ok=True)
+            self.custom_summaries_file.write_text(
+                json.dumps(self.custom_summaries, indent=2, ensure_ascii=False),
+                encoding='utf-8', newline='\n'
+            )
+        except Exception:
+            pass
+
+    def _on_changes_double_click(self, event) -> None:
+        try:
+            col = self.changes_tree.identify_column(event.x)
+            if col == '#5':  # summary column
+                self.edit_selected_summary(from_summary_tab=False)
+        except Exception:
+            pass
+
+    def edit_selected_summary(self, from_summary_tab: bool) -> None:
+        tree = self.summary_tree if from_summary_tab else self.changes_tree
+        sel = tree.selection()
+        if not sel:
+            return
+        vals = tree.item(sel[0]).get('values', [])
+        # Determine file path and current summary based on tree shape
+        if from_summary_tab:
+            if len(vals) < 2:
+                return
+            file_path = vals[1]
+            if not file_path or str(file_path).startswith('['):
+                return
+            current_summary = vals[2] if len(vals) >= 3 else ""
+        else:
+            if len(vals) < 5:
+                return
+            file_path = vals[1]
+            current_summary = vals[4]
+
+        # Pre-fill with custom override if present
+        initial_text = self.custom_summaries.get(file_path, current_summary)
+
+        # Build modal editor
+        try:
+            win = tk.Toplevel(self.root)
+            win.title("Edit Summary")
+            win.geometry("700x260")
+            win.configure(bg=self.colors["bg"]) 
+
+            tk.Label(win, text=f"File: {file_path}", bg=self.colors["bg"], fg=self.colors["text"]).pack(anchor='w', padx=8, pady=(8,4))
+
+            txt = tk.Text(win, height=5, bg=self.colors["panel"], fg=self.colors["text"], wrap=tk.WORD, font=self.font)
+            txt.pack(fill=tk.BOTH, expand=True, padx=8, pady=4)
+            txt.insert('1.0', initial_text)
+
+            btns = ttk.Frame(win)
+            btns.pack(fill=tk.X, padx=8, pady=8)
+
+            def do_save():
+                new_val = txt.get('1.0', 'end').strip()
+                if new_val:
+                    self.custom_summaries[file_path] = new_val
+                else:
+                    # Empty means clear
+                    self.custom_summaries.pop(file_path, None)
+                self._save_custom_summaries()
+                win.destroy()
+                # Refresh both views to reflect change
+                self.refresh_changes()
+                # Update summary tab if active
+                self.show_baseline_summary()
+
+            def do_clear():
+                self.custom_summaries.pop(file_path, None)
+                self._save_custom_summaries()
+                win.destroy()
+                self.refresh_changes()
+                self.show_baseline_summary()
+
+            ttk.Button(btns, text="Save", style="Action.TButton", command=do_save).pack(side=tk.LEFT, padx=(0,6))
+            ttk.Button(btns, text="Clear Override", style="Action.TButton", command=do_clear).pack(side=tk.LEFT, padx=(0,6))
+            ttk.Button(btns, text="Cancel", style="Action.TButton", command=win.destroy).pack(side=tk.LEFT)
+        except Exception as e:
+            self._set_status(f"Error editing summary: {e}")
+
+    def clear_selected_summary(self, from_summary_tab: bool) -> None:
+        tree = self.summary_tree if from_summary_tab else self.changes_tree
+        sel = tree.selection()
+        if not sel:
+            return
+        vals = tree.item(sel[0]).get('values', [])
+        file_path = None
+        if from_summary_tab:
+            if len(vals) >= 2 and vals[1] and not str(vals[1]).startswith('['):
+                file_path = vals[1]
+        else:
+            if len(vals) >= 2:
+                file_path = vals[1]
+        if not file_path:
+            return
+        if file_path in self.custom_summaries:
+            self.custom_summaries.pop(file_path, None)
+            self._save_custom_summaries()
+            self._set_status(f"Cleared custom summary for {file_path}")
+            self.refresh_changes()
+            self.show_baseline_summary()
+
+    def _open_from_summary(self, event=None) -> None:
+        try:
+            col = self.summary_tree.identify_column(event.x) if event else ''
+            sel = self.summary_tree.selection()
+            if not sel:
+                return
+            vals = self.summary_tree.item(sel[0]).get('values', [])
+            if len(vals) < 2:
+                return
+            file_path = vals[1]
+            if not file_path or str(file_path).startswith('['):
+                return
+            # If summary column was double-clicked, open editor; otherwise open diff
+            if col == '#3':
+                self.edit_selected_summary(from_summary_tab=True)
+                return
+            try:
+                self.right_notebook.select(self.diff_tab)
+            except Exception:
+                pass
+
+            def worker():
+                try:
+                    diff = self.snapshot.get_diff(file_path, compare_against="initial")
+                    self.root.after(0, lambda: self._show_diff(diff, file_path, "initial"))
+                except Exception as e:
+                    self.root.after(0, lambda: self._set_status(f"Error loading diff: {e}"))
+
+            threading.Thread(target=worker, daemon=True).start()
+        except Exception:
+            pass
+
     def show_help(self) -> None:
         """Show a concise help dialog explaining the main controls."""
         try:
@@ -1080,58 +1423,68 @@ class ConfigChangeTrackerApp:
             self._set_status(f"Error showing help: {e}")
 
     def show_baseline_summary(self) -> None:
-        """Show a modal with all changes relative to the initial baseline."""
+        """Populate the embedded All-Time Summary tab and switch to it."""
         def worker():
             try:
                 changes = self.snapshot.get_changes("initial")
-                # Build a grouped summary by mod
                 grouped: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
                 for status, file_path, mod, session in changes:
                     summary = self.snapshot.summarize_change(file_path, compare_against="initial", max_items=3)
                     grouped[mod].append((status, file_path, summary))
 
-                def open_modal():
-                    win = tk.Toplevel(self.root)
-                    win.title("All Changes Since Baseline")
-                    win.geometry("1100x700")
-                    win.configure(bg=self.colors["bg"])
+                def update_summary():
+                    try:
+                        # Clear current rows
+                        for iid in self.summary_tree.get_children(""):
+                            self.summary_tree.delete(iid)
+                        # Insert grouped rows
+                        for mod in sorted(grouped.keys()):
+                            parent = self.summary_tree.insert("", "end", values=("", f"[{mod}]", ""))
+                            for status, file_path, summary in grouped[mod]:
+                                status_display = { 'A': 'Added', 'M': 'Modified', 'D': 'Deleted' }.get(status, status)
+                                self.summary_tree.insert(parent, "end", values=(status_display, file_path, summary))
+                        # Expand all
+                        for iid in self.summary_tree.get_children(""):
+                            self.summary_tree.item(iid, open=True)
+                        # Switch to tab
+                        self.right_notebook.select(self.summary_tab)
+                        self._set_status("All-Time Summary updated")
+                    except Exception as e:
+                        self._set_status(f"Error updating summary: {e}")
 
-                    top = ttk.Frame(win)
-                    top.pack(fill=tk.X, padx=8, pady=6)
-                    lbl = tk.Label(top, text="All Changes Since Baseline (Initial State)",
-                                   bg=self.colors["bg"], fg=self.colors["text"])
-                    lbl.pack(side=tk.LEFT)
-
-                    container = ttk.Frame(win)
-                    container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
-
-                    cols = ("status", "file", "summary")
-                    tree = ttk.Treeview(container, columns=cols, show="headings")
-                    for c, w in [("status", 80), ("file", 420), ("summary", 520)]:
-                        tree.heading(c, text=c.capitalize())
-                        tree.column(c, width=w)
-                    tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
-
-                    yscroll = ttk.Scrollbar(container, orient=tk.VERTICAL, command=tree.yview)
-                    tree.configure(yscrollcommand=yscroll.set)
-                    yscroll.pack(fill=tk.Y, side=tk.RIGHT)
-
-                    # Insert grouped mods as category rows
-                    for mod in sorted(grouped.keys()):
-                        parent = tree.insert("", "end", values=("", f"[{mod}]", ""))
-                        for status, file_path, summary in grouped[mod]:
-                            status_display = { 'A': 'Added', 'M': 'Modified', 'D': 'Deleted' }.get(status, status)
-                            tree.insert(parent, "end", values=(status_display, file_path, summary))
-
-                    # Expand all
-                    for iid in tree.get_children(""):
-                        tree.item(iid, open=True)
-
-                self.root.after(0, open_modal)
+                self.root.after(0, update_summary)
             except Exception as e:
                 self.root.after(0, lambda: self._set_status(f"Error: {e}"))
 
         threading.Thread(target=worker, daemon=True).start()
+
+    def _open_diff_from_summary(self, _event=None) -> None:
+        try:
+            sel = self.summary_tree.selection()
+            if not sel:
+                return
+            vals = self.summary_tree.item(sel[0]).get('values', [])
+            if len(vals) < 2:
+                return
+            file_path = vals[1]
+            if not file_path or file_path.startswith('['):
+                return
+            # Switch to Diff tab and load diff vs baseline
+            try:
+                self.right_notebook.select(self.diff_tab)
+            except Exception:
+                pass
+
+            def worker():
+                try:
+                    diff = self.snapshot.get_diff(file_path, compare_against="initial")
+                    self.root.after(0, lambda: self._show_diff(diff, file_path, "initial"))
+                except Exception as e:
+                    self.root.after(0, lambda: self._set_status(f"Error loading diff: {e}"))
+
+            threading.Thread(target=worker, daemon=True).start()
+        except Exception:
+            pass
 
     def open_event_log(self) -> None:
         """Open an interactive viewer for the JSONL event log with right-click delete."""

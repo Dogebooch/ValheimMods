@@ -345,7 +345,14 @@ class ItemSkillTrackerApp:
                 count_in_yaml += 1
             marked = highlights.get(item, False)
             img = self._get_icon_for_item(item)
-            self.tree.insert("", "end", text=item, image=img, values=(station, "Yes" if in_yaml else "No", "★" if marked else ""))
+            # Build item kwargs and avoid passing an invalid/None image to Tcl
+            item_kwargs = {
+                "text": item,
+                "values": (station or "", "Yes" if in_yaml else "No", "★" if marked else ""),
+            }
+            if img is not None:
+                item_kwargs["image"] = img
+            self.tree.insert("", "end", **item_kwargs)
 
         self.status.set(f"Loaded {len(items)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
         self._filter_rows()  # apply any current filter
