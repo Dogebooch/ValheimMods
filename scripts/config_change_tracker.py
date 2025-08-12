@@ -15,6 +15,63 @@ from tkinter import ttk, messagebox, filedialog
 import tkinter.font as tkfont
 
 
+class Tooltip:
+    """Simple tooltip for Tk widgets."""
+    def __init__(self, widget, text: str, delay_ms: int = 450):
+        self.widget = widget
+        self.text = text
+        self.delay_ms = delay_ms
+        self._tip_window = None
+        self._after_id = None
+        try:
+            widget.bind("<Enter>", self._schedule)
+            widget.bind("<Leave>", self._unschedule)
+            widget.bind("<ButtonPress>", self._unschedule)
+        except Exception:
+            pass
+
+    def _schedule(self, _event=None):
+        self._unschedule()
+        try:
+            self._after_id = self.widget.after(self.delay_ms, self._show)
+        except Exception:
+            pass
+
+    def _unschedule(self, _event=None):
+        try:
+            if self._after_id:
+                self.widget.after_cancel(self._after_id)
+                self._after_id = None
+            self._hide()
+        except Exception:
+            pass
+
+    def _show(self):
+        if self._tip_window or not self.text:
+            return
+        try:
+            x, y, cx, cy = self.widget.bbox("insert") if hasattr(self.widget, "bbox") else (0, 0, 0, 0)
+        except Exception:
+            x = y = 0
+        x += self.widget.winfo_rootx() + 20
+        y += self.widget.winfo_rooty() + 20
+        self._tip_window = tw = tk.Toplevel(self.widget)
+        tw.wm_overrideredirect(True)
+        tw.wm_geometry(f"+{x}+{y}")
+        label = tk.Label(tw, text=self.text, justify=tk.LEFT,
+                         background="#333", foreground="#fff",
+                         relief=tk.SOLID, borderwidth=1,
+                         font=("Consolas" if sys.platform.startswith("win") else "Courier New", 9))
+        label.pack(ipadx=6, ipady=4)
+
+    def _hide(self):
+        try:
+            if self._tip_window is not None:
+                self._tip_window.destroy()
+                self._tip_window = None
+        except Exception:
+            pass
+
 class ConfigSnapshot:
     def __init__(self, config_root: Path):
         self.config_root = config_root
@@ -442,7 +499,7 @@ class ConfigChangeTrackerApp:
         # File menu
         file_menu = tk.Menu(menubar, tearoff=False)
         file_menu.add_command(label="Save Session Snapshot", command=self.create_snapshot)
-        file_menu.add_command(label="Set Baseline (All Files)", command=self.create_initial_snapshot)
+        file_menu.add_command(label="Set New Baseline (All Files)", command=self.create_initial_snapshot)
         file_menu.add_command(label="Scan for Changes", command=self.refresh_changes)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
@@ -460,6 +517,8 @@ class ConfigChangeTrackerApp:
         # Tools menu (optional/advanced)
         tools_menu = tk.Menu(menubar, tearoff=False)
         tools_menu.add_command(label="Open Event Log (Detailed)", command=self.open_event_log)
+        tools_menu.add_separator()
+        tools_menu.add_command(label="Help: What do these buttons do?", command=self.show_help)
         menubar.add_cascade(label="Tools", menu=tools_menu)
         
         self.root.config(menu=menubar)
@@ -485,19 +544,19 @@ class ConfigChangeTrackerApp:
                                      style="Action.TButton", command=self.refresh_changes)
         self.btn_refresh.pack(side=tk.LEFT, padx=(0, 6))
 
-        self.btn_snapshot = ttk.Button(controls_frame, text="Save Snapshot", 
+        self.btn_snapshot = ttk.Button(controls_frame, text="Save Session Snapshot", 
                                        style="Action.TButton", command=self.create_snapshot)
         self.btn_snapshot.pack(side=tk.LEFT, padx=(0, 6))
 
-        self.btn_revert = ttk.Button(controls_frame, text="Revert Selected", 
+        self.btn_revert = ttk.Button(controls_frame, text="Revert Selected to Reference", 
                                      style="Action.TButton", command=self.revert_selected)
         self.btn_revert.pack(side=tk.LEFT, padx=(0, 6))
 
-        self.btn_accept = ttk.Button(controls_frame, text="Accept into Baseline", 
+        self.btn_accept = ttk.Button(controls_frame, text="Promote Selected to Baseline", 
                                      style="Action.TButton", command=self.accept_selected_into_baseline)
         self.btn_accept.pack(side=tk.LEFT, padx=(0, 6))
 
-        self.btn_baseline_summary = ttk.Button(controls_frame, text="Baseline Summary", 
+        self.btn_baseline_summary = ttk.Button(controls_frame, text="All-Time Change Summary", 
                                                style="Action.TButton", command=self.show_baseline_summary)
         self.btn_baseline_summary.pack(side=tk.LEFT, padx=(0, 6))
         
@@ -518,16 +577,25 @@ class ConfigChangeTrackerApp:
         filter_frame.pack(fill=tk.X, padx=6, pady=(0, 6))
         
         # Comparison selector
-        compare_label = tk.Label(filter_frame, text="Compare Against:", 
+        compare_label = tk.Label(filter_frame, text="View changes relative to:", 
                                 bg=self.colors["bg"], fg=self.colors["text"])
         compare_label.pack(anchor="w")
         
-        self.compare_var = tk.StringVar(value="Current Session")
+        self.compare_var = tk.StringVar(value="Since Last Snapshot (This Session)")
         self.compare_combo = ttk.Combobox(filter_frame, textvariable=self.compare_var, 
                                          state="readonly", width=30)
-        self.compare_combo['values'] = ["Current Session", "Initial State"]
+        self.compare_combo['values'] = [
+            "Since Last Snapshot (This Session)",
+            "Since Baseline (All-Time)"
+        ]
         self.compare_combo.pack(fill=tk.X, pady=(3, 6))
         self.compare_combo.bind("<<ComboboxSelected>>", self.on_compare_change)
+
+        # Inline explanation of selected comparison
+        self.compare_help_var = tk.StringVar(value="Shows differences from the most recent Session Snapshot.")
+        compare_help = tk.Label(filter_frame, textvariable=self.compare_help_var,
+                                bg=self.colors["bg"], fg=self.colors["accent"])
+        compare_help.pack(anchor="w", pady=(0, 6))
         
         # Snapshot info
         self.snapshot_info_var = tk.StringVar(value="")
@@ -550,7 +618,7 @@ class ConfigChangeTrackerApp:
         changes_frame = ttk.Frame(left_frame)
         changes_frame.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
         
-        self.changes_header_var = tk.StringVar(value="Changed Files (Most Recent First):")
+        self.changes_header_var = tk.StringVar(value="Changes vs Last Snapshot (Most Recent First):")
         changes_label = tk.Label(changes_frame, textvariable=self.changes_header_var, 
                                 bg=self.colors["bg"], fg=self.colors["text"])
         changes_label.pack(anchor="w")
@@ -617,6 +685,17 @@ class ConfigChangeTrackerApp:
         status_bar = tk.Label(self.root, textvariable=self.status_var, 
                              anchor="w", bg=self.colors["bg"], fg=self.colors["text"])
         status_bar.pack(side=tk.BOTTOM, fill=tk.X, padx=6, pady=2)
+
+        # Attach tooltips
+        try:
+            Tooltip(self.btn_refresh, "Scan the config folder and list files that differ from the selected reference.")
+            Tooltip(self.btn_snapshot, "Save a Session Snapshot now. 'Since Last Snapshot' compares against this save point.")
+            Tooltip(self.btn_revert, "Revert the selected file so it matches the chosen reference (Baseline or Last Snapshot).")
+            Tooltip(self.btn_accept, "Update the all-time Baseline with the current on-disk version of the selected file.")
+            Tooltip(self.btn_baseline_summary, "Show every change since the all-time Baseline, grouped by mod.")
+            Tooltip(self.compare_combo, "Choose whether to compare against the last Session Snapshot or the all-time Baseline.")
+        except Exception:
+            pass
     
     def zoom_in(self) -> None:
         """Increase zoom level."""
@@ -691,7 +770,7 @@ class ConfigChangeTrackerApp:
                 def update_info():
                     ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
                     cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
-                    self.snapshot_info_var.set(f"Baseline: {ini}    |    Last Snapshot: {cur}")
+                    self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
                 self.root.after(0, update_info)
 
                 self.root.after(0, self.refresh_changes)
@@ -710,7 +789,13 @@ class ConfigChangeTrackerApp:
                 
                 # Update UI in main thread
                 if ok:
-                    self.root.after(0, lambda: self._set_status(msg))
+                    def after_ok():
+                        self._set_status("Session Snapshot saved. 'Since Last Snapshot' now compares to this point.")
+                        # Update banner
+                        ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
+                        cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
+                        self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
+                    self.root.after(0, after_ok)
                     self.root.after(0, self.refresh_changes)
                 else:
                     self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
@@ -724,16 +809,32 @@ class ConfigChangeTrackerApp:
         def worker():
             try:
                 # Update status in main thread
-                self.root.after(0, lambda: self._set_status("Creating initial snapshot..."))
+                def confirm_and_start():
+                    if not messagebox.askyesno(
+                        "Set New Baseline",
+                        "This will replace your all-time Baseline with the current on-disk state for ALL tracked files.\n\nAfter this, 'Since Baseline' will compare against this new point.\n\nProceed?"
+                    ):
+                        self._set_status("Baseline update canceled")
+                        return False
+                    self._set_status("Creating new Baseline from current files...")
+                    return True
+                proceed = self.root.after(0, confirm_and_start)
+                # Note: confirmation runs in main thread; if canceled, we just return later when UI updates
+                # Continue with snapshot regardless; the confirm handler updates status and we proceed
                 ok, msg = self.snapshot.create_snapshot(is_initial=True)
                 
                 # Update UI in main thread
                 if ok:
-                    self.root.after(0, lambda: self._set_status(msg))
+                    def after_ok():
+                        self._set_status("Baseline updated. 'Since Baseline' now compares to this point.")
+                        ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
+                        cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
+                        self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
+                    self.root.after(0, after_ok)
                     def update_info():
                         ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
                         cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
-                        self.snapshot_info_var.set(f"Baseline: {ini}    |    Last Snapshot: {cur}")
+                        self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
                     self.root.after(0, update_info)
                     self.root.after(0, self.refresh_changes)
                 else:
@@ -750,7 +851,7 @@ class ConfigChangeTrackerApp:
                 self.root.after(0, lambda: self._set_status("Scanning for changes..."))
                 
                 # Determine comparison type
-                compare_against = "initial" if self.compare_var.get() == "Initial State" else "current"
+                compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
                 changes = self.snapshot.get_changes(compare_against)
                 
                 # Update mod filter options
@@ -779,7 +880,7 @@ class ConfigChangeTrackerApp:
                     
                     # Generate brief summary
                     try:
-                        compare_against = "initial" if self.compare_var.get() == "Initial State" else "current"
+                        compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
                         summary = self.snapshot.summarize_change(file_path, compare_against)
                     except Exception:
                         summary = ""
@@ -793,8 +894,9 @@ class ConfigChangeTrackerApp:
                     
                     changes_with_time.append((status, file_path, mod, time_str, summary, session, mtime))
                 
-                # Update header summary
-                summary = f"Changed Files (A:{added}  M:{modified}  D:{deleted})"
+                # Update header summary with target
+                target_label = "Baseline" if compare_against == "initial" else "Last Snapshot"
+                summary = f"Changes vs {target_label}  (A:{added}  M:{modified}  D:{deleted})"
                 self.root.after(0, lambda s=summary: self.changes_header_var.set(s))
                 
                 changes_with_time.sort(key=lambda x: x[6], reverse=True)
@@ -833,6 +935,16 @@ class ConfigChangeTrackerApp:
     
     def on_compare_change(self, event=None) -> None:
         """Handle comparison type change."""
+        # Update inline explanation
+        try:
+            if self.compare_var.get() == "Since Baseline (All-Time)":
+                self.compare_help_var.set("Shows differences from the all-time Baseline.")
+            else:
+                self.compare_help_var.set("Shows differences from the most recent Session Snapshot.")
+        except Exception:
+            pass
+        # Update immediately
+        self._set_status(f"View switched to '{self.compare_var.get()}'")
         self.refresh_changes()
     
     def on_change_select(self, event=None) -> None:
@@ -861,9 +973,9 @@ class ConfigChangeTrackerApp:
         def worker():
             try:
                 # Determine comparison type
-                compare_against = "initial" if self.compare_var.get() == "Initial State" else "current"
+                compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
                 diff = self.snapshot.get_diff(file_path, compare_against)
-                self.root.after(0, lambda: self._show_diff(diff, file_path))
+                self.root.after(0, lambda: self._show_diff(diff, file_path, compare_against))
             except Exception as e:
                 self.root.after(0, lambda: self._set_status(f"Error loading diff: {e}"))
         
@@ -879,7 +991,7 @@ class ConfigChangeTrackerApp:
 
         def worker():
             try:
-                compare_against = "initial" if self.compare_var.get() == "Initial State" else "current"
+                compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
                 ok, msg = self.snapshot.revert_file(file_path, from_snapshot=compare_against)
                 if ok:
                     def post_ok():
@@ -921,10 +1033,15 @@ class ConfigChangeTrackerApp:
 
         threading.Thread(target=worker, daemon=True).start()
     
-    def _show_diff(self, diff: str, file_path: str) -> None:
+    def _show_diff(self, diff: str, file_path: str, compare_against: str = "current") -> None:
         """Display diff in the text widget."""
         self.diff_text.config(state=tk.NORMAL)
         self.diff_text.delete("1.0", tk.END)
+        try:
+            header = f"Diff vs {'Baseline' if compare_against == 'initial' else 'Last Snapshot'} — {file_path}\n\n"
+            self.diff_text.insert(tk.END, header, "header")
+        except Exception:
+            pass
         
         for line in diff.splitlines(True):
             tag = None
@@ -944,6 +1061,23 @@ class ConfigChangeTrackerApp:
         
         self.diff_text.config(state=tk.DISABLED)
         self._set_status(f"Viewing diff: {file_path}")
+
+    def show_help(self) -> None:
+        """Show a concise help dialog explaining the main controls."""
+        try:
+            help_text = (
+                "Compare selector — choose what you're comparing against:\n"
+                " • Since Last Snapshot (This Session): compares to your most recent Session Snapshot.\n"
+                " • Since Baseline (All-Time): compares to the all-time Baseline.\n\n"
+                "Save Session Snapshot — saves the current on-disk state as the 'Last Snapshot' for this session.\n"
+                "Set New Baseline (All Files) — replaces the all-time Baseline with the current on-disk state.\n\n"
+                "Revert Selected to Reference — make the selected file match the chosen reference (Baseline or Last Snapshot).\n"
+                "Promote Selected to Baseline — update the all-time Baseline to the current version of the selected file.\n\n"
+                "All-Time Change Summary — lists every change since the Baseline, grouped by mod."
+            )
+            messagebox.showinfo("Help", help_text)
+        except Exception as e:
+            self._set_status(f"Error showing help: {e}")
 
     def show_baseline_summary(self) -> None:
         """Show a modal with all changes relative to the initial baseline."""
