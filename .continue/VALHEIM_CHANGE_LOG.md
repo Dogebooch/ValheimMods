@@ -41,6 +41,19 @@
 - **Maximum Mass Picking Range** = 8 (Decreased for decreased "vacuuming")
 - **Skill Experience Gain Factor** = 0.60 (slightly lower than the tier 3 goal, from play testing)
 
+## Building
+- [2 - Building]
+Maximum Support Factor = 1.8        ; was 1.5
+Support Loss Factor = 0.85           ; was 0.75
+Health Factor = 2.2                  ; was 3
+Free Build Level Requirement = 0     ; disable “free pieces”
+Durability Increase Level Requirement = 25  ; was 30
+Stamina Reduction per Level = 0.4    ; was 1
+
+[3 - Other]
+Skill Experience Gain Factor = 0.8   ; keep (matches Tier-3 pace)
+Skill Experience Loss = 0            ; was 1
+
 ## 🍳 Crafting & Recipes
 
 ## 🌿 Seasonal Plant Cadence (PlantEverything)
