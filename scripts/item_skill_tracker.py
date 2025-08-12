@@ -4,11 +4,9 @@ import re
 import sys
 from pathlib import Path
 from datetime import datetime
-
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import tkinter.font as tkfont
-
 
 class VNEIItemIndex:
     def __init__(self, vnei_dir: Path):
@@ -94,6 +92,148 @@ class VNEIItemIndex:
 
         return item_to_station
 
+    def load_items_with_stats(self) -> dict[str, dict]:
+        """Return mapping: item_name -> { 'station': str, 'stats': str }.
+
+        Heuristically summarizes useful stats for deciding Blacksmithing level.
+        """
+        result: dict[str, dict] = {}
+        source = None
+        if self.items_csv.exists():
+            source = self.items_csv
+        elif self.items_txt.exists():
+            source = self.items_txt
+        elif self.items_yml.exists():
+            source = self.items_yml
+
+        def summarize_row(row: dict[str, str], lower_headers: list[str]) -> tuple[str, str]:
+            # Determine station
+            station = ""
+            for key in ("craftingstation", "crafting_station", "station", "workbench", "forge", "table"):
+                if key in lower_headers:
+                    station = (row.get(lower_headers[lower_headers.index(key)], "") or "").strip()
+                    break
+
+            # Extract numeric-ish values
+            def get_num(keys: list[str]) -> float | None:
+                for k in keys:
+                    if k in lower_headers:
+                        v = row.get(lower_headers[lower_headers.index(k)], "")
+                        if v is None:
+                            continue
+                        try:
+                            # Handle formats like "45", "45.0", "45 (Slash)", "45-60"
+                            s = str(v).strip()
+                            s = s.split()[0]
+                            if "-" in s:
+                                parts = [float(p) for p in s.split("-") if p]
+                                if parts:
+                                    return sum(parts) / len(parts)
+                            return float(s)
+                        except Exception:
+                            continue
+                return None
+
+            lower_map = {h.lower().strip(): h for h in lower_headers}
+            # Damage detection
+            damage_total = get_num([
+                "damage", "totaldamage", "dmg", "basedamage",
+                "slash", "pierce", "blunt", "fire", "frost", "poison", "lightning", "spirit",
+            ])
+            # Armor / Block
+            armor = get_num(["armor", "armour"])
+            block = get_num(["blockpower", "block", "parry"])
+            # Tier / Weight / Durability
+            tier = get_num(["tier", "crafting_tier", "level"])
+            weight = get_num(["weight"]) 
+            durability = get_num(["durability", "maxdurability"])
+
+            # Build summary string
+            parts: list[str] = []
+            if armor is not None:
+                parts.append(f"Armor {int(armor) if armor.is_integer() else round(armor,1)}")
+            elif block is not None and (damage_total is None or block >= (damage_total or 0) * 0.6):
+                parts.append(f"Block {int(block) if block.is_integer() else round(block,1)}")
+            elif damage_total is not None:
+                parts.append(f"DMG {int(damage_total) if damage_total.is_integer() else round(damage_total,1)}")
+
+            if tier is not None:
+                parts.append(f"T{int(tier)}")
+            if weight is not None:
+                parts.append(f"Wt {round(weight,1)}")
+            if durability is not None:
+                parts.append(f"Dur {int(durability) if durability.is_integer() else round(durability,0)}")
+
+            summary = " 3 ".join(parts) if parts else ""
+            return station, summary
+
+        if source is None:
+            return result
+
+        if source.suffix.lower() in (".csv", ".txt"):
+            with open(source, newline='', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                headers = reader.fieldnames or []
+                lower_headers = [h for h in headers]
+                item_col, _station_col = self._guess_columns(headers)
+                for row in reader:
+                    item = (row.get(item_col, "") or "").strip()
+                    if not item:
+                        continue
+                    station, summary = summarize_row(row, lower_headers)
+                    result[item] = {"station": station, "stats": summary}
+        else:
+            # Try to parse YML roughly for name and a few numbers
+            try:
+                with open(source, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                current_item = None
+                stash: dict[str, str] = {}
+                for raw in text.splitlines():
+                    line = raw.strip()
+                    if not line or line.startswith('#'):
+                        continue
+                    m_item = re.search(r"(name|item|internal|prefab)\s*:\s*([A-Za-z0-9_\-\.]+)", line, re.IGNORECASE)
+                    if m_item:
+                        if current_item and stash:
+                            # Summarize
+                            station = stash.get('station', '')
+                            dmg = stash.get('damage')
+                            armor = stash.get('armor')
+                            summary_parts = []
+                            if armor:
+                                summary_parts.append(f"Armor {armor}")
+                            elif dmg:
+                                summary_parts.append(f"DMG {dmg}")
+                            summary = " 3 ".join(summary_parts)
+                            result[current_item] = {"station": station, "stats": summary}
+                        current_item = m_item.group(2)
+                        stash = {}
+                        continue
+                    m_station = re.search(r"(crafting[_\s]?station|station)\s*:\s*([A-Za-z0-9_\-\. ]+)", line, re.IGNORECASE)
+                    if m_station:
+                        stash['station'] = m_station.group(2).strip()
+                    m_damage = re.search(r"(damage|slash|pierce|blunt)\s*:\s*([0-9.\-]+)", line, re.IGNORECASE)
+                    if m_damage:
+                        stash['damage'] = m_damage.group(2)
+                    m_armor = re.search(r"armor\s*:\s*([0-9.]+)", line, re.IGNORECASE)
+                    if m_armor:
+                        stash['armor'] = m_armor.group(1)
+                if current_item and stash and current_item not in result:
+                    station = stash.get('station', '')
+                    dmg = stash.get('damage')
+                    armor = stash.get('armor')
+                    summary_parts = []
+                    if armor:
+                        summary_parts.append(f"Armor {armor}")
+                    elif dmg:
+                        summary_parts.append(f"DMG {dmg}")
+                    summary = " 3 ".join(summary_parts)
+                    result[current_item] = {"station": station, "stats": summary}
+            except Exception:
+                pass
+        return result
+
 
 class SkillConfig:
     def __init__(self, config_dir: Path, filename_hint: str = "ItemRequiresSkillLevel"):
@@ -137,6 +277,68 @@ class SkillConfig:
         except Exception:
             pass
         return items
+
+    def load_blacksmithing_levels(self) -> dict[str, int]:
+        """Best-effort parse to extract required Blacksmithing level per item.
+
+        Supports two shapes:
+        1) Top-level mapping:
+           ItemName:\n  Requirements:\n    - Skill: Blacksmithing\n      Level: N
+        2) List of entries:
+           - PrefabName: ItemName\n  Requirements: ... as above
+        """
+        levels: dict[str, int] = {}
+        if not self.path or not self.path.exists():
+            return levels
+        try:
+            text = self.path.read_text(encoding='utf-8')
+        except Exception:
+            return levels
+
+        current_item: str | None = None
+        in_requirements = False
+        in_blacksmith = False
+        for raw in text.splitlines():
+            line = raw.rstrip()
+            stripped = line.strip()
+            if not stripped or stripped.startswith(('#', '//')):
+                continue
+            # Detect new item header (mapping form)
+            m_top = re.match(r"^([A-Za-z0-9_\-\.]+):\s*(\{|$)", line)
+            if m_top and (len(line) - len(line.lstrip())) == 0:
+                current_item = m_top.group(1)
+                in_requirements = False
+                in_blacksmith = False
+                continue
+            # Detect list-form PrefabName
+            m_prefab = re.match(r"^\s*-\s*PrefabName:\s*([A-Za-z0-9_\-\.]+)\s*$", line)
+            if m_prefab:
+                current_item = m_prefab.group(1)
+                in_requirements = False
+                in_blacksmith = False
+                continue
+            # Track entering requirements
+            if re.match(r"^\s*Requirements\s*:\s*(\{|$)", line):
+                in_requirements = True
+                in_blacksmith = False
+                continue
+            # Within requirements, look for a Blacksmithing skill block
+            if in_requirements and re.search(r"Skill\s*:\s*Blacksmithing", line, re.IGNORECASE):
+                in_blacksmith = True
+                continue
+            # Capture Level when in a Blacksmithing block
+            m_lvl = re.search(r"Level\s*:\s*([0-9]+)", line)
+            if in_requirements and in_blacksmith and m_lvl and current_item:
+                try:
+                    levels[current_item] = int(m_lvl.group(1))
+                except Exception:
+                    pass
+                in_blacksmith = False  # consume one block
+                continue
+            # Reset blacksmith flag when hitting next skill entry in list
+            if in_requirements and re.match(r"^\s*-\s*Skill\s*:\s*", line):
+                in_blacksmith = False
+        return levels
 
 
 class PersistentState:
@@ -200,6 +402,17 @@ class ItemSkillTrackerApp:
 
         self._build_ui()
         self._index_icons()
+        # After icons indexed, update layout for icon width
+        try:
+            self._update_tree_columns_layout()
+        except Exception:
+            pass
+        # Build marker image (gold star-like) and display image cache
+        try:
+            self.marker_img = self._create_star_marker(12)
+        except Exception:
+            self.marker_img = None
+        self.display_images: dict[tuple[str, bool], tk.PhotoImage] = {}
         self._refresh_data()
 
     def _build_ui(self) -> None:
@@ -219,6 +432,11 @@ class ItemSkillTrackerApp:
         style.configure("Treeview", background=self.colors["panel"], fieldbackground=self.colors["panel"], foreground=self.colors["text"], font=self.font)
         style.configure("Treeview.Heading", background=self.colors["highlight"], foreground=self.colors["text"], font=self.font)
         self.style = style
+        # Ensure row height matches current font size
+        try:
+            self._update_row_height()
+        except Exception:
+            pass
 
         # Top controls
         top = ttk.Frame(self.root)
@@ -243,22 +461,31 @@ class ItemSkillTrackerApp:
         ent.pack(side=tk.LEFT, padx=(6, 6))
         ent.bind("<KeyRelease>", lambda e: self._filter_rows())
 
-        # Tree (use tree column for icon + item text)
-        columns = ("station", "in_yaml", "highlight")
+        # Tree with left-most star column and separate Item column
+        columns = ("item", "station", "in_yaml", "stats")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings")
-        self.tree.heading("#0", text="Item")
+        self.tree.heading("#0", text="★")
+        self.tree.heading("item", text="Item")
         self.tree.heading("station", text="Crafting Station")
         self.tree.heading("in_yaml", text="In Skill YAML")
-        self.tree.heading("highlight", text="Highlight")
-        self.tree.column("#0", width=420)
-        self.tree.column("station", width=260)
-        self.tree.column("in_yaml", width=120)
-        self.tree.column("highlight", width=100)
+        self.tree.heading("stats", text="Stats")
+        self.tree.column("#0", width=32, stretch=False)
+        self.tree.column("item", width=420, stretch=True)
+        self.tree.column("station", width=240, stretch=True)
+        self.tree.column("in_yaml", width=120, stretch=False)
+        self.tree.column("stats", width=260, stretch=True)
         self.tree.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
         yscroll = ttk.Scrollbar(self.tree, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscrollcommand=yscroll.set)
         yscroll.pack(side=tk.RIGHT, fill=tk.Y)
+        # Horizontal scrollbar to avoid cutoff when zooming
+        xscroll = ttk.Scrollbar(self.tree, orient=tk.HORIZONTAL, command=self.tree.xview)
+        self.tree.configure(xscrollcommand=xscroll.set)
+        xscroll.pack(side=tk.BOTTOM, fill=tk.X)
+
+        # Remember base column widths to scale on zoom
+        self._base_tree_col_widths = {"#0": 32, "item": 420, "station": 240, "in_yaml": 120, "stats": 260}
 
         # Interactions
         self.tree.bind("<Double-1>", self._toggle_highlight)
@@ -302,6 +529,156 @@ class ItemSkillTrackerApp:
             self.style.configure("TLabel", font=self.font)
         except Exception:
             pass
+        # Scale column widths with zoom to reduce clipping
+        try:
+            if hasattr(self, "_base_tree_col_widths"):
+                for col, base_w in self._base_tree_col_widths.items():
+                    scaled = max(24, int(base_w * self.zoom_level))
+                    self.tree.column(col, width=scaled)
+        except Exception:
+            pass
+        # Also increase row height with font size
+        try:
+            self._update_row_height()
+        except Exception:
+            pass
+        # Adjust #0 width to fit icon at current zoom
+        try:
+            self._update_tree_columns_layout()
+        except Exception:
+            pass
+
+    def _update_row_height(self) -> None:
+        """Adjust ttk Treeview row height based on current font and icon size."""
+        # Compute line height from font metrics and add padding
+        try:
+            line_space = int(self.font.metrics("linespace"))
+        except Exception:
+            line_space = max(12, int(self.base_font_size * self.zoom_level))
+        # Estimate icon height; prefer any loaded icon else a safe default
+        try:
+            icon_h = 0
+            if getattr(self, "icon_images", None):
+                for _k, img in self.icon_images.items():
+                    try:
+                        icon_h = max(icon_h, int(img.height()))
+                    except Exception:
+                        pass
+            if icon_h == 0:
+                icon_h = 24
+        except Exception:
+            icon_h = 24
+        # Compose final row height (some padding so glyphs aren't clipped)
+        # Provide extra left padding in the tree column to separate icon and star
+        row_h = max(line_space + 10, icon_h + 6, 24)
+        try:
+            self.style.configure("Treeview", rowheight=row_h)
+            # Slightly increase heading padding to match
+            pad = max(4, int(row_h * 0.15))
+            self.style.configure("Treeview.Heading", padding=(4, pad))
+        except Exception:
+            pass
+
+    def _update_tree_columns_layout(self) -> None:
+        """Ensure the image column (#0) is wide enough to avoid overlap with text, considering zoom and icon size."""
+        # Determine max icon width
+        try:
+            icon_w = 0
+            if getattr(self, "icon_images", None):
+                for _k, img in self.icon_images.items():
+                    try:
+                        icon_w = max(icon_w, int(img.width()))
+                    except Exception:
+                        pass
+            # Also account for composite marker+icon width if present
+            if getattr(self, "display_images", None):
+                for _k, img in self.display_images.items():
+                    try:
+                        icon_w = max(icon_w, int(img.width()))
+                    except Exception:
+                        pass
+            if icon_w == 0:
+                icon_w = 24
+        except Exception:
+            icon_w = 24
+        # Compute scaled base width
+        base_zero = self._base_tree_col_widths.get("#0", 32)
+        scaled_zero = max(24, int(base_zero * self.zoom_level))
+        # Require some margin to the next column
+        required_zero = icon_w + 10
+        final_zero = max(scaled_zero, required_zero)
+        try:
+            self.tree.column("#0", width=final_zero, stretch=False)
+        except Exception:
+            pass
+
+    def _create_star_marker(self, size: int = 12) -> tk.PhotoImage:
+        """Create a simple gold 'star-like' marker image on panel-colored background."""
+        bg = self.colors.get("panel", "#3b352a")
+        star = tk.PhotoImage(width=size, height=size)
+        # Fill background
+        star.put(bg, to=(0, 0, size, size))
+        # Draw a simple plus and x to resemble a star
+        cx = size // 2
+        cy = size // 2
+        col1 = "#ffd24d"  # gold
+        col2 = "#ffb300"  # darker gold
+        for r in range(size):
+            # vertical and horizontal
+            star.put(col1, (cx, r))
+            star.put(col1, (r, cy))
+        # diagonals
+        for d in range(size):
+            star.put(col2, (d, d))
+            star.put(col2, (size - 1 - d, d))
+        # Thicken center
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                x = max(0, min(size - 1, cx + dx))
+                y = max(0, min(size - 1, cy + dy))
+                star.put(col1, (x, y))
+        return star
+
+    def _compose_marker_with_icon(self, icon: tk.PhotoImage | None, highlighted: bool) -> tk.PhotoImage | None:
+        """Return a composite image with marker to the left of icon if highlighted."""
+        if not highlighted:
+            return icon
+        if self.marker_img is None:
+            return icon
+        if icon is None:
+            return self.marker_img
+        try:
+            mw = int(self.marker_img.width())
+            mh = int(self.marker_img.height())
+            iw = int(icon.width())
+            ih = int(icon.height())
+            pad = 4
+            W = mw + pad + iw
+            H = max(mh, ih)
+            out = tk.PhotoImage(width=W, height=H)
+            # Fill background
+            bg = self.colors.get("panel", "#3b352a")
+            out.put(bg, to=(0, 0, W, H))
+            # Center vertically
+            my = (H - mh) // 2
+            iy = (H - ih) // 2
+            # Copy marker
+            out.tk.call(out, 'copy', self.marker_img, '-from', 0, 0, mw, mh, '-to', 0, my)
+            # Copy icon
+            out.tk.call(out, 'copy', icon, '-from', 0, 0, iw, ih, '-to', mw + pad, iy)
+            return out
+        except Exception:
+            return icon
+
+    def _get_display_icon(self, item_name: str, highlighted: bool) -> tk.PhotoImage | None:
+        base = self._get_icon_for_item(item_name)
+        key = (str(self.icon_paths.get(item_name.lower(), '')) or item_name.lower(), highlighted)
+        if key in self.display_images:
+            return self.display_images[key]
+        img = self._compose_marker_with_icon(base, highlighted)
+        if img is not None:
+            self.display_images[key] = img
+        return img
 
     def _show_context_menu(self, event) -> None:
         try:
@@ -331,30 +708,39 @@ class ItemSkillTrackerApp:
 
     def _refresh_data(self) -> None:
         self.status.set("Loading VNEI items…")
-        items = self.vnei_index.load_items()
+        items_basic = self.vnei_index.load_items()
+        items_rich = self.vnei_index.load_items_with_stats()
         self.status.set("Loading skill YAML…")
         yaml_items = self.skill_config.load_items()
+        levels = self.skill_config.load_blacksmithing_levels()
 
         # Rebuild table
         self.tree.delete(*self.tree.get_children())
         highlights: dict[str, bool] = self.state.data.setdefault("highlights", {})
         count_in_yaml = 0
-        for item, station in sorted(items.items(), key=lambda kv: kv[0].lower()):
+        for item, station in sorted(items_basic.items(), key=lambda kv: kv[0].lower()):
             in_yaml = item in yaml_items
             if in_yaml:
                 count_in_yaml += 1
             marked = highlights.get(item, False)
-            img = self._get_icon_for_item(item)
+            img = self._get_display_icon(item, marked)
+            stats = items_rich.get(item, {}).get('stats', '')
+            # If we know the required level, append it to stats for context
+            if item in levels:
+                lv = levels[item]
+                stats = (stats + (" • " if stats else "") + f"Req L{lv}")
             # Build item kwargs and avoid passing an invalid/None image to Tcl
             item_kwargs = {
-                "text": item,
-                "values": (station or "", "Yes" if in_yaml else "No", "★" if marked else ""),
+                # tree text column left empty; star is part of composite icon now
+                "text": "",
+                # item name shown (still with star prefix for readability, as requested)
+                "values": (f"★ {item}" if marked else item, station or "", "Yes" if in_yaml else "No", stats),
             }
             if img is not None:
                 item_kwargs["image"] = img
             self.tree.insert("", "end", **item_kwargs)
 
-        self.status.set(f"Loaded {len(items)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
+        self.status.set(f"Loaded {len(items_basic)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
         self._filter_rows()  # apply any current filter
 
     def _filter_rows(self) -> None:
@@ -373,36 +759,55 @@ class ItemSkillTrackerApp:
             return
         iid = sel[0]
         vals = list(self.tree.item(iid).get('values', []))
-        if len(vals) < 3:
+        if not vals:
             return
-        item_name = self.tree.item(iid).get('text', '')
-        highlighted = (vals[2] == "★")
-        vals[2] = "" if highlighted else "★"
-        self.tree.item(iid, values=vals)
-        self.state.data.setdefault("highlights", {})[item_name] = not highlighted
+        item_text = str(vals[0])
+        base_item = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
+        highlighted = item_text.startswith("★ ")
+        vals[0] = base_item if highlighted else f"★ {base_item}"
+        # Rebuild composite icon for this item
+        try:
+            img = self._get_display_icon(base_item, not highlighted)
+            if img is not None:
+                self.tree.item(iid, image=img, values=vals, text="")
+            else:
+                self.tree.item(iid, image="", values=vals, text="")
+        except Exception:
+            self.tree.item(iid, values=vals, text="")
+        self.state.data.setdefault("highlights", {})[base_item] = not highlighted
         # Save immediately for persistence
         self.state.save()
 
     def _mark_all_filtered(self) -> None:
         for iid in self.tree.get_children(""):
             vals = list(self.tree.item(iid).get('values', []))
-            if len(vals) < 3:
+            if not vals:
                 continue
-            item_name = self.tree.item(iid).get('text', '')
-            vals[2] = "★"
-            self.tree.item(iid, values=vals)
-            self.state.data.setdefault("highlights", {})[item_name] = True
+            item_text = str(vals[0])
+            base_item = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
+            vals[0] = f"★ {base_item}"
+            img = self._get_display_icon(base_item, True)
+            if img is not None:
+                self.tree.item(iid, image=img, values=vals, text="")
+            else:
+                self.tree.item(iid, image="", values=vals, text="")
+            self.state.data.setdefault("highlights", {})[base_item] = True
         self.state.save()
 
     def _unmark_all_filtered(self) -> None:
         for iid in self.tree.get_children(""):
             vals = list(self.tree.item(iid).get('values', []))
-            if len(vals) < 3:
+            if not vals:
                 continue
-            item_name = self.tree.item(iid).get('text', '')
-            vals[2] = ""
-            self.tree.item(iid, values=vals)
-            self.state.data.setdefault("highlights", {})[item_name] = False
+            item_text = str(vals[0])
+            base_item = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
+            vals[0] = base_item
+            img = self._get_display_icon(base_item, False)
+            if img is not None:
+                self.tree.item(iid, image=img, values=vals, text="")
+            else:
+                self.tree.item(iid, image="", values=vals, text="")
+            self.state.data.setdefault("highlights", {})[base_item] = False
         self.state.save()
 
     def _index_icons(self) -> None:
