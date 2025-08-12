@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import shutil
+import re
 import hashlib
 import threading
 from pathlib import Path
@@ -22,6 +23,7 @@ class ConfigSnapshot:
         self.snapshots_dir = scripts_dir / "snapshots"
         self.current_snapshot_file = self.snapshots_dir / "current_snapshot.json"
         self.initial_snapshot_file = self.snapshots_dir / "initial_snapshot.json"
+        self.event_log_file = self.snapshots_dir / "event_log.jsonl"
         self.snapshots_dir.mkdir(exist_ok=True)
         
     def get_file_hash(self, file_path: Path) -> str:
@@ -78,12 +80,15 @@ class ConfigSnapshot:
             
             # Save snapshot
             target_file = self.initial_snapshot_file if is_initial else self.current_snapshot_file
-            with open(target_file, 'w', encoding='utf-8') as f:
+            with open(target_file, 'w', encoding='utf-8', newline='\n') as f:
                 json.dump(snapshot, f, indent=2, ensure_ascii=False)
             
             snapshot_type = "initial" if is_initial else "current"
-            return True, f"{snapshot_type.capitalize()} snapshot created with {len(snapshot['files'])} files"
+            msg = f"{snapshot_type.capitalize()} snapshot created with {len(snapshot['files'])} files"
+            self.log_event(action="snapshot", success=True, extra={"type": snapshot_type, "file_count": len(snapshot['files'])})
+            return True, msg
         except Exception as e:
+            self.log_event(action="snapshot", success=False, extra={"error": str(e)})
             return False, f"Failed to create snapshot: {e}"
     
     def load_snapshot(self, snapshot_type: str = "current") -> dict:
@@ -100,6 +105,77 @@ class ConfigSnapshot:
         except Exception:
             pass
         return {'timestamp': '', 'session': '', 'files': {}}
+
+    def revert_file(self, rel_path: str, from_snapshot: str = "current") -> tuple[bool, str]:
+        """Revert a single file to the content stored in the chosen snapshot.
+
+        - If the file did not exist in the snapshot, delete it.
+        - If the file existed, write the snapshot content to disk.
+        """
+        try:
+            snapshot = self.load_snapshot(from_snapshot)
+            target = self.config_root / rel_path
+
+            if rel_path not in snapshot['files']:
+                # File was not tracked in that snapshot → delete if exists
+                if target.exists():
+                    target.unlink()
+                self.log_event(action="revert", file=rel_path, success=True, extra={"from": from_snapshot, "method": "delete"})
+                return True, f"Deleted {rel_path} (not present in {from_snapshot} snapshot)"
+
+            # Ensure directory exists
+            target.parent.mkdir(parents=True, exist_ok=True)
+            content = snapshot['files'][rel_path].get('content', '')
+            target.write_text(content, encoding='utf-8', newline='\n')
+            self.log_event(action="revert", file=rel_path, success=True, extra={"from": from_snapshot, "method": "write"})
+            return True, f"Reverted {rel_path} to {from_snapshot} snapshot"
+        except Exception as e:
+            self.log_event(action="revert", file=rel_path, success=False, extra={"from": from_snapshot, "error": str(e)})
+            return False, f"Failed to revert {rel_path}: {e}"
+
+    def accept_into_baseline(self, rel_path: str) -> tuple[bool, str]:
+        """Accept the current on-disk version of a file into the initial baseline.
+
+        - If the file exists: update/insert its entry in the initial snapshot
+        - If it does not exist: remove it from the initial snapshot
+        """
+        try:
+            initial = self.load_snapshot("initial")
+            target = self.config_root / rel_path
+            if target.exists():
+                initial['files'][rel_path] = self.get_file_info(target)
+                action = "Updated baseline for"
+            else:
+                if rel_path in initial['files']:
+                    del initial['files'][rel_path]
+                action = "Removed from baseline"
+
+            # Save updated initial snapshot
+            with open(self.initial_snapshot_file, 'w', encoding='utf-8', newline='\n') as f:
+                json.dump(initial, f, indent=2, ensure_ascii=False)
+            self.log_event(action="accept_baseline", file=rel_path, success=True, extra={"action": action})
+            return True, f"{action} {rel_path}"
+        except Exception as e:
+            self.log_event(action="accept_baseline", file=rel_path, success=False, extra={"error": str(e)})
+            return False, f"Failed to accept into baseline: {e}"
+
+    def log_event(self, action: str, file: str | None = None, success: bool = True, extra: dict | None = None) -> None:
+        """Append a single event to the JSONL event log."""
+        try:
+            rec = {
+                "timestamp": datetime.now().isoformat(timespec='seconds'),
+                "action": action,
+                "file": file or "",
+                "success": success,
+            }
+            if extra:
+                rec.update({"details": extra})
+            self.event_log_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.event_log_file, 'a', encoding='utf-8', newline='\n') as f:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        except Exception:
+            # Best-effort logging; ignore failures
+            pass
     
     def get_changes(self, compare_against: str = "current") -> list[tuple[str, str, str, str]]:
         """Get list of (status, file_path, mod_name, session) for changed files."""
@@ -165,6 +241,137 @@ class ConfigSnapshot:
         
         return ''.join(diff_lines)
 
+    # --- Change summarization helpers ---
+    def _flatten_json(self, obj, prefix="") -> dict:
+        flat = {}
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                new_p = f"{prefix}.{k}" if prefix else str(k)
+                flat.update(self._flatten_json(v, new_p))
+        elif isinstance(obj, list):
+            for i, v in enumerate(obj):
+                new_p = f"{prefix}[{i}]"
+                flat.update(self._flatten_json(v, new_p))
+        else:
+            flat[prefix] = "" if obj is None else str(obj)
+        return flat
+
+    def _parse_cfg_like(self, text: str) -> dict:
+        data = {}
+        current_section = None
+        for raw in text.splitlines():
+            line = raw.strip()
+            if not line or line.startswith(('#', ';', '//')):
+                continue
+            if line.startswith('[') and line.endswith(']'):
+                current_section = line[1:-1].strip()
+                continue
+            m = re.match(r"^([^#;=:\n]+?)\s*[:=]\s*(.*)$", line)
+            if m:
+                key = m.group(1).strip()
+                val = m.group(2).strip()
+                full_key = f"{current_section}.{key}" if current_section else key
+                data[full_key] = val
+        return data
+
+    def _parse_yaml_like(self, text: str) -> dict:
+        # Heuristic: support up to 3 levels of indentation with 2 spaces
+        data = {}
+        stack = []  # list of (indent_level, key_prefix)
+        for raw in text.splitlines():
+            if not raw.strip() or raw.lstrip().startswith(('#', '//')):
+                continue
+            indent = len(raw) - len(raw.lstrip(' '))
+            line = raw.strip()
+            # key: value or key:
+            m = re.match(r"^([A-Za-z0-9_.-]+):\s*(.*)$", line)
+            if not m:
+                continue
+            key, val = m.group(1), m.group(2)
+            # adjust stack by indent
+            while stack and stack[-1][0] >= indent:
+                stack.pop()
+            prefix = stack[-1][1] if stack else ""
+            full_key = f"{prefix}.{key}" if prefix else key
+            if val == "" or val == "|" or val == ">":
+                # parent key
+                stack.append((indent, full_key))
+            else:
+                data[full_key] = val
+        return data
+
+    def summarize_change(self, file_path: str, compare_against: str = "current", max_items: int = 3) -> str:
+        snap = self.load_snapshot(compare_against)
+        old_entry = snap['files'].get(file_path)
+        current_file = self.config_root / file_path
+        exists_now = current_file.exists()
+        if not old_entry and not exists_now:
+            return ""
+        if not old_entry and exists_now:
+            return "New file"
+        if old_entry and not exists_now:
+            return "Deleted file"
+
+        old_text = old_entry.get('content', '') if old_entry else ''
+        new_text = current_file.read_text(encoding='utf-8', errors='replace') if exists_now else ''
+        ext = Path(file_path).suffix.lower()
+
+        summaries = []
+        try:
+            if ext in ('.cfg', '.ini', '.conf'):
+                old_kv = self._parse_cfg_like(old_text)
+                new_kv = self._parse_cfg_like(new_text)
+            elif ext in ('.yml', '.yaml'):
+                old_kv = self._parse_yaml_like(old_text)
+                new_kv = self._parse_yaml_like(new_text)
+            elif ext == '.json':
+                try:
+                    old_kv = self._flatten_json(json.loads(old_text or '{}'))
+                    new_kv = self._flatten_json(json.loads(new_text or '{}'))
+                except Exception:
+                    old_kv = {}
+                    new_kv = {}
+            else:
+                old_kv = {}
+                new_kv = {}
+
+            # Prefer structured diffs
+            changed_keys = []
+            for k in sorted(set(old_kv.keys()) | set(new_kv.keys())):
+                o = old_kv.get(k)
+                n = new_kv.get(k)
+                if o is None and n is not None:
+                    changed_keys.append((k, None, n, 'added'))
+                elif o is not None and n is None:
+                    changed_keys.append((k, o, None, 'removed'))
+                elif o is not None and n is not None and o != n:
+                    changed_keys.append((k, o, n, 'modified'))
+
+            for k, o, n, kind in changed_keys[:max_items]:
+                if kind == 'modified':
+                    summaries.append(f"{k} changed from {o} to {n}")
+                elif kind == 'added':
+                    summaries.append(f"{k} set to {n}")
+                elif kind == 'removed':
+                    summaries.append(f"{k} removed (was {o})")
+
+            extra = len(changed_keys) - len(summaries)
+            if extra > 0:
+                summaries.append(f"(+{extra} more)")
+        except Exception:
+            summaries = []
+
+        if not summaries:
+            # Fallback to line-diff heuristic
+            diff = self.get_diff(file_path, compare_against)
+            adds = sum(1 for ln in diff.splitlines() if ln.startswith('+') and not ln.startswith('+++'))
+            dels = sum(1 for ln in diff.splitlines() if ln.startswith('-') and not ln.startswith('---'))
+            if adds or dels:
+                return f"{adds} additions, {dels} deletions"
+            return "Modified"
+
+        return '; '.join(summaries)
+
 
 class ConfigChangeTrackerApp:
     def __init__(self, root: tk.Tk, config_root: Path):
@@ -199,35 +406,44 @@ class ConfigChangeTrackerApp:
         self.root.configure(bg=self.colors["bg"])
         
         # Configure styles
-        style = ttk.Style()
+        self.style = ttk.Style()
         try:
-            style.theme_use("clam")
+            self.style.theme_use("clam")
         except Exception:
             pass
         
-        style.configure("TFrame", background=self.colors["bg"])
-        style.configure("Action.TButton", 
+        self.style.configure("TFrame", background=self.colors["bg"])
+        self.style.configure("Action.TButton", 
                        background=self.colors["highlight"], 
                        foreground=self.colors["text"], 
                        padding=6)
-        style.map("Action.TButton", 
+        self.style.map("Action.TButton", 
                  background=[("active", self.colors["accent"])])
-        style.configure("Treeview", 
+        self.style.configure("Treeview", 
                        background=self.colors["panel"], 
                        fieldbackground=self.colors["panel"], 
                        foreground=self.colors["text"])
-        style.configure("Treeview.Heading", 
+        self.style.configure("Treeview.Heading", 
                        background=self.colors["highlight"], 
                        foreground=self.colors["text"])
+        # Default fonts for ttk widgets
+        try:
+            self.style.configure("Treeview", font=self.font)
+            self.style.configure("Treeview.Heading", font=self.font)
+            self.style.configure("Action.TButton", font=self.font)
+            self.style.configure("TLabel", font=self.font)
+            self.style.configure("TCombobox", font=self.font)
+        except Exception:
+            pass
         
         # Menu bar
         menubar = tk.Menu(self.root, tearoff=False)
         
         # File menu
         file_menu = tk.Menu(menubar, tearoff=False)
-        file_menu.add_command(label="Create Current Snapshot", command=self.create_snapshot)
-        file_menu.add_command(label="Create Initial Snapshot", command=self.create_initial_snapshot)
-        file_menu.add_command(label="Refresh Changes", command=self.refresh_changes)
+        file_menu.add_command(label="Save Session Snapshot", command=self.create_snapshot)
+        file_menu.add_command(label="Set Baseline (All Files)", command=self.create_initial_snapshot)
+        file_menu.add_command(label="Scan for Changes", command=self.refresh_changes)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
         menubar.add_cascade(label="File", menu=file_menu)
@@ -237,7 +453,14 @@ class ConfigChangeTrackerApp:
         view_menu.add_command(label="Zoom In (Ctrl +)", command=self.zoom_in)
         view_menu.add_command(label="Zoom Out (Ctrl -)", command=self.zoom_out)
         view_menu.add_command(label="Reset Zoom (Ctrl 0)", command=self.reset_zoom)
+        view_menu.add_separator()
+        view_menu.add_command(label="All Changes Since Baseline...", command=self.show_baseline_summary)
         menubar.add_cascade(label="View", menu=view_menu)
+
+        # Tools menu (optional/advanced)
+        tools_menu = tk.Menu(menubar, tearoff=False)
+        tools_menu.add_command(label="Open Event Log (Detailed)", command=self.open_event_log)
+        menubar.add_cascade(label="Tools", menu=tools_menu)
         
         self.root.config(menu=menubar)
         
@@ -258,17 +481,25 @@ class ConfigChangeTrackerApp:
         controls_frame = ttk.Frame(left_frame)
         controls_frame.pack(fill=tk.X, padx=6, pady=6)
         
-        self.btn_snapshot = ttk.Button(controls_frame, text="Create Snapshot", 
-                                       style="Action.TButton", command=self.create_snapshot)
-        self.btn_snapshot.pack(side=tk.LEFT, padx=(0, 6))
-        
-        self.btn_initial = ttk.Button(controls_frame, text="Set Initial", 
-                                     style="Action.TButton", command=self.create_initial_snapshot)
-        self.btn_initial.pack(side=tk.LEFT, padx=(0, 6))
-        
-        self.btn_refresh = ttk.Button(controls_frame, text="Refresh", 
+        self.btn_refresh = ttk.Button(controls_frame, text="Scan for Changes", 
                                      style="Action.TButton", command=self.refresh_changes)
         self.btn_refresh.pack(side=tk.LEFT, padx=(0, 6))
+
+        self.btn_snapshot = ttk.Button(controls_frame, text="Save Snapshot", 
+                                       style="Action.TButton", command=self.create_snapshot)
+        self.btn_snapshot.pack(side=tk.LEFT, padx=(0, 6))
+
+        self.btn_revert = ttk.Button(controls_frame, text="Revert Selected", 
+                                     style="Action.TButton", command=self.revert_selected)
+        self.btn_revert.pack(side=tk.LEFT, padx=(0, 6))
+
+        self.btn_accept = ttk.Button(controls_frame, text="Accept into Baseline", 
+                                     style="Action.TButton", command=self.accept_selected_into_baseline)
+        self.btn_accept.pack(side=tk.LEFT, padx=(0, 6))
+
+        self.btn_baseline_summary = ttk.Button(controls_frame, text="Baseline Summary", 
+                                               style="Action.TButton", command=self.show_baseline_summary)
+        self.btn_baseline_summary.pack(side=tk.LEFT, padx=(0, 6))
         
         # Zoom controls
         zoom_frame = ttk.Frame(controls_frame)
@@ -298,6 +529,12 @@ class ConfigChangeTrackerApp:
         self.compare_combo.pack(fill=tk.X, pady=(3, 6))
         self.compare_combo.bind("<<ComboboxSelected>>", self.on_compare_change)
         
+        # Snapshot info
+        self.snapshot_info_var = tk.StringVar(value="")
+        snapshot_info_label = tk.Label(filter_frame, textvariable=self.snapshot_info_var,
+                                       bg=self.colors["bg"], fg=self.colors["text"])
+        snapshot_info_label.pack(anchor="w", pady=(0, 6))
+
         # Mod filter
         filter_label = tk.Label(filter_frame, text="Filter by Mod:", 
                                bg=self.colors["bg"], fg=self.colors["text"])
@@ -313,23 +550,26 @@ class ConfigChangeTrackerApp:
         changes_frame = ttk.Frame(left_frame)
         changes_frame.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
         
-        changes_label = tk.Label(changes_frame, text="Changed Files (Most Recent First):", 
+        self.changes_header_var = tk.StringVar(value="Changed Files (Most Recent First):")
+        changes_label = tk.Label(changes_frame, textvariable=self.changes_header_var, 
                                 bg=self.colors["bg"], fg=self.colors["text"])
         changes_label.pack(anchor="w")
         
         # Create Treeview for changes
-        self.changes_tree = ttk.Treeview(changes_frame, columns=("status", "file", "mod", "time", "session"), 
+        self.changes_tree = ttk.Treeview(changes_frame, columns=("status", "file", "mod", "time", "summary", "session"), 
                                         show="headings", height=20)
         self.changes_tree.heading("status", text="Status")
         self.changes_tree.heading("file", text="File")
         self.changes_tree.heading("mod", text="Mod")
         self.changes_tree.heading("time", text="Modified")
+        self.changes_tree.heading("summary", text="Summary")
         self.changes_tree.heading("session", text="Session")
         
         self.changes_tree.column("status", width=60)
-        self.changes_tree.column("file", width=180)
+        self.changes_tree.column("file", width=230)
         self.changes_tree.column("mod", width=100)
         self.changes_tree.column("time", width=100)
+        self.changes_tree.column("summary", width=350)
         self.changes_tree.column("session", width=120)
         
         self.changes_tree.pack(fill=tk.BOTH, expand=True, pady=(3, 0))
@@ -397,7 +637,33 @@ class ConfigChangeTrackerApp:
         """Apply current zoom level to fonts."""
         new_size = int(self.base_font_size * self.zoom_level)
         self.font.configure(size=new_size)
-        self.diff_text.configure(font=self.font)
+        # Apply font to key widgets and ttk styles
+        try:
+            self.diff_text.configure(font=self.font)
+        except Exception:
+            pass
+        try:
+            self.style.configure("Treeview", font=self.font)
+            self.style.configure("Treeview.Heading", font=self.font)
+            self.style.configure("Action.TButton", font=self.font)
+            self.style.configure("TLabel", font=self.font)
+            self.style.configure("TCombobox", font=self.font)
+        except Exception:
+            pass
+        # Update tk.Label widgets as well
+        try:
+            self._apply_font_to_widgets(self.root)
+        except Exception:
+            pass
+
+    def _apply_font_to_widgets(self, widget):
+        for child in widget.winfo_children():
+            try:
+                if isinstance(child, (tk.Label, tk.Text)):
+                    child.configure(font=self.font)
+            except Exception:
+                pass
+            self._apply_font_to_widgets(child)
     
     def _init_snapshot_and_refresh(self) -> None:
         """Initialize snapshot and refresh changes."""
@@ -421,6 +687,13 @@ class ConfigChangeTrackerApp:
                     else:
                         self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
                 
+                # Update snapshot info label
+                def update_info():
+                    ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
+                    cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
+                    self.snapshot_info_var.set(f"Baseline: {ini}    |    Last Snapshot: {cur}")
+                self.root.after(0, update_info)
+
                 self.root.after(0, self.refresh_changes)
             except Exception as e:
                 self.root.after(0, lambda: self._set_status(f"Error: {e}"))
@@ -457,6 +730,11 @@ class ConfigChangeTrackerApp:
                 # Update UI in main thread
                 if ok:
                     self.root.after(0, lambda: self._set_status(msg))
+                    def update_info():
+                        ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
+                        cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
+                        self.snapshot_info_var.set(f"Baseline: {ini}    |    Last Snapshot: {cur}")
+                    self.root.after(0, update_info)
                     self.root.after(0, self.refresh_changes)
                 else:
                     self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
@@ -485,6 +763,7 @@ class ConfigChangeTrackerApp:
                 
                 # Sort by modification time (most recent first)
                 changes_with_time = []
+                added = modified = deleted = 0
                 for status, file_path, mod, session in changes:
                     try:
                         file_obj = self.config_root / file_path
@@ -492,13 +771,33 @@ class ConfigChangeTrackerApp:
                             mtime = file_obj.stat().st_mtime
                             time_str = datetime.fromtimestamp(mtime).strftime("%m/%d %H:%M")
                         else:
+                            mtime = -1
                             time_str = "Deleted"
                     except Exception:
+                        mtime = -1
                         time_str = "Unknown"
                     
-                    changes_with_time.append((status, file_path, mod, time_str, session))
+                    # Generate brief summary
+                    try:
+                        compare_against = "initial" if self.compare_var.get() == "Initial State" else "current"
+                        summary = self.snapshot.summarize_change(file_path, compare_against)
+                    except Exception:
+                        summary = ""
+
+                    if status == 'A':
+                        added += 1
+                    elif status == 'M':
+                        modified += 1
+                    elif status == 'D':
+                        deleted += 1
+                    
+                    changes_with_time.append((status, file_path, mod, time_str, summary, session, mtime))
                 
-                changes_with_time.sort(key=lambda x: x[3], reverse=True)
+                # Update header summary
+                summary = f"Changed Files (A:{added}  M:{modified}  D:{deleted})"
+                self.root.after(0, lambda s=summary: self.changes_header_var.set(s))
+                
+                changes_with_time.sort(key=lambda x: x[6], reverse=True)
                 
                 # Update UI in main thread
                 self.root.after(0, lambda: self._update_changes_list(changes_with_time, mods))
@@ -517,14 +816,14 @@ class ConfigChangeTrackerApp:
         self.mod_filter_combo['values'] = sorted(mods)
         
         # Add new items
-        for status, file_path, mod, time_str, session in changes:
+        for status, file_path, mod, time_str, summary, session, _mtime in changes:
             status_display = {
                 'A': 'Added',
                 'M': 'Modified',
                 'D': 'Deleted'
             }.get(status, status)
             
-            self.changes_tree.insert("", "end", values=(status_display, file_path, mod, time_str, session))
+            self.changes_tree.insert("", "end", values=(status_display, file_path, mod, time_str, summary, session))
         
         self._set_status(f"Found {len(changes)} changed file(s)")
     
@@ -540,11 +839,24 @@ class ConfigChangeTrackerApp:
         """Handle change selection."""
         selection = self.changes_tree.selection()
         if not selection:
+            # Disable action buttons when nothing is selected
+            try:
+                self.btn_revert.state(["disabled"])
+                self.btn_accept.state(["disabled"])
+            except Exception:
+                pass
             return
         
         item = self.changes_tree.item(selection[0])
         file_path = item['values'][1]
         
+        # Enable action buttons when selection exists
+        try:
+            self.btn_revert.state(["!disabled"])
+            self.btn_accept.state(["!disabled"])
+        except Exception:
+            pass
+
         # Show diff in background thread
         def worker():
             try:
@@ -555,6 +867,58 @@ class ConfigChangeTrackerApp:
             except Exception as e:
                 self.root.after(0, lambda: self._set_status(f"Error loading diff: {e}"))
         
+        threading.Thread(target=worker, daemon=True).start()
+
+    def revert_selected(self) -> None:
+        """Revert the selected file to the currently selected comparison baseline."""
+        selection = self.changes_tree.selection()
+        if not selection:
+            self._set_status("No file selected to revert")
+            return
+        file_path = self.changes_tree.item(selection[0])['values'][1]
+
+        def worker():
+            try:
+                compare_against = "initial" if self.compare_var.get() == "Initial State" else "current"
+                ok, msg = self.snapshot.revert_file(file_path, from_snapshot=compare_against)
+                if ok:
+                    def post_ok():
+                        self._set_status(msg)
+                        # Remove reverted item from the list immediately for responsiveness
+                        for iid in self.changes_tree.get_children(""):
+                            vals = self.changes_tree.item(iid).get('values', [])
+                            if len(vals) >= 2 and vals[1] == file_path:
+                                self.changes_tree.delete(iid)
+                                break
+                        # Also refresh in background to recompute summaries & counts
+                        self.refresh_changes()
+                    self.root.after(0, post_ok)
+                else:
+                    self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
+            except Exception as e:
+                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def accept_selected_into_baseline(self) -> None:
+        """Accept the selected file into the baseline (initial snapshot)."""
+        selection = self.changes_tree.selection()
+        if not selection:
+            self._set_status("No file selected to accept into baseline")
+            return
+        file_path = self.changes_tree.item(selection[0])['values'][1]
+
+        def worker():
+            try:
+                ok, msg = self.snapshot.accept_into_baseline(file_path)
+                if ok:
+                    self.root.after(0, lambda: self._set_status(msg))
+                    self.root.after(0, self.refresh_changes)
+                else:
+                    self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
+            except Exception as e:
+                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+
         threading.Thread(target=worker, daemon=True).start()
     
     def _show_diff(self, diff: str, file_path: str) -> None:
@@ -580,6 +944,152 @@ class ConfigChangeTrackerApp:
         
         self.diff_text.config(state=tk.DISABLED)
         self._set_status(f"Viewing diff: {file_path}")
+
+    def show_baseline_summary(self) -> None:
+        """Show a modal with all changes relative to the initial baseline."""
+        def worker():
+            try:
+                changes = self.snapshot.get_changes("initial")
+                # Build a grouped summary by mod
+                grouped: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
+                for status, file_path, mod, session in changes:
+                    summary = self.snapshot.summarize_change(file_path, compare_against="initial", max_items=3)
+                    grouped[mod].append((status, file_path, summary))
+
+                def open_modal():
+                    win = tk.Toplevel(self.root)
+                    win.title("All Changes Since Baseline")
+                    win.geometry("1100x700")
+                    win.configure(bg=self.colors["bg"])
+
+                    top = ttk.Frame(win)
+                    top.pack(fill=tk.X, padx=8, pady=6)
+                    lbl = tk.Label(top, text="All Changes Since Baseline (Initial State)",
+                                   bg=self.colors["bg"], fg=self.colors["text"])
+                    lbl.pack(side=tk.LEFT)
+
+                    container = ttk.Frame(win)
+                    container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+                    cols = ("status", "file", "summary")
+                    tree = ttk.Treeview(container, columns=cols, show="headings")
+                    for c, w in [("status", 80), ("file", 420), ("summary", 520)]:
+                        tree.heading(c, text=c.capitalize())
+                        tree.column(c, width=w)
+                    tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+
+                    yscroll = ttk.Scrollbar(container, orient=tk.VERTICAL, command=tree.yview)
+                    tree.configure(yscrollcommand=yscroll.set)
+                    yscroll.pack(fill=tk.Y, side=tk.RIGHT)
+
+                    # Insert grouped mods as category rows
+                    for mod in sorted(grouped.keys()):
+                        parent = tree.insert("", "end", values=("", f"[{mod}]", ""))
+                        for status, file_path, summary in grouped[mod]:
+                            status_display = { 'A': 'Added', 'M': 'Modified', 'D': 'Deleted' }.get(status, status)
+                            tree.insert(parent, "end", values=(status_display, file_path, summary))
+
+                    # Expand all
+                    for iid in tree.get_children(""):
+                        tree.item(iid, open=True)
+
+                self.root.after(0, open_modal)
+            except Exception as e:
+                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def open_event_log(self) -> None:
+        """Open an interactive viewer for the JSONL event log with right-click delete."""
+        try:
+            if not self.snapshot.event_log_file.exists():
+                messagebox.showinfo("Event Log", "No events have been logged yet.")
+                return
+
+            win = tk.Toplevel(self.root)
+            win.title("Detailed Event Log")
+            win.geometry("1100x750")
+            win.configure(bg=self.colors["bg"])
+
+            container = ttk.Frame(win)
+            container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+            cols = ("time", "action", "file", "success", "details")
+            tree = ttk.Treeview(container, columns=cols, show="headings")
+            for c, w in [("time", 160), ("action", 120), ("file", 380), ("success", 80), ("details", 300)]:
+                tree.heading(c, text=c.capitalize())
+                tree.column(c, width=w)
+            tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+
+            yscroll = ttk.Scrollbar(container, orient=tk.VERTICAL, command=tree.yview)
+            tree.configure(yscrollcommand=yscroll.set)
+            yscroll.pack(fill=tk.Y, side=tk.RIGHT)
+
+            iid_to_line_idx: dict[str, int] = {}
+
+            def refresh_tree():
+                tree.delete(*tree.get_children())
+                iid_to_line_idx.clear()
+                try:
+                    with open(self.snapshot.event_log_file, 'r', encoding='utf-8') as f:
+                        for idx, line in enumerate(f):
+                            line = line.strip()
+                            if not line:
+                                continue
+                            try:
+                                obj = json.loads(line)
+                            except Exception:
+                                obj = {"timestamp": "", "action": "?", "file": "", "success": "", "details": line[:200]}
+                            ts = obj.get("timestamp", "")
+                            action = obj.get("action", "")
+                            filev = obj.get("file", "")
+                            success = obj.get("success", "")
+                            details = obj.get("details", "")
+                            if isinstance(details, dict):
+                                details = json.dumps(details, ensure_ascii=False)
+                            iid = tree.insert("", "end", values=(ts, action, filev, success, details))
+                            iid_to_line_idx[iid] = idx
+                except Exception as e:
+                    messagebox.showerror("Event Log", f"Failed to read log: {e}")
+
+            def delete_selected_event():
+                sel = tree.selection()
+                if not sel:
+                    return
+                if not messagebox.askyesno("Delete Event", "Delete selected event(s) from the log? This cannot be undone."):
+                    return
+                try:
+                    to_delete = sorted({iid_to_line_idx[i] for i in sel}, reverse=True)
+                    with open(self.snapshot.event_log_file, 'r', encoding='utf-8') as f:
+                        lines = f.readlines()
+                    for li in to_delete:
+                        if 0 <= li < len(lines):
+                            del lines[li]
+                    with open(self.snapshot.event_log_file, 'w', encoding='utf-8', newline='\n') as f:
+                        f.writelines(lines)
+                    refresh_tree()
+                except Exception as e:
+                    messagebox.showerror("Delete Event", f"Failed to delete: {e}")
+
+            # Context menu
+            menu = tk.Menu(win, tearoff=False)
+            menu.add_command(label="Delete", command=delete_selected_event)
+
+            def on_right_click(event):
+                try:
+                    rowid = tree.identify_row(event.y)
+                    if rowid:
+                        tree.selection_set(rowid)
+                        menu.tk_popup(event.x_root, event.y_root)
+                finally:
+                    menu.grab_release()
+
+            tree.bind("<Button-3>", on_right_click)
+            win.bind("<Delete>", lambda e: delete_selected_event())
+
+            refresh_tree()
+        except Exception as e:
+            self._set_status(f"Error opening event log: {e}")
     
     def _set_status(self, text: str) -> None:
         """Update status bar."""
