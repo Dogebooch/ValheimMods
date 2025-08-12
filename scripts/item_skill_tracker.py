@@ -344,7 +344,7 @@ class SkillConfig:
 class PersistentState:
     def __init__(self, state_file: Path):
         self.state_file = state_file
-        self.data: dict = {"highlights": {}, "last_paths": {}, "window": {}}
+        self.data: dict = {"highlights": {}, "skill_levels": {}, "last_paths": {}, "window": {}}
         self.load()
 
     def load(self) -> None:
@@ -352,7 +352,7 @@ class PersistentState:
             if self.state_file.exists():
                 self.data = json.loads(self.state_file.read_text(encoding='utf-8'))
         except Exception:
-            self.data = {"highlights": {}, "last_paths": {}, "window": {}}
+            self.data = {"highlights": {}, "skill_levels": {}, "last_paths": {}, "window": {}}
 
     def save(self) -> None:
         try:
@@ -446,6 +446,7 @@ class ItemSkillTrackerApp:
         ttk.Button(top, text="Select VNEI Folder", style="Action.TButton", command=self._choose_vnei).pack(side=tk.LEFT, padx=(0, 6))
         ttk.Button(top, text="Select Skill YAML", style="Action.TButton", command=self._choose_skill).pack(side=tk.LEFT, padx=(0, 6))
         ttk.Button(top, text="Save Highlights", style="Action.TButton", command=self._persist_state).pack(side=tk.LEFT, padx=(0, 6))
+        ttk.Button(top, text="Write to configuration file", style="Action.TButton", command=self._write_to_config).pack(side=tk.LEFT, padx=(0, 6))
         # Zoom controls (minimalist)
         zoom_frame = ttk.Frame(top)
         zoom_frame.pack(side=tk.RIGHT)
@@ -462,18 +463,18 @@ class ItemSkillTrackerApp:
         ent.bind("<KeyRelease>", lambda e: self._filter_rows())
 
         # Tree with left-most star column and separate Item column
-        columns = ("item", "station", "in_yaml", "stats")
+        columns = ("item", "station", "in_yaml", "skill_level")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings")
         self.tree.heading("#0", text="★")
         self.tree.heading("item", text="Item")
         self.tree.heading("station", text="Crafting Station")
         self.tree.heading("in_yaml", text="In Skill YAML")
-        self.tree.heading("stats", text="Stats")
+        self.tree.heading("skill_level", text="Skill Level")
         self.tree.column("#0", width=32, stretch=False)
         self.tree.column("item", width=420, stretch=True)
         self.tree.column("station", width=240, stretch=True)
         self.tree.column("in_yaml", width=120, stretch=False)
-        self.tree.column("stats", width=260, stretch=True)
+        self.tree.column("skill_level", width=140, stretch=False)
         self.tree.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
         yscroll = ttk.Scrollbar(self.tree, orient=tk.VERTICAL, command=self.tree.yview)
@@ -485,10 +486,10 @@ class ItemSkillTrackerApp:
         xscroll.pack(side=tk.BOTTOM, fill=tk.X)
 
         # Remember base column widths to scale on zoom
-        self._base_tree_col_widths = {"#0": 32, "item": 420, "station": 240, "in_yaml": 120, "stats": 260}
+        self._base_tree_col_widths = {"#0": 32, "item": 420, "station": 240, "in_yaml": 120, "skill_level": 140}
 
         # Interactions
-        self.tree.bind("<Double-1>", self._toggle_highlight)
+        self.tree.bind("<Double-1>", self._on_tree_double_click)
         self.tree.bind("<space>", self._toggle_highlight)
         self.tree.bind("<Button-3>", self._show_context_menu)
 
@@ -499,6 +500,7 @@ class ItemSkillTrackerApp:
         # Context menu
         self.menu = tk.Menu(self.root, tearoff=False)
         self.menu.add_command(label="Toggle Highlight", command=lambda: self._toggle_highlight(None))
+        self.menu.add_command(label="Edit Skill Level", command=self._edit_selected_level)
         self.menu.add_command(label="Mark All Filtered", command=self._mark_all_filtered)
         self.menu.add_command(label="Unmark All Filtered", command=self._unmark_all_filtered)
 
@@ -689,6 +691,20 @@ class ItemSkillTrackerApp:
         finally:
             self.menu.grab_release()
 
+    def _on_tree_double_click(self, event) -> None:
+        # If double-click on first column (#0), toggle highlight; if on skill_level column, edit level
+        try:
+            col = self.tree.identify_column(event.x)
+        except Exception:
+            col = ''
+        if col == '#1':
+            self._toggle_highlight(event)
+            return
+        # Columns are 1-based (#1 item, #2 station, #3 in_yaml, #4 skill_level)
+        if col == '#4':
+            self._edit_selected_level()
+            return
+
     def _choose_vnei(self) -> None:
         chosen = filedialog.askdirectory(title="Select VNEI-Export Folder", initialdir=str(self.vnei_dir if self.vnei_dir.exists() else self.workspace))
         if chosen:
@@ -705,6 +721,50 @@ class ItemSkillTrackerApp:
     def _persist_state(self) -> None:
         self.state.save()
         self.status.set(f"Saved at {datetime.now().strftime('%H:%M:%S')}")
+
+    def _edit_selected_level(self) -> None:
+        sel = self.tree.selection()
+        if not sel:
+            return
+        iid = sel[0]
+        vals = list(self.tree.item(iid).get('values', []))
+        if len(vals) < 4:
+            return
+        current_item = str(vals[0]).lstrip('★ ').strip()
+        current_level = str(vals[3]).strip()
+
+        # Create small inline editor window
+        win = tk.Toplevel(self.root)
+        win.title("Set Skill Level")
+        win.geometry("280x120")
+        win.configure(bg=self.colors["bg"]) 
+        ttk.Label(win, text=f"Item: {current_item}").pack(padx=8, pady=(10, 4))
+        var = tk.StringVar(value=current_level)
+        ent = ttk.Entry(win, textvariable=var, width=12)
+        ent.pack(padx=8, pady=4)
+        ent.focus_set()
+
+        def commit():
+            val = var.get().strip()
+            # allow empty to clear
+            if val and not val.isdigit():
+                messagebox.showerror("Invalid", "Enter a whole number (or leave blank to clear)")
+                return
+            # Update UI and persistence
+            if val:
+                vals[3] = val
+                self.state.data.setdefault("skill_levels", {})[current_item] = val
+            else:
+                vals[3] = ""
+                self.state.data.setdefault("skill_levels", {}).pop(current_item, None)
+            self.tree.item(iid, values=vals)
+            self.state.save()
+            win.destroy()
+
+        btns = ttk.Frame(win)
+        btns.pack(pady=8)
+        ttk.Button(btns, text="Save", style="Action.TButton", command=commit).pack(side=tk.LEFT, padx=(0,6))
+        ttk.Button(btns, text="Cancel", style="Action.TButton", command=win.destroy).pack(side=tk.LEFT)
 
     def _refresh_data(self) -> None:
         self.status.set("Loading VNEI items…")
@@ -724,17 +784,17 @@ class ItemSkillTrackerApp:
                 count_in_yaml += 1
             marked = highlights.get(item, False)
             img = self._get_display_icon(item, marked)
-            stats = items_rich.get(item, {}).get('stats', '')
-            # If we know the required level, append it to stats for context
-            if item in levels:
-                lv = levels[item]
-                stats = (stats + (" • " if stats else "") + f"Req L{lv}")
+            # Load persisted manual level or from yaml if present
+            manual_levels: dict[str, str] = self.state.data.setdefault("skill_levels", {})
+            level_str = str(manual_levels.get(item, ""))
+            if not level_str and item in levels:
+                level_str = str(levels[item])
             # Build item kwargs and avoid passing an invalid/None image to Tcl
             item_kwargs = {
                 # tree text column left empty; star is part of composite icon now
                 "text": "",
                 # item name shown (still with star prefix for readability, as requested)
-                "values": (f"★ {item}" if marked else item, station or "", "Yes" if in_yaml else "No", stats),
+                "values": (f"★ {item}" if marked else item, station or "", "Yes" if in_yaml else "No", level_str),
             }
             if img is not None:
                 item_kwargs["image"] = img
@@ -809,6 +869,72 @@ class ItemSkillTrackerApp:
                 self.tree.item(iid, image="", values=vals, text="")
             self.state.data.setdefault("highlights", {})[base_item] = False
         self.state.save()
+
+    def _write_to_config(self) -> None:
+        """Append new items with entered levels to the target YAML in required format.
+
+        - Only adds entries that are not already present by PrefabName.
+        - If config file doesn't exist, creates it.
+        """
+        # Determine target file: if user selected a specific YAML, respect that; else default under config_dir
+        target = self.skill_config.path
+        if target is None:
+            target = self.config_dir / "Detalhes.ItemRequiresSkillLevel.yml"
+        try:
+            existing_text = target.read_text(encoding='utf-8') if target.exists() else ""
+        except Exception:
+            existing_text = ""
+
+        existing_items: set[str] = set()
+        # Parse existing PrefabName lines (fast heuristic)
+        for line in existing_text.splitlines():
+            m = re.match(r"^\s*-\s*PrefabName:\s*([A-Za-z0-9_\-\.]+)\s*$", line)
+            if m:
+                existing_items.add(m.group(1))
+
+        # Collect desired writes from UI state
+        levels_map: dict[str, str] = self.state.data.get("skill_levels", {})
+        # Also include any levels inferred from load_blacksmithing_levels that user hasn't overridden?
+        # We'll only write items that have a manual level in UI to avoid surprises
+
+        to_write: list[tuple[str, str]] = []  # (item, level)
+        for item, level in levels_map.items():
+            level_str = str(level).strip()
+            if not level_str:
+                continue
+            if item in existing_items:
+                continue
+            to_write.append((item, level_str))
+
+        if not to_write:
+            messagebox.showinfo("Write", "No new items to write. Either all are already present or no levels entered.")
+            return
+
+        # Build YAML chunks
+        chunks: list[str] = []
+        for item, lvl in sorted(to_write, key=lambda x: x[0].lower()):
+            chunks.append(
+                "- PrefabName: " + item + "\n" +
+                "  Requirements:\n" +
+                "    - Skill: Blacksmithing\n" +
+                f"      Level: {lvl}\n" +
+                "      BlockCraft: true\n" +
+                "      BlockEquip: false\n" +
+                "      EpicMMO: false\n" +
+                "      ExhibitionName: \n"
+            )
+
+        new_text = existing_text.rstrip() + ("\n\n" if existing_text.strip() else "") + "\n".join(chunks) + "\n"
+
+        try:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(new_text, encoding='utf-8', newline='\n')
+            # Persist last chosen file path
+            self.state.data.setdefault("last_paths", {})["skill_file"] = str(target)
+            self.state.save()
+            messagebox.showinfo("Write", f"Wrote {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}")
+        except Exception as e:
+            messagebox.showerror("Write", f"Failed to write configuration: {e}")
 
     def _index_icons(self) -> None:
         """Scan VNEI-Export/icons for PNGs and index by basename (lower)."""
