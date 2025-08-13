@@ -1,0 +1,15 @@
+name: DvergrNeedle
+clonePrefabName: 
+craftingStation: $piece_blackforge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: $piece_blackforge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Iron:10:0:True
+- BlackMarble:5:0:True
+- Eitr:5:0:True

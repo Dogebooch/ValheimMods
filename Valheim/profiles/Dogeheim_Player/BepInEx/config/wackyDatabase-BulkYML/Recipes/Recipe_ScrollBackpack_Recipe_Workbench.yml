@@ -1,0 +1,22 @@
+name: ScrollBackpack_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_workbench
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- DeerHide:10:0:True
+- LeatherScraps:5:0:True
+- BlackBearPelt_TW:0:5:True
+- Bronze:0:2:True
+- RottenPelt_TW:0:5:True
+- Iron:0:2:True
+- GrizzlyBearPelt_TW:0:5:True
+- Silver:0:2:True
+- LoxPelt:0:5:True
+- BlackMetal:0:2:True

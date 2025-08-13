@@ -1,0 +1,16 @@
+name: Recipe_AshLandsStaff2_RtD
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Blackwood:20:2:True
+- Grausten:5:2:True
+- FlametalNew:2:2:True
+- CharredBone:2:2:True

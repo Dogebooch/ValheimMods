@@ -1,0 +1,4 @@
+name: TGLightningWolf_ChargeBomb_Bombs
+mob_display_name: $enemy_mistile_charge
+clone_creature: 
+creature_replacer: 

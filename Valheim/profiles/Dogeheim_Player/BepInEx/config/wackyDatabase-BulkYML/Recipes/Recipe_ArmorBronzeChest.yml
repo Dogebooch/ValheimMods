@@ -1,0 +1,15 @@
+name: ArmorBronzeChest
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Bronze:5:3:True
+- BlackBearPelt_TW:2:2:True
+- BronzeNails:5:5:True

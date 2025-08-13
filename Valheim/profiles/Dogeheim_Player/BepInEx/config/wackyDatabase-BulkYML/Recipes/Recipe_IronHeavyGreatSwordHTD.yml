@@ -1,0 +1,16 @@
+name: IronHeavyGreatSwordHTD
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_forge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- TrophyDraugr:1:0:True
+- Iron:25:10:True
+- ElderBark:10:0:True
+- LeatherScraps:20:0:True

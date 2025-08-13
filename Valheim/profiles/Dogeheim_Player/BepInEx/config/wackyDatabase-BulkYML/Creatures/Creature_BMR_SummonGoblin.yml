@@ -1,0 +1,4 @@
+name: BMR_SummonGoblin
+mob_display_name: $bmr_summongoblin
+clone_creature: 
+creature_replacer: 

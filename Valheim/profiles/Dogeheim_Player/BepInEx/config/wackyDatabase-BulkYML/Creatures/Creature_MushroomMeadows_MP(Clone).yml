@@ -1,0 +1,4 @@
+name: MushroomMeadows_MP(Clone)
+mob_display_name: $enemy_mushroommeadow_mp
+clone_creature: 
+creature_replacer: 

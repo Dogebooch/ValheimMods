@@ -1,0 +1,16 @@
+name: ancientironhelm_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Iron:25:10:True
+- Silver:30:5:True
+- TrophySerpent:1:0:True
+- ancienthelm:1:0:True

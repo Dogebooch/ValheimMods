@@ -1,0 +1,16 @@
+name: FlametalGreatSwordHTD
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_forge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Flametal:20:7:True
+- Iron:15:5:True
+- LeatherScraps:10:0:True
+- SurtlingCore:20:7:True

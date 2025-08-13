@@ -1,0 +1,14 @@
+name: HoneyGlazedNeck
+clonePrefabName: 
+craftingStation: ''
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_workbench
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- NeckTailGrilled:1:1:True
+- Honey:2:1:True

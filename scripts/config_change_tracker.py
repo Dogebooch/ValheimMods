@@ -725,11 +725,19 @@ class ConfigChangeTrackerApp:
                 self._summary_menu.grab_release()
         self.summary_tree.bind("<Button-3>", on_summary_right_click)
         
-        # Status bar
+        # Status bar with busy indicator
         self.status_var = tk.StringVar(value="Ready")
-        status_bar = tk.Label(self.root, textvariable=self.status_var, 
-                             anchor="w", bg=self.colors["bg"], fg=self.colors["text"])
-        status_bar.pack(side=tk.BOTTOM, fill=tk.X, padx=6, pady=2)
+        status_container = tk.Frame(self.root, bg=self.colors["bg"]) 
+        status_container.pack(side=tk.BOTTOM, fill=tk.X, padx=6, pady=2)
+        status_bar = tk.Label(status_container, textvariable=self.status_var,
+                              anchor="w", bg=self.colors["bg"], fg=self.colors["text"])
+        status_bar.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self.progress = ttk.Progressbar(status_container, mode="indeterminate", length=120)
+        self.progress.pack(side=tk.RIGHT)
+        try:
+            self.progress.stop()
+        except Exception:
+            pass
 
         # Attach tooltips (simplified)
         try:
@@ -791,21 +799,21 @@ class ConfigChangeTrackerApp:
             try:
                 # Create initial snapshot if none exists
                 if not self.snapshot.initial_snapshot_file.exists():
-                    self.root.after(0, lambda: self._set_status("Creating initial snapshot..."))
+                    self.root.after(0, lambda: self._set_busy(True, "Creating initial snapshot..."))
                     ok, msg = self.snapshot.create_snapshot(is_initial=True)
                     if ok:
-                        self.root.after(0, lambda: self._set_status(msg))
+                        self.root.after(0, lambda: self._set_busy(False, msg))
                     else:
-                        self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
                 
                 # Create current snapshot if none exists
                 if not self.snapshot.current_snapshot_file.exists():
-                    self.root.after(0, lambda: self._set_status("Creating current snapshot..."))
+                    self.root.after(0, lambda: self._set_busy(True, "Creating current snapshot..."))
                     ok, msg = self.snapshot.create_snapshot()
                     if ok:
-                        self.root.after(0, lambda: self._set_status(msg))
+                        self.root.after(0, lambda: self._set_busy(False, msg))
                     else:
-                        self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
                 
                 # Update snapshot info label
                 def update_info():
@@ -824,7 +832,7 @@ class ConfigChangeTrackerApp:
                         self.refresh_changes()
                 self.root.after(0, do_initial_scan)
             except Exception as e:
-                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
         
         threading.Thread(target=worker, daemon=True).start()
     
@@ -833,13 +841,13 @@ class ConfigChangeTrackerApp:
         def worker():
             try:
                 # Update status in main thread
-                self.root.after(0, lambda: self._set_status("Creating current snapshot..."))
+                self.root.after(0, lambda: self._set_busy(True, "Creating current snapshot..."))
                 ok, msg = self.snapshot.create_snapshot()
                 
                 # Update UI in main thread
                 if ok:
                     def after_ok():
-                        self._set_status("Session Snapshot saved. 'Since Last Snapshot' now compares to this point.")
+                        self._set_busy(False, "Session Snapshot saved. 'Since Last Snapshot' now compares to this point.")
                         # Update banner
                         ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
                         cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
@@ -847,9 +855,9 @@ class ConfigChangeTrackerApp:
                     self.root.after(0, after_ok)
                     self.root.after(0, self.refresh_changes)
                 else:
-                    self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
+                    self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
             except Exception as e:
-                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
         
         threading.Thread(target=worker, daemon=True).start()
     
@@ -863,9 +871,9 @@ class ConfigChangeTrackerApp:
                         "Set New Baseline",
                         "This will replace your all-time Baseline with the current on-disk state for ALL tracked files.\n\nAfter this, 'Since Baseline' will compare against this new point.\n\nProceed?"
                     ):
-                        self._set_status("Baseline update canceled")
+                        self._set_busy(False, "Baseline update canceled")
                         return False
-                    self._set_status("Creating new Baseline from current files...")
+                    self._set_busy(True, "Creating new Baseline from current files...")
                     return True
                 proceed = self.root.after(0, confirm_and_start)
                 # Note: confirmation runs in main thread; if canceled, we just return later when UI updates
@@ -875,7 +883,7 @@ class ConfigChangeTrackerApp:
                 # Update UI in main thread
                 if ok:
                     def after_ok():
-                        self._set_status("Baseline updated. 'Since Baseline' now compares to this point.")
+                        self._set_busy(False, "Baseline updated. 'Since Baseline' now compares to this point.")
                         ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
                         cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
                         self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
@@ -887,9 +895,9 @@ class ConfigChangeTrackerApp:
                     self.root.after(0, update_info)
                     self.root.after(0, self.refresh_changes)
                 else:
-                    self.root.after(0, lambda: self._set_status(f"Error: {msg}"))
+                    self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
             except Exception as e:
-                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
         
         threading.Thread(target=worker, daemon=True).start()
     
@@ -897,7 +905,7 @@ class ConfigChangeTrackerApp:
         """Refresh the changes list."""
         def worker():
             try:
-                self.root.after(0, lambda: self._set_status("Scanning for changes..."))
+                self.root.after(0, lambda: self._set_busy(True, "Scanning for changes..."))
                 
                 # Determine comparison type
                 compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
@@ -959,7 +967,7 @@ class ConfigChangeTrackerApp:
                 # Update UI in main thread
                 self.root.after(0, lambda: self._update_changes_list(changes_with_time, mods))
             except Exception as e:
-                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
         
         threading.Thread(target=worker, daemon=True).start()
     
@@ -981,7 +989,10 @@ class ConfigChangeTrackerApp:
             }.get(status, status)
             
             self.changes_tree.insert("", "end", values=(status_display, file_path, mod, time_str, summary, session))
-        
+        try:
+            self._set_busy(False)
+        except Exception:
+            pass
         self._set_status(f"Found {len(changes)} changed file(s)")
     
     def on_mod_filter_change(self, event=None) -> None:
@@ -1410,6 +1421,7 @@ class ConfigChangeTrackerApp:
         """Populate the embedded All-Time Summary tab and switch to it."""
         def worker():
             try:
+                self.root.after(0, lambda: self._set_busy(True, "Building all-time summary..."))
                 changes = self.snapshot.get_changes("initial")
                 grouped: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
                 for status, file_path, mod, session in changes:
@@ -1432,13 +1444,13 @@ class ConfigChangeTrackerApp:
                             self.summary_tree.item(iid, open=True)
                         # Switch to tab
                         self.right_notebook.select(self.summary_tab)
-                        self._set_status("All-Time Summary updated")
+                        self._set_busy(False, "All-Time Summary updated")
                     except Exception as e:
-                        self._set_status(f"Error updating summary: {e}")
+                        self._set_busy(False, f"Error updating summary: {e}")
 
                 self.root.after(0, update_summary)
             except Exception as e:
-                self.root.after(0, lambda: self._set_status(f"Error: {e}"))
+                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -1461,10 +1473,11 @@ class ConfigChangeTrackerApp:
 
             def worker():
                 try:
+                    self.root.after(0, lambda: self._set_busy(True, "Loading diff..."))
                     diff = self.snapshot.get_diff(file_path, compare_against="initial")
-                    self.root.after(0, lambda: self._show_diff(diff, file_path, "initial"))
+                    self.root.after(0, lambda: (self._show_diff(diff, file_path, "initial"), self._set_busy(False)))
                 except Exception as e:
-                    self.root.after(0, lambda: self._set_status(f"Error loading diff: {e}"))
+                    self.root.after(0, lambda: self._set_busy(False, f"Error loading diff: {e}"))
 
             threading.Thread(target=worker, daemon=True).start()
         except Exception:
@@ -1566,6 +1579,46 @@ class ConfigChangeTrackerApp:
         """Update status bar."""
         ts = datetime.now().strftime("%H:%M:%S")
         self.status_var.set(f"[{ts}] {text}")
+
+    def _set_busy(self, is_busy: bool, text: str | None = None) -> None:
+        """Toggle busy UI state with optional status text."""
+        try:
+            if text is not None:
+                self._set_status(text)
+            # Busy cursor for whole window
+            try:
+                self.root.configure(cursor="watch" if is_busy else "")
+            except Exception:
+                pass
+            # Start/stop progress animation
+            if is_busy:
+                try:
+                    self.progress.start(60)
+                except Exception:
+                    pass
+                # Disable main actions to avoid re-entry
+                try:
+                    self.btn_refresh.state(["disabled"])  # may not exist in some flows yet
+                except Exception:
+                    pass
+            else:
+                try:
+                    self.progress.stop()
+                except Exception:
+                    pass
+                try:
+                    self.btn_refresh.state(["!disabled"])  # re-enable
+                except Exception:
+                    pass
+            # Ensure redraw
+            try:
+                self.root.update_idletasks()
+            except Exception:
+                pass
+        except Exception:
+            # Fallback to plain status
+            if text is not None:
+                self._set_status(text)
 
 
 def locate_config_root() -> Path:

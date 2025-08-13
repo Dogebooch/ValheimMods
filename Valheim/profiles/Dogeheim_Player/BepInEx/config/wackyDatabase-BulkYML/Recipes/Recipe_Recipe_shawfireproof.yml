@@ -1,0 +1,15 @@
+name: Recipe_shawfireproof
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: $piece_blackforge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- TrophyCultist:1:1:True
+- TrophySurtling:1:1:True
+- FlametalNew:10:4:True

@@ -1,0 +1,28 @@
+name: BMR_SpellBook_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_workbench
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- TrophyTheElder:1:0:True
+- AncientSeed:2:0:True
+- Resin:12:0:True
+- Wood:10:0:True
+- AncientSeed:0:1:True
+- Resin:0:6:True
+- Wood:0:5:True
+- Chain:0:1:True
+- Guck:0:14:True
+- ElderBark:0:10:True
+- JuteRed:0:6:True
+- WolfPelt:0:10:True
+- FreezeGland:0:6:True
+- TrophyGoblinShaman:0:1:True
+- Flax:0:18:True
+- Tar:0:18:True

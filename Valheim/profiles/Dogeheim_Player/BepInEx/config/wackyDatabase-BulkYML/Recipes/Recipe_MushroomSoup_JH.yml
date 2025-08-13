@@ -1,0 +1,14 @@
+name: MushroomSoup_JH
+clonePrefabName: 
+craftingStation: $piece_cauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 2
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Mushroom:5:1:True
+- MushroomYellow:5:1:True

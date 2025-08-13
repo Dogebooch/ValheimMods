@@ -1,0 +1,15 @@
+name: BronzeHammerHTD
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_forge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Wood:10:0:True
+- Bronze:15:10:True
+- LeatherScraps:5:0:True

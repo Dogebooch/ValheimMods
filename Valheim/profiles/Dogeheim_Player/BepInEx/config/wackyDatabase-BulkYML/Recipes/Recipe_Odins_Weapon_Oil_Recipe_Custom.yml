@@ -1,0 +1,14 @@
+name: Odins_Weapon_Oil_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $pp_alchemy_table
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Tar:8:0:True
+- Crystal:1:0:True

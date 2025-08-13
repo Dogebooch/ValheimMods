@@ -1,0 +1,16 @@
+name: Recipe_sVandemDracoGreaves
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: $piece_blackforge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FlametalNew:20:4:True
+- TrophyFader:1:1:True
+- GemstoneGreen:1:1:True
+- BlackMetal:20:5:True

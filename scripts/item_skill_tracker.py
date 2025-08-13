@@ -745,11 +745,17 @@ class ItemSkillTrackerApp:
 
         # Remember base column widths to scale on zoom
         self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "in_yaml": 100}
+        # Flex weights for responsive layout (A+C mix): distribute extra width to these
+        self._flex_weights = {"item": 3.0, "station": 1.5}
 
         # Interactions
         self.tree.bind("<Double-1>", self._on_tree_double_click)
         self.tree.bind("<space>", self._toggle_highlight)
         self.tree.bind("<Button-3>", self._show_context_menu)
+
+        # Re-layout columns on window resize (debounced)
+        self._resize_after = None
+        self.root.bind("<Configure>", self._on_window_resize)
 
         # Bulk level editor
         bulk_frame = ttk.Frame(self.root)
@@ -763,6 +769,12 @@ class ItemSkillTrackerApp:
         # Footer
         self.status = tk.StringVar(value="Ready")
         ttk.Label(self.root, textvariable=self.status).pack(fill=tk.X, padx=8, pady=(0, 6))
+
+        # Initial layout pass
+        try:
+            self._layout_tree_columns()
+        except Exception:
+            pass
 
         # Context menu
         self.menu = tk.Menu(self.root, tearoff=False)
@@ -798,18 +810,9 @@ class ItemSkillTrackerApp:
             self.style.configure("TLabel", font=self.font)
         except Exception:
             pass
-        # Scale column widths with zoom to reduce clipping
+        # Re-layout columns considering zoom and window size
         try:
-            if hasattr(self, "_base_tree_col_widths"):
-                total = sum(self._base_tree_col_widths.values())
-                tree_w = max(600, int(self.root.winfo_width() * 0.9))
-                for col, base_w in self._base_tree_col_widths.items():
-                    scaled = max(24, int(base_w * self.zoom_level))
-                    # Distribute remaining width to the item column to fit text better
-                    if col == "item":
-                        extra = max(0, tree_w - total)
-                        scaled += int(extra * 0.6)
-                    self.tree.column(col, width=scaled)
+            self._layout_tree_columns()
         except Exception:
             pass
         # Also increase row height with font size
@@ -884,6 +887,82 @@ class ItemSkillTrackerApp:
         final_zero = max(scaled_zero, required_zero)
         try:
             self.tree.column("#0", width=final_zero, stretch=False)
+        except Exception:
+            pass
+
+    def _layout_tree_columns(self) -> None:
+        """Responsive layout: scale fixed columns with zoom; distribute extra width to flex columns.
+
+        Mix of fixed base widths (Option A) and responsive growth for key columns (Option C).
+        """
+        try:
+            # Ensure icon column width is up-to-date
+            self._update_tree_columns_layout()
+            try:
+                zero_w = int(self.tree.column("#0", option="width"))
+            except Exception:
+                zero_w = int(max(24, int(self._base_tree_col_widths.get("#0", 36) * self.zoom_level)))
+
+            # Determine available tree width
+            try:
+                avail = int(self.tree.winfo_width())
+            except Exception:
+                avail = int(self.root.winfo_width() * 0.9)
+            avail = max(800, avail)
+
+            # Compute scaled fixed widths
+            scaled: dict[str, int] = {}
+            fixed_cols = ["mod", "skill_level", "in_yaml"]
+            for col in fixed_cols:
+                bw = self._base_tree_col_widths.get(col, 80)
+                scaled[col] = max(40, int(bw * self.zoom_level))
+
+            # Base widths for flex columns before extra distribution
+            flex_cols = [c for c in ("item", "station") if c in self._base_tree_col_widths]
+            for col in flex_cols:
+                bw = self._base_tree_col_widths.get(col, 120)
+                scaled[col] = max(80, int(bw * self.zoom_level))
+
+            # Total base width (zero + fixed + flex base)
+            base_total = zero_w + sum(scaled.get(c, 0) for c in fixed_cols + flex_cols)
+            extra = max(0, avail - base_total)
+
+            if extra > 0 and flex_cols:
+                # Distribute extra space based on weights
+                weights = self._flex_weights if hasattr(self, "_flex_weights") else {"item": 1.0, "station": 1.0}
+                w_sum = sum(weights.get(c, 0) for c in flex_cols) or 1.0
+                for col in flex_cols:
+                    add = int(extra * (weights.get(col, 0) / w_sum))
+                    scaled[col] += add
+
+            # Apply widths
+            try:
+                self.tree.column("item", width=scaled.get("item", 300))
+            except Exception:
+                pass
+            try:
+                self.tree.column("station", width=scaled.get("station", 200))
+            except Exception:
+                pass
+            for col in fixed_cols:
+                try:
+                    self.tree.column(col, width=scaled[col])
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    def _on_window_resize(self, event) -> None:
+        try:
+            if event.widget is not self.root:
+                return
+            # Debounce rapid resize events
+            if getattr(self, "_resize_after", None):
+                try:
+                    self.root.after_cancel(self._resize_after)
+                except Exception:
+                    pass
+            self._resize_after = self.root.after(80, lambda: (setattr(self, "_resize_after", None), self._layout_tree_columns()))
         except Exception:
             pass
 

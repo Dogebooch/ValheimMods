@@ -1,0 +1,4 @@
+name: BMR_SummonWolf
+mob_display_name: $bmr_summonwolf
+clone_creature: 
+creature_replacer: 

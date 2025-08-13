@@ -1,0 +1,20 @@
+name: Recipe_jmcgoddess
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: $piece_blackforge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- CelestialFeather:10:4:True
+- ninebytecloak:1:1:True
+- MeldursonCape:1:1:True
+- DhakharCape:1:1:True
+- shawesomeslayercape:1:1:True
+- FireGodSurturCape:1:1:True
+- FrostGodJotnarCape:1:1:True
+- ShawesomeCape:1:1:True

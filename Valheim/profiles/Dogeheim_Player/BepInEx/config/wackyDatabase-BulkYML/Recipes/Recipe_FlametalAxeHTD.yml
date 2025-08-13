@@ -1,0 +1,16 @@
+name: FlametalAxeHTD
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_forge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Flametal:10:5:True
+- SurtlingCore:15:5:True
+- Iron:10:5:True
+- LeatherScraps:6:0:True

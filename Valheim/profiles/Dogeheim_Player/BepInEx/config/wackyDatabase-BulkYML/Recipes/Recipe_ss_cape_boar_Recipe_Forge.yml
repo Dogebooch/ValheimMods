@@ -1,0 +1,15 @@
+name: ss_cape_boar_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- LeatherScraps:20:2:True
+- TrophyBoar:1:0:True
+- Bronze:3:0:True

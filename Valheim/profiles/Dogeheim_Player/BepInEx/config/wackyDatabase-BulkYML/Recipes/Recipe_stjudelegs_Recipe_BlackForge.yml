@@ -1,0 +1,16 @@
+name: stjudelegs_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- bplegs:1:0:True
+- FlametalNew:25:5:True
+- Eitr:15:5:True
+- LinenThread:20:5:True

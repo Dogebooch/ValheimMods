@@ -1,0 +1,16 @@
+name: samuraichest_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Copper:30:0:True
+- BlackMetal:30:0:True
+- YggdrasilWood:30:0:True
+- TrophySeeker:6:1:True
