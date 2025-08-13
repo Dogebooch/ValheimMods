@@ -2071,6 +2071,7 @@ class ItemSkillTrackerApp:
 
         - Only adds entries that are not already present by PrefabName.
         - If config file doesn't exist, creates it.
+        - If an item already exists, update its Blacksmithing Level instead of appending a duplicate.
         """
         # Determine target file: if user selected a specific YAML, respect that; else default under config_dir
         # Always write to the default Detalhes file in config directory
@@ -2092,17 +2093,51 @@ class ItemSkillTrackerApp:
         # Also include any levels inferred from load_blacksmithing_levels that user hasn't overridden?
         # We'll only write items that have a manual level in UI to avoid surprises
 
+        # Helper: update Level inside an existing PrefabName block (Blacksmithing skill)
+        def _update_level_in_text(text: str, item_name: str, new_level: str) -> tuple[str, bool]:
+            try:
+                block_pat = rf"(?ms)^-\s*PrefabName:\s*{re.escape(item_name)}\s*(?P<body>(?:\n(?!-\s*PrefabName:).*)*)"
+                bm = re.search(block_pat, text)
+                if not bm:
+                    return text, False
+                body = bm.group('body')
+                # Find Blacksmithing skill block
+                skill_pat = r"(?ms)(^\s*-\s*Skill\s*:\s*Blacksmithing\s*$)(?P<blk>(?:\n\s+.*)*)"
+                sm = re.search(skill_pat, body)
+                if not sm:
+                    return text, False
+                blk = sm.group('blk')
+                # Replace Level value within this block
+                lvl_pat = r"(^\s*Level\s*:\s*)(\d+)"
+                lm = re.search(lvl_pat, blk, re.MULTILINE)
+                if not lm:
+                    return text, False
+                cur_lvl = lm.group(2)
+                if cur_lvl == str(new_level):
+                    return text, False
+                blk_new = re.sub(lvl_pat, rf"\\g<1>{int(new_level)}", blk, count=1, flags=re.MULTILINE)
+                body_new = body[:sm.start('blk')] + blk_new + body[sm.end('blk'):]
+                text_new = text[:bm.start('body')] + body_new + text[bm.end('body'):]
+                return text_new, True
+            except Exception:
+                return text, False
+
         to_write: list[tuple[str, str]] = []  # (item, level)
+        updated_count = 0
         for item, level in levels_map.items():
             level_str = str(level).strip()
             if not level_str:
                 continue
             if item in existing_items:
+                # Update in place if different
+                existing_text, changed = _update_level_in_text(existing_text, item, level_str)
+                if changed:
+                    updated_count += 1
                 continue
             to_write.append((item, level_str))
 
-        if not to_write:
-            messagebox.showinfo("Write", "No new items to write. Either all are already present or no levels entered.")
+        if not to_write and updated_count == 0:
+            messagebox.showinfo("Write", "No changes to write. Either all are already present with the same level or no levels entered.")
             return
 
         # Build YAML chunks
@@ -2119,13 +2154,21 @@ class ItemSkillTrackerApp:
                 "      ExhibitionName: \n"
             )
 
-        new_text = existing_text.rstrip() + ("\n\n" if existing_text.strip() else "") + "\n".join(chunks) + "\n"
+        new_text = existing_text.rstrip()
+        if chunks:
+            new_text += ("\n\n" if new_text.strip() else "") + "\n".join(chunks) + "\n"
 
         try:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(new_text, encoding='utf-8', newline='\n')
             # No need to persist a chosen file; path is fixed
-            messagebox.showinfo("Write", f"Wrote {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}")
+            if to_write and updated_count:
+                message = f"Updated {updated_count} entr{'y' if updated_count==1 else 'ies'} and added {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}"
+            elif to_write:
+                message = f"Added {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}"
+            else:
+                message = f"Updated {updated_count} entr{'y' if updated_count==1 else 'ies'} in\n{target}"
+            messagebox.showinfo("Write", message)
         except Exception as e:
             messagebox.showerror("Write", f"Failed to write configuration: {e}")
 
