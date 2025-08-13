@@ -234,6 +234,36 @@ class VNEIItemIndex:
                 pass
         return result
 
+    def load_item_metadata(self) -> dict[str, dict]:
+        """Return mapping: item_name -> { 'localized': str, 'type': str, 'source_mod': str }.
+
+        Pulls from CSV/TXT if available; falls back to empty strings.
+        """
+        meta: dict[str, dict] = {}
+        source = None
+        if self.items_csv.exists():
+            source = self.items_csv
+        elif self.items_txt.exists():
+            source = self.items_txt
+        if source is None:
+            return meta
+        try:
+            if source.suffix.lower() in ('.csv', '.txt'):
+                with open(source, newline='', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        key = (row.get('Internal Name', '') or row.get('internalname', '') or '').strip()
+                        if not key:
+                            continue
+                        meta[key] = {
+                            'localized': (row.get('Localized Name', '') or '').strip(),
+                            'type': (row.get('Item Type', '') or '').strip(),
+                            'source_mod': (row.get('Source Mod', '') or '').strip(),
+                        }
+        except Exception:
+            pass
+        return meta
+
 
 class WackyBulkIndex:
     def __init__(self, bulk_root: Path):
