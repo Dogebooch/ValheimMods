@@ -234,6 +234,198 @@ class VNEIItemIndex:
                 pass
         return result
 
+    def load_item_metadata(self) -> dict[str, dict]:
+        """Return mapping: item_name -> { 'localized': str, 'type': str, 'source_mod': str }.
+
+        Pulls from CSV/TXT if available; falls back to empty strings.
+        """
+        meta: dict[str, dict] = {}
+        source = None
+        if self.items_csv.exists():
+            source = self.items_csv
+        elif self.items_txt.exists():
+            source = self.items_txt
+        if source is None:
+            return meta
+        try:
+            if source.suffix.lower() in ('.csv', '.txt'):
+                with open(source, newline='', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        key = (row.get('Internal Name', '') or row.get('internalname', '') or '').strip()
+                        if not key:
+                            continue
+                        meta[key] = {
+                            'localized': (row.get('Localized Name', '') or '').strip(),
+                            'type': (row.get('Item Type', '') or '').strip(),
+                            'source_mod': (row.get('Source Mod', '') or '').strip(),
+                        }
+        except Exception:
+            pass
+        return meta
+
+    def load_tool_tiers(self, config_root: Path) -> dict[str, int]:
+        """Parse Wacky's Database cache for m_toolTier per item (if present)."""
+        tiers: dict[str, int] = {}
+        cache_dir = config_root / "wackysDatabase" / "Cache"
+        if not cache_dir.exists():
+            return tiers
+        try:
+            for path in cache_dir.glob("*.zz"):
+                try:
+                    text = path.read_text(encoding='utf-8', errors='ignore')
+                except Exception:
+                    continue
+                name = None
+                tier_val = None
+                for raw in text.splitlines():
+                    if name is None and raw.startswith("name:"):
+                        name = raw.split(":", 1)[1].strip()
+                        continue
+                    if tier_val is None and "m_toolTier:" in raw:
+                        try:
+                            tier_val = int(raw.split(":", 1)[1].strip())
+                        except Exception:
+                            pass
+                    if name and tier_val is not None:
+                        break
+                if name and tier_val is not None:
+                    tiers[name] = tier_val
+        except Exception:
+            pass
+        return tiers
+
+    @staticmethod
+    def map_tool_tier_to_world_level(tool_tier: int) -> tuple[int, str]:
+        """Map tool tier to (WL number, biome name), including Deep North and Ashlands.
+
+        Mapping is heuristic and can be adjusted:
+          0→(1, Meadows), 1→(2, Black Forest), 2→(3, Swamp), 3→(4, Mountains),
+          4→(5, Plains), 5→(6, Mistlands), 6→(7, Deep North), 7+→(8, Ashlands)
+        """
+        mapping = {
+            0: (1, "Meadows"),
+            1: (2, "Black Forest"),
+            2: (3, "Swamp"),
+            3: (4, "Mountains"),
+            4: (5, "Plains"),
+            5: (6, "Mistlands"),
+            6: (7, "Deep North"),
+        }
+        if tool_tier in mapping:
+            return mapping[tool_tier]
+        if tool_tier is not None and tool_tier >= 7:
+            return (8, "Ashlands")
+        return (0, "")
+
+    @staticmethod
+    def parse_crafting_costs(value: str) -> str:
+        """Normalize recipe string like 'Iron:5,WitheredBone:2' to 'Iron x5, WitheredBone x2'."""
+        parts = []
+        for tok in (value or "").split(','):
+            tok = tok.strip()
+            if not tok:
+                continue
+            if ':' in tok:
+                a, b = tok.split(':', 1)
+                parts.append(f"{a.strip()} x{b.strip()}")
+            else:
+                parts.append(tok)
+        return ', '.join(parts)
+
+    def scan_configs_for_recipes_and_unlocks(self, config_root: Path) -> dict[str, dict]:
+        """Scan known config files for recipe/unlock/BiS notes by item.
+
+        Returns mapping: item -> {
+          'recipe': str,
+          'station': str,
+          'station_level': str,
+          'unlock': str,
+          'prestige': str,
+          'set': str,
+          'bis': str
+        }
+        """
+        info: dict[str, dict] = {}
+        root = config_root
+        # 1) Therzie.Wizardry.cfg craft lines as example (format rich and consistent)
+        tw = root / "Therzie.Wizardry.cfg"
+        if tw.exists():
+            try:
+                for raw in tw.read_text(encoding='utf-8', errors='ignore').splitlines():
+                    line = raw.strip()
+                    if line.startswith("Crafting Costs (") and "=" in line:
+                        # Crafting Costs (Name) = Item:Q,Item:Q
+                        try:
+                            left, val = line.split('=', 1)
+                            val = val.strip()
+                            # Extract Name inside parentheses for mapping hint
+                            name = left[left.find('(')+1:left.find(')')].strip()
+                            recipe = self.parse_crafting_costs(val)
+                            if name:
+                                d = info.setdefault(name, {})
+                                d['recipe'] = recipe
+                        except Exception:
+                            pass
+                    elif line.startswith("Crafting Station (") and "=" in line:
+                        try:
+                            left, val = line.split('=', 1)
+                            val = val.strip()
+                            name = left[left.find('(')+1:left.find(')')].strip()
+                            if name:
+                                d = info.setdefault(name, {})
+                                d['station'] = val
+                        except Exception:
+                            pass
+                    elif line.startswith("Crafting Station Level (") and "=" in line:
+                        try:
+                            left, val = line.split('=', 1)
+                            val = val.strip()
+                            name = left[left.find('(')+1:left.find(')')].strip()
+                            if name:
+                                d = info.setdefault(name, {})
+                                d['station_level'] = val
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+
+        # 2) TradersExtended buy jsons to infer early unlock via trader tier
+        for path in root.glob("shudnal.TradersExtended.*_Trader.buy.json"):
+            try:
+                txt = path.read_text(encoding='utf-8', errors='ignore')
+                m = re.search(r'"prefab"\s*:\s*"([A-Za-z0-9_\-\.]+)"', txt)
+                if m:
+                    prefab = m.group(1)
+                    tier = "Blacksmith tier?"
+                    if "tier1" in txt:
+                        tier = "Blacksmith tier 1"
+                    elif "tier2" in txt:
+                        tier = "Blacksmith tier 2"
+                    elif "tier3" in txt:
+                        tier = "Blacksmith tier 3"
+                    d = info.setdefault(prefab, {})
+                    d['unlock'] = (d.get('unlock') + "; " if d.get('unlock') else "") + f"Sold by trader ({tier})"
+            except Exception:
+                pass
+
+        # 3) World-level hints from Spawn_That/Drop_That/EpicLoot patches
+        # Add a coarse note if an item name appears inside lines with WorldLevel or ConditionWorldLevelMin
+        wl_files = list(root.rglob("*.cfg")) + list((root / "EpicLoot" / "patches").rglob("*.json"))
+        for p in wl_files:
+            try:
+                txt = p.read_text(encoding='utf-8', errors='ignore')
+            except Exception:
+                continue
+            if ("WorldLevel" not in txt) and ("ConditionWorldLevelMin" not in txt):
+                continue
+            # Heuristic: if an item internal name appears on a line near WL markers, attach a note
+            for item in list(info.keys()):
+                if item in txt:
+                    d = info.setdefault(item, {})
+                    d['unlock'] = (d.get('unlock') + "; " if d.get('unlock') else "") + "WL-gated content nearby"
+        return info
+
 
 class SkillConfig:
     def __init__(self, config_dir: Path, filename_hint: str = "ItemRequiresSkillLevel"):
@@ -344,7 +536,7 @@ class SkillConfig:
 class PersistentState:
     def __init__(self, state_file: Path):
         self.state_file = state_file
-        self.data: dict = {"highlights": {}, "skill_levels": {}, "last_paths": {}, "window": {}}
+        self.data: dict = {"highlights": {}, "skill_levels": {}, "notes": {}, "hidden_items": [], "last_paths": {}, "window": {}}
         self.load()
 
     def load(self) -> None:
@@ -352,7 +544,7 @@ class PersistentState:
             if self.state_file.exists():
                 self.data = json.loads(self.state_file.read_text(encoding='utf-8'))
         except Exception:
-            self.data = {"highlights": {}, "skill_levels": {}, "last_paths": {}, "window": {}}
+            self.data = {"highlights": {}, "skill_levels": {}, "notes": {}, "hidden_items": [], "last_paths": {}, "window": {}}
 
     def save(self) -> None:
         try:
@@ -390,15 +582,13 @@ class ItemSkillTrackerApp:
         if lp.get("vnei_dir"):
             self.vnei_dir = Path(lp["vnei_dir"]) 
         if lp.get("skill_file"):
-            # If user chose a specific file before, prefer its parent as config_dir
-            p = Path(lp["skill_file"]) 
-            if p.exists():
-                self.config_dir = p.parent
+            # Legacy: previously allowed custom YAML selection; ignore now
+            pass
 
         self.vnei_index = VNEIItemIndex(self.vnei_dir)
         self.skill_config = SkillConfig(self.config_dir, filename_hint="ItemRequiresSkillLevel")
-        if lp.get("skill_file"):
-            self.skill_config.path = Path(lp["skill_file"]) 
+        # Always target the default configuration file
+        self.skill_config.path = self.config_dir / "Detalhes.ItemRequiresSkillLevel.yml"
 
         self._build_ui()
         self._index_icons()
@@ -443,10 +633,9 @@ class ItemSkillTrackerApp:
         top.pack(fill=tk.X, padx=8, pady=6)
 
         ttk.Button(top, text="Refresh", style="Action.TButton", command=self._refresh_data).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Select VNEI Folder", style="Action.TButton", command=self._choose_vnei).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Select Skill YAML", style="Action.TButton", command=self._choose_skill).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Save Highlights", style="Action.TButton", command=self._persist_state).pack(side=tk.LEFT, padx=(0, 6))
+        ttk.Button(top, text="Save", style="Action.TButton", command=self._persist_state).pack(side=tk.LEFT, padx=(0, 6))
         ttk.Button(top, text="Write to configuration file", style="Action.TButton", command=self._write_to_config).pack(side=tk.LEFT, padx=(0, 6))
+        ttk.Button(top, text="Export Items.md", style="Action.TButton", command=self._export_items_mod_md).pack(side=tk.LEFT, padx=(0, 6))
         # Zoom controls (minimalist)
         zoom_frame = ttk.Frame(top)
         zoom_frame.pack(side=tk.RIGHT)
@@ -462,19 +651,30 @@ class ItemSkillTrackerApp:
         ent.pack(side=tk.LEFT, padx=(6, 6))
         ent.bind("<KeyRelease>", lambda e: self._filter_rows())
 
-        # Tree with left-most star column and separate Item column
-        columns = ("item", "station", "in_yaml", "skill_level")
+        # Hidden filter
+        ttk.Label(search_frame, text="Show:").pack(side=tk.LEFT, padx=(16, 4))
+        self.show_filter = tk.StringVar(value="Visible")
+        show_combo = ttk.Combobox(search_frame, textvariable=self.show_filter, state="readonly", width=12)
+        show_combo['values'] = ("Visible", "Hidden", "All")
+        show_combo.pack(side=tk.LEFT)
+        show_combo.bind("<<ComboboxSelected>>", lambda e: self._filter_rows())
+
+        # Tree with left-most icon/star column and columns ordered for readability
+        # Put Skill Level next to Item for straight-across reading, and show Mod
+        columns = ("item", "mod", "skill_level", "station", "in_yaml")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings")
         self.tree.heading("#0", text="★")
         self.tree.heading("item", text="Item")
+        self.tree.heading("mod", text="Mod")
+        self.tree.heading("skill_level", text="Skill Level")
         self.tree.heading("station", text="Crafting Station")
         self.tree.heading("in_yaml", text="In Skill YAML")
-        self.tree.heading("skill_level", text="Skill Level")
-        self.tree.column("#0", width=32, stretch=False)
-        self.tree.column("item", width=420, stretch=True)
-        self.tree.column("station", width=240, stretch=True)
-        self.tree.column("in_yaml", width=120, stretch=False)
-        self.tree.column("skill_level", width=140, stretch=False)
+        self.tree.column("#0", width=28, stretch=False)
+        self.tree.column("item", width=340, stretch=False)
+        self.tree.column("mod", width=160, stretch=False)
+        self.tree.column("skill_level", width=110, stretch=False, anchor='center')
+        self.tree.column("station", width=200, stretch=False)
+        self.tree.column("in_yaml", width=100, stretch=False, anchor='center')
         self.tree.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
         yscroll = ttk.Scrollbar(self.tree, orient=tk.VERTICAL, command=self.tree.yview)
@@ -486,7 +686,7 @@ class ItemSkillTrackerApp:
         xscroll.pack(side=tk.BOTTOM, fill=tk.X)
 
         # Remember base column widths to scale on zoom
-        self._base_tree_col_widths = {"#0": 32, "item": 420, "station": 240, "in_yaml": 120, "skill_level": 140}
+        self._base_tree_col_widths = {"#0": 28, "item": 340, "mod": 160, "skill_level": 110, "station": 200, "in_yaml": 100}
 
         # Interactions
         self.tree.bind("<Double-1>", self._on_tree_double_click)
@@ -500,7 +700,10 @@ class ItemSkillTrackerApp:
         # Context menu
         self.menu = tk.Menu(self.root, tearoff=False)
         self.menu.add_command(label="Toggle Highlight", command=lambda: self._toggle_highlight(None))
-        self.menu.add_command(label="Edit Skill Level", command=self._edit_selected_level)
+        self.menu.add_command(label="Edit Skill Level", command=lambda: self._begin_inline_level_edit(None))
+        self.menu.add_command(label="Hide Item", command=self._hide_selected_item)
+        self.menu.add_command(label="Unhide Item", command=self._unhide_selected_item)
+        self.menu.add_separator()
         self.menu.add_command(label="Mark All Filtered", command=self._mark_all_filtered)
         self.menu.add_command(label="Unmark All Filtered", command=self._unmark_all_filtered)
 
@@ -534,8 +737,14 @@ class ItemSkillTrackerApp:
         # Scale column widths with zoom to reduce clipping
         try:
             if hasattr(self, "_base_tree_col_widths"):
+                total = sum(self._base_tree_col_widths.values())
+                tree_w = max(600, int(self.root.winfo_width() * 0.9))
                 for col, base_w in self._base_tree_col_widths.items():
                     scaled = max(24, int(base_w * self.zoom_level))
+                    # Distribute remaining width to the item column to fit text better
+                    if col == "item":
+                        extra = max(0, tree_w - total)
+                        scaled += int(extra * 0.6)
                     self.tree.column(col, width=scaled)
         except Exception:
             pass
@@ -544,7 +753,7 @@ class ItemSkillTrackerApp:
             self._update_row_height()
         except Exception:
             pass
-        # Adjust #0 width to fit icon at current zoom
+        # Adjust #0 width to fit icon at current zoom (keep compact for easier reading)
         try:
             self._update_tree_columns_layout()
         except Exception:
@@ -604,10 +813,10 @@ class ItemSkillTrackerApp:
         except Exception:
             icon_w = 24
         # Compute scaled base width
-        base_zero = self._base_tree_col_widths.get("#0", 32)
-        scaled_zero = max(24, int(base_zero * self.zoom_level))
+        base_zero = self._base_tree_col_widths.get("#0", 28)
+        scaled_zero = max(22, int(base_zero * self.zoom_level))
         # Require some margin to the next column
-        required_zero = icon_w + 10
+        required_zero = min(icon_w + 6, 44)
         final_zero = max(scaled_zero, required_zero)
         try:
             self.tree.column("#0", width=final_zero, stretch=False)
@@ -691,8 +900,48 @@ class ItemSkillTrackerApp:
         finally:
             self.menu.grab_release()
 
+    def _hide_selected_item(self) -> None:
+        sel = self.tree.selection()
+        if not sel:
+            return
+        iid = sel[0]
+        vals = list(self.tree.item(iid).get('values', []))
+        if not vals:
+            return
+        label = str(vals[0]).replace("★ ", "")
+        m = re.search(r"\(([^)]+)\)$", label)
+        if not m:
+            return
+        prefab = m.group(1)
+        hidden = set(self.state.data.get("hidden_items", []) or [])
+        if prefab not in hidden:
+            hidden.add(prefab)
+            self.state.data["hidden_items"] = sorted(hidden)
+            self.state.save()
+        self._filter_rows()
+
+    def _unhide_selected_item(self) -> None:
+        sel = self.tree.selection()
+        if not sel:
+            return
+        iid = sel[0]
+        vals = list(self.tree.item(iid).get('values', []))
+        if not vals:
+            return
+        label = str(vals[0]).replace("★ ", "")
+        m = re.search(r"\(([^)]+)\)$", label)
+        if not m:
+            return
+        prefab = m.group(1)
+        hidden = set(self.state.data.get("hidden_items", []) or [])
+        if prefab in hidden:
+            hidden.remove(prefab)
+            self.state.data["hidden_items"] = sorted(hidden)
+            self.state.save()
+        self._filter_rows()
+
     def _on_tree_double_click(self, event) -> None:
-        # If double-click on first column (#0), toggle highlight; if on skill_level column, edit level
+        # If double-click on first column (#0), toggle highlight; if on skill_level column, begin inline edit
         try:
             col = self.tree.identify_column(event.x)
         except Exception:
@@ -700,76 +949,94 @@ class ItemSkillTrackerApp:
         if col == '#1':
             self._toggle_highlight(event)
             return
-        # Columns are 1-based (#1 item, #2 station, #3 in_yaml, #4 skill_level)
-        if col == '#4':
-            self._edit_selected_level()
+        # New column order: #1 item, #2 mod, #3 skill_level, #4 station, #5 in_yaml
+        if col == '#3':
+            self._begin_inline_level_edit(event)
             return
 
+    # Legacy selectors removed per request; rely on defaults
     def _choose_vnei(self) -> None:
-        chosen = filedialog.askdirectory(title="Select VNEI-Export Folder", initialdir=str(self.vnei_dir if self.vnei_dir.exists() else self.workspace))
-        if chosen:
-            self.vnei_dir = Path(chosen)
-            self.state.data.setdefault("last_paths", {})["vnei_dir"] = str(self.vnei_dir)
-            self._refresh_data()
+        pass
 
     def _choose_skill(self) -> None:
-        self.skill_config.pick_file()
-        if self.skill_config.path:
-            self.state.data.setdefault("last_paths", {})["skill_file"] = str(self.skill_config.path)
-        self._refresh_data()
+        pass
 
     def _persist_state(self) -> None:
         self.state.save()
         self.status.set(f"Saved at {datetime.now().strftime('%H:%M:%S')}")
 
-    def _edit_selected_level(self) -> None:
+    def _autosize_item_column(self) -> None:
+        """Autosize the Item column to fit the longest 'Name (Prefab)'."""
+        try:
+            max_text = 12
+            for iid in self.tree.get_children(""):
+                vals = self.tree.item(iid).get('values', [])
+                if not vals:
+                    continue
+                s = str(vals[0])
+                if len(s) > max_text:
+                    max_text = len(s)
+            # Estimate pixels per character (~7 at base font 10), scale with zoom
+            px_per_char = max(6.0, 7.0 * self.zoom_level)
+            new_width = int(px_per_char * (max_text + 2))
+            new_width = max(240, min(new_width, 1000))
+            self.tree.column("item", width=new_width)
+        except Exception:
+            pass
+
+    def _begin_inline_level_edit(self, event) -> None:
         sel = self.tree.selection()
         if not sel:
             return
         iid = sel[0]
+        # Get bounding box for the skill_level cell (column index 2 for values)
+        try:
+            bbox = self.tree.bbox(iid, column="#3")
+        except Exception:
+            bbox = None
         vals = list(self.tree.item(iid).get('values', []))
-        if len(vals) < 4:
+        if len(vals) < 3:
             return
         current_item = str(vals[0]).lstrip('★ ').strip()
-        current_level = str(vals[3]).strip()
-
-        # Create small inline editor window
-        win = tk.Toplevel(self.root)
-        win.title("Set Skill Level")
-        win.geometry("280x120")
-        win.configure(bg=self.colors["bg"]) 
-        ttk.Label(win, text=f"Item: {current_item}").pack(padx=8, pady=(10, 4))
+        current_level = str(vals[2]).strip()
+        # Create an Entry overlay for inline edit
         var = tk.StringVar(value=current_level)
-        ent = ttk.Entry(win, textvariable=var, width=12)
-        ent.pack(padx=8, pady=4)
-        ent.focus_set()
+        entry = ttk.Entry(self.tree, textvariable=var, width=8)
+        def place_entry():
+            try:
+                if bbox:
+                    x, y, w, h = bbox
+                    entry.place(x=x+2, y=y+1, width=w-4, height=h-2)
+                    entry.focus_set()
+            except Exception:
+                pass
+        place_entry()
 
-        def commit():
+        def commit_inline():
             val = var.get().strip()
-            # allow empty to clear
             if val and not val.isdigit():
                 messagebox.showerror("Invalid", "Enter a whole number (or leave blank to clear)")
+                entry.destroy()
                 return
-            # Update UI and persistence
             if val:
-                vals[3] = val
+                vals[2] = val
                 self.state.data.setdefault("skill_levels", {})[current_item] = val
             else:
-                vals[3] = ""
+                vals[2] = ""
                 self.state.data.setdefault("skill_levels", {}).pop(current_item, None)
             self.tree.item(iid, values=vals)
             self.state.save()
-            win.destroy()
+            entry.destroy()
 
-        btns = ttk.Frame(win)
-        btns.pack(pady=8)
-        ttk.Button(btns, text="Save", style="Action.TButton", command=commit).pack(side=tk.LEFT, padx=(0,6))
-        ttk.Button(btns, text="Cancel", style="Action.TButton", command=win.destroy).pack(side=tk.LEFT)
+        entry.bind("<Return>", lambda e: commit_inline())
+        entry.bind("<Escape>", lambda e: (entry.destroy()))
+        entry.bind("<FocusOut>", lambda e: commit_inline())
 
     def _refresh_data(self) -> None:
         self.status.set("Loading VNEI items…")
         items_basic = self.vnei_index.load_items()
         items_rich = self.vnei_index.load_items_with_stats()
+        meta = self.vnei_index.load_item_metadata()
         self.status.set("Loading skill YAML…")
         yaml_items = self.skill_config.load_items()
         levels = self.skill_config.load_blacksmithing_levels()
@@ -789,12 +1056,20 @@ class ItemSkillTrackerApp:
             level_str = str(manual_levels.get(item, ""))
             if not level_str and item in levels:
                 level_str = str(levels[item])
+            # Mod/source from VNEI metadata
+            meta_row = (meta.get(item, {}) or {})
+            mod_name = meta_row.get('source_mod') or ''
+            localized = meta_row.get('localized') or ''
+            display_name = localized if localized else item
+            item_label = f"{display_name} ({item})"
+            if marked:
+                item_label = f"★ {item_label}"
             # Build item kwargs and avoid passing an invalid/None image to Tcl
             item_kwargs = {
                 # tree text column left empty; star is part of composite icon now
                 "text": "",
                 # item name shown (still with star prefix for readability, as requested)
-                "values": (f"★ {item}" if marked else item, station or "", "Yes" if in_yaml else "No", level_str),
+                "values": (item_label, mod_name, level_str, station or "", "Yes" if in_yaml else "No"),
             }
             if img is not None:
                 item_kwargs["image"] = img
@@ -802,16 +1077,43 @@ class ItemSkillTrackerApp:
 
         self.status.set(f"Loaded {len(items_basic)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
         self._filter_rows()  # apply any current filter
+        try:
+            self._autosize_item_column()
+        except Exception:
+            pass
 
     def _filter_rows(self) -> None:
         needle = (self.search_var.get() or "").strip().lower()
+        hidden = set(self.state.data.get("hidden_items", []) or [])
+        show_mode = (self.show_filter.get() if hasattr(self, 'show_filter') else "Visible")
         for iid in self.tree.get_children(""):
             vals = self.tree.item(iid).get('values', [])
             text = (self.tree.item(iid).get('text', '') + ' ' + ' '.join(str(v) for v in vals[:1])).lower()
-            if needle in text:
+            # Determine item's prefab from label "Name (Prefab)"
+            prefab = None
+            try:
+                label = str(vals[0]) if vals else ''
+                m = re.search(r"\(([^)]+)\)$", label.replace("★ ", ""))
+                if m:
+                    prefab = m.group(1)
+            except Exception:
+                prefab = None
+            is_hidden = prefab in hidden if prefab else False
+            visible = True
+            if show_mode == "Visible" and is_hidden:
+                visible = False
+            elif show_mode == "Hidden" and not is_hidden:
+                visible = False
+            if needle not in text:
+                visible = False
+            if visible:
                 self.tree.reattach(iid, '', 'end')
             else:
                 self.tree.detach(iid)
+        try:
+            self._autosize_item_column()
+        except Exception:
+            pass
 
     def _toggle_highlight(self, event) -> None:
         sel = self.tree.selection()
@@ -822,21 +1124,34 @@ class ItemSkillTrackerApp:
         if not vals:
             return
         item_text = str(vals[0])
-        base_item = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
-        highlighted = item_text.startswith("★ ")
-        vals[0] = base_item if highlighted else f"★ {base_item}"
+        # Manage star prefix without breaking the "Name (Prefab)" content
+        has_star = item_text.startswith("★ ")
+        plain = item_text[2:].lstrip() if has_star else item_text
+        new_item_text = plain if has_star else f"★ {plain}"
+        vals[0] = new_item_text
         # Rebuild composite icon for this item
         try:
-            img = self._get_display_icon(base_item, not highlighted)
+            base_prefab = plain
+            # Try to recover prefab from parentheses if present
+            m = re.search(r"\(([^)]+)\)$", plain)
+            if m:
+                base_prefab = m.group(1)
+            img = self._get_display_icon(base_prefab, not has_star)
             if img is not None:
                 self.tree.item(iid, image=img, values=vals, text="")
             else:
                 self.tree.item(iid, image="", values=vals, text="")
         except Exception:
             self.tree.item(iid, values=vals, text="")
-        self.state.data.setdefault("highlights", {})[base_item] = not highlighted
+        # Persist by prefab key if we could parse it, else by plain name
+        key_for_highlight = base_prefab
+        self.state.data.setdefault("highlights", {})[key_for_highlight] = not has_star
         # Save immediately for persistence
         self.state.save()
+        try:
+            self._autosize_item_column()
+        except Exception:
+            pass
 
     def _mark_all_filtered(self) -> None:
         for iid in self.tree.get_children(""):
@@ -844,14 +1159,18 @@ class ItemSkillTrackerApp:
             if not vals:
                 continue
             item_text = str(vals[0])
-            base_item = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
-            vals[0] = f"★ {base_item}"
-            img = self._get_display_icon(base_item, True)
+            plain = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
+            vals[0] = f"★ {plain}"
+            base_prefab = plain
+            m = re.search(r"\(([^)]+)\)$", plain)
+            if m:
+                base_prefab = m.group(1)
+            img = self._get_display_icon(base_prefab, True)
             if img is not None:
                 self.tree.item(iid, image=img, values=vals, text="")
             else:
                 self.tree.item(iid, image="", values=vals, text="")
-            self.state.data.setdefault("highlights", {})[base_item] = True
+            self.state.data.setdefault("highlights", {})[base_prefab] = True
         self.state.save()
 
     def _unmark_all_filtered(self) -> None:
@@ -860,14 +1179,18 @@ class ItemSkillTrackerApp:
             if not vals:
                 continue
             item_text = str(vals[0])
-            base_item = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
-            vals[0] = base_item
-            img = self._get_display_icon(base_item, False)
+            plain = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
+            vals[0] = plain
+            base_prefab = plain
+            m = re.search(r"\(([^)]+)\)$", plain)
+            if m:
+                base_prefab = m.group(1)
+            img = self._get_display_icon(base_prefab, False)
             if img is not None:
                 self.tree.item(iid, image=img, values=vals, text="")
             else:
                 self.tree.item(iid, image="", values=vals, text="")
-            self.state.data.setdefault("highlights", {})[base_item] = False
+            self.state.data.setdefault("highlights", {})[base_prefab] = False
         self.state.save()
 
     def _write_to_config(self) -> None:
@@ -877,9 +1200,8 @@ class ItemSkillTrackerApp:
         - If config file doesn't exist, creates it.
         """
         # Determine target file: if user selected a specific YAML, respect that; else default under config_dir
-        target = self.skill_config.path
-        if target is None:
-            target = self.config_dir / "Detalhes.ItemRequiresSkillLevel.yml"
+        # Always write to the default Detalhes file in config directory
+        target = self.config_dir / "Detalhes.ItemRequiresSkillLevel.yml"
         try:
             existing_text = target.read_text(encoding='utf-8') if target.exists() else ""
         except Exception:
@@ -929,12 +1251,37 @@ class ItemSkillTrackerApp:
         try:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(new_text, encoding='utf-8', newline='\n')
-            # Persist last chosen file path
-            self.state.data.setdefault("last_paths", {})["skill_file"] = str(target)
-            self.state.save()
+            # No need to persist a chosen file; path is fixed
             messagebox.showinfo("Write", f"Wrote {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}")
         except Exception as e:
             messagebox.showerror("Write", f"Failed to write configuration: {e}")
+
+    def _export_items_mod_md(self) -> None:
+        """Export Markdown: item prefabs, localized names, and associated source mod."""
+        try:
+            items_basic = self.vnei_index.load_items()
+            meta = self.vnei_index.load_item_metadata()
+            lines: list[str] = []
+            lines.append("# Items by Mod\n")
+            lines.append("Generated by Item Skill Tracker\n")
+            lines.append("")
+            lines.append("| Prefab | Localized | Mod |")
+            lines.append("|---|---|---|")
+            def esc(s: str) -> str:
+                return (s or "").replace('|', '\\|')
+            for item in sorted(items_basic.keys(), key=lambda s: s.lower()):
+                m = meta.get(item, {})
+                localized = m.get('localized') or ''
+                mod = m.get('source_mod') or ''
+                lines.append(f"| `{esc(item)}` | {esc(localized)} | {esc(mod)} |")
+            export_path = self.workspace / "Valheim_Help_Docs" / "Files for GPT" / "Items_By_Mod.md"
+            export_path.parent.mkdir(parents=True, exist_ok=True)
+            export_path.write_text("\n".join(lines) + "\n", encoding='utf-8', newline='\n')
+            messagebox.showinfo("Export", f"Markdown exported to\n{export_path}")
+        except Exception as e:
+            messagebox.showerror("Export", f"Failed to export markdown: {e}")
+
+    # (WL inference/export removed from GUI per request)
 
     def _index_icons(self) -> None:
         """Scan VNEI-Export/icons for PNGs and index by basename (lower)."""
