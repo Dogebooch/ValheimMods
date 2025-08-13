@@ -506,9 +506,10 @@ class ConfigChangeTrackerApp:
         
         # File menu
         file_menu = tk.Menu(menubar, tearoff=False)
+        file_menu.add_command(label="Scan for Changes", command=self.refresh_changes)
+        file_menu.add_separator()
         file_menu.add_command(label="Save Session Snapshot", command=self.create_snapshot)
         file_menu.add_command(label="Set New Baseline (All Files)", command=self.create_initial_snapshot)
-        file_menu.add_command(label="Scan for Changes", command=self.refresh_changes)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
         menubar.add_cascade(label="File", menu=file_menu)
@@ -544,29 +545,13 @@ class ConfigChangeTrackerApp:
         left_frame = ttk.Frame(main_paned)
         main_paned.add(left_frame, weight=1)
         
-        # Top controls
+        # Top controls (simplified)
         controls_frame = ttk.Frame(left_frame)
         controls_frame.pack(fill=tk.X, padx=6, pady=6)
         
         self.btn_refresh = ttk.Button(controls_frame, text="Scan for Changes", 
                                      style="Action.TButton", command=self.refresh_changes)
         self.btn_refresh.pack(side=tk.LEFT, padx=(0, 6))
-
-        self.btn_snapshot = ttk.Button(controls_frame, text="Save Session Snapshot", 
-                                       style="Action.TButton", command=self.create_snapshot)
-        self.btn_snapshot.pack(side=tk.LEFT, padx=(0, 6))
-
-        self.btn_revert = ttk.Button(controls_frame, text="Revert Selected to Reference", 
-                                     style="Action.TButton", command=self.revert_selected)
-        self.btn_revert.pack(side=tk.LEFT, padx=(0, 6))
-
-        self.btn_accept = ttk.Button(controls_frame, text="Promote Selected to Baseline", 
-                                     style="Action.TButton", command=self.accept_selected_into_baseline)
-        self.btn_accept.pack(side=tk.LEFT, padx=(0, 6))
-
-        self.btn_baseline_summary = ttk.Button(controls_frame, text="All-Time Change Summary", 
-                                               style="Action.TButton", command=self.show_baseline_summary)
-        self.btn_baseline_summary.pack(side=tk.LEFT, padx=(0, 6))
         
         # Zoom controls
         zoom_frame = ttk.Frame(controls_frame)
@@ -650,8 +635,11 @@ class ConfigChangeTrackerApp:
         
         self.changes_tree.pack(fill=tk.BOTH, expand=True, pady=(3, 0))
         self.changes_tree.bind("<<TreeviewSelect>>", self.on_change_select)
-        # Context menu for edit/hide entries
+        # Context menu for quick actions
         self._changes_menu = tk.Menu(self.root, tearoff=False)
+        self._changes_menu.add_command(label="Revert to Reference", command=self.revert_selected)
+        self._changes_menu.add_command(label="Accept into Baseline", command=self.accept_selected_into_baseline)
+        self._changes_menu.add_separator()
         self._changes_menu.add_command(label="Edit Summary…", command=lambda: self.edit_selected_summary(from_summary_tab=False))
         self._changes_menu.add_command(label="Clear Custom Summary", command=lambda: self.clear_selected_summary(from_summary_tab=False))
         self._changes_menu.add_separator()
@@ -743,13 +731,9 @@ class ConfigChangeTrackerApp:
                              anchor="w", bg=self.colors["bg"], fg=self.colors["text"])
         status_bar.pack(side=tk.BOTTOM, fill=tk.X, padx=6, pady=2)
 
-        # Attach tooltips
+        # Attach tooltips (simplified)
         try:
             Tooltip(self.btn_refresh, "Scan the config folder and list files that differ from the selected reference.")
-            Tooltip(self.btn_snapshot, "Save a Session Snapshot now. 'Since Last Snapshot' compares against this save point.")
-            Tooltip(self.btn_revert, "Revert the selected file so it matches the chosen reference (Baseline or Last Snapshot).")
-            Tooltip(self.btn_accept, "Update the all-time Baseline with the current on-disk version of the selected file.")
-            Tooltip(self.btn_baseline_summary, "Show every change since the all-time Baseline, grouped by mod.")
             Tooltip(self.compare_combo, "Choose whether to compare against the last Session Snapshot or the all-time Baseline.")
         except Exception:
             pass

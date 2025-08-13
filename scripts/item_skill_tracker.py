@@ -713,22 +713,20 @@ class ItemSkillTrackerApp:
         show_combo.bind("<<ComboboxSelected>>", lambda e: self._filter_rows())
 
         # Tree with left-most icon/star column and columns ordered for readability
-        # Put Skill Level next to Item for straight-across reading, and show Mod & Craftable
-        columns = ("item", "mod", "skill_level", "station", "craftable", "in_yaml")
+        # Put Skill Level next to Item for straight-across reading, and show Mod
+        columns = ("item", "mod", "skill_level", "station", "in_yaml")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings", selectmode='extended')
         self.tree.heading("#0", text="★")
         self.tree.heading("item", text="Item")
         self.tree.heading("mod", text="Mod")
         self.tree.heading("skill_level", text="Skill Level")
         self.tree.heading("station", text="Crafting Station")
-        self.tree.heading("craftable", text="Craftable?")
         self.tree.heading("in_yaml", text="In Skill YAML")
         self.tree.column("#0", width=36, stretch=False)
         self.tree.column("item", width=360, stretch=False)
         self.tree.column("mod", width=160, stretch=False)
         self.tree.column("skill_level", width=110, stretch=False, anchor='center')
         self.tree.column("station", width=200, stretch=False)
-        self.tree.column("craftable", width=100, stretch=False, anchor='center')
         self.tree.column("in_yaml", width=100, stretch=False, anchor='center')
         self.tree.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
@@ -739,9 +737,14 @@ class ItemSkillTrackerApp:
         xscroll = ttk.Scrollbar(self.tree, orient=tk.HORIZONTAL, command=self.tree.xview)
         self.tree.configure(xscrollcommand=xscroll.set)
         xscroll.pack(side=tk.BOTTOM, fill=tk.X)
+        # Tag to color craftable items
+        try:
+            self.tree.tag_configure("craftable", foreground="#6aa84f")
+        except Exception:
+            pass
 
         # Remember base column widths to scale on zoom
-        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "craftable": 100, "in_yaml": 100}
+        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "in_yaml": 100}
 
         # Interactions
         self.tree.bind("<Double-1>", self._on_tree_double_click)
@@ -1168,22 +1171,15 @@ class ItemSkillTrackerApp:
             item_label = f"{display_name} ({item})"
             # Do not prefix with a white star in text; composite icon carries the mark
             # Build item kwargs and avoid passing an invalid/None image to Tcl
-            # Heuristic craftable flag: if we know a station, show Yes; otherwise blank
-            craftable_flag = "Yes" if (station or (items_rich.get(item, {}).get('station') or "")) else ""
+            # Heuristic craftable: color item green if station is known
+            craftable = bool(station or (items_rich.get(item, {}).get('station') or ""))
             item_kwargs = {
                 "text": "",
-                "values": (
-                    item_label,
-                    mod_name,
-                    level_str,
-                    station or "",
-                    craftable_flag,
-                    "Yes" if in_yaml else "No",
-                ),
+                "values": (item_label, mod_name, level_str, station or "", "Yes" if in_yaml else "No"),
             }
             if img is not None:
                 item_kwargs["image"] = img
-            iid_new = self.tree.insert("", "end", **item_kwargs)
+            iid_new = self.tree.insert("", "end", tags=("craftable",) if craftable else (), **item_kwargs)
             self.all_item_iids.append(iid_new)
 
         self.status.set(f"Loaded {len(items_basic)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
