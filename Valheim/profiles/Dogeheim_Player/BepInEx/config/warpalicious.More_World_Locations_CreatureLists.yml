@@ -1,3 +1,4 @@
+---
 # Enhanced Creature Lists for More World Locations
 # Optimized for reduced spawn quantities with increased variety and excitement
 # Aligned with CONTINUE.md material-focused economy and thematic consistency
@@ -194,7 +195,8 @@ WoodTavernCreatures1:
 
 # Black Forest Pack 2 - Enhanced Creature Variety
 # Thematic consistency with Black Forest biome identity
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 BlackforestPack2Creatures1:
   # Common/Forge locations - Diverse mix for early Black Forest progression
@@ -368,11 +370,12 @@ BlackforestPack2GraveCreatures1:
   - Skeleton_Poison
   - Greydwarf_Elite
   - Skeleton_NoArcher
-  - Greydwarf_Shaman 
+  - Greydwarf_Shaman
 
 # Underground Ruins - Black Forest Procedural Dungeon
 # Thematic consistency with dangerous underground Black Forest environment
-# Enhanced elite density to match dungeon danger level and material-focused economy
+# Enhanced elite density to match dungeon danger level
+# and material-focused economy
 
 UndergroundRuinsCreatures1:
   # Underground dungeon - Enhanced elite presence for dangerous environment
@@ -418,8 +421,10 @@ UndergroundRuinsCreatures1:
   - Greydwarf
 
 # Forbidden Catacombs - Swamp Biome Procedural Dungeon
-# Dual-section dungeon with thematic distinction between upper nobles and lower commoners
-# Enhanced elite density to match dangerous swamp dungeon environment and material-focused economy
+# Dual-section dungeon with thematic distinction between upper nobles
+# and lower commoners
+# Enhanced elite density to match dangerous swamp dungeon environment
+# and material-focused economy
 
 CatacombCreatures1:
   # Upper Catacombs - Noble undead section with organized skeletal warriors
@@ -457,7 +462,8 @@ CatacombCreatures1:
 CatacombCreatures2:
   # Lower Catacombs - Rotting commoner section with tortured souls
   # Focus: Suffering spirits and corrupted remains of the forgotten masses
-  # Lore: "Below, the lowborn—left to rot in shadow, their graves marked by stench and sorrow"
+  # Lore: "Below, the lowborn—left to rot in shadow,
+  # their graves marked by stench and sorrow"
   # Elite density ~65% to match lower danger and provide premium materials
   - Skeleton
   - Skeleton_Poison
@@ -502,11 +508,12 @@ CatacombCreatures2:
   - Wraith
   - Skeleton_Poison
   - Wraith
-  - Skeleton_NoArcher 
+  - Skeleton_NoArcher
 
 # Mountains Pack 1 - Enhanced Creature Variety
 # Thematic consistency with Mountains biome identity
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 MountainsCreatures1:
   # Common locations - Diverse mix for early Mountains progression
@@ -629,11 +636,12 @@ MountainsCreatures4:
   - Ulv
   - Hatchling
   - Ulv
-  - Hatchling 
+  - Hatchling
 
 # Plains Pack 1 - Enhanced Creature Variety
 # Thematic consistency with Plains biome identity
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 PlainsCreatures1:
   # Common locations - Diverse mix for early Plains progression
@@ -751,11 +759,12 @@ PlainsCreatures3:
   - GoblinBrute
   - Lox
   - GoblinBrute
-  - Lox 
+  - Lox
 
 # Swamp Pack 1 - Enhanced Creature Variety
 # Thematic consistency with Swamp biome identity
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 SwampCreatures1:
   # Common swamp locations - Diverse mix for early Swamp progression
@@ -776,15 +785,15 @@ SwampCreatures1:
   - Draugr_Elite
   - Wraith
   - Skeleton_NoArcher
-  - Draugr_Elite
+  - Draugr
   - Skeleton_Poison
-  - Wraith
+  - Skeleton
   # Rare spawns for excitement (25% chance)
   - Wraith
   - Draugr_Elite
   - Skeleton_Poison
-  - Wraith
-  - Draugr_Elite
+  - Skeleton
+  - Draugr
 
 SwampCreatures2:
   # Uncommon swamp locations - Higher tier creatures for better rewards
@@ -797,31 +806,31 @@ SwampCreatures2:
   - Draugr_Elite
   - Wraith
   - Skeleton_Poison
-  - Draugr_Elite
-  - Wraith
+  - Draugr
+  - Skeleton
   - Skeleton_NoArcher
   # Elite variants for premium materials (50% chance)
   - Skeleton_Poison
   - Draugr_Elite
   - Wraith
   - Skeleton_NoArcher
-  - Draugr_Elite
+  - Draugr
   - Skeleton_Poison
-  - Wraith
+  - Skeleton
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
   - Skeleton_NoArcher
-  - Draugr_Elite
+  - Draugr
   # Rare elite spawns for excitement (35% chance)
   - Wraith
   - Draugr_Elite
   - Skeleton_Poison
-  - Wraith
-  - Draugr_Elite
+  - Skeleton
+  - Draugr
   - Skeleton_NoArcher
   - Wraith
-  - Draugr_Elite
+  - Draugr
 
 SwampCreatures3:
   # Elite swamp locations - Maximum challenge and rewards
@@ -835,40 +844,40 @@ SwampCreatures3:
   - Skeleton_NoArcher
   # Elite variants for ultimate materials (75% chance)
   - Skeleton_Poison
-  - Draugr_Elite
-  - Wraith
+  - Draugr
+  - Skeleton
   - Skeleton_NoArcher
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
-  - Draugr_Elite
+  - Draugr
   - Skeleton_Poison
-  - Wraith
+  - Skeleton
   - Skeleton_NoArcher
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
-  - Draugr_Elite
+  - Draugr
   - Skeleton_NoArcher
-  - Wraith
+  - Skeleton
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
   - Skeleton_NoArcher
-  - Draugr_Elite
+  - Draugr
   # Rare elite spawns for maximum excitement (35% chance)
-  - Wraith
+  - Skeleton
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
-  - Draugr_Elite
+  - Draugr
   - Skeleton_NoArcher
-  - Wraith
+  - Skeleton
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
   - Skeleton_NoArcher
-  - Draugr_Elite
+  - Draugr
 
 SwampCreatures4:
   # Special swamp locations - Balanced mix for unique encounters
@@ -880,23 +889,23 @@ SwampCreatures4:
   - Draugr_Elite
   - Wraith
   - Skeleton_Poison
-  - Draugr_Elite
-  - Wraith
+  - Draugr
+  - Skeleton
   - Skeleton_NoArcher
   # Elite variants for better materials (50% chance)
   - Skeleton_Poison
   - Draugr_Elite
   - Wraith
   - Skeleton_NoArcher
-  - Draugr_Elite
+  - Draugr
   - Skeleton_Poison
-  - Wraith
+  - Skeleton
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
   # Rare spawns for excitement (30% chance)
-  - Wraith
-  - Draugr_Elite
+  - Skeleton
+  - Draugr
   - Skeleton_Poison
   - Wraith
   - Draugr_Elite
@@ -992,11 +1001,12 @@ SwampHouseCreatures1:
   - Draugr_Elite
   - Skeleton_Poison
   - Wraith
-  - Skeleton_NoArcher 
+  - Skeleton_NoArcher
 
 # Mistlands Pack 1 - Enhanced Creature Variety
 # Thematic consistency with Mistlands biome identity
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 MistlandsCreatures1:
   # Common mistlands locations - Diverse mix for early Mistlands progression
@@ -1213,11 +1223,12 @@ MistlandsHouseCreatures1:
   - Gjall
   - Seeker
   - SeekerBrute
-  - Tick 
+  - Tick
 
 # Ashlands Pack 1 - Enhanced Creature Variety
 # Thematic consistency with Ashlands biome identity
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 AshlandsCreatures1:
   # Common ashlands locations - Diverse mix for early Ashlands progression
@@ -1248,11 +1259,12 @@ AshlandsCreatures1:
   - Charred_Mage
   - Morgen_NonSleeping
   - Charred_Mage
-  - Morgen_NonSleeping 
+  - Morgen_NonSleeping
 
 # Adventure Map Pack 1 - Enhanced Creature Variety
 # Mixed biome pack with thematic consistency per location type
-# Performance optimized with enhanced elite density to compensate for reduced spawn quantities
+# Performance optimized with enhanced elite density
+# to compensate for reduced spawn quantities
 
 MistCreatures1:
   # Mistlands locations - Diverse mix for Mistlands progression
@@ -1314,4 +1326,4 @@ MountainCreatures1:
   - Ulv
   - Hatchling
   - Ulv
-  - Hatchling 
+  - Hatchling
