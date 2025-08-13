@@ -919,10 +919,16 @@ class ItemSkillTrackerApp:
         top.pack(fill=tk.X, padx=8, pady=6)
 
         ttk.Button(top, text="Refresh", style="Action.TButton", command=self._refresh_data).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Save", style="Action.TButton", command=self._persist_state).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Write to configuration file", style="Action.TButton", command=self._write_to_config).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Export Items.md", style="Action.TButton", command=self._export_items_mod_md).pack(side=tk.LEFT, padx=(0, 6))
-        ttk.Button(top, text="Export AI Summary", style="Action.TButton", command=self._export_ai_summary_jsonl).pack(side=tk.LEFT, padx=(0, 6))
+        actions_btn = ttk.Menubutton(top, text="Actions", style="Action.TButton")
+        actions_menu = tk.Menu(actions_btn, tearoff=False)
+        actions_menu.add_command(label="Save", command=self._persist_state)
+        actions_menu.add_separator()
+        actions_menu.add_command(label="Write to configuration file", command=self._write_to_config)
+        actions_menu.add_separator()
+        actions_menu.add_command(label="Export Items.md", command=self._export_items_mod_md)
+        actions_menu.add_command(label="Export AI Summary", command=self._export_ai_summary_jsonl)
+        actions_btn["menu"] = actions_menu
+        actions_btn.pack(side=tk.LEFT, padx=(0, 6))
         # Zoom controls (minimalist)
         zoom_frame = ttk.Frame(top)
         zoom_frame.pack(side=tk.RIGHT)
@@ -1018,11 +1024,14 @@ class ItemSkillTrackerApp:
         self.menu.add_command(label="Edit Skill Level", command=lambda: self._begin_inline_level_edit(None))
         self.menu.add_command(label="Hide Item", command=self._hide_selected_item)
         self.menu.add_command(label="Unhide Item", command=self._unhide_selected_item)
+        self.menu.add_separator()
+        self.menu.add_command(label="Item Details…", command=self._open_item_details)
 
         # Keyboard zoom shortcuts
         self.root.bind("<Control-plus>", lambda e: self.zoom_in())
         self.root.bind("<Control-minus>", lambda e: self.zoom_out())
         self.root.bind("<Control-0>", lambda e: self.reset_zoom())
+        self.root.bind("<Return>", lambda e: self._open_item_details())
 
     def zoom_in(self):
         self.zoom_level = min(self.zoom_level * 1.2, 3.0)
@@ -1282,6 +1291,105 @@ class ItemSkillTrackerApp:
             self.menu.tk_popup(event.x_root, event.y_root)
         finally:
             self.menu.grab_release()
+
+    def _open_item_details(self) -> None:
+        sel = self.tree.selection()
+        if not sel:
+            return
+        iid = sel[0]
+        vals = list(self.tree.item(iid).get('values', []))
+        if not vals:
+            return
+        # Extract prefab from "Name (Prefab)"
+        label = str(vals[0])
+        m = re.search(r"\(([^)]+)\)$", label.replace("★ ", ""))
+        if not m:
+            prefab = label.strip()
+        else:
+            prefab = m.group(1)
+
+        # Gather sources
+        try:
+            meta = self.vnei_index.load_item_metadata()
+        except Exception:
+            meta = {}
+        try:
+            wacky = self.wacky_index.scan()
+        except Exception:
+            wacky = {}
+        try:
+            yaml_levels = self.skill_config.load_blacksmithing_levels()
+        except Exception:
+            yaml_levels = {}
+        manual_levels: dict[str, str] = self.state.data.get("skill_levels", {})
+
+        mrow = meta.get(prefab, {}) or {}
+        wrow = wacky.get(prefab, {}) or {}
+
+        name = mrow.get('localized') or prefab
+        mod = mrow.get('source_mod') or ''
+        st = wrow.get('station') or vals[3] if len(vals) >= 4 else ''
+        sl = wrow.get('station_level') or vals[4] if len(vals) >= 5 else ''
+        lvl = manual_levels.get(prefab) or yaml_levels.get(prefab) or ''
+        recipe = wrow.get('recipe') or []
+        stats = wrow.get('stats') or {}
+        tier = wrow.get('tier')
+        wl = wrow.get('world_level')
+        rarity = wrow.get('rarity')
+
+        # Build a compact, readable text
+        lines = []
+        lines.append(f"Item: {name} ({prefab})")
+        if mod:
+            lines.append(f"Mod: {mod}")
+        if st:
+            lines.append(f"Station: {st}{(' Lvl ' + str(sl)) if str(sl) else ''}")
+        if str(lvl):
+            lines.append(f"Blacksmithing: {lvl}")
+        if tier is not None:
+            lines.append(f"Tier: {tier}")
+        if wl is not None:
+            lines.append(f"WorldLevel: {wl}")
+        if rarity:
+            lines.append(f"Rarity: {rarity}")
+        if recipe:
+            parts = [f"{a} x{b}" for a, b in recipe]
+            lines.append("Recipe: " + ", ".join(parts))
+        if stats:
+            s_parts = []
+            if 'damage_total' in stats:
+                s_parts.append(f"DMG {stats['damage_total']}")
+            if 'armor' in stats:
+                s_parts.append(f"Armor {stats['armor']}")
+            if 'block' in stats:
+                s_parts.append(f"Block {stats['block']}")
+            if 'weight' in stats:
+                s_parts.append(f"Wt {stats['weight']}")
+            if 'durability' in stats:
+                s_parts.append(f"Dur {stats['durability']}")
+            if s_parts:
+                lines.append("Stats: " + ", ".join(s_parts))
+
+        detail_text = "\n".join(lines)
+
+        # Show dialog
+        win = tk.Toplevel(self.root)
+        win.title("Item Details")
+        win.configure(bg=self.colors.get("bg", "#2e2b23"))
+        win.geometry("520x360")
+        txt = tk.Text(win, bg=self.colors.get("panel", "#3b352a"), fg=self.colors.get("text", "#e8e2d0"), wrap=tk.WORD, font=self.font)
+        txt.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+        txt.insert('1.0', detail_text)
+        txt.config(state=tk.DISABLED)
+        btns = ttk.Frame(win)
+        btns.pack(fill=tk.X, padx=8, pady=(0,8))
+        def copy():
+            try:
+                self.root.clipboard_clear()
+                self.root.clipboard_append(detail_text)
+            except Exception:
+                pass
+        ttk.Button(btns, text="Copy", style="Action.TButton", command=copy).pack(side=tk.RIGHT)
 
     def _hide_selected_item(self) -> None:
         sel = self.tree.selection()
