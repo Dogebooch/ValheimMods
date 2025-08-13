@@ -926,9 +926,10 @@ class ItemSkillTrackerApp:
         actions_menu.add_command(label="Write to configuration file", command=self._write_to_config)
         actions_menu.add_separator()
         actions_menu.add_command(label="Export Items.md", command=self._export_items_mod_md)
-        actions_menu.add_command(label="Export AI Summary", command=self._export_ai_summary_jsonl)
         actions_btn["menu"] = actions_menu
         actions_btn.pack(side=tk.LEFT, padx=(0, 6))
+        # Consolidated export button with options dialog
+        ttk.Button(top, text="Export…", style="Action.TButton", command=self._open_export_dialog).pack(side=tk.LEFT, padx=(0, 6))
         # Zoom controls (minimalist)
         zoom_frame = ttk.Frame(top)
         zoom_frame.pack(side=tk.RIGHT)
@@ -951,6 +952,9 @@ class ItemSkillTrackerApp:
         show_combo['values'] = ("Visible", "Hidden", "All")
         show_combo.pack(side=tk.LEFT)
         show_combo.bind("<<ComboboxSelected>>", lambda e: self._filter_rows())
+        # Craftable filter
+        self.craftable_only_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(search_frame, text="Craftable only", variable=self.craftable_only_var, command=self._filter_rows).pack(side=tk.LEFT, padx=(12, 0))
 
         # Tree with left-most icon/star column and columns ordered for readability
         # Put Skill Level next to Item for straight-across reading, and show Mod
@@ -1597,8 +1601,11 @@ class ItemSkillTrackerApp:
             item_label = f"{display_name} ({item})"
             # Do not prefix with a white star in text; composite icon carries the mark
             # Build item kwargs and avoid passing an invalid/None image to Tcl
-            # Heuristic craftable: color item green if station is known
-            craftable = bool(station or (items_rich.get(item, {}).get('station') or "") or (wacky.get(item, {}).get('station') or ""))
+            # Heuristic craftable: color item green if station or recipe is known
+            wrow_tmp = (wacky.get(item, {}) or {})
+            has_station = bool(station or (items_rich.get(item, {}).get('station') or "") or (wrow_tmp.get('station') or ""))
+            has_recipe = bool(wrow_tmp.get('recipe'))
+            craftable = bool(has_station or has_recipe)
             # Pull station/station level & recipe from Wacky if present
             station_from_wacky = (wacky.get(item, {}) or {}).get('station') or station or (items_rich.get(item, {}).get('station') or "")
             station_lvl_from_wacky = (wacky.get(item, {}) or {}).get('station_level') or ""
@@ -1646,6 +1653,14 @@ class ItemSkillTrackerApp:
                 visible = False
             if needle and needle not in text:
                 visible = False
+            # Apply craftable-only flag using row tag
+            try:
+                if visible and getattr(self, 'craftable_only_var', None) and self.craftable_only_var.get():
+                    tags = set(self.tree.item(iid).get('tags', []) or [])
+                    if 'craftable' not in tags:
+                        visible = False
+            except Exception:
+                pass
             if visible:
                 try:
                     self.tree.reattach(iid, '', 'end')
@@ -1664,6 +1679,182 @@ class ItemSkillTrackerApp:
             self._layout_tree_columns()
         except Exception:
             pass
+
+    def _open_export_dialog(self) -> None:
+        """Open a small dialog to choose export columns and scope, then export to CSV or Markdown."""
+        win = tk.Toplevel(self.root)
+        win.title("Export Options")
+        win.configure(bg=self.colors.get("bg", "#2e2b23"))
+        pad = {"padx": 8, "pady": 6}
+
+        # Scope
+        scope_frame = ttk.LabelFrame(win, text="Scope")
+        scope_frame.pack(fill=tk.X, **pad)
+        only_visible_var = tk.BooleanVar(value=True)
+        craftable_only_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(scope_frame, text="Export only visible rows", variable=only_visible_var).pack(anchor='w', padx=8, pady=2)
+        ttk.Checkbutton(scope_frame, text="Export only craftable items", variable=craftable_only_var).pack(anchor='w', padx=8, pady=2)
+
+        # Columns
+        cols_frame = ttk.LabelFrame(win, text="Include Columns")
+        cols_frame.pack(fill=tk.X, **pad)
+        vars_map: dict[str, tk.BooleanVar] = {}
+        def add_opt(key: str, label: str, default: bool) -> None:
+            v = tk.BooleanVar(value=default)
+            vars_map[key] = v
+            ttk.Checkbutton(cols_frame, text=label, variable=v).pack(side=tk.LEFT, padx=6, pady=2)
+        # Always include prefab
+        add_opt('name', 'Localized Name', True)
+        add_opt('mod', 'Mod', True)
+        add_opt('station', 'Station', True)
+        add_opt('station_level', 'Station Lvl', True)
+        add_opt('skill_level', 'Skill Level', True)
+        add_opt('recipe', 'Recipe', True)
+        # Stats group
+        stats_row = ttk.Frame(cols_frame)
+        stats_row.pack(fill=tk.X)
+        stats_label = ttk.Label(stats_row, text="Stats:")
+        stats_label.pack(side=tk.LEFT, padx=(6, 0))
+        stats_vars: dict[str, tk.BooleanVar] = {}
+        for k, lab in [("damage_total", "DMG"), ("armor", "Armor"), ("block", "Block"), ("weight", "Weight"), ("durability", "Durability")]:
+            b = tk.BooleanVar(value=(k in ("damage_total", "armor")))
+            stats_vars[k] = b
+            ttk.Checkbutton(stats_row, text=lab, variable=b).pack(side=tk.LEFT, padx=6)
+        # Other fields
+        lower_row = ttk.Frame(cols_frame)
+        lower_row.pack(fill=tk.X)
+        add_opt('tier', 'Tier', False)
+        add_opt('world_level', 'World Level', False)
+        add_opt('rarity', 'Rarity', False)
+
+        # Format
+        fmt_frame = ttk.LabelFrame(win, text="Format")
+        fmt_frame.pack(fill=tk.X, **pad)
+        format_var = tk.StringVar(value='csv')
+        ttk.Radiobutton(fmt_frame, text="CSV", value='csv', variable=format_var).pack(side=tk.LEFT, padx=8)
+        ttk.Radiobutton(fmt_frame, text="Markdown Table", value='md', variable=format_var).pack(side=tk.LEFT, padx=8)
+
+        # Buttons
+        btns = ttk.Frame(win)
+        btns.pack(fill=tk.X, **pad)
+        def do_export():
+            try:
+                # Determine items to export
+                if only_visible_var.get():
+                    # Visible rows are those attached to root
+                    visible_iids = list(self.tree.get_children(""))
+                    items: list[str] = []
+                    for iid in visible_iids:
+                        vals = list(self.tree.item(iid).get('values', []))
+                        if not vals:
+                            continue
+                        label = str(vals[0]).replace("★ ", "")
+                        m = re.search(r"\(([^)]+)\)$", label)
+                        prefab = m.group(1) if m else label
+                        items.append(prefab)
+                else:
+                    items = sorted(self.vnei_index.load_items().keys(), key=lambda s: s.lower())
+
+                # Optional craftable filter
+                if craftable_only_var.get():
+                    wacky = self.wacky_index.scan()
+                    items_rich = self.vnei_index.load_items_with_stats()
+                    filtered: list[str] = []
+                    for it in items:
+                        st = (wacky.get(it, {}) or {}).get('station') or (items_rich.get(it, {}) or {}).get('station') or ''
+                        rec = (wacky.get(it, {}) or {}).get('recipe') or []
+                        if st or rec:
+                            filtered.append(it)
+                    items = filtered
+
+                # Load sources once
+                meta = self.vnei_index.load_item_metadata()
+                wacky = self.wacky_index.scan()
+                levels_yaml = self.skill_config.load_blacksmithing_levels()
+                manual_levels: dict[str, str] = self.state.data.get("skill_levels", {})
+
+                # Build header
+                headers = ["Prefab"]
+                if vars_map['name'].get(): headers.append("Name")
+                if vars_map['mod'].get(): headers.append("Mod")
+                if vars_map['station'].get(): headers.append("Station")
+                if vars_map['station_level'].get(): headers.append("Station Lvl")
+                if vars_map['skill_level'].get(): headers.append("Skill Level")
+                if vars_map['recipe'].get(): headers.append("Recipe")
+                # Stats headers
+                stats_order = [("damage_total", "DMG"), ("armor", "Armor"), ("block", "Block"), ("weight", "Weight"), ("durability", "Durability")]
+                for key, lab in stats_order:
+                    if stats_vars[key].get():
+                        headers.append(lab)
+                if vars_map['tier'].get(): headers.append("Tier")
+                if vars_map['world_level'].get(): headers.append("World Level")
+                if vars_map['rarity'].get(): headers.append("Rarity")
+
+                # Choose file
+                defext = '.csv' if format_var.get() == 'csv' else '.md'
+                filetypes = [("CSV", "*.csv")] if defext == '.csv' else [("Markdown", "*.md")]
+                save_path = filedialog.asksaveasfilename(title="Save Export", defaultextension=defext, filetypes=filetypes, initialdir=str(self.workspace))
+                if not save_path:
+                    return
+
+                # Write rows
+                rows: list[list[str]] = []
+                for it in items:
+                    mrow = meta.get(it, {}) or {}
+                    wrow = wacky.get(it, {}) or {}
+                    row: list[str] = [it]
+                    if vars_map['name'].get(): row.append(mrow.get('localized', ''))
+                    if vars_map['mod'].get(): row.append(mrow.get('source_mod', ''))
+                    if vars_map['station'].get(): row.append(wrow.get('station') or '')
+                    if vars_map['station_level'].get(): row.append(str(wrow.get('station_level') or ''))
+                    if vars_map['skill_level'].get():
+                        lvl = (manual_levels.get(it) or levels_yaml.get(it) or '')
+                        row.append(str(lvl))
+                    if vars_map['recipe'].get():
+                        rlist = wrow.get('recipe') or []
+                        row.append(', '.join([f"{a} x{b}" for a, b in rlist]))
+                    stx = wrow.get('stats') or {}
+                    for key, _lab in stats_order:
+                        if stats_vars[key].get():
+                            row.append(str(stx.get(key) or ''))
+                    if vars_map['tier'].get(): row.append(str(wrow.get('tier') or ''))
+                    if vars_map['world_level'].get(): row.append(str(wrow.get('world_level') or ''))
+                    if vars_map['rarity'].get(): row.append(str(wrow.get('rarity') or ''))
+                    rows.append(row)
+
+                if format_var.get() == 'csv':
+                    try:
+                        with open(save_path, 'w', encoding='utf-8', newline='') as f:
+                            w = csv.writer(f)
+                            w.writerow(headers)
+                            for r in rows:
+                                w.writerow(r)
+                    except Exception as e:
+                        messagebox.showerror("Export", f"Failed to write CSV: {e}")
+                        return
+                else:
+                    # Markdown table
+                    def esc(s: str) -> str:
+                        return (s or '').replace('|', '\\|')
+                    lines: list[str] = []
+                    lines.append("| " + " | ".join([esc(h) for h in headers]) + " |")
+                    lines.append("|" + "---|" * len(headers))
+                    for r in rows:
+                        lines.append("| " + " | ".join([esc(c) for c in r]) + " |")
+                    try:
+                        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+                        Path(save_path).write_text("\n".join(lines) + "\n", encoding='utf-8', newline='\n')
+                    except Exception as e:
+                        messagebox.showerror("Export", f"Failed to write Markdown: {e}")
+                        return
+
+                messagebox.showinfo("Export", f"Exported {len(rows)} items to\n{save_path}")
+                win.destroy()
+            except Exception as e:
+                messagebox.showerror("Export", f"Export failed: {e}")
+
+        ttk.Button(btns, text="Cancel", style="Action.TButton", command=win.destroy).pack(side=tk.RIGHT)
+        ttk.Button(btns, text="Export", style="Action.TButton", command=do_export).pack(side=tk.RIGHT, padx=(0, 6))
 
     def _toggle_highlight(self, event) -> None:
         sel = self.tree.selection()
