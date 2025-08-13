@@ -294,6 +294,24 @@ class WackyBulkIndex:
                 seen.add(s)
         return uniq
 
+    def _product_from_recipe_name(self, name: str) -> str:
+        """Map a recipe name to its output prefab (best-effort).
+
+        Examples:
+          Recipe_Svandemcrescent -> Svandemcrescent
+          Recipe_ElectromancerBackpack_Recipe_Custom -> ElectromancerBackpack
+        """
+        s = (name or "").strip()
+        if not s:
+            return ""
+        try:
+            s = re.sub(r"^(Recipe_)+", "", s, flags=re.IGNORECASE)
+            s = re.sub(r"_Recipe.*$", "", s, flags=re.IGNORECASE)
+            s = re.sub(r"^Recipe_", "", s, flags=re.IGNORECASE)
+        except Exception:
+            pass
+        return s
+
     def _parse_simple_yaml_block(self, text: str) -> list[dict[str, str]]:
         entries: list[dict[str, str]] = []
         current: dict[str, str] | None = None
@@ -354,14 +372,21 @@ class WackyBulkIndex:
             except Exception:
                 continue
 
-            # Heuristics: try to find prefab blocks
-            # Prefer explicit PrefabName fields
+            # Heuristics: try to find prefab blocks; if recipe file, infer product from recipe name
+            pstr = str(path).replace("\\", "/")
+            is_recipe_file = "/Recipes/" in pstr
             prefab_candidates: set[str] = set()
-            for m in re.finditer(r"^\s*(?:-\s*)?PrefabName\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE):
-                prefab_candidates.add(m.group(1))
-            # Fallback: look for name:
-            for m in re.finditer(r"^\s*(?:-\s*)?(?:name|InternalName)\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE | re.IGNORECASE):
-                prefab_candidates.add(m.group(1))
+            if is_recipe_file:
+                m_rname = re.search(r"^\s*name\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE)
+                if m_rname:
+                    prod = self._product_from_recipe_name(m_rname.group(1))
+                    if prod:
+                        prefab_candidates.add(prod)
+            if not prefab_candidates:
+                for m in re.finditer(r"^\s*(?:-\s*)?PrefabName\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE):
+                    prefab_candidates.add(m.group(1))
+                for m in re.finditer(r"^\s*(?:-\s*)?(?:name|InternalName)\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE | re.IGNORECASE):
+                    prefab_candidates.add(m.group(1))
 
             # Parse coarse key-values for station, level, rarity, tier
             station = ""
@@ -373,7 +398,7 @@ class WackyBulkIndex:
             m_station = re.search(r"(CraftingStation|Station|WorkBench)\s*:\s*([A-Za-z0-9_\- ]+)", text, re.IGNORECASE)
             if m_station:
                 station = m_station.group(2).strip()
-            m_slevel = re.search(r"(CraftingStationLevel|StationLevel|RequiredStationLevel)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            m_slevel = re.search(r"(CraftingStationLevel|StationLevel|RequiredStationLevel|minStationLevel)\s*:\s*([0-9]+)", text, re.IGNORECASE)
             if m_slevel:
                 try:
                     station_level = int(m_slevel.group(2))
@@ -442,6 +467,14 @@ class WackyBulkIndex:
                             except Exception:
                                 bq = 1
                             recipe.append((a, bq))
+
+            # Pattern C: Wacky reqs list lines: "- ItemName:Qty:..."
+            if not recipe and re.search(r"^\s*reqs\s*:\s*$", text, re.IGNORECASE | re.MULTILINE):
+                for rm in re.finditer(r"^\s*-\s*([A-Za-z0-9_\-.]+)\s*:\s*([0-9]+)\s*:", text, re.MULTILINE):
+                    try:
+                        recipe.append((rm.group(1), int(rm.group(2))))
+                    except Exception:
+                        pass
 
             # Assign into info for all discovered prefab candidates
             for prefab in prefab_candidates or [""]:
@@ -654,6 +687,88 @@ class WackyBulkIndex:
                 if item in txt:
                     d = info.setdefault(item, {})
                     d['unlock'] = (d.get('unlock') + "; " if d.get('unlock') else "") + "WL-gated content nearby"
+
+        # 4) EpicLoot patch recipes: parse JSON patches that target recipes
+        patches_dir = root / "EpicLoot" / "patches"
+        if patches_dir.exists():
+            for p in patches_dir.rglob("*.json"):
+                try:
+                    j = json.loads(p.read_text(encoding='utf-8', errors='ignore'))
+                except Exception:
+                    continue
+                patches = j.get("Patches") or j.get("patches") or []
+                for ent in patches:
+                    path_expr = str(ent.get("Path", ""))
+                    # Extract recipe name and the targeted field
+                    m_name = re.search(r"name\s*==\s*'([^']+)'", path_expr)
+                    m_field = re.search(r"\]\.(craftingStation|resources|RequiredStationLevel|StationLevel|minStationLevel)", path_expr, re.IGNORECASE)
+                    if not m_name or not m_field:
+                        continue
+                    rname = m_name.group(1)
+                    field = m_field.group(1)
+                    product = self._product_from_recipe_name(rname)
+                    if not product:
+                        continue
+                    d = info.setdefault(product, {})
+                    if field.lower() == 'craftingstation':
+                        val = ent.get('Value')
+                        if isinstance(val, str) and val:
+                            d['station'] = val
+                    elif field.lower() in ('requiredstationlevel', 'stationlevel', 'minstationlevel'):
+                        try:
+                            lvl_val = ent.get('Value')
+                            if lvl_val is not None:
+                                d['station_level'] = str(int(lvl_val))
+                        except Exception:
+                            pass
+                    elif field.lower() == 'resources':
+                        val = ent.get('Value')
+                        if isinstance(val, list):
+                            try:
+                                parts = []
+                                for r in val:
+                                    it = r.get('item') or r.get('name') or r.get('prefab')
+                                    amt = r.get('amount') or r.get('qty') or r.get('quantity')
+                                    if it:
+                                        if amt is None:
+                                            parts.append(str(it))
+                                        else:
+                                            parts.append(f"{it} x{amt}")
+                                if parts:
+                                    d['recipe'] = ', '.join(parts)
+                            except Exception:
+                                pass
+
+        # 5) Wacky DB recipes outside BulkYML: parse as in Wacky but scoped to this config folder
+        wdb_recipes_dir = root / "wackysDatabase" / "Recipes"
+        if wdb_recipes_dir.exists():
+            for yml in wdb_recipes_dir.rglob("*.yml"):
+                try:
+                    txt = yml.read_text(encoding='utf-8', errors='ignore')
+                except Exception:
+                    continue
+                # Extract product from name
+                m_n = re.search(r"^\s*name\s*:\s*([A-Za-z0-9_\-.]+)\s*$", txt, re.MULTILINE)
+                product = self._product_from_recipe_name(m_n.group(1)) if m_n else ""
+                if not product:
+                    continue
+                dd = info.setdefault(product, {})
+                # Station and level
+                m_st = re.search(r"(CraftingStation|craftingStation|Station|WorkBench)\s*:\s*([A-Za-z0-9_\- $]+)", txt)
+                if m_st and not dd.get('station'):
+                    dd['station'] = m_st.group(2).strip()
+                m_sl = re.search(r"(CraftingStationLevel|StationLevel|RequiredStationLevel|minStationLevel)\s*:\s*([0-9]+)", txt)
+                if m_sl and not dd.get('station_level'):
+                    dd['station_level'] = m_sl.group(2)
+                # reqs list like "- Iron:20:4:True"
+                recipe_parts: list[str] = []
+                for rm in re.finditer(r"^\s*-\s*([A-Za-z0-9_\-.]+)\s*:\s*([0-9]+)\s*:", txt, re.MULTILINE):
+                    try:
+                        recipe_parts.append(f"{rm.group(1)} x{int(rm.group(2))}")
+                    except Exception:
+                        pass
+                if recipe_parts and not dd.get('recipe'):
+                    dd['recipe'] = ', '.join(recipe_parts)
         return info
 
 
@@ -1573,6 +1688,8 @@ class ItemSkillTrackerApp:
         # Merge in Wacky Bulk YAML info
         self.status.set("Scanning Wacky Bulk YAML…")
         wacky = self.wacky_index.scan()
+        # Also scan config files for additional recipe/station hints
+        cfg_info = self.wacky_index.scan_configs_for_recipes_and_unlocks(self.config_dir)
         self.status.set("Loading skill YAML…")
         yaml_items = self.skill_config.load_items()
         levels = self.skill_config.load_blacksmithing_levels()
@@ -1603,12 +1720,23 @@ class ItemSkillTrackerApp:
             # Build item kwargs and avoid passing an invalid/None image to Tcl
             # Heuristic craftable: color item green if station or recipe is known
             wrow_tmp = (wacky.get(item, {}) or {})
-            has_station = bool(station or (items_rich.get(item, {}).get('station') or "") or (wrow_tmp.get('station') or ""))
-            has_recipe = bool(wrow_tmp.get('recipe'))
+            crow_tmp = (cfg_info.get(item, {}) or {})
+            has_station = bool(
+                station or
+                (items_rich.get(item, {}).get('station') or "") or
+                (wrow_tmp.get('station') or "") or
+                (crow_tmp.get('station') or "")
+            )
+            has_recipe = bool(wrow_tmp.get('recipe') or crow_tmp.get('recipe'))
             craftable = bool(has_station or has_recipe)
             # Pull station/station level & recipe from Wacky if present
-            station_from_wacky = (wacky.get(item, {}) or {}).get('station') or station or (items_rich.get(item, {}).get('station') or "")
-            station_lvl_from_wacky = (wacky.get(item, {}) or {}).get('station_level') or ""
+            station_from_wacky = (
+                (wacky.get(item, {}) or {}).get('station') or
+                (crow_tmp.get('station') or "") or
+                station or
+                (items_rich.get(item, {}).get('station') or "")
+            )
+            station_lvl_from_wacky = (wacky.get(item, {}) or {}).get('station_level') or (crow_tmp.get('station_level') or "")
             item_kwargs = {
                 "text": "",
                 "values": (item_label, mod_name, level_str, station_from_wacky or "", str(station_lvl_from_wacky) if station_lvl_from_wacky else "", "Yes" if in_yaml else "No"),
