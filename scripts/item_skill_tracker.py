@@ -532,6 +532,59 @@ class SkillConfig:
                 in_blacksmith = False
         return levels
 
+    def load_blacksmithing_rules(self) -> dict[str, dict]:
+        """Parse Detalhes.ItemRequiresSkillLevel.yml for Blacksmithing rules per item.
+
+        Returns mapping: item -> { 'level': int, 'block_craft': bool, 'block_equip': bool }
+        """
+        rules: dict[str, dict] = {}
+        if not self.path or not self.path.exists():
+            return rules
+        try:
+            text = self.path.read_text(encoding='utf-8')
+        except Exception:
+            return rules
+
+        current_item: str | None = None
+        in_requirements = False
+        in_blacksmith = False
+        for raw in text.splitlines():
+            line = raw.rstrip()
+            stripped = line.strip()
+            if not stripped or stripped.startswith(('#', '//')):
+                continue
+            m_prefab = re.match(r"^\s*-\s*PrefabName:\s*([A-Za-z0-9_\-\.]+)\s*$", line)
+            if m_prefab:
+                current_item = m_prefab.group(1)
+                in_requirements = False
+                in_blacksmith = False
+                rules.setdefault(current_item, { 'level': 0, 'block_craft': False, 'block_equip': False })
+                continue
+            if re.match(r"^\s*Requirements\s*:\s*(\{|$)", line):
+                in_requirements = True
+                in_blacksmith = False
+                continue
+            if in_requirements and re.search(r"Skill\s*:\s*Blacksmithing", line, re.IGNORECASE):
+                in_blacksmith = True
+                continue
+            if current_item and in_requirements and in_blacksmith:
+                m_lvl = re.search(r"Level\s*:\s*([0-9]+)", line)
+                if m_lvl:
+                    try:
+                        rules[current_item]['level'] = int(m_lvl.group(1))
+                    except Exception:
+                        pass
+                    continue
+                m_bc = re.search(r"BlockCraft\s*:\s*(true|false)", line, re.IGNORECASE)
+                if m_bc:
+                    rules[current_item]['block_craft'] = (m_bc.group(1).lower() == 'true')
+                    continue
+                m_be = re.search(r"BlockEquip\s*:\s*(true|false)", line, re.IGNORECASE)
+                if m_be:
+                    rules[current_item]['block_equip'] = (m_be.group(1).lower() == 'true')
+                    continue
+        return rules
+
 
 class PersistentState:
     def __init__(self, state_file: Path):
@@ -1091,6 +1144,7 @@ class ItemSkillTrackerApp:
 
         # Rebuild table
         self.tree.delete(*self.tree.get_children())
+        self.all_item_iids: list[str] = []
         highlights: dict[str, bool] = self.state.data.setdefault("highlights", {})
         count_in_yaml = 0
         for item, station in sorted(items_basic.items(), key=lambda kv: kv[0].lower()):
@@ -1120,7 +1174,8 @@ class ItemSkillTrackerApp:
             }
             if img is not None:
                 item_kwargs["image"] = img
-            self.tree.insert("", "end", **item_kwargs)
+            iid_new = self.tree.insert("", "end", **item_kwargs)
+            self.all_item_iids.append(iid_new)
 
         self.status.set(f"Loaded {len(items_basic)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
         self._filter_rows()  # apply any current filter
@@ -1133,9 +1188,13 @@ class ItemSkillTrackerApp:
         needle = (self.search_var.get() or "").strip().lower()
         hidden = set(self.state.data.get("hidden_items", []) or [])
         show_mode = (self.show_filter.get() if hasattr(self, 'show_filter') else "Visible")
-        for iid in self.tree.get_children(""):
+        source_iids = getattr(self, 'all_item_iids', None)
+        if not source_iids:
+            source_iids = list(self.tree.get_children(""))
+        for iid in source_iids:
             vals = self.tree.item(iid).get('values', [])
-            text = (self.tree.item(iid).get('text', '') + ' ' + ' '.join(str(v) for v in vals[:1])).lower()
+            # Build text from item label only for matching
+            text = (str(vals[0]) if vals else '').lower()
             # Determine item's prefab from label "Name (Prefab)"
             prefab = None
             try:
@@ -1151,12 +1210,22 @@ class ItemSkillTrackerApp:
                 visible = False
             elif show_mode == "Hidden" and not is_hidden:
                 visible = False
-            if needle not in text:
+            if needle and needle not in text:
                 visible = False
             if visible:
-                self.tree.reattach(iid, '', 'end')
+                try:
+                    self.tree.reattach(iid, '', 'end')
+                except Exception:
+                    # Fallback to move if reattach not available
+                    try:
+                        self.tree.move(iid, '', 'end')
+                    except Exception:
+                        pass
             else:
-                self.tree.detach(iid)
+                try:
+                    self.tree.detach(iid)
+                except Exception:
+                    pass
         try:
             self._autosize_item_column()
         except Exception:
