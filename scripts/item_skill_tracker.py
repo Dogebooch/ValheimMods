@@ -234,6 +234,206 @@ class VNEIItemIndex:
                 pass
         return result
 
+
+class WackyBulkIndex:
+    def __init__(self, bulk_root: Path):
+        self.bulk_root = bulk_root
+
+    def _iter_yaml_files(self) -> list[Path]:
+        if not self.bulk_root or not self.bulk_root.exists():
+            return []
+        files: list[Path] = []
+        try:
+            for sub in ("Items", "Recipes", "Creatures", "Pickables"):
+                p = self.bulk_root / sub
+                if p.exists():
+                    files.extend(p.rglob("*.yml"))
+                    files.extend(p.rglob("*.yaml"))
+            # Fallback: scan root too
+            files.extend(self.bulk_root.glob("*.yml"))
+            files.extend(self.bulk_root.glob("*.yaml"))
+        except Exception:
+            pass
+        # De-duplicate
+        uniq: list[Path] = []
+        seen: set[str] = set()
+        for f in files:
+            s = str(f.resolve())
+            if s not in seen:
+                uniq.append(f)
+                seen.add(s)
+        return uniq
+
+    def _parse_simple_yaml_block(self, text: str) -> list[dict[str, str]]:
+        entries: list[dict[str, str]] = []
+        current: dict[str, str] | None = None
+        current_key: str | None = None
+        current_indent = 0
+        for raw in text.splitlines():
+            if not raw.strip() or raw.lstrip().startswith(('#', '//', ';')):
+                continue
+            indent = len(raw) - len(raw.lstrip(' '))
+            line = raw.strip()
+            if line.startswith('- '):
+                # New list entry
+                if current:
+                    entries.append(current)
+                current = {}
+                current_indent = indent
+                kv = line[2:]
+                if ':' in kv:
+                    k, v = kv.split(':', 1)
+                    current[k.strip()] = v.strip()
+                continue
+            # key: value
+            m = re.match(r"^([A-Za-z0-9_\-\.]+)\s*:\s*(.*)$", line)
+            if m:
+                k, v = m.group(1), m.group(2)
+                if current is not None and indent > current_indent:
+                    # nested under current
+                    current[k] = v
+                else:
+                    # top-level; start a synthetic single-entry document
+                    if current:
+                        entries.append(current)
+                    current = {k: v}
+                    current_indent = indent
+                current_key = k
+                continue
+            # Continuation lines for multi-line scalars not handled; skip
+        if current:
+            entries.append(current)
+        return entries
+
+    def scan(self) -> dict[str, dict]:
+        """Return mapping: prefab -> rich info from Wacky Bulk YAML.
+
+        Fields:
+          - recipe: list[(item, qty)]
+          - station: str
+          - station_level: int
+          - stats: {armor, damage_total, weight, block, durability, effects}
+          - tier: int
+          - world_level: int | ''
+          - rarity: str
+        """
+        info: dict[str, dict] = {}
+        for path in self._iter_yaml_files():
+            try:
+                text = path.read_text(encoding='utf-8', errors='ignore')
+            except Exception:
+                continue
+
+            # Heuristics: try to find prefab blocks
+            # Prefer explicit PrefabName fields
+            prefab_candidates: set[str] = set()
+            for m in re.finditer(r"^\s*(?:-\s*)?PrefabName\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE):
+                prefab_candidates.add(m.group(1))
+            # Fallback: look for name:
+            for m in re.finditer(r"^\s*(?:-\s*)?(?:name|InternalName)\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE | re.IGNORECASE):
+                prefab_candidates.add(m.group(1))
+
+            # Parse coarse key-values for station, level, rarity, tier
+            station = ""
+            station_level: int | None = None
+            rarity = ""
+            tier: int | None = None
+            world_level: int | None = None
+            # Common station keys
+            m_station = re.search(r"(CraftingStation|Station|WorkBench)\s*:\s*([A-Za-z0-9_\- ]+)", text, re.IGNORECASE)
+            if m_station:
+                station = m_station.group(2).strip()
+            m_slevel = re.search(r"(CraftingStationLevel|StationLevel|RequiredStationLevel)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            if m_slevel:
+                try:
+                    station_level = int(m_slevel.group(2))
+                except Exception:
+                    station_level = None
+            m_tier = re.search(r"(m_toolTier|Tier)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            if m_tier:
+                try:
+                    tier = int(m_tier.group(2))
+                except Exception:
+                    tier = None
+            m_wl = re.search(r"(WorldLevel|ConditionWorldLevelMin)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            if m_wl:
+                try:
+                    world_level = int(m_wl.group(2))
+                except Exception:
+                    world_level = None
+            m_rarity = re.search(r"(EpicLoot|RelicHeim).*?(Rarity|Tier)\s*:\s*([A-Za-z0-9_\-]+)", text, re.IGNORECASE | re.DOTALL)
+            if m_rarity:
+                rarity = m_rarity.group(3)
+
+            # Stats heuristics
+            stats: dict[str, str] = {}
+            def find_num(key_pattern: str) -> str | None:
+                m = re.search(key_pattern + r"\s*:\s*([0-9.\-]+)", text, re.IGNORECASE)
+                return m.group(1) if m else None
+            dmg_total = None
+            for key in ["TotalDamage", "Damage", "BaseDamage", "slash", "pierce", "blunt", "fire", "frost", "poison", "lightning", "spirit"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        dmg_total = (float(dmg_total) if dmg_total is not None else 0.0) + float(v)
+                    except Exception:
+                        pass
+            armor = find_num(r"armor|armour")
+            weight = find_num(r"weight")
+            block = find_num(r"block(power)?")
+            durability = find_num(r"(durability|maxdurability)")
+            if armor: stats['armor'] = armor
+            if dmg_total is not None: stats['damage_total'] = str(int(dmg_total) if float(dmg_total).is_integer() else round(float(dmg_total), 1))
+            if weight: stats['weight'] = weight
+            if block: stats['block'] = block
+            if durability: stats['durability'] = durability
+
+            # Recipe extraction heuristics
+            recipe: list[tuple[str, int]] = []
+            # Pattern A: YAML list of requirements entries
+            for rm in re.finditer(r"^-\s*(Item|Prefab|Name)\s*:\s*([A-Za-z0-9_\-.]+).*?(Amount|Qty|Quantity)\s*:\s*([0-9]+)", text, re.IGNORECASE | re.MULTILINE | re.DOTALL):
+                mat = rm.group(2)
+                qty = int(rm.group(4))
+                recipe.append((mat, qty))
+            # Pattern B: inline CSV-like: Iron:5, Wood:2
+            if not recipe:
+                im = re.search(r"(Resources|Recipe|Requirements)\s*:\s*([^\n]+)", text, re.IGNORECASE)
+                if im:
+                    vals = im.group(2)
+                    for part in vals.split(','):
+                        part = part.strip()
+                        if not part:
+                            continue
+                        if ':' in part:
+                            a, b = part.split(':', 1)
+                            a = a.strip()
+                            try:
+                                bq = int(b.strip())
+                            except Exception:
+                                bq = 1
+                            recipe.append((a, bq))
+
+            # Assign into info for all discovered prefab candidates
+            for prefab in prefab_candidates or [""]:
+                if not prefab:
+                    continue
+                d = info.setdefault(prefab, {})
+                if station and not d.get('station'):
+                    d['station'] = station
+                if station_level is not None and not d.get('station_level'):
+                    d['station_level'] = station_level
+                if recipe and not d.get('recipe'):
+                    d['recipe'] = recipe
+                if stats and not d.get('stats'):
+                    d['stats'] = stats
+                if tier is not None and not d.get('tier'):
+                    d['tier'] = tier
+                if world_level is not None and not d.get('world_level'):
+                    d['world_level'] = world_level
+                if rarity and not d.get('rarity'):
+                    d['rarity'] = rarity
+        return info
+
     def load_item_metadata(self) -> dict[str, dict]:
         """Return mapping: item_name -> { 'localized': str, 'type': str, 'source_mod': str }.
 
@@ -639,6 +839,9 @@ class ItemSkillTrackerApp:
             pass
 
         self.vnei_index = VNEIItemIndex(self.vnei_dir)
+        # Wacky Database Bulk YAML root
+        self.wacky_bulk_dir = workspace / "Valheim" / "profiles" / "Dogeheim_Player" / "BepInEx" / "config" / "wackyDatabase-BulkYML"
+        self.wacky_index = WackyBulkIndex(self.wacky_bulk_dir)
         self.skill_config = SkillConfig(self.config_dir, filename_hint="ItemRequiresSkillLevel")
         # Always target the default configuration file
         self.skill_config.path = self.config_dir / "Detalhes.ItemRequiresSkillLevel.yml"
@@ -689,6 +892,7 @@ class ItemSkillTrackerApp:
         ttk.Button(top, text="Save", style="Action.TButton", command=self._persist_state).pack(side=tk.LEFT, padx=(0, 6))
         ttk.Button(top, text="Write to configuration file", style="Action.TButton", command=self._write_to_config).pack(side=tk.LEFT, padx=(0, 6))
         ttk.Button(top, text="Export Items.md", style="Action.TButton", command=self._export_items_mod_md).pack(side=tk.LEFT, padx=(0, 6))
+        ttk.Button(top, text="Export AI Summary", style="Action.TButton", command=self._export_ai_summary_jsonl).pack(side=tk.LEFT, padx=(0, 6))
         # Zoom controls (minimalist)
         zoom_frame = ttk.Frame(top)
         zoom_frame.pack(side=tk.RIGHT)
@@ -714,19 +918,21 @@ class ItemSkillTrackerApp:
 
         # Tree with left-most icon/star column and columns ordered for readability
         # Put Skill Level next to Item for straight-across reading, and show Mod
-        columns = ("item", "mod", "skill_level", "station", "in_yaml")
+        columns = ("item", "mod", "skill_level", "station", "station_lvl", "in_yaml")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings", selectmode='extended')
         self.tree.heading("#0", text="★")
         self.tree.heading("item", text="Item")
         self.tree.heading("mod", text="Mod")
         self.tree.heading("skill_level", text="Skill Level")
         self.tree.heading("station", text="Crafting Station")
+        self.tree.heading("station_lvl", text="Station Lvl")
         self.tree.heading("in_yaml", text="In Skill YAML")
         self.tree.column("#0", width=36, stretch=False)
         self.tree.column("item", width=360, stretch=False)
         self.tree.column("mod", width=160, stretch=False)
         self.tree.column("skill_level", width=110, stretch=False, anchor='center')
         self.tree.column("station", width=200, stretch=False)
+        self.tree.column("station_lvl", width=110, stretch=False, anchor='center')
         self.tree.column("in_yaml", width=100, stretch=False, anchor='center')
         self.tree.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
@@ -744,7 +950,7 @@ class ItemSkillTrackerApp:
             pass
 
         # Remember base column widths to scale on zoom
-        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "in_yaml": 100}
+        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "station_lvl": 110, "in_yaml": 100}
         # Flex weights for responsive layout (A+C mix): distribute extra width to these
         self._flex_weights = {"item": 3.0, "station": 1.5}
 
@@ -912,7 +1118,7 @@ class ItemSkillTrackerApp:
 
             # Compute scaled fixed widths
             scaled: dict[str, int] = {}
-            fixed_cols = ["mod", "skill_level", "in_yaml"]
+            fixed_cols = ["mod", "skill_level", "station_lvl", "in_yaml"]
             for col in fixed_cols:
                 bw = self._base_tree_col_widths.get(col, 80)
                 scaled[col] = max(40, int(bw * self.zoom_level))
@@ -1222,6 +1428,9 @@ class ItemSkillTrackerApp:
         items_basic = self.vnei_index.load_items()
         items_rich = self.vnei_index.load_items_with_stats()
         meta = self.vnei_index.load_item_metadata()
+        # Merge in Wacky Bulk YAML info
+        self.status.set("Scanning Wacky Bulk YAML…")
+        wacky = self.wacky_index.scan()
         self.status.set("Loading skill YAML…")
         yaml_items = self.skill_config.load_items()
         levels = self.skill_config.load_blacksmithing_levels()
@@ -1251,10 +1460,13 @@ class ItemSkillTrackerApp:
             # Do not prefix with a white star in text; composite icon carries the mark
             # Build item kwargs and avoid passing an invalid/None image to Tcl
             # Heuristic craftable: color item green if station is known
-            craftable = bool(station or (items_rich.get(item, {}).get('station') or ""))
+            craftable = bool(station or (items_rich.get(item, {}).get('station') or "") or (wacky.get(item, {}).get('station') or ""))
+            # Pull station/station level & recipe from Wacky if present
+            station_from_wacky = (wacky.get(item, {}) or {}).get('station') or station or (items_rich.get(item, {}).get('station') or "")
+            station_lvl_from_wacky = (wacky.get(item, {}) or {}).get('station_level') or ""
             item_kwargs = {
                 "text": "",
-                "values": (item_label, mod_name, level_str, station or "", "Yes" if in_yaml else "No"),
+                "values": (item_label, mod_name, level_str, station_from_wacky or "", str(station_lvl_from_wacky) if station_lvl_from_wacky else "", "Yes" if in_yaml else "No"),
             }
             if img is not None:
                 item_kwargs["image"] = img
@@ -1264,7 +1476,7 @@ class ItemSkillTrackerApp:
         self.status.set(f"Loaded {len(items_basic)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
         self._filter_rows()  # apply any current filter
         try:
-            self._autosize_item_column()
+            self._layout_tree_columns()
         except Exception:
             pass
 
@@ -1311,7 +1523,7 @@ class ItemSkillTrackerApp:
                 except Exception:
                     pass
         try:
-            self._autosize_item_column()
+            self._layout_tree_columns()
         except Exception:
             pass
 
@@ -1490,6 +1702,92 @@ class ItemSkillTrackerApp:
             messagebox.showerror("Export", f"Failed to export markdown: {e}")
 
     # (WL inference/export removed from GUI per request)
+
+    def _export_ai_summary_jsonl(self) -> None:
+        """Export a compact JSONL summary per item for AI contexts (minimal but complete)."""
+        try:
+            self.status.set("Building AI summary…")
+            # Load sources
+            items_basic = self.vnei_index.load_items()
+            meta = self.vnei_index.load_item_metadata()
+            wacky = self.wacky_index.scan()
+            levels_yaml = self.skill_config.load_blacksmithing_levels()
+            manual_levels: dict[str, str] = self.state.data.get("skill_levels", {})
+
+            lines: list[str] = []
+            for item in sorted(items_basic.keys(), key=lambda s: s.lower()):
+                m = meta.get(item, {}) or {}
+                w = wacky.get(item, {}) or {}
+                # Compose minimal, readable record
+                rec = {
+                    "pf": item,  # prefab
+                }
+                if m.get('localized'):
+                    rec["nm"] = m.get('localized')
+                if m.get('source_mod'):
+                    rec["md"] = m.get('source_mod')
+                # Station and level
+                st = w.get('station') or ""
+                if st:
+                    rec["st"] = st
+                sl = w.get('station_level')
+                if isinstance(sl, int) and sl > 0:
+                    rec["sl"] = sl
+                # Skill level preference: manual > yaml > none
+                lvl = (manual_levels.get(item) or levels_yaml.get(item))
+                try:
+                    if lvl is not None and str(lvl).strip() != "":
+                        rec["sk"] = int(lvl)
+                except Exception:
+                    pass
+                # Recipe
+                rlist = w.get('recipe') or []
+                if rlist:
+                    # Normalize to [[mat, qty], ...]
+                    try:
+                        rec["rec"] = [[a, int(b)] for a, b in rlist if a]
+                    except Exception:
+                        rec["rec"] = [[str(a), int(b)] if str(b).isdigit() else [str(a), str(b)] for a, b in rlist]
+                # Stats (only include present ones)
+                stx = w.get('stats') or {}
+                stats_out = {}
+                for k_src, k_out in [("damage_total", "dm"), ("armor", "ar"), ("weight", "wt"), ("block", "bl"), ("durability", "du")]:
+                    v = stx.get(k_src)
+                    if v is not None and str(v).strip() != "":
+                        try:
+                            # store numeric when possible
+                            val = float(v)
+                            stats_out[k_out] = int(val) if val.is_integer() else round(val, 2)
+                        except Exception:
+                            stats_out[k_out] = v
+                if stats_out:
+                    rec["sx"] = stats_out
+                # Tier / WL / rarity
+                if isinstance(w.get('tier'), int):
+                    rec["ti"] = w.get('tier')
+                if isinstance(w.get('world_level'), int):
+                    rec["wl"] = w.get('world_level')
+                if w.get('rarity'):
+                    rec["ra"] = w.get('rarity')
+
+                lines.append(json.dumps(rec, ensure_ascii=False))
+
+            export_path = self.workspace / "Valheim_Help_Docs" / "Files for GPT" / "Items_AI_Summary.jsonl"
+            export_path.parent.mkdir(parents=True, exist_ok=True)
+            export_path.write_text("\n".join(lines) + "\n", encoding='utf-8', newline='\n')
+
+            # Put into clipboard as well (optional nice-to-have)
+            try:
+                self.root.clipboard_clear()
+                # Limit clipboard to a reasonable size chunk if extremely large
+                blob = "\n".join(lines)
+                self.root.clipboard_append(blob)
+            except Exception:
+                pass
+
+            messagebox.showinfo("Export", f"AI summary exported to\n{export_path}\n\nAlso copied to clipboard.")
+        except Exception as e:
+            messagebox.showerror("Export", f"Failed to export AI summary: {e}")
 
     def _index_icons(self) -> None:
         """Scan VNEI-Export/icons for PNGs and index by basename (lower)."""

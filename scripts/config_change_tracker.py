@@ -82,6 +82,19 @@ class ConfigSnapshot:
         self.initial_snapshot_file = self.snapshots_dir / "initial_snapshot.json"
         self.event_log_file = self.snapshots_dir / "event_log.jsonl"
         self.snapshots_dir.mkdir(exist_ok=True)
+        # Ignore very large or noisy directories to keep scans responsive
+        # Case-insensitive match on path parts
+        self._ignored_dir_names = {"wackydatabase-bulkyml"}
+
+    def _should_ignore(self, file_path: Path) -> bool:
+        try:
+            rel_parts = (file_path.relative_to(self.config_root)).parts
+        except Exception:
+            rel_parts = file_path.parts
+        for part in rel_parts:
+            if part.lower() in self._ignored_dir_names:
+                return True
+        return False
         
     def get_file_hash(self, file_path: Path) -> str:
         """Get SHA256 hash of file content."""
@@ -123,9 +136,11 @@ class ConfigSnapshot:
                 'files': {}
             }
             
-            # Get all files first
-            files = [f for f in self.config_root.rglob('*') 
-                    if f.is_file()]
+            # Get all files first, excluding ignored directories
+            files = [
+                f for f in self.config_root.rglob('*')
+                if f.is_file() and not self._should_ignore(f)
+            ]
             
             for i, file_path in enumerate(files):
                 rel_path = str(file_path.relative_to(self.config_root))
@@ -241,6 +256,8 @@ class ConfigSnapshot:
         
         for file_path in self.config_root.rglob('*'):
             if file_path.is_file():
+                if self._should_ignore(file_path):
+                    continue
                 rel_path = str(file_path.relative_to(self.config_root))
                 current_info = self.get_file_info(file_path)
                 
@@ -253,6 +270,11 @@ class ConfigSnapshot:
         
         # Check for deleted files
         for rel_path in snapshot['files']:
+            try:
+                if self._should_ignore(self.config_root / rel_path):
+                    continue
+            except Exception:
+                pass
             if not (self.config_root / rel_path).exists():
                 changes.append(('D', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
         
