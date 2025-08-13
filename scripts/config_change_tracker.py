@@ -85,6 +85,10 @@ class ConfigSnapshot:
         # Ignore very large or noisy directories to keep scans responsive
         # Case-insensitive match on path parts
         self._ignored_dir_names = {"wackydatabase-bulkyml"}
+        # In-memory caches to reduce disk I/O while app is open
+        self._snapshot_cache: dict[str, dict] = {}
+        # Minimal index cache: { type -> { 'session': str, 'index': { rel_path: {size, mtime, hash} } } }
+        self._snapshot_index_cache: dict[str, dict] = {}
 
     def _should_ignore(self, file_path: Path) -> bool:
         try:
@@ -158,25 +162,55 @@ class ConfigSnapshot:
             snapshot_type = "initial" if is_initial else "current"
             msg = f"{snapshot_type.capitalize()} snapshot created with {len(snapshot['files'])} files"
             self.log_event(action="snapshot", success=True, extra={"type": snapshot_type, "file_count": len(snapshot['files'])})
+            # Update caches (minimal index and full snapshot)
+            try:
+                self._snapshot_cache[snapshot_type] = snapshot
+                idx: dict[str, dict] = {rel: {'size': m.get('size', 0), 'mtime': m.get('mtime', 0), 'hash': m.get('hash', '')} for rel, m in snapshot['files'].items()}
+                self._snapshot_index_cache[snapshot_type] = {'session': snapshot.get('session', ''), 'index': idx}
+            except Exception:
+                pass
             return True, msg
         except Exception as e:
             self.log_event(action="snapshot", success=False, extra={"error": str(e)})
             return False, f"Failed to create snapshot: {e}"
     
     def load_snapshot(self, snapshot_type: str = "current") -> dict:
-        """Load a snapshot by type."""
+        """Load a snapshot by type. Served from in-memory cache when available."""
         try:
-            if snapshot_type == "initial":
-                file_path = self.initial_snapshot_file
-            else:
-                file_path = self.current_snapshot_file
-                
+            if snapshot_type in self._snapshot_cache:
+                return self._snapshot_cache[snapshot_type]
+            file_path = self.initial_snapshot_file if snapshot_type == "initial" else self.current_snapshot_file
             if file_path.exists():
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    snap = json.load(f)
+                    self._snapshot_cache[snapshot_type] = snap
+                    return snap
         except Exception:
             pass
         return {'timestamp': '', 'session': '', 'files': {}}
+
+    def load_snapshot_index(self, snapshot_type: str = "current") -> dict:
+        """Load a minimal snapshot index (session + file meta only), cached in memory."""
+        try:
+            if snapshot_type in self._snapshot_index_cache:
+                return self._snapshot_index_cache[snapshot_type]
+            snap = self.load_snapshot(snapshot_type)
+            files = snap.get('files', {}) or {}
+            idx: dict[str, dict] = {}
+            for rel, meta in files.items():
+                try:
+                    idx[rel] = {
+                        'size': meta.get('size', 0),
+                        'mtime': meta.get('mtime', 0),
+                        'hash': meta.get('hash', ''),
+                    }
+                except Exception:
+                    continue
+            result = {'session': snap.get('session', ''), 'index': idx}
+            self._snapshot_index_cache[snapshot_type] = result
+            return result
+        except Exception:
+            return {'session': '', 'index': {}}
 
     def revert_file(self, rel_path: str, from_snapshot: str = "current") -> tuple[bool, str]:
         """Revert a single file to the content stored in the chosen snapshot.
@@ -254,29 +288,43 @@ class ConfigSnapshot:
         snapshot = self.load_snapshot(compare_against)
         changes = []
         
+        # Fast, IO-light scan: compare stat size/mtime first; avoid hashing entire file contents
         for file_path in self.config_root.rglob('*'):
-            if file_path.is_file():
-                if self._should_ignore(file_path):
-                    continue
-                rel_path = str(file_path.relative_to(self.config_root))
-                current_info = self.get_file_info(file_path)
-                
-                if rel_path in snapshot['files']:
-                    old_info = snapshot['files'][rel_path]
-                    if current_info['hash'] != old_info['hash']:
-                        changes.append(('M', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
-                else:
-                    changes.append(('A', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
+            if not file_path.is_file():
+                continue
+            if self._should_ignore(file_path):
+                continue
+            rel_path = str(file_path.relative_to(self.config_root))
+            try:
+                stat = file_path.stat()
+                cur_size = stat.st_size
+                cur_mtime = stat.st_mtime
+            except Exception:
+                # If stat fails, fall back to marking as modified so UI can reflect something changed
+                cur_size = -1
+                cur_mtime = -1
+
+            if rel_path in snapshot['files']:
+                old_info = snapshot['files'][rel_path]
+                old_size = old_info.get('size', -2)
+                old_mtime = old_info.get('mtime', -2)
+                # If either size or mtime changed, consider it modified (skip expensive hashing here)
+                if cur_size != old_size or cur_mtime != old_mtime:
+                    changes.append(('M', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
+            else:
+                changes.append(('A', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
         
-        # Check for deleted files
+        # Check for deleted files (skip ignored)
         for rel_path in snapshot['files']:
             try:
-                if self._should_ignore(self.config_root / rel_path):
+                abs_path = (self.config_root / rel_path)
+                if self._should_ignore(abs_path):
                     continue
+                if not abs_path.exists():
+                    changes.append(('D', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
             except Exception:
+                # If any error occurs resolving a path, ignore deletion case
                 pass
-            if not (self.config_root / rel_path).exists():
-                changes.append(('D', rel_path, self._get_mod_name(rel_path), snapshot.get('session', 'Unknown')))
         
         return changes
     
@@ -294,6 +342,13 @@ class ConfigSnapshot:
         snapshot = self.load_snapshot(compare_against)
         current_file = self.config_root / file_path
         
+        # If the file is ignored, avoid heavy work and report as ignored
+        try:
+            if self._should_ignore(current_file):
+                return f"[Ignored path: {file_path}]"
+        except Exception:
+            pass
+
         if file_path not in snapshot['files']:
             # New file
             if current_file.exists():
