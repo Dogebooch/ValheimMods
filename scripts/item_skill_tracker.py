@@ -559,7 +559,7 @@ class ItemSkillTrackerApp:
         self.root = root
         self.workspace = workspace
         self.base_font_size = 10
-        self.zoom_level = 1.0
+        self.zoom_level = 1.2
         self.font = tkfont.Font(family="Consolas" if sys.platform.startswith("win") else "Courier New", size=self.base_font_size)
         self.colors = {
             "bg": "#2e2b23",
@@ -662,15 +662,15 @@ class ItemSkillTrackerApp:
         # Tree with left-most icon/star column and columns ordered for readability
         # Put Skill Level next to Item for straight-across reading, and show Mod
         columns = ("item", "mod", "skill_level", "station", "in_yaml")
-        self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings")
+        self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings", selectmode='extended')
         self.tree.heading("#0", text="★")
         self.tree.heading("item", text="Item")
         self.tree.heading("mod", text="Mod")
         self.tree.heading("skill_level", text="Skill Level")
         self.tree.heading("station", text="Crafting Station")
         self.tree.heading("in_yaml", text="In Skill YAML")
-        self.tree.column("#0", width=28, stretch=False)
-        self.tree.column("item", width=340, stretch=False)
+        self.tree.column("#0", width=36, stretch=False)
+        self.tree.column("item", width=360, stretch=False)
         self.tree.column("mod", width=160, stretch=False)
         self.tree.column("skill_level", width=110, stretch=False, anchor='center')
         self.tree.column("station", width=200, stretch=False)
@@ -686,12 +686,21 @@ class ItemSkillTrackerApp:
         xscroll.pack(side=tk.BOTTOM, fill=tk.X)
 
         # Remember base column widths to scale on zoom
-        self._base_tree_col_widths = {"#0": 28, "item": 340, "mod": 160, "skill_level": 110, "station": 200, "in_yaml": 100}
+        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "in_yaml": 100}
 
         # Interactions
         self.tree.bind("<Double-1>", self._on_tree_double_click)
         self.tree.bind("<space>", self._toggle_highlight)
         self.tree.bind("<Button-3>", self._show_context_menu)
+
+        # Bulk level editor
+        bulk_frame = ttk.Frame(self.root)
+        bulk_frame.pack(fill=tk.X, padx=8, pady=(0, 4))
+        ttk.Label(bulk_frame, text="Set level for selected:").pack(side=tk.LEFT)
+        self.bulk_level_var = tk.StringVar()
+        bulk_entry = ttk.Entry(bulk_frame, textvariable=self.bulk_level_var, width=8)
+        bulk_entry.pack(side=tk.LEFT, padx=(6, 6))
+        ttk.Button(bulk_frame, text="Apply", style="Action.TButton", command=self._bulk_set_level_from_entry).pack(side=tk.LEFT)
 
         # Footer
         self.status = tk.StringVar(value="Ready")
@@ -703,9 +712,6 @@ class ItemSkillTrackerApp:
         self.menu.add_command(label="Edit Skill Level", command=lambda: self._begin_inline_level_edit(None))
         self.menu.add_command(label="Hide Item", command=self._hide_selected_item)
         self.menu.add_command(label="Unhide Item", command=self._unhide_selected_item)
-        self.menu.add_separator()
-        self.menu.add_command(label="Mark All Filtered", command=self._mark_all_filtered)
-        self.menu.add_command(label="Unmark All Filtered", command=self._unmark_all_filtered)
 
         # Keyboard zoom shortcuts
         self.root.bind("<Control-plus>", lambda e: self.zoom_in())
@@ -813,10 +819,10 @@ class ItemSkillTrackerApp:
         except Exception:
             icon_w = 24
         # Compute scaled base width
-        base_zero = self._base_tree_col_widths.get("#0", 28)
-        scaled_zero = max(22, int(base_zero * self.zoom_level))
+        base_zero = self._base_tree_col_widths.get("#0", 36)
+        scaled_zero = max(28, int(base_zero * self.zoom_level))
         # Require some margin to the next column
-        required_zero = min(icon_w + 6, 44)
+        required_zero = min(icon_w + 8, 56)
         final_zero = max(scaled_zero, required_zero)
         try:
             self.tree.column("#0", width=final_zero, stretch=False)
@@ -895,7 +901,11 @@ class ItemSkillTrackerApp:
         try:
             rowid = self.tree.identify_row(event.y)
             if rowid:
-                self.tree.selection_set(rowid)
+                current_sel = set(self.tree.selection())
+                # If right-clicked row is not in the current selection, select just that row.
+                # Otherwise, keep existing multi-selection intact.
+                if rowid not in current_sel:
+                    self.tree.selection_set(rowid)
             self.menu.tk_popup(event.x_root, event.y_root)
         finally:
             self.menu.grab_release()
@@ -904,40 +914,39 @@ class ItemSkillTrackerApp:
         sel = self.tree.selection()
         if not sel:
             return
-        iid = sel[0]
-        vals = list(self.tree.item(iid).get('values', []))
-        if not vals:
-            return
-        label = str(vals[0]).replace("★ ", "")
-        m = re.search(r"\(([^)]+)\)$", label)
-        if not m:
-            return
-        prefab = m.group(1)
         hidden = set(self.state.data.get("hidden_items", []) or [])
-        if prefab not in hidden:
+        for iid in sel:
+            vals = list(self.tree.item(iid).get('values', []))
+            if not vals:
+                continue
+            label = str(vals[0]).replace("★ ", "")
+            m = re.search(r"\(([^)]+)\)$", label)
+            if not m:
+                continue
+            prefab = m.group(1)
             hidden.add(prefab)
-            self.state.data["hidden_items"] = sorted(hidden)
-            self.state.save()
+        self.state.data["hidden_items"] = sorted(hidden)
+        self.state.save()
         self._filter_rows()
 
     def _unhide_selected_item(self) -> None:
         sel = self.tree.selection()
         if not sel:
             return
-        iid = sel[0]
-        vals = list(self.tree.item(iid).get('values', []))
-        if not vals:
-            return
-        label = str(vals[0]).replace("★ ", "")
-        m = re.search(r"\(([^)]+)\)$", label)
-        if not m:
-            return
-        prefab = m.group(1)
         hidden = set(self.state.data.get("hidden_items", []) or [])
-        if prefab in hidden:
-            hidden.remove(prefab)
-            self.state.data["hidden_items"] = sorted(hidden)
-            self.state.save()
+        for iid in sel:
+            vals = list(self.tree.item(iid).get('values', []))
+            if not vals:
+                continue
+            label = str(vals[0]).replace("★ ", "")
+            m = re.search(r"\(([^)]+)\)$", label)
+            if not m:
+                continue
+            prefab = m.group(1)
+            if prefab in hidden:
+                hidden.remove(prefab)
+        self.state.data["hidden_items"] = sorted(hidden)
+        self.state.save()
         self._filter_rows()
 
     def _on_tree_double_click(self, event) -> None:
@@ -1031,6 +1040,45 @@ class ItemSkillTrackerApp:
         entry.bind("<Return>", lambda e: commit_inline())
         entry.bind("<Escape>", lambda e: (entry.destroy()))
         entry.bind("<FocusOut>", lambda e: commit_inline())
+        # Tab to next row's Skill Level
+        def on_tab(_e):
+            commit_inline()
+            try:
+                all_rows = list(self.tree.get_children(""))
+                idx = all_rows.index(iid)
+                if idx < len(all_rows) - 1:
+                    next_iid = all_rows[idx + 1]
+                    self.tree.selection_set(next_iid)
+                    # Start inline edit on next row
+                    self.tree.after(10, lambda: self._begin_inline_level_edit(None))
+            except Exception:
+                pass
+            return "break"
+        entry.bind("<Tab>", on_tab)
+
+    def _bulk_set_level_from_entry(self) -> None:
+        val = (self.bulk_level_var.get() or "").strip()
+        if val and not val.isdigit():
+            messagebox.showerror("Invalid", "Enter a whole number (or leave blank to clear)")
+            return
+        sel = self.tree.selection()
+        if not sel:
+            return
+        for iid in sel:
+            vals = list(self.tree.item(iid).get('values', []))
+            if len(vals) < 3:
+                continue
+            item_label = str(vals[0]).replace("★ ", "")
+            m = re.search(r"\(([^)]+)\)$", item_label)
+            prefab = m.group(1) if m else item_label
+            if val:
+                vals[2] = val
+                self.state.data.setdefault("skill_levels", {})[prefab] = val
+            else:
+                vals[2] = ""
+                self.state.data.setdefault("skill_levels", {}).pop(prefab, None)
+            self.tree.item(iid, values=vals)
+        self.state.save()
 
     def _refresh_data(self) -> None:
         self.status.set("Loading VNEI items…")
@@ -1062,8 +1110,7 @@ class ItemSkillTrackerApp:
             localized = meta_row.get('localized') or ''
             display_name = localized if localized else item
             item_label = f"{display_name} ({item})"
-            if marked:
-                item_label = f"★ {item_label}"
+            # Do not prefix with a white star in text; composite icon carries the mark
             # Build item kwargs and avoid passing an invalid/None image to Tcl
             item_kwargs = {
                 # tree text column left empty; star is part of composite icon now
@@ -1261,6 +1308,7 @@ class ItemSkillTrackerApp:
         try:
             items_basic = self.vnei_index.load_items()
             meta = self.vnei_index.load_item_metadata()
+            hidden = set(self.state.data.get("hidden_items", []) or [])
             lines: list[str] = []
             lines.append("# Items by Mod\n")
             lines.append("Generated by Item Skill Tracker\n")
@@ -1270,6 +1318,8 @@ class ItemSkillTrackerApp:
             def esc(s: str) -> str:
                 return (s or "").replace('|', '\\|')
             for item in sorted(items_basic.keys(), key=lambda s: s.lower()):
+                if item in hidden:
+                    continue
                 m = meta.get(item, {})
                 localized = m.get('localized') or ''
                 mod = m.get('source_mod') or ''

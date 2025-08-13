@@ -3456,5 +3456,15 @@
     "Shire Weaved Garbs (9bchest)": "80",
     "Shire Weaved Trousers (9bGreaves)": "80",
     "Shire Crafted Door (9bShireDoor)": "83"
-  }
+  },
+  "hidden_items": [
+    "0_PuzzlePickable",
+    "1_PuzzlePickable",
+    "2_PuzzlePickable",
+    "3_PuzzlePickable",
+    "4_PuzzlePickable",
+    "5_PuzzlePickable",
+    "6_PuzzlePickable",
+    "7_PuzzlePickable"
+  ]
 }
