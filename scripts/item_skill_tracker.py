@@ -970,11 +970,6 @@ class ItemSkillTrackerApp:
         # Icon cache (path mapping and loaded PhotoImage refs)
         self.icon_paths: dict[str, Path] = {}
         self.icon_images: dict[str, tk.PhotoImage] = {}
-        # Ensure status exists before any refresh calls
-        try:
-            self.status = tk.StringVar(value="Ready")
-        except Exception:
-            self.status = None
 
         # Default paths
         self.vnei_dir = workspace / "Valheim" / "profiles" / "Dogeheim_Player" / "BepInEx" / "VNEI-Export"
@@ -1034,33 +1029,6 @@ class ItemSkillTrackerApp:
         except Exception:
             pass
 
-    def _sort_by_column(self, col: str) -> None:
-        """Sort visible rows by a given column. For 'item', sort by prefab name inside parentheses
-        to match export ordering; fallback to visible label when no parentheses present.
-        """
-        try:
-            if not hasattr(self, "_sort_reverse_states"):
-                self._sort_reverse_states = {}
-            rev = bool(self._sort_reverse_states.get(col, False))
-            # Gather only currently visible (attached) rows
-            rows = list(self.tree.get_children(""))
-            def normalize_key(iid: str) -> str:
-                try:
-                    val = str(self.tree.set(iid, col))
-                    label = val.lstrip('★ ').strip()
-                    m = re.search(r"\(([^)]+)\)$", label)
-                    if m:
-                        return m.group(1).casefold()
-                    return label.casefold()
-                except Exception:
-                    return ""
-            rows.sort(key=normalize_key, reverse=rev)
-            for index, iid in enumerate(rows):
-                self.tree.move(iid, "", index)
-            self._sort_reverse_states[col] = not rev
-        except Exception:
-            pass
-
         # Top controls
         top = ttk.Frame(self.root)
         top.pack(fill=tk.X, padx=8, pady=6)
@@ -1108,7 +1076,7 @@ class ItemSkillTrackerApp:
         columns = ("item", "mod", "skill_level", "station", "station_lvl", "in_yaml")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings", selectmode='extended')
         self.tree.heading("#0", text="★")
-        self.tree.heading("item", text="Item", command=lambda: self._sort_by_column("item"))
+        self.tree.heading("item", text="Item")
         self.tree.heading("mod", text="Mod")
         self.tree.heading("skill_level", text="Skill Level")
         self.tree.heading("station", text="Crafting Station")
@@ -1638,7 +1606,10 @@ class ItemSkillTrackerApp:
         vals = list(self.tree.item(iid).get('values', []))
         if len(vals) < 3:
             return
-        current_item = str(vals[0]).lstrip('★ ').strip()
+        # Determine prefab key from label "Name (Prefab)"
+        label_for_row = str(vals[0]).lstrip('★ ').strip()
+        m_pref = re.search(r"\(([^)]+)\)$", label_for_row)
+        current_item = m_pref.group(1) if m_pref else label_for_row
         current_level = str(vals[2]).strip()
         # Create an Entry overlay for inline edit
         var = tk.StringVar(value=current_level)
@@ -1661,6 +1632,7 @@ class ItemSkillTrackerApp:
                 return
             if val:
                 vals[2] = val
+                # Persist manual level keyed by prefab internal name so it survives refresh
                 self.state.data.setdefault("skill_levels", {})[current_item] = val
             else:
                 vals[2] = ""
@@ -2135,21 +2107,7 @@ class ItemSkillTrackerApp:
 
         # Build YAML chunks
         chunks: list[str] = []
-        # Load localized names to fill ExhibitionName
-        try:
-            meta = self.vnei_index.load_item_metadata()
-        except Exception:
-            meta = {}
-        def _yaml_quote(val: str) -> str:
-            try:
-                s = str(val)
-                # Quote and escape double quotes
-                s = s.replace('"', '\\"')
-                return f'"{s}"'
-            except Exception:
-                return f'"{val}"'
         for item, lvl in sorted(to_write, key=lambda x: x[0].lower()):
-            localized = (meta.get(item, {}) or {}).get('localized') or item
             chunks.append(
                 "- PrefabName: " + item + "\n" +
                 "  Requirements:\n" +
@@ -2158,7 +2116,7 @@ class ItemSkillTrackerApp:
                 "      BlockCraft: true\n" +
                 "      BlockEquip: false\n" +
                 "      EpicMMO: false\n" +
-                f"      ExhibitionName: {_yaml_quote(localized)}\n"
+                "      ExhibitionName: \n"
             )
 
         new_text = existing_text.rstrip() + ("\n\n" if existing_text.strip() else "") + "\n".join(chunks) + "\n"

@@ -39,5 +39,194 @@
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
-    ExhibitionName: 
+    ExhibitionName:
+
+- PrefabName: Ammo Backpack (AmmoBackpack)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 15
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Ancient Cuirass (ancientchest)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 20
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Ancient Helm (ancienthelm)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 25
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Ancient Legguards (ancientlegs)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 20
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Andvaranaut Backpack (AndvaranautBackpack)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 15
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Cleansing' (ArcaneScroll_Mountain_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Destruction' (ArcaneScroll_DamageBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Evergrowth' (ArcaneScroll_BlackForest_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Feather light' (ArcaneScroll_SlowfallBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Frog' (ArcaneScroll_JumpBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 25
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Gust' (ArcaneScroll_SpeedBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Hellfire' (ArcaneScroll_Plains_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Storm' (ArcaneScroll_Mistlands_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Underworld' (ArcaneScroll_Swamp_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 20
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Flawless Arcanium (Arcanium)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 80
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Legionnaire's breastplate (ancientironchest)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Legionnaire's Helm (ancientironhelm)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 68
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Legionnaire's skirt (ancientironlegs)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Shire Crafted Door (9bShireDoor)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 83
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Shire Weaved Garbs (9bchest)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 40
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Shire Weaved Trousers (9bGreaves)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 40
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
 
