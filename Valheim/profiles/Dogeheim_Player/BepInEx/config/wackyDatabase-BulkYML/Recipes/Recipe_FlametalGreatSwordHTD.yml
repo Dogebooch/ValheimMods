@@ -8,9 +8,14 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []
+upgrade_reqs:
+- Flametal:20:2
+- Flametal:40:3
+- Flametal:60:4
+- Flametal:80:5
 reqs:
-- Flametal:20:7:True
+- Flametal:40:20:True
 - Iron:15:5:True
 - LeatherScraps:10:0:True
-- SurtlingCore:20:7:True
+- SurtlingCore:30:15:True
+- TrophyCharredMelee:1:0:True
