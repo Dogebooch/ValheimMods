@@ -1175,9 +1175,9 @@ class ItemSkillTrackerApp:
         frame = ttk.Frame(dlg)
         frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         msg = (
-            "Paste lines in the format: English Name, Level\n"
-            "Example:\n"
-            "Iron battleaxe, 3\nSilver Battlehammer, 5\n\n"
+            "Paste lines in the format: Name and Level\n"
+            "Examples:\n"
+            "Iron battleaxe, 3\nSilver Battlehammer — 5\n\n"
             "Only rows with no Skill Level set will be changed.\n"
             "Press Ctrl+Enter to apply; Esc to cancel."
         )
@@ -1260,17 +1260,27 @@ class ItemSkillTrackerApp:
         def parse_line(line: str) -> tuple[str | None, str | None]:
             if not line or not line.strip():
                 return None, None
-            if "," not in line:
-                return None, None
-            left, right = line.split(",", 1)
-            name = left.strip().strip('"').strip("'")
-            # Trim trailing decorations like " - something" or extra bracketed tails
-            name = re.sub(r"\s*-\s*.+$", "", name).strip()
-            lvl_raw = right.strip()
-            # Extract first integer-ish token
-            m = re.search(r"(-?\d+)", lvl_raw)
-            lvl = m.group(1) if m else lvl_raw
-            return (name if name else None), (lvl if lvl else None)
+            s = line.strip()
+            # Case 1: explicit comma separator
+            if "," in s:
+                left, right = s.split(",", 1)
+                name = left.strip().strip('"').strip("'")
+                # Trim trailing decorations like hyphen/en dash/em dash labels
+                name = re.sub(r"\s*[-–—:]\s*.+$", "", name).strip()
+                lvl_raw = right.strip()
+                m = re.search(r"(-?\d+)", lvl_raw)
+                lvl = m.group(1) if m else lvl_raw
+                return (name if name else None), (lvl if lvl else None)
+            # Case 2: free form — take the last integer as level, rest as name
+            m = re.search(r"(-?\d+)\s*$", s)
+            if m:
+                lvl = m.group(1)
+                name_part = s[:m.start()].strip()
+                # Strip trailing separators between name and number
+                name_part = re.sub(r"[\s,:–—-]+$", "", name_part)
+                name = name_part.strip().strip('"').strip("'")
+                return (name if name else None), (lvl if lvl else None)
+            return None, None
 
         pairs: list[tuple[str, str]] = []
         for raw in raw_text.splitlines():
