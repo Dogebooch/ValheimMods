@@ -153,6 +153,9 @@ Impact: subtle seasonal rhythm with near‑neutral long‑term resource flow; no
 
 ## 🏪 More World Traders
 
+### Trader Pricing Balance
+- Coins and flexible pricing enabled; 5% quality multiplier with 0.8 discount / 1.3 markup.
+
 ### Trader POI Adjustments
 - **Plains Tavern**: Attempts reduced from 4 → **3**
 - **Black Forest** (Blacksmith1 & Blacksmith2): Traders reduced from 4 → **3**
