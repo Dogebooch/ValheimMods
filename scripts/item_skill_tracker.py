@@ -1041,6 +1041,8 @@ class ItemSkillTrackerApp:
         actions_menu.add_command(label="Write to configuration file", command=self._write_to_config)
         actions_menu.add_separator()
         actions_menu.add_command(label="Export Items.md", command=self._export_items_mod_md)
+        actions_menu.add_separator()
+        actions_menu.add_command(label="Validate Skill YAML", command=self._validate_skill_yaml)
         actions_btn["menu"] = actions_menu
         actions_btn.pack(side=tk.LEFT, padx=(0, 6))
         # Consolidated export button with options dialog
@@ -1195,7 +1197,7 @@ class ItemSkillTrackerApp:
             dlg.destroy()
         def on_cancel():
             dlg.destroy()
-        ttk.Button(btns, text="Apply to Missing (Ctrl+Enter)", style="Action.TButton", command=on_apply).pack(side=tk.LEFT)
+        ttk.Button(btns, text="Apply (Ctrl+Enter)", style="Action.TButton", command=on_apply).pack(side=tk.LEFT)
         ttk.Button(btns, text="Cancel", style="Action.TButton", command=on_cancel).pack(side=tk.RIGHT)
         try:
             text.bind("<Control-Return>", lambda e: (on_apply(), "break"))
@@ -2264,6 +2266,73 @@ class ItemSkillTrackerApp:
 
         ttk.Button(btns, text="Cancel", style="Action.TButton", command=win.destroy).pack(side=tk.RIGHT)
         ttk.Button(btns, text="Export", style="Action.TButton", command=do_export).pack(side=tk.RIGHT, padx=(0, 6))
+
+    def _validate_skill_yaml(self) -> None:
+        """Check Detalhes.ItemRequiresSkillLevel.yml for valid, known prefabs.
+
+        - Flags entries whose `PrefabName` does not match a known internal item name.
+        - Suggests corrections based on VNEI item list and fuzzy token match.
+        - Shows a summary dialog with counts and first N issues.
+        """
+        try:
+            # Load known item prefabs from VNEI
+            known_items = set(self.vnei_index.load_items().keys())
+            # Parse skill YAML blocks
+            rules = self.skill_config.load_blacksmithing_rules()  # maps prefab -> rule dict
+            # Collect suspect entries
+            unknown: list[str] = []
+            suggestions: list[tuple[str, str]] = []
+            def normalize(s: str) -> str:
+                s = (s or '').casefold().strip()
+                s = re.sub(r"[^a-z0-9\s]", " ", s)
+                s = re.sub(r"\s+", " ", s).strip()
+                return s
+            def tokens(s: str) -> list[str]:
+                return [t for t in normalize(s).split() if t]
+            def score(a: list[str], b: list[str]) -> float:
+                if not a:
+                    return 0.0
+                bs = set(b)
+                hit = sum(1 for t in a if t in bs)
+                return hit / max(1, len(a))
+            for prefab in sorted(rules.keys(), key=lambda s: s.lower()):
+                if prefab in known_items:
+                    continue
+                # Try to recover possible real prefab from a label like "Name (Prefab)"
+                m = re.search(r"\(([^)]+)\)$", prefab)
+                candidate = m.group(1) if m else prefab
+                if candidate in known_items:
+                    suggestions.append((prefab, candidate))
+                    continue
+                # Fuzzy suggestion by tokens over known items
+                a = tokens(prefab)
+                best = None
+                best_score = 0.0
+                for k in known_items:
+                    sc = score(a, tokens(k))
+                    if sc > best_score:
+                        best_score = sc
+                        best = k
+                unknown.append(prefab)
+                if best_score >= 0.6 and best:
+                    suggestions.append((prefab, best))
+            # Build report
+            lines: list[str] = []
+            lines.append(f"Checked {len(rules)} YAML entries against {len(known_items)} known prefabs.")
+            if not unknown and not suggestions:
+                lines.append("All PrefabName entries appear valid.")
+            else:
+                if suggestions:
+                    lines.append(f"Suggestions ({min(20, len(suggestions))} shown):")
+                    for old, new in suggestions[:20]:
+                        lines.append(f"  {old}  →  {new}")
+                if unknown:
+                    lines.append(f"Unknown (no good suggestion) ({min(20, len(unknown))} shown):")
+                    for pf in unknown[:20]:
+                        lines.append(f"  {pf}")
+            messagebox.showinfo("Validate Skill YAML", "\n".join(lines))
+        except Exception as e:
+            messagebox.showerror("Validate Skill YAML", f"Validation failed: {e}")
 
     def _toggle_highlight(self, event) -> None:
         sel = self.tree.selection()
