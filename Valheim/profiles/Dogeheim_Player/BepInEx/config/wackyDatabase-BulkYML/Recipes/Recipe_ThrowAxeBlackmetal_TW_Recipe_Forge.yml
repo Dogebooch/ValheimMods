@@ -4,12 +4,12 @@ craftingStation: $piece_forge
 minStationLevel: 4
 maxStationLevelCap: 
 repairStation: 
-amount: 10
+amount: 5
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
 upgrade_reqs: []
 reqs:
-- FineWood:10:0:True
-- LinenThread:1:0:True
-- BlackMetal:3:0:True
+- FineWood:20:0:True
+- LinenThread:5:0:True
+- BlackMetal:20:0:True
