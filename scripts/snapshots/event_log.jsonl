@@ -6,3 +6,5 @@
 {"timestamp": "2025-08-14T14:14:30", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml.20250813_195946.bak", "success": true, "details": {"action": "Updated baseline for"}}
 {"timestamp": "2025-08-14T14:14:33", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml.20250813_200813.bak", "success": true, "details": {"action": "Updated baseline for"}}
 {"timestamp": "2025-08-14T14:14:35", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml", "success": true, "details": {"action": "Updated baseline for"}}
+{"timestamp": "2025-08-14T15:57:32", "action": "revert", "file": "Detalhes.ItemRequiresSkillLevel.cfg", "success": true, "details": {"from": "initial", "method": "write"}}
+{"timestamp": "2025-08-14T15:58:07", "action": "snapshot", "file": "", "success": true, "details": {"type": "current", "file_count": 1668}}
