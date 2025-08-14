@@ -1239,6 +1239,8 @@ class ItemSkillTrackerApp:
         fuzzy_matched: list[tuple[str, str]] = []  # (input_name, prefab)
         # Cache current manual map
         manual_levels: dict[str, str] = self.state.data.setdefault("skill_levels", {})
+        # Track which prefabs were inferred (yellow tag)
+        guessed_levels: dict[str, bool] = self.state.data.setdefault("guessed_levels", {})
 
         # Helper: normalization and tokenization for fuzzy matching
         def normalize_string(s: str) -> str:
@@ -1386,7 +1388,23 @@ class ItemSkillTrackerApp:
                 while len(vals) < 6:
                     vals.append("")
                 vals[2] = str(lvl).strip()
-                self.tree.item(iid, values=tuple(vals))
+                # If chosen by fuzzy/window step, mark guessed; exact metadata match remains untagged
+                # Heuristic: we consider it guessed if it came from Step B
+                was_fuzzy = any(chosen_prefab == pf for _n, pf in fuzzy_matched)
+                if was_fuzzy:
+                    guessed_levels[chosen_prefab] = True
+                    # add 'guessed' tag to row
+                    try:
+                        cur_tags = tuple(self.tree.item(iid).get('tags', []) or [])
+                        if 'guessed' not in cur_tags:
+                            self.tree.item(iid, tags=cur_tags + ('guessed',), values=tuple(vals))
+                        else:
+                            self.tree.item(iid, values=tuple(vals))
+                    except Exception:
+                        self.tree.item(iid, values=tuple(vals))
+                else:
+                    guessed_levels.pop(chosen_prefab, None)
+                    self.tree.item(iid, values=tuple(vals))
             updated_count += 1
             assigned_prefabs.add(chosen_prefab)
             if chosen_index is not None:
@@ -1962,6 +1980,7 @@ class ItemSkillTrackerApp:
             img = self._get_display_icon(item, marked)
             # Load persisted manual level or from yaml if present
             manual_levels: dict[str, str] = self.state.data.setdefault("skill_levels", {})
+            guessed_levels: dict[str, bool] = self.state.data.setdefault("guessed_levels", {})
             level_str = str(manual_levels.get(item, ""))
             if not level_str and item in levels:
                 level_str = str(levels[item])
@@ -1992,13 +2011,20 @@ class ItemSkillTrackerApp:
                 (items_rich.get(item, {}).get('station') or "")
             )
             station_lvl_from_wacky = (wacky.get(item, {}) or {}).get('station_level') or (crow_tmp.get('station_level') or "")
+            # Build row tags
+            row_tags: list[str] = []
+            if craftable:
+                row_tags.append("craftable")
+            if guessed_levels.get(item):
+                row_tags.append("guessed")
+
             item_kwargs = {
                 "text": "",
                 "values": (item_label, mod_name, level_str, station_from_wacky or "", str(station_lvl_from_wacky) if station_lvl_from_wacky else "", "Yes" if in_yaml else "No"),
             }
             if img is not None:
                 item_kwargs["image"] = img
-            iid_new = self.tree.insert("", "end", tags=("craftable",) if craftable else (), **item_kwargs)
+            iid_new = self.tree.insert("", "end", tags=tuple(row_tags), **item_kwargs)
             self.all_item_iids.append(iid_new)
 
         self.status.set(f"Loaded {len(items_basic)} items; {count_in_yaml} in skill YAML. Use search to filter; double-click or Space to toggle highlight.")
