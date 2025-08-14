@@ -1045,6 +1045,8 @@ class ItemSkillTrackerApp:
         actions_btn.pack(side=tk.LEFT, padx=(0, 6))
         # Consolidated export button with options dialog
         ttk.Button(top, text="Export…", style="Action.TButton", command=self._open_export_dialog).pack(side=tk.LEFT, padx=(0, 6))
+        # Paste levels button
+        ttk.Button(top, text="Paste Levels…", style="Action.TButton", command=self._open_paste_levels_dialog).pack(side=tk.LEFT, padx=(0, 6))
         # Zoom controls (minimalist)
         zoom_frame = ttk.Frame(top)
         zoom_frame.pack(side=tk.RIGHT)
@@ -1101,6 +1103,8 @@ class ItemSkillTrackerApp:
         # Tag to color craftable items
         try:
             self.tree.tag_configure("craftable", foreground="#6aa84f")
+            # Tag to color inferred/guessed levels
+            self.tree.tag_configure("guessed", foreground="#ffd966")
         except Exception:
             pass
 
@@ -1151,6 +1155,253 @@ class ItemSkillTrackerApp:
         self.root.bind("<Control-minus>", lambda e: self.zoom_out())
         self.root.bind("<Control-0>", lambda e: self.reset_zoom())
         self.root.bind("<Return>", lambda e: self._open_item_details())
+
+    def _open_paste_levels_dialog(self) -> None:
+        """Open a dialog with a multiline text box to paste lines: 'English Name, Level'.
+
+        Only items with an empty Skill Level cell and without a manual level set will be updated.
+        """
+        dlg = tk.Toplevel(self.root)
+        dlg.title("Paste Levels")
+        dlg.configure(bg=self.colors["bg"])
+        dlg.geometry("720x420")
+        try:
+            dlg.transient(self.root)
+            dlg.grab_set()
+        except Exception:
+            pass
+        frame = ttk.Frame(dlg)
+        frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        msg = (
+            "Paste lines in the format: English Name, Level\n"
+            "Example:\n"
+            "Iron battleaxe, 3\nSilver Battlehammer, 5\n\n"
+            "Only rows with no Skill Level set will be changed.\n"
+            "Press Ctrl+Enter to apply; Esc to cancel."
+        )
+        lbl = ttk.Label(frame, text=msg, justify=tk.LEFT)
+        lbl.pack(anchor=tk.W)
+        text = tk.Text(frame, height=16, wrap=tk.NONE)
+        text.pack(fill=tk.BOTH, expand=True, pady=(6, 6))
+        try:
+            text.focus_set()
+        except Exception:
+            pass
+        btns = ttk.Frame(frame)
+        btns.pack(fill=tk.X)
+        def on_apply():
+            content = text.get("1.0", tk.END)
+            self._apply_pasted_levels(content)
+            dlg.destroy()
+        def on_cancel():
+            dlg.destroy()
+        ttk.Button(btns, text="Apply to Missing (Ctrl+Enter)", style="Action.TButton", command=on_apply).pack(side=tk.LEFT)
+        ttk.Button(btns, text="Cancel", style="Action.TButton", command=on_cancel).pack(side=tk.RIGHT)
+        try:
+            text.bind("<Control-Return>", lambda e: (on_apply(), "break"))
+            dlg.bind("<Control-Return>", lambda e: (on_apply(), "break"))
+            text.bind("<Control-KP_Enter>", lambda e: (on_apply(), "break"))
+            dlg.bind("<Control-KP_Enter>", lambda e: (on_apply(), "break"))
+            dlg.bind("<Escape>", lambda e: (on_cancel(), "break"))
+        except Exception:
+            pass
+
+    def _apply_pasted_levels(self, raw_text: str) -> None:
+        """Parse pasted text and update manual skill levels by matching English name to items.
+
+        - Lines must be 'English Name, Level'. Extra spaces and quotes are trimmed.
+        - Case-insensitive match against VNEI 'Localized Name'.
+        - Only updates items with no manual level set and an empty Skill Level cell.
+        """
+        if not raw_text or not raw_text.strip():
+            return
+        # Build lookup: english(localized) -> list[prefab]
+        try:
+            meta = self.vnei_index.load_item_metadata()
+        except Exception:
+            meta = {}
+        name_to_prefabs: dict[str, list[str]] = {}
+        for prefab, m in (meta or {}).items():
+            name = (m.get('localized') or '').strip()
+            if not name:
+                continue
+            key = name.casefold()
+            name_to_prefabs.setdefault(key, []).append(prefab)
+
+        # Determine full set of rows to iterate over (all, not just visible)
+        iids = getattr(self, 'all_item_iids', None)
+        if not iids:
+            iids = list(self.tree.get_children(""))
+
+        updated_count = 0
+        unknown_names: list[str] = []
+        ambiguous: list[str] = []
+        fuzzy_matched: list[tuple[str, str]] = []  # (input_name, prefab)
+        # Cache current manual map
+        manual_levels: dict[str, str] = self.state.data.setdefault("skill_levels", {})
+
+        # Helper: normalization and tokenization for fuzzy matching
+        def normalize_string(s: str) -> str:
+            s = (s or "").casefold().strip()
+            # Remove quotes and extra decorations
+            s = s.replace('★', '')
+            # Keep alphanumerics and spaces
+            s = re.sub(r"[^a-z0-9\s]", " ", s)
+            s = re.sub(r"\s+", " ", s).strip()
+            return s
+
+        def tokenize(s: str) -> list[str]:
+            return [t for t in normalize_string(s).split() if t]
+
+        def parse_line(line: str) -> tuple[str | None, str | None]:
+            if not line or not line.strip():
+                return None, None
+            if "," not in line:
+                return None, None
+            left, right = line.split(",", 1)
+            name = left.strip().strip('"').strip("'")
+            # Trim trailing decorations like " - something" or extra bracketed tails
+            name = re.sub(r"\s*-\s*.+$", "", name).strip()
+            lvl_raw = right.strip()
+            # Extract first integer-ish token
+            m = re.search(r"(-?\d+)", lvl_raw)
+            lvl = m.group(1) if m else lvl_raw
+            return (name if name else None), (lvl if lvl else None)
+
+        pairs: list[tuple[str, str]] = []
+        for raw in raw_text.splitlines():
+            name, lvl = parse_line(raw)
+            if name and lvl:
+                pairs.append((name, lvl))
+
+        if not pairs:
+            messagebox.showwarning("Paste Levels", "No valid 'Name, Level' lines found.")
+            return
+
+        # Build quick indices and an ordered list of visible rows for order-aware fuzzy matching
+        prefab_to_iid: dict[str, str] = {}
+        prefab_to_display_level: dict[str, str] = {}
+        prefab_to_index: dict[str, int] = {}
+        visible_rows: list[dict] = []
+        for idx, iid in enumerate(iids):
+            vals = self.tree.item(iid).get('values', [])
+            if not vals:
+                continue
+            raw_label = str(vals[0])
+            label = raw_label.replace("★ ", "").strip()
+            # Extract display name and prefab from "Name (Prefab)"
+            m_pref = re.search(r"\(([^)]+)\)$", label)
+            if m_pref:
+                prefab = m_pref.group(1)
+                display_name = label[:label.rfind("(")].strip()
+            else:
+                prefab = label
+                display_name = label
+            prefab_to_iid[prefab] = iid
+            prefab_to_index[prefab] = idx
+            # skill level column is index 2
+            try:
+                prefab_to_display_level[prefab] = str(vals[2])
+            except Exception:
+                prefab_to_display_level[prefab] = ""
+            visible_rows.append({
+                "index": idx,
+                "iid": iid,
+                "prefab": prefab,
+                "display_name": display_name,
+                "display_norm": normalize_string(display_name),
+                "display_tokens": tokenize(display_name),
+            })
+
+        def is_missing(prefab: str) -> bool:
+            if prefab in manual_levels and str(manual_levels.get(prefab) or "").strip():
+                return False
+            disp = (prefab_to_display_level.get(prefab) or "").strip()
+            return disp == ""
+
+        def similarity_score(input_tokens: list[str], candidate_tokens: list[str]) -> float:
+            if not input_tokens:
+                return 0.0
+            hits = 0
+            cand_set = set(candidate_tokens)
+            for t in input_tokens:
+                if t in cand_set:
+                    hits += 1
+            return hits / max(1, len(input_tokens))
+
+        # Track last matched index to respect order; start at first row
+        last_matched_index: int | None = None
+        assigned_prefabs: set[str] = set()
+
+        for name, lvl in pairs:
+            key = name.casefold()
+            prefabs = name_to_prefabs.get(key, [])
+
+            chosen_prefab: str | None = None
+            chosen_index: int | None = None
+
+            # Step A: exact match via metadata name
+            if prefabs:
+                candidates = [p for p in prefabs if is_missing(p) and p not in assigned_prefabs]
+                if candidates:
+                    if len(candidates) > 1:
+                        ambiguous.append(name)
+                        # Pick nearest to last matched index if possible
+                        if last_matched_index is not None:
+                            candidates.sort(key=lambda p: abs(prefab_to_index.get(p, 1_000_000) - last_matched_index))
+                    chosen_prefab = candidates[0]
+                    chosen_index = prefab_to_index.get(chosen_prefab)
+
+            # Step B: fuzzy/window-based by visible order if not found
+            if chosen_prefab is None:
+                input_tokens = tokenize(name)
+                # Determine window center
+                center = last_matched_index if last_matched_index is not None else 0
+                lo = max(0, center - 5)
+                hi = min(len(visible_rows) - 1, center + 5)
+                best_score = 0.0
+                best: tuple[int, str] | None = None  # (index, prefab)
+                for idx in range(lo, hi + 1):
+                    row = visible_rows[idx]
+                    prefab = row["prefab"]
+                    if prefab in assigned_prefabs or not is_missing(prefab):
+                        continue
+                    score = similarity_score(input_tokens, row["display_tokens"])
+                    if score > best_score or (score == best_score and best and abs(idx - center) < abs(best[0] - center)):
+                        best_score = score
+                        best = (idx, prefab)
+                if best and best_score >= 0.6:
+                    chosen_index, chosen_prefab = best
+                    fuzzy_matched.append((name, chosen_prefab))
+
+            if chosen_prefab is None:
+                unknown_names.append(name)
+                continue
+
+            # Apply assignment
+            manual_levels[chosen_prefab] = str(lvl).strip()
+            iid = prefab_to_iid.get(chosen_prefab)
+            if iid:
+                vals = list(self.tree.item(iid).get('values', []))
+                while len(vals) < 6:
+                    vals.append("")
+                vals[2] = str(lvl).strip()
+                self.tree.item(iid, values=tuple(vals))
+            updated_count += 1
+            assigned_prefabs.add(chosen_prefab)
+            if chosen_index is not None:
+                last_matched_index = chosen_index
+
+        self.state.save()
+        msg_parts = [f"Updated {updated_count} item(s)."]
+        if unknown_names:
+            msg_parts.append(f"{len(unknown_names)} name(s) not found: " + ", ".join(sorted(set(unknown_names))[:10]) + ("…" if len(set(unknown_names)) > 10 else ""))
+        if ambiguous:
+            msg_parts.append(f"{len(set(ambiguous))} ambiguous name(s) matched multiple items (all missing were updated).")
+        if fuzzy_matched:
+            msg_parts.append(f"{len(fuzzy_matched)} fuzzy-matched by nearby order.")
+        self.status.set(" ".join(msg_parts))
+        messagebox.showinfo("Paste Levels", "\n".join(msg_parts))
 
     def zoom_in(self):
         self.zoom_level = min(self.zoom_level * 1.2, 3.0)
