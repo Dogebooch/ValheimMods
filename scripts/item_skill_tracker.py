@@ -114,7 +114,7 @@ class VNEIItemIndex:
                     station = (row.get(lower_headers[lower_headers.index(key)], "") or "").strip()
                     break
 
-            # Extract numeric-ish values
+            # Enhanced numeric extraction with better pattern matching
             def get_num(keys: list[str]) -> float | None:
                 for k in keys:
                     if k in lower_headers:
@@ -122,49 +122,153 @@ class VNEIItemIndex:
                         if v is None:
                             continue
                         try:
-                            # Handle formats like "45", "45.0", "45 (Slash)", "45-60"
+                            # Handle formats like "45", "45.0", "45 (Slash)", "45-60", "45.5", "45,000"
                             s = str(v).strip()
-                            s = s.split()[0]
+                            # Remove common suffixes and parentheses
+                            s = re.sub(r'\s*\([^)]*\)', '', s)  # Remove (Slash) etc
+                            s = re.sub(r'\s*[A-Za-z]+$', '', s)  # Remove trailing text
+                            s = s.replace(',', '')  # Handle thousands separators
+                            s = s.split()[0] if s else ""
+                            
                             if "-" in s:
                                 parts = [float(p) for p in s.split("-") if p]
                                 if parts:
                                     return sum(parts) / len(parts)
-                            return float(s)
+                            elif s:
+                                return float(s)
                         except Exception:
                             continue
                 return None
 
-            lower_map = {h.lower().strip(): h for h in lower_headers}
-            # Damage detection
+            # Enhanced damage detection - look for individual damage types and total
+            damage_types = {
+                "slash": get_num(["slash", "slashdamage", "slash_damage"]),
+                "pierce": get_num(["pierce", "piercedamage", "pierce_damage"]),
+                "blunt": get_num(["blunt", "bluntdamage", "blunt_damage"]),
+                "fire": get_num(["fire", "firedamage", "fire_damage"]),
+                "frost": get_num(["frost", "frostdamage", "frost_damage"]),
+                "poison": get_num(["poison", "poisondamage", "poison_damage"]),
+                "lightning": get_num(["lightning", "lightningdamage", "lightning_damage"]),
+                "spirit": get_num(["spirit", "spiritdamage", "spirit_damage"]),
+                "physical": get_num(["physical", "physicaldamage", "physical_damage"]),
+                "magic": get_num(["magic", "magicdamage", "magic_damage"]),
+            }
+            
+            # Get total damage from various possible fields
             damage_total = get_num([
-                "damage", "totaldamage", "dmg", "basedamage",
-                "slash", "pierce", "blunt", "fire", "frost", "poison", "lightning", "spirit",
+                "damage", "totaldamage", "dmg", "basedamage", "total_damage", "base_damage",
+                "weapondamage", "weapon_damage", "attackdamage", "attack_damage"
             ])
-            # Armor / Block
-            armor = get_num(["armor", "armour"])
-            block = get_num(["blockpower", "block", "parry"])
-            # Tier / Weight / Durability
-            tier = get_num(["tier", "crafting_tier", "level"])
-            weight = get_num(["weight"]) 
-            durability = get_num(["durability", "maxdurability"])
+            
+            # If no total damage found, sum up individual types
+            if damage_total is None:
+                damage_total = sum(v for v in damage_types.values() if v is not None)
+                if damage_total == 0:
+                    damage_total = None
 
-            # Build summary string
+            # Enhanced armor detection
+            armor = get_num([
+                "armor", "armour", "armorvalue", "armourvalue", "armor_value", "armour_value",
+                "defense", "defence", "protection", "armorrating", "armourrating"
+            ])
+            
+            # Enhanced block detection
+            block = get_num([
+                "blockpower", "block", "parry", "blockpower", "block_power", "parrypower",
+                "blockvalue", "parryvalue", "block_value", "parry_value"
+            ])
+            
+            # Enhanced tier detection
+            tier = get_num([
+                "tier", "crafting_tier", "level", "itemtier", "item_tier", "craftingtier",
+                "tooltier", "tool_tier", "mtooltier", "m_tooltier"
+            ])
+            
+            # Enhanced weight detection
+            weight = get_num([
+                "weight", "itemweight", "item_weight", "mass", "carryweight", "carry_weight"
+            ])
+            
+            # Enhanced durability detection
+            durability = get_num([
+                "durability", "maxdurability", "max_durability", "maxdurability", "durability_max",
+                "uses", "maxuses", "max_uses", "lifetime", "maxlifetime"
+            ])
+            
+            # New stat detections
+            speed = get_num([
+                "speed", "attackspeed", "attack_speed", "swingspeed", "swing_speed",
+                "usespeed", "use_speed", "craftspeed", "craft_speed"
+            ])
+            
+            range_val = get_num([
+                "range", "attackrange", "attack_range", "reach", "distance", "maxrange"
+            ])
+            
+            knockback = get_num([
+                "knockback", "knock_back", "pushback", "push_back", "force"
+            ])
+            
+            backstab = get_num([
+                "backstab", "back_stab", "backstabmultiplier", "back_stab_multiplier"
+            ])
+            
+            parry_force = get_num([
+                "parryforce", "parry_force", "parrybonus", "parry_bonus"
+            ])
+            
+            movement = get_num([
+                "movement", "movementspeed", "movement_speed", "movespeed", "move_speed"
+            ])
+            
+            stamina = get_num([
+                "stamina", "staminause", "stamina_use", "staminaconsumption", "stamina_consumption"
+            ])
+
+            # Build comprehensive summary string
             parts: list[str] = []
+            
+            # Primary combat stats (damage/armor/block)
             if armor is not None:
                 parts.append(f"Armor {int(armor) if armor.is_integer() else round(armor,1)}")
             elif block is not None and (damage_total is None or block >= (damage_total or 0) * 0.6):
                 parts.append(f"Block {int(block) if block.is_integer() else round(block,1)}")
             elif damage_total is not None:
                 parts.append(f"DMG {int(damage_total) if damage_total.is_integer() else round(damage_total,1)}")
+                
+                # Add damage type breakdown if we have individual types
+                damage_parts = []
+                for dmg_type, dmg_val in damage_types.items():
+                    if dmg_val is not None and dmg_val > 0:
+                        damage_parts.append(f"{dmg_type.capitalize()}:{int(dmg_val) if dmg_val.is_integer() else round(dmg_val,1)}")
+                if damage_parts and len(damage_parts) > 1:
+                    parts.append(f"({', '.join(damage_parts)})")
 
+            # Secondary combat stats
+            if speed is not None:
+                parts.append(f"Spd {round(speed,1)}")
+            if range_val is not None:
+                parts.append(f"Rng {int(range_val) if range_val.is_integer() else round(range_val,1)}")
+            if knockback is not None:
+                parts.append(f"KB {int(knockback) if knockback.is_integer() else round(knockback,1)}")
+            if backstab is not None:
+                parts.append(f"BS {int(backstab) if backstab.is_integer() else round(backstab,1)}")
+            if parry_force is not None:
+                parts.append(f"PF {int(parry_force) if parry_force.is_integer() else round(parry_force,1)}")
+
+            # Utility stats
             if tier is not None:
                 parts.append(f"T{int(tier)}")
             if weight is not None:
                 parts.append(f"Wt {round(weight,1)}")
             if durability is not None:
                 parts.append(f"Dur {int(durability) if durability.is_integer() else round(durability,0)}")
+            if movement is not None:
+                parts.append(f"Mov {round(movement,1)}")
+            if stamina is not None:
+                parts.append(f"Sta {int(stamina) if stamina.is_integer() else round(stamina,1)}")
 
-            summary = " 3 ".join(parts) if parts else ""
+            summary = " | ".join(parts) if parts else ""
             return station, summary
 
         if source is None:
@@ -174,7 +278,7 @@ class VNEIItemIndex:
             with open(source, newline='', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
                 headers = reader.fieldnames or []
-                lower_headers = [h for h in headers]
+                lower_headers = [h.lower().strip() for h in headers]
                 item_col, _station_col = self._guess_columns(headers)
                 for row in reader:
                     item = (row.get(item_col, "") or "").strip()
@@ -183,53 +287,154 @@ class VNEIItemIndex:
                     station, summary = summarize_row(row, lower_headers)
                     result[item] = {"station": station, "stats": summary}
         else:
-            # Try to parse YML roughly for name and a few numbers
+            # Enhanced YML parsing with more comprehensive stat detection
             try:
                 with open(source, 'r', encoding='utf-8') as f:
                     text = f.read()
                 current_item = None
                 stash: dict[str, str] = {}
+                
+                def parse_yml_stats() -> tuple[str, str]:
+                    station = stash.get('station', '')
+                    
+                    # Enhanced stat extraction from stash
+                    stats_parts = []
+                    
+                    # Damage detection
+                    damage_total = None
+                    damage_types = {}
+                    
+                    # Look for total damage
+                    for dmg_key in ['damage', 'totaldamage', 'dmg', 'basedamage']:
+                        if dmg_key in stash:
+                            try:
+                                damage_total = float(stash[dmg_key])
+                                break
+                            except:
+                                pass
+                    
+                    # Look for individual damage types
+                    for dmg_type in ['slash', 'pierce', 'blunt', 'fire', 'frost', 'poison', 'lightning', 'spirit']:
+                        if dmg_type in stash:
+                            try:
+                                damage_types[dmg_type] = float(stash[dmg_type])
+                            except:
+                                pass
+                    
+                    # Sum up damage types if no total found
+                    if damage_total is None and damage_types:
+                        damage_total = sum(damage_types.values())
+                    
+                    # Armor detection
+                    armor = None
+                    for armor_key in ['armor', 'armour', 'defense', 'defence']:
+                        if armor_key in stash:
+                            try:
+                                armor = float(stash[armor_key])
+                                break
+                            except:
+                                pass
+                    
+                    # Block detection
+                    block = None
+                    for block_key in ['block', 'blockpower', 'parry']:
+                        if block_key in stash:
+                            try:
+                                block = float(stash[block_key])
+                                break
+                            except:
+                                pass
+                    
+                    # Build stats string
+                    if armor is not None:
+                        stats_parts.append(f"Armor {int(armor) if armor.is_integer() else round(armor,1)}")
+                    elif block is not None and (damage_total is None or block >= (damage_total or 0) * 0.6):
+                        stats_parts.append(f"Block {int(block) if block.is_integer() else round(block,1)}")
+                    elif damage_total is not None:
+                        stats_parts.append(f"DMG {int(damage_total) if damage_total.is_integer() else round(damage_total,1)}")
+                        
+                        # Add damage breakdown if we have types
+                        if damage_types and len(damage_types) > 1:
+                            dmg_parts = [f"{k.capitalize()}:{int(v) if v.is_integer() else round(v,1)}" 
+                                        for k, v in damage_types.items() if v > 0]
+                            if dmg_parts:
+                                stats_parts.append(f"({', '.join(dmg_parts)})")
+                    
+                    # Add other stats
+                    for stat_key in ['weight', 'durability', 'tier', 'speed', 'range']:
+                        if stat_key in stash:
+                            try:
+                                val = float(stash[stat_key])
+                                if stat_key == 'weight':
+                                    stats_parts.append(f"Wt {round(val,1)}")
+                                elif stat_key == 'durability':
+                                    stats_parts.append(f"Dur {int(val) if val.is_integer() else round(val,0)}")
+                                elif stat_key == 'tier':
+                                    stats_parts.append(f"T{int(val)}")
+                                elif stat_key == 'speed':
+                                    stats_parts.append(f"Spd {round(val,1)}")
+                                elif stat_key == 'range':
+                                    stats_parts.append(f"Rng {int(val) if val.is_integer() else round(val,1)}")
+                            except:
+                                pass
+                    
+                    summary = " | ".join(stats_parts) if stats_parts else ""
+                    return station, summary
+                
                 for raw in text.splitlines():
                     line = raw.strip()
                     if not line or line.startswith('#'):
                         continue
+                    
+                    # Item name detection
                     m_item = re.search(r"(name|item|internal|prefab)\s*:\s*([A-Za-z0-9_\-\.]+)", line, re.IGNORECASE)
                     if m_item:
                         if current_item and stash:
-                            # Summarize
-                            station = stash.get('station', '')
-                            dmg = stash.get('damage')
-                            armor = stash.get('armor')
-                            summary_parts = []
-                            if armor:
-                                summary_parts.append(f"Armor {armor}")
-                            elif dmg:
-                                summary_parts.append(f"DMG {dmg}")
-                            summary = " 3 ".join(summary_parts)
+                            # Summarize previous item
+                            station, summary = parse_yml_stats()
                             result[current_item] = {"station": station, "stats": summary}
                         current_item = m_item.group(2)
                         stash = {}
                         continue
-                    m_station = re.search(r"(crafting[_\s]?station|station)\s*:\s*([A-Za-z0-9_\-\. ]+)", line, re.IGNORECASE)
-                    if m_station:
-                        stash['station'] = m_station.group(2).strip()
-                    m_damage = re.search(r"(damage|slash|pierce|blunt)\s*:\s*([0-9.\-]+)", line, re.IGNORECASE)
-                    if m_damage:
-                        stash['damage'] = m_damage.group(2)
-                    m_armor = re.search(r"armor\s*:\s*([0-9.]+)", line, re.IGNORECASE)
-                    if m_armor:
-                        stash['armor'] = m_armor.group(1)
+                    
+                    # Enhanced stat detection patterns
+                    patterns = [
+                        # Station
+                        (r"(crafting[_\s]?station|station)\s*:\s*([A-Za-z0-9_\-\. ]+)", 'station'),
+                        # Damage types
+                        (r"(damage|totaldamage|dmg|basedamage)\s*:\s*([0-9.\-]+)", 'damage'),
+                        (r"(slash|pierce|blunt|fire|frost|poison|lightning|spirit)\s*:\s*([0-9.\-]+)", r'\1'),
+                        # Armor/Block
+                        (r"(armor|armour|defense|defence)\s*:\s*([0-9.]+)", 'armor'),
+                        (r"(block|blockpower|parry)\s*:\s*([0-9.]+)", 'block'),
+                        # Utility stats
+                        (r"(weight|mass)\s*:\s*([0-9.]+)", 'weight'),
+                        (r"(durability|maxdurability|uses)\s*:\s*([0-9.]+)", 'durability'),
+                        (r"(tier|level|mtooltier)\s*:\s*([0-9.]+)", 'tier'),
+                        (r"(speed|attackspeed|swingspeed)\s*:\s*([0-9.]+)", 'speed'),
+                        (r"(range|attackrange|reach)\s*:\s*([0-9.]+)", 'range'),
+                        (r"(knockback|pushback|force)\s*:\s*([0-9.]+)", 'knockback'),
+                        (r"(backstab|back_stab)\s*:\s*([0-9.]+)", 'backstab'),
+                        (r"(parryforce|parry_force)\s*:\s*([0-9.]+)", 'parryforce'),
+                        (r"(movement|movespeed)\s*:\s*([0-9.]+)", 'movement'),
+                        (r"(stamina|staminause)\s*:\s*([0-9.]+)", 'stamina'),
+                    ]
+                    
+                    for pattern, key in patterns:
+                        m = re.search(pattern, line, re.IGNORECASE)
+                        if m:
+                            if isinstance(key, str):
+                                stash[key] = m.group(2)
+                            else:
+                                # For damage types, use the matched group as key
+                                stash[m.group(1)] = m.group(2)
+                            break
+                
+                # Handle last item
                 if current_item and stash and current_item not in result:
-                    station = stash.get('station', '')
-                    dmg = stash.get('damage')
-                    armor = stash.get('armor')
-                    summary_parts = []
-                    if armor:
-                        summary_parts.append(f"Armor {armor}")
-                    elif dmg:
-                        summary_parts.append(f"DMG {dmg}")
-                    summary = " 3 ".join(summary_parts)
+                    station, summary = parse_yml_stats()
                     result[current_item] = {"station": station, "stats": summary}
+                    
             except Exception:
                 pass
         return result
@@ -425,23 +630,182 @@ class WackyBulkIndex:
             def find_num(key_pattern: str) -> str | None:
                 m = re.search(key_pattern + r"\s*:\s*([0-9.\-]+)", text, re.IGNORECASE)
                 return m.group(1) if m else None
+            
+            # Enhanced damage detection with individual types
+            damage_types = {}
             dmg_total = None
-            for key in ["TotalDamage", "Damage", "BaseDamage", "slash", "pierce", "blunt", "fire", "frost", "poison", "lightning", "spirit"]:
+            
+            # Look for total damage first
+            for key in ["TotalDamage", "Damage", "BaseDamage", "total_damage", "base_damage", "weapon_damage", "attack_damage"]:
                 v = find_num(re.escape(key))
                 if v:
                     try:
-                        dmg_total = (float(dmg_total) if dmg_total is not None else 0.0) + float(v)
+                        dmg_total = float(v)
+                        break
                     except Exception:
                         pass
-            armor = find_num(r"armor|armour")
-            weight = find_num(r"weight")
-            block = find_num(r"block(power)?")
-            durability = find_num(r"(durability|maxdurability)")
-            if armor: stats['armor'] = armor
-            if dmg_total is not None: stats['damage_total'] = str(int(dmg_total) if float(dmg_total).is_integer() else round(float(dmg_total), 1))
-            if weight: stats['weight'] = weight
-            if block: stats['block'] = block
-            if durability: stats['durability'] = durability
+            
+            # Look for individual damage types
+            for key in ["slash", "pierce", "blunt", "fire", "frost", "poison", "lightning", "spirit", "physical", "magic"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        damage_types[key] = float(v)
+                    except Exception:
+                        pass
+            
+            # Sum up damage types if no total found
+            if dmg_total is None and damage_types:
+                dmg_total = sum(damage_types.values())
+                if dmg_total == 0:
+                    dmg_total = None
+            
+            # Enhanced armor detection
+            armor = None
+            for key in ["armor", "armour", "armorvalue", "armourvalue", "defense", "defence", "protection"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        armor = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced block detection
+            block = None
+            for key in ["blockpower", "block", "parry", "block_power", "parrypower", "blockvalue", "parryvalue"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        block = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced weight detection
+            weight = None
+            for key in ["weight", "itemweight", "mass", "carryweight"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        weight = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced durability detection
+            durability = None
+            for key in ["durability", "maxdurability", "max_durability", "uses", "maxuses", "lifetime"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        durability = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # New stat detections
+            speed = None
+            for key in ["speed", "attackspeed", "attack_speed", "swingspeed", "swing_speed", "usespeed", "craftspeed"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        speed = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            range_val = None
+            for key in ["range", "attackrange", "attack_range", "reach", "distance", "maxrange"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        range_val = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            knockback = None
+            for key in ["knockback", "knock_back", "pushback", "push_back", "force"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        knockback = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            backstab = None
+            for key in ["backstab", "back_stab", "backstabmultiplier", "back_stab_multiplier"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        backstab = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            parry_force = None
+            for key in ["parryforce", "parry_force", "parrybonus", "parry_bonus"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        parry_force = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            movement = None
+            for key in ["movement", "movementspeed", "movement_speed", "movespeed", "move_speed"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        movement = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            stamina = None
+            for key in ["stamina", "staminause", "stamina_use", "staminaconsumption", "stamina_consumption"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        stamina = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Store stats with proper formatting
+            if armor is not None: 
+                stats['armor'] = str(int(armor) if armor.is_integer() else round(armor, 1))
+            if dmg_total is not None: 
+                stats['damage_total'] = str(int(dmg_total) if dmg_total.is_integer() else round(dmg_total, 1))
+                # Add damage breakdown if we have individual types
+                if damage_types and len(damage_types) > 1:
+                    dmg_parts = [f"{k.capitalize()}:{int(v) if v.is_integer() else round(v,1)}" 
+                                for k, v in damage_types.items() if v > 0]
+                    if dmg_parts:
+                        stats['damage_breakdown'] = ', '.join(dmg_parts)
+            if weight is not None: 
+                stats['weight'] = str(round(weight, 1))
+            if block is not None: 
+                stats['block'] = str(int(block) if block.is_integer() else round(block, 1))
+            if durability is not None: 
+                stats['durability'] = str(int(durability) if durability.is_integer() else round(durability, 0))
+            if speed is not None: 
+                stats['speed'] = str(round(speed, 1))
+            if range_val is not None: 
+                stats['range'] = str(int(range_val) if range_val.is_integer() else round(range_val, 1))
+            if knockback is not None: 
+                stats['knockback'] = str(int(knockback) if knockback.is_integer() else round(knockback, 1))
+            if backstab is not None: 
+                stats['backstab'] = str(int(backstab) if backstab.is_integer() else round(backstab, 1))
+            if parry_force is not None: 
+                stats['parry_force'] = str(int(parry_force) if parry_force.is_integer() else round(parry_force, 1))
+            if movement is not None: 
+                stats['movement'] = str(round(movement, 1))
+            if stamina is not None: 
+                stats['stamina'] = str(int(stamina) if stamina.is_integer() else round(stamina, 1))
 
             # Recipe extraction heuristics
             recipe: list[tuple[str, int]] = []
@@ -1077,7 +1441,7 @@ class ItemSkillTrackerApp:
 
         # Tree with left-most icon/star column and columns ordered for readability
         # Put Skill Level next to Item for straight-across reading, and show Mod
-        columns = ("item", "mod", "skill_level", "station", "station_lvl", "in_yaml")
+        columns = ("item", "mod", "skill_level", "station", "station_lvl", "stats", "in_yaml")
         self.tree = ttk.Treeview(self.root, columns=columns, show="tree headings", selectmode='extended')
         self.tree.heading("#0", text="★")
         self.tree.heading("item", text="Item")
@@ -1085,6 +1449,7 @@ class ItemSkillTrackerApp:
         self.tree.heading("skill_level", text="Skill Level")
         self.tree.heading("station", text="Crafting Station")
         self.tree.heading("station_lvl", text="Station Lvl")
+        self.tree.heading("stats", text="Stats")
         self.tree.heading("in_yaml", text="In Skill YAML")
         self.tree.column("#0", width=36, stretch=False)
         self.tree.column("item", width=360, stretch=False)
@@ -1092,6 +1457,7 @@ class ItemSkillTrackerApp:
         self.tree.column("skill_level", width=110, stretch=False, anchor='center')
         self.tree.column("station", width=200, stretch=False)
         self.tree.column("station_lvl", width=110, stretch=False, anchor='center')
+        self.tree.column("stats", width=300, stretch=False)
         self.tree.column("in_yaml", width=100, stretch=False, anchor='center')
         self.tree.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
@@ -1111,9 +1477,9 @@ class ItemSkillTrackerApp:
             pass
 
         # Remember base column widths to scale on zoom
-        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "station_lvl": 110, "in_yaml": 100}
+        self._base_tree_col_widths = {"#0": 36, "item": 360, "mod": 160, "skill_level": 110, "station": 200, "station_lvl": 110, "stats": 300, "in_yaml": 100}
         # Flex weights for responsive layout (A+C mix): distribute extra width to these
-        self._flex_weights = {"item": 3.0, "station": 1.5}
+        self._flex_weights = {"item": 3.0, "station": 1.5, "stats": 2.0}
 
         # Interactions
         self.tree.bind("<Double-1>", self._on_tree_double_click)
@@ -1563,7 +1929,7 @@ class ItemSkillTrackerApp:
                 scaled[col] = max(40, int(bw * self.zoom_level))
 
             # Base widths for flex columns before extra distribution
-            flex_cols = [c for c in ("item", "station") if c in self._base_tree_col_widths]
+            flex_cols = [c for c in ("item", "station", "stats") if c in self._base_tree_col_widths]
             for col in flex_cols:
                 bw = self._base_tree_col_widths.get(col, 120)
                 scaled[col] = max(80, int(bw * self.zoom_level))
@@ -1587,6 +1953,10 @@ class ItemSkillTrackerApp:
                 pass
             try:
                 self.tree.column("station", width=scaled.get("station", 200))
+            except Exception:
+                pass
+            try:
+                self.tree.column("stats", width=scaled.get("stats", 300))
             except Exception:
                 pass
             for col in fixed_cols:
@@ -1702,11 +2072,7 @@ class ItemSkillTrackerApp:
             return
         # Extract prefab from "Name (Prefab)"
         label = str(vals[0])
-        m = re.search(r"\(([^)]+)\)$", label.replace("★ ", ""))
-        if not m:
-            prefab = label.strip()
-        else:
-            prefab = m.group(1)
+        prefab = self._extract_prefab_name(label)
 
         # Gather sources
         try:
@@ -1874,6 +2240,28 @@ class ItemSkillTrackerApp:
         except Exception:
             pass
 
+    def _extract_prefab_name(self, item_label: str) -> str:
+        """Extract the clean prefab name from an item label.
+        
+        Handles formats like:
+        - "Name (PrefabName)"
+        - "Name: 'Description' (PrefabName)"
+        - "PrefabName" (no parentheses)
+        """
+        # Remove star prefix if present
+        label = item_label.lstrip('★ ').strip()
+        
+        # Look for parentheses at the end
+        m = re.search(r"\(([^)]+)\)$", label)
+        if m:
+            prefab = m.group(1).strip()
+            # Remove any quotes that might be around the prefab name
+            prefab = prefab.strip("'\"")
+            return prefab
+        
+        # If no parentheses, return the whole label
+        return label
+
     def _begin_inline_level_edit(self, event) -> None:
         sel = self.tree.selection()
         if not sel:
@@ -1888,9 +2276,8 @@ class ItemSkillTrackerApp:
         if len(vals) < 3:
             return
         # Determine prefab key from label "Name (Prefab)"
-        label_for_row = str(vals[0]).lstrip('★ ').strip()
-        m_pref = re.search(r"\(([^)]+)\)$", label_for_row)
-        current_item = m_pref.group(1) if m_pref else label_for_row
+        label_for_row = str(vals[0])
+        current_item = self._extract_prefab_name(label_for_row)
         current_level = str(vals[2]).strip()
         # Create an Entry overlay for inline edit
         var = tk.StringVar(value=current_level)
@@ -1954,8 +2341,7 @@ class ItemSkillTrackerApp:
             if len(vals) < 3:
                 continue
             item_label = str(vals[0]).replace("★ ", "")
-            m = re.search(r"\(([^)]+)\)$", item_label)
-            prefab = m.group(1) if m else item_label
+            prefab = self._extract_prefab_name(item_label)
             if val:
                 vals[2] = val
                 self.state.data.setdefault("skill_levels", {})[prefab] = val
@@ -2023,6 +2409,55 @@ class ItemSkillTrackerApp:
                 (items_rich.get(item, {}).get('station') or "")
             )
             station_lvl_from_wacky = (wacky.get(item, {}) or {}).get('station_level') or (crow_tmp.get('station_level') or "")
+            
+            # Build comprehensive stats string
+            stats_parts = []
+            
+            # Get stats from VNEI
+            vnei_stats = items_rich.get(item, {}).get('stats', '')
+            if vnei_stats:
+                stats_parts.append(f"VNEI: {vnei_stats}")
+            
+            # Get stats from Wacky
+            wacky_stats = wrow_tmp.get('stats', {})
+            if wacky_stats:
+                wacky_parts = []
+                for stat_key, stat_val in wacky_stats.items():
+                    if stat_key == 'damage_breakdown':
+                        wacky_parts.append(f"Dmg: {stat_val}")
+                    elif stat_key == 'damage_total':
+                        wacky_parts.append(f"DMG {stat_val}")
+                    elif stat_key == 'armor':
+                        wacky_parts.append(f"Armor {stat_val}")
+                    elif stat_key == 'block':
+                        wacky_parts.append(f"Block {stat_val}")
+                    elif stat_key == 'weight':
+                        wacky_parts.append(f"Wt {stat_val}")
+                    elif stat_key == 'durability':
+                        wacky_parts.append(f"Dur {stat_val}")
+                    elif stat_key == 'speed':
+                        wacky_parts.append(f"Spd {stat_val}")
+                    elif stat_key == 'range':
+                        wacky_parts.append(f"Rng {stat_val}")
+                    elif stat_key == 'knockback':
+                        wacky_parts.append(f"KB {stat_val}")
+                    elif stat_key == 'backstab':
+                        wacky_parts.append(f"BS {stat_val}")
+                    elif stat_key == 'parry_force':
+                        wacky_parts.append(f"PF {stat_val}")
+                    elif stat_key == 'movement':
+                        wacky_parts.append(f"Mov {stat_val}")
+                    elif stat_key == 'stamina':
+                        wacky_parts.append(f"Sta {stat_val}")
+                    else:
+                        wacky_parts.append(f"{stat_key.capitalize()} {stat_val}")
+                
+                if wacky_parts:
+                    stats_parts.append(f"Wacky: {' | '.join(wacky_parts)}")
+            
+            # Combine stats
+            stats_display = " | ".join(stats_parts) if stats_parts else ""
+            
             # Build row tags
             row_tags: list[str] = []
             if craftable:
@@ -2032,7 +2467,7 @@ class ItemSkillTrackerApp:
 
             item_kwargs = {
                 "text": "",
-                "values": (item_label, mod_name, level_str, station_from_wacky or "", str(station_lvl_from_wacky) if station_lvl_from_wacky else "", "Yes" if in_yaml else "No"),
+                "values": (item_label, mod_name, level_str, station_from_wacky or "", str(station_lvl_from_wacky) if station_lvl_from_wacky else "", stats_display, "Yes" if in_yaml else "No"),
             }
             if img is not None:
                 item_kwargs["image"] = img
@@ -2061,9 +2496,7 @@ class ItemSkillTrackerApp:
             prefab = None
             try:
                 label = str(vals[0]) if vals else ''
-                m = re.search(r"\(([^)]+)\)$", label.replace("★ ", ""))
-                if m:
-                    prefab = m.group(1)
+                prefab = self._extract_prefab_name(label)
             except Exception:
                 prefab = None
             is_hidden = prefab in hidden if prefab else False
@@ -2141,6 +2574,15 @@ class ItemSkillTrackerApp:
             b = tk.BooleanVar(value=(k in ("damage_total", "armor")))
             stats_vars[k] = b
             ttk.Checkbutton(stats_row, text=lab, variable=b).pack(side=tk.LEFT, padx=6)
+        
+        # Additional stats row
+        stats_row2 = ttk.Frame(cols_frame)
+        stats_row2.pack(fill=tk.X)
+        for k, lab in [("speed", "Speed"), ("range", "Range"), ("knockback", "Knockback"), ("backstab", "Backstab"), ("parry_force", "Parry Force"), ("movement", "Movement"), ("stamina", "Stamina")]:
+            b = tk.BooleanVar(value=False)
+            stats_vars[k] = b
+            ttk.Checkbutton(stats_row2, text=lab, variable=b).pack(side=tk.LEFT, padx=6)
+        
         # Other fields
         lower_row = ttk.Frame(cols_frame)
         lower_row.pack(fill=tk.X)
@@ -2170,8 +2612,7 @@ class ItemSkillTrackerApp:
                         if not vals:
                             continue
                         label = str(vals[0]).replace("★ ", "")
-                        m = re.search(r"\(([^)]+)\)$", label)
-                        prefab = m.group(1) if m else label
+                        prefab = self._extract_prefab_name(label)
                         items.append(prefab)
                 else:
                     items = sorted(self.vnei_index.load_items().keys(), key=lambda s: s.lower())
@@ -2203,7 +2644,11 @@ class ItemSkillTrackerApp:
                 if vars_map['skill_level'].get(): headers.append("Skill Level")
                 if vars_map['recipe'].get(): headers.append("Recipe")
                 # Stats headers
-                stats_order = [("damage_total", "DMG"), ("armor", "Armor"), ("block", "Block"), ("weight", "Weight"), ("durability", "Durability")]
+                stats_order = [
+                    ("damage_total", "DMG"), ("armor", "Armor"), ("block", "Block"), ("weight", "Weight"), ("durability", "Durability"),
+                    ("speed", "Speed"), ("range", "Range"), ("knockback", "Knockback"), ("backstab", "Backstab"), 
+                    ("parry_force", "Parry Force"), ("movement", "Movement"), ("stamina", "Stamina")
+                ]
                 for key, lab in stats_order:
                     if stats_vars[key].get():
                         headers.append(lab)
@@ -2362,9 +2807,7 @@ class ItemSkillTrackerApp:
         try:
             base_prefab = plain
             # Try to recover prefab from parentheses if present
-            m = re.search(r"\(([^)]+)\)$", plain)
-            if m:
-                base_prefab = m.group(1)
+            base_prefab = self._extract_prefab_name(plain)
             img = self._get_display_icon(base_prefab, not has_star)
             if img is not None:
                 self.tree.item(iid, image=img, values=vals, text="")
@@ -2390,10 +2833,7 @@ class ItemSkillTrackerApp:
             item_text = str(vals[0])
             plain = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
             vals[0] = f"★ {plain}"
-            base_prefab = plain
-            m = re.search(r"\(([^)]+)\)$", plain)
-            if m:
-                base_prefab = m.group(1)
+            base_prefab = self._extract_prefab_name(plain)
             img = self._get_display_icon(base_prefab, True)
             if img is not None:
                 self.tree.item(iid, image=img, values=vals, text="")
@@ -2410,10 +2850,7 @@ class ItemSkillTrackerApp:
             item_text = str(vals[0])
             plain = item_text[2:].lstrip() if item_text.startswith("★ ") else item_text
             vals[0] = plain
-            base_prefab = plain
-            m = re.search(r"\(([^)]+)\)$", plain)
-            if m:
-                base_prefab = m.group(1)
+            base_prefab = self._extract_prefab_name(plain)
             img = self._get_display_icon(base_prefab, False)
             if img is not None:
                 self.tree.item(iid, image=img, values=vals, text="")
@@ -2428,8 +2865,8 @@ class ItemSkillTrackerApp:
         - Only adds entries that are not already present by PrefabName.
         - If config file doesn't exist, creates it.
         - If an item already exists, update its Blacksmithing Level instead of appending a duplicate.
+        - Handles multiple formats and edge cases in existing YAML.
         """
-        # Determine target file: if user selected a specific YAML, respect that; else default under config_dir
         # Always write to the default Detalhes file in config directory
         target = self.config_dir / "Detalhes.ItemRequiresSkillLevel.yml"
         try:
@@ -2437,66 +2874,162 @@ class ItemSkillTrackerApp:
         except Exception:
             existing_text = ""
 
+        # Enhanced duplicate detection - parse existing items more thoroughly
         existing_items: set[str] = set()
-        # Parse existing PrefabName lines (fast heuristic)
-        for line in existing_text.splitlines():
+        existing_blocks: dict[str, tuple[int, int]] = {}  # item -> (start_line, end_line)
+        
+        # Parse existing YAML more comprehensively
+        lines = existing_text.splitlines()
+        current_item = None
+        current_start = 0
+        
+        for i, line in enumerate(lines):
+            line_stripped = line.strip()
+            
+            # Detect new item block
             m = re.match(r"^\s*-\s*PrefabName:\s*([A-Za-z0-9_\-\.]+)\s*$", line)
             if m:
-                existing_items.add(m.group(1))
+                # Save previous item block if exists
+                if current_item:
+                    existing_blocks[current_item] = (current_start, i)
+                
+                # Start new item block
+                current_item = m.group(1)
+                current_start = i
+                existing_items.add(current_item)
+        
+        # Save last item block
+        if current_item:
+            existing_blocks[current_item] = (current_start, len(lines))
 
         # Collect desired writes from UI state
         levels_map: dict[str, str] = self.state.data.get("skill_levels", {})
-        # Also include any levels inferred from load_blacksmithing_levels that user hasn't overridden?
-        # We'll only write items that have a manual level in UI to avoid surprises
-
-        # Helper: update Level inside an existing PrefabName block (Blacksmithing skill)
+        
+        # Enhanced helper: update Level inside an existing PrefabName block
         def _update_level_in_text(text: str, item_name: str, new_level: str) -> tuple[str, bool]:
             try:
+                # More robust pattern matching
                 block_pat = rf"(?ms)^-\s*PrefabName:\s*{re.escape(item_name)}\s*(?P<body>(?:\n(?!-\s*PrefabName:).*)*)"
                 bm = re.search(block_pat, text)
                 if not bm:
                     return text, False
+                
                 body = bm.group('body')
-                # Find Blacksmithing skill block
-                skill_pat = r"(?ms)(^\s*-\s*Skill\s*:\s*Blacksmithing\s*$)(?P<blk>(?:\n\s+.*)*)"
-                sm = re.search(skill_pat, body)
-                if not sm:
-                    return text, False
-                blk = sm.group('blk')
-                # Replace Level value within this block
-                lvl_pat = r"(^\s*Level\s*:\s*)(\d+)"
-                lm = re.search(lvl_pat, blk, re.MULTILINE)
-                if not lm:
-                    return text, False
-                cur_lvl = lm.group(2)
-                if cur_lvl == str(new_level):
-                    return text, False
-                blk_new = re.sub(lvl_pat, rf"\\g<1>{int(new_level)}", blk, count=1, flags=re.MULTILINE)
-                body_new = body[:sm.start('blk')] + blk_new + body[sm.end('blk'):]
-                text_new = text[:bm.start('body')] + body_new + text[bm.end('body'):]
-                return text_new, True
-            except Exception:
+                
+                # Find Blacksmithing skill block - handle multiple formats
+                skill_patterns = [
+                    r"(?ms)(^\s*-\s*Skill\s*:\s*Blacksmithing\s*$)(?P<blk>(?:\n\s+.*)*)",
+                    r"(?ms)(^\s*Skill\s*:\s*Blacksmithing\s*$)(?P<blk>(?:\n\s+.*)*)",
+                ]
+                
+                for skill_pat in skill_patterns:
+                    sm = re.search(skill_pat, body)
+                    if sm:
+                        blk = sm.group('blk')
+                        
+                        # Look for Level field in various formats
+                        level_patterns = [
+                            r"(^\s*Level\s*:\s*)(\d+)",
+                            r"(^\s*level\s*:\s*)(\d+)",
+                            r"(^\s*Level\s*:\s*)(\d+\.\d+)",
+                        ]
+                        
+                        for lvl_pat in level_patterns:
+                            lm = re.search(lvl_pat, blk, re.MULTILINE)
+                            if lm:
+                                cur_lvl = lm.group(2)
+                                if cur_lvl == str(new_level):
+                                    return text, False  # No change needed
+                                
+                                # Update the level
+                                blk_new = re.sub(lvl_pat, rf"\\g<1>{int(new_level)}", blk, count=1, flags=re.MULTILINE)
+                                body_new = body[:sm.start('blk')] + blk_new + body[sm.end('blk'):]
+                                text_new = text[:bm.start('body')] + body_new + text[bm.end('body'):]
+                                return text_new, True
+                
+                # If no existing skill block found, add one
+                if not any(re.search(sp, body) for sp in skill_patterns):
+                    # Add Blacksmithing skill block to existing item
+                    skill_block = f"\n    - Skill: Blacksmithing\n      Level: {int(new_level)}\n      BlockCraft: true\n      BlockEquip: false\n      EpicMMO: false\n      ExhibitionName: "
+                    
+                    # Find where to insert (after Requirements: line)
+                    req_match = re.search(r"^\s*Requirements\s*:\s*$", body, re.MULTILINE)
+                    if req_match:
+                        insert_pos = req_match.end()
+                        body_new = body[:insert_pos] + skill_block + body[insert_pos:]
+                        text_new = text[:bm.start('body')] + body_new + text[bm.end('body'):]
+                        return text_new, True
+                
                 return text, False
+            except Exception as e:
+                print(f"Error updating level for {item_name}: {e}")
+                return text, False
+
+        # Enhanced helper: remove duplicate entries
+        def _remove_duplicate_entries(text: str, item_name: str) -> str:
+            """Remove all but the first occurrence of an item entry."""
+            try:
+                # Find all occurrences of this item
+                pattern = rf"(?ms)^-\s*PrefabName:\s*{re.escape(item_name)}\s*(?:\n(?!-\s*PrefabName:).*)*"
+                matches = list(re.finditer(pattern, text))
+                
+                if len(matches) > 1:
+                    # Keep only the first occurrence, remove the rest
+                    result = text
+                    # Remove from last to first to maintain positions
+                    for match in reversed(matches[1:]):
+                        result = result[:match.start()] + result[match.end():]
+                    return result
+                
+                return text
+            except Exception:
+                return text
 
         to_write: list[tuple[str, str]] = []  # (item, level)
         updated_count = 0
+        removed_duplicates = 0
+        updated_items: list[str] = []  # Track which items were updated
+        
         for item, level in levels_map.items():
             level_str = str(level).strip()
             if not level_str:
                 continue
+                
             if item in existing_items:
+                # Remove any duplicate entries first
+                existing_text = _remove_duplicate_entries(existing_text, item)
+                
                 # Update in place if different
                 existing_text, changed = _update_level_in_text(existing_text, item, level_str)
                 if changed:
                     updated_count += 1
+                    updated_items.append(item)
                 continue
+            else:
+                # Check for case-insensitive matches
+                item_lower = item.lower()
+                found_case_variant = False
+                for existing_item in existing_items:
+                    if existing_item.lower() == item_lower:
+                        # Remove duplicates and update the existing one
+                        existing_text = _remove_duplicate_entries(existing_text, existing_item)
+                        existing_text, changed = _update_level_in_text(existing_text, existing_item, level_str)
+                        if changed:
+                            updated_count += 1
+                            updated_items.append(existing_item)
+                        found_case_variant = True
+                        break
+                
+                if found_case_variant:
+                    continue
+                    
             to_write.append((item, level_str))
 
         if not to_write and updated_count == 0:
-            messagebox.showinfo("Write", "No changes to write. Either all are already present with the same level or no levels entered.")
+            messagebox.showinfo("Write", "No changes to write. No entries were updated and no new entries were added.")
             return
 
-        # Build YAML chunks
+        # Build YAML chunks for new items
         chunks: list[str] = []
         for item, lvl in sorted(to_write, key=lambda x: x[0].lower()):
             chunks.append(
@@ -2517,13 +3050,34 @@ class ItemSkillTrackerApp:
         try:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(new_text, encoding='utf-8', newline='\n')
-            # No need to persist a chosen file; path is fixed
-            if to_write and updated_count:
-                message = f"Updated {updated_count} entr{'y' if updated_count==1 else 'ies'} and added {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}"
-            elif to_write:
-                message = f"Added {len(to_write)} new entr{'y' if len(to_write)==1 else 'ies'} to\n{target}"
+            
+            # Build comprehensive status message
+            message_parts = []
+            if updated_count > 0:
+                if updated_count == 1:
+                    message_parts.append(f"Updated 1 entry: {updated_items[0]}")
+                else:
+                    # Show first few entries, then count the rest
+                    if len(updated_items) <= 5:
+                        entries_list = ", ".join(updated_items)
+                        message_parts.append(f"Updated {updated_count} entries: {entries_list}")
+                    else:
+                        entries_list = ", ".join(updated_items[:3])
+                        remaining = len(updated_items) - 3
+                        message_parts.append(f"Updated {updated_count} entries: {entries_list} and {remaining} more")
             else:
-                message = f"Updated {updated_count} entr{'y' if updated_count==1 else 'ies'} in\n{target}"
+                # No entries were updated
+                message_parts.append("No entries were updated")
+                
+            if to_write:
+                if len(to_write) == 1:
+                    message_parts.append(f"Added 1 entry: {to_write[0][0]}")
+                else:
+                    message_parts.append(f"Added {len(to_write)} entries")
+            if removed_duplicates > 0:
+                message_parts.append(f"Removed {removed_duplicates} duplicate entr{'y' if removed_duplicates==1 else 'ies'}")
+            
+            message = f"{' and '.join(message_parts)} to\n{target}"
             messagebox.showinfo("Write", message)
         except Exception as e:
             messagebox.showerror("Write", f"Failed to write configuration: {e}")

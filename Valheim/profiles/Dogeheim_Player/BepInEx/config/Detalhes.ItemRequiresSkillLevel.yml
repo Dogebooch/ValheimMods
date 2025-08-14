@@ -1,221 +1,7 @@
-- PrefabName: ArmorBronzeLegs
-  Requirements:
-  - Skill: Blocking
-    Level: 10
-    BlockCraft: false
-    BlockEquip: true
-    EpicMMO: false
-    ExhibitionName: 
-  - Skill: Swim
-    Level: 10
-    BlockCraft: true
-    BlockEquip: true
-    EpicMMO: false
-    ExhibitionName: 
-- PrefabName: ArmorBronzeChest
-  Requirements:
-  - Skill: Blocking
-    Level: 10
-    BlockCraft: false
-    BlockEquip: true
-    EpicMMO: false
-    ExhibitionName: 
-  - Skill: Swim
-    Level: 10
-    BlockCraft: true
-    BlockEquip: true
-    EpicMMO: false
-    ExhibitionName: 
-- PrefabName: HelmetBronze
-  Requirements:
-  - Skill: Blocking
-    Level: 10
-    BlockCraft: false
-    BlockEquip: true
-    EpicMMO: false
-    ExhibitionName: 
-  - Skill: Swim
-    Level: 10
-    BlockCraft: true
-    BlockEquip: true
-    EpicMMO: false
-    ExhibitionName:
-
-- PrefabName: AmmoBackpack
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 15
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ancientchest
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 20
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ancienthelm
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 25
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ancientlegs
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 20
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: AndvaranautBackpack
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 15
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_Mountain_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 50
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_DamageBuff_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 35
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_BlackForest_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 10
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_SlowfallBuff_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 50
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_JumpBuff_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 25
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_SpeedBuff_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 50
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_Plains_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 63
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_Mistlands_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 63
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ArcaneScroll_Swamp_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 20
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: Arcanium
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 80
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ancientironchest
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 63
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ancientironhelm
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 68
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: ancientironlegs
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 63
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: 9bShireDoor
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 83
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
 - PrefabName: 9bchest
   Requirements:
     - Skill: Blacksmithing
-      Level: 40
+      Level: 20
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -224,11 +10,299 @@
 - PrefabName: 9bGreaves
   Requirements:
     - Skill: Blacksmithing
-      Level: 40
+      Level: 20
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
-      ExhibitionName:
+      ExhibitionName: 
+
+- PrefabName: Ammo Backpack (AmmoBackpack)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 15
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: AmmoBackpack
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 13
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Ancient Cuirass (ancientchest)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 20
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Ancient Helm (ancienthelm)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 25
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Ancient Legguards (ancientlegs)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 20
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ancientchest
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ancienthelm
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ancientironchest
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ancientironhelm
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ancientironlegs
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ancientlegs
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Andvaranaut Backpack (AndvaranautBackpack)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 15
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: AndvaranautBackpack
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 23
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Cleansing' (ArcaneScroll_Mountain_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Destruction' (ArcaneScroll_DamageBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Evergrowth' (ArcaneScroll_BlackForest_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Feather light' (ArcaneScroll_SlowfallBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Frog' (ArcaneScroll_JumpBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 25
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Gust' (ArcaneScroll_SpeedBuff_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Hellfire' (ArcaneScroll_Plains_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Storm' (ArcaneScroll_Mistlands_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcane scroll: 'Underworld' (ArcaneScroll_Swamp_TW)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 20
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_BlackForest_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 23
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_DamageBuff_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 66
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_JumpBuff_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 38
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_Mistlands_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 66
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_Mountain_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 38
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_Plains_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 53
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_SlowfallBuff_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 38
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_SpeedBuff_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 38
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArcaneScroll_Swamp_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 23
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Arcanium
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 95
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
 
 - PrefabName: ArcticStew_TW
   Requirements:
@@ -288,6 +362,24 @@
   Requirements:
     - Skill: Blacksmithing
       Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArmorBronzeChest
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: ArmorBronzeLegs
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 10
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -2633,7 +2725,7 @@
       EpicMMO: false
       ExhibitionName: 
 
-- PrefabName: BMR_BlobTarScroll
+- PrefabName: BlobTar (BMR_BlobTarScroll
   Requirements:
     - Skill: Blacksmithing
       Level: 53
@@ -2718,6 +2810,15 @@
   Requirements:
     - Skill: Blacksmithing
       Level: 23
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: BMR_BlobTarScroll
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 53
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -4388,24 +4489,6 @@
       EpicMMO: false
       ExhibitionName: 
 
-- PrefabName: FistBlackmetal_TW
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 55
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: SilverBattleaxeHTD
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 43
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName:
-
 - PrefabName: BronzeBattleaxeHTD
   Requirements:
     - Skill: Blacksmithing
@@ -5990,6 +6073,15 @@
       EpicMMO: false
       ExhibitionName: 
 
+- PrefabName: FistBlackmetal_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 55
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
 - PrefabName: FistBronze_TW
   Requirements:
     - Skill: Blacksmithing
@@ -6206,6 +6298,15 @@
       EpicMMO: false
       ExhibitionName: 
 
+- PrefabName: Flawless Arcanium (Arcanium)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 80
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
 - PrefabName: FlintDevastator_JH
   Requirements:
     - Skill: Blacksmithing
@@ -6353,7 +6454,7 @@
 - PrefabName: GlacierBlade_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 88
+      Level: 85
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -6723,6 +6824,15 @@
   Requirements:
     - Skill: Blacksmithing
       Level: 92
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: HelmetBronze
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 40
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -7178,42 +7288,6 @@
       EpicMMO: false
       ExhibitionName: 
 
-- PrefabName: IronFistsHTD
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 25
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: MaceEldner
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 85
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: SilverFistsHTD
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 40
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName: 
-
-- PrefabName: SilverGreatMaceHTD
-  Requirements:
-    - Skill: Blacksmithing
-      Level: 88
-      BlockCraft: true
-      BlockEquip: false
-      EpicMMO: false
-      ExhibitionName:
-
 - PrefabName: HelmetIron
   Requirements:
     - Skill: Blacksmithing
@@ -7605,6 +7679,15 @@
   Requirements:
     - Skill: Blacksmithing
       Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: IronFistsHTD
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 25
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -8033,6 +8116,33 @@
       EpicMMO: false
       ExhibitionName: 
 
+- PrefabName: Legionnaire's breastplate (ancientironchest)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Legionnaire's Helm (ancientironhelm)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 68
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Legionnaire's skirt (ancientironlegs)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 63
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
 - PrefabName: Lesser_Group_Healing
   Requirements:
     - Skill: Blacksmithing
@@ -8145,6 +8255,15 @@
   Requirements:
     - Skill: Blacksmithing
       Level: 80
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: MaceEldner
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 85
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10268,7 +10387,7 @@
 - PrefabName: ShieldWood
   Requirements:
     - Skill: Blacksmithing
-      Level: 10
+      Level: 14
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10277,7 +10396,7 @@
 - PrefabName: ShieldWoodTower
   Requirements:
     - Skill: Blacksmithing
-      Level: 10
+      Level: 18
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10287,6 +10406,33 @@
   Requirements:
     - Skill: Blacksmithing
       Level: 5
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Shire Crafted Door (9bShireDoor)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 83
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Shire Weaved Garbs (9bchest)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 40
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: Shire Weaved Trousers (9bGreaves)
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 40
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10391,10 +10537,19 @@
       EpicMMO: false
       ExhibitionName: 
 
+- PrefabName: SilverBattleaxeHTD
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 43
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
 - PrefabName: SilverBelt_JH
   Requirements:
     - Skill: Blacksmithing
-      Level: 63
+      Level: 38
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10409,10 +10564,28 @@
       EpicMMO: false
       ExhibitionName: 
 
+- PrefabName: SilverFistsHTD
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 40
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: SilverGreatMaceHTD
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 46
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
 - PrefabName: SilverGreatSwordHTD
   Requirements:
     - Skill: Blacksmithing
-      Level: 35
+      Level: 43
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10547,7 +10720,7 @@
 - PrefabName: SledgeBlackmetal_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 63
+      Level: 58
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10556,7 +10729,7 @@
 - PrefabName: SledgeBonemass_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 63
+      Level: 43
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10574,7 +10747,16 @@
 - PrefabName: SledgeDemolisher
   Requirements:
     - Skill: Blacksmithing
-      Level: 80
+      Level: 71
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: 
+
+- PrefabName: SledgeDemolisher_TW
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 71
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10583,7 +10765,7 @@
 - PrefabName: SledgeFlametal_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 92
+      Level: 95
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -10772,7 +10954,7 @@
 - PrefabName: SpearWolfFang
   Requirements:
     - Skill: Blacksmithing
-      Level: 35
+      Level: 40
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -11465,7 +11647,7 @@
 - PrefabName: SwordBlackmetal
   Requirements:
     - Skill: Blacksmithing
-      Level: 63
+      Level: 55
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -11474,7 +11656,7 @@
 - PrefabName: SwordBone_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 20
+      Level: 25
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -11483,7 +11665,7 @@
 - PrefabName: SwordBronze
   Requirements:
     - Skill: Blacksmithing
-      Level: 20
+      Level: 15
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -11492,7 +11674,7 @@
 - PrefabName: SwordChitin_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 23
+      Level: 25
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -11501,7 +11683,7 @@
 - PrefabName: SwordFlint_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 10
+      Level: 15
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -12068,7 +12250,7 @@
 - PrefabName: WarpikeObsidian_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 50
+      Level: 43
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
