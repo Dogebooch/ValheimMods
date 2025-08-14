@@ -11,6 +11,7 @@ requireOnlyOneIngredient: false
 upgrade_reqs: []
 reqs:
 - LoxPelt:10:2:True
-- LinenThread:18:2:True
-- Tar:5:2:True
-- BlackMetal:2:2:True
+- LinenThread:36:4:True
+- Tar:10:4:True
+- Eitr:10:5:True
+- BlackMetal:20:10:True
