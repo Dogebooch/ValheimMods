@@ -5,6 +5,8 @@ import shutil
 import re
 import hashlib
 import threading
+import subprocess
+import platform
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -734,7 +736,7 @@ class ConfigChangeTrackerApp:
         self.changes_tree.bind("<Button-3>", on_changes_right_click)
         # Delete key hides selected
         self.root.bind("<Delete>", lambda e: self.hide_selected_change())
-        # Double-click Summary cell to edit
+        # Double-click to open file in editor or edit summary
         self.changes_tree.bind("<Double-1>", self._on_changes_double_click)
         
         # Scrollbar for changes
@@ -754,17 +756,26 @@ class ConfigChangeTrackerApp:
         self.diff_tab = ttk.Frame(self.right_notebook)
         self.right_notebook.add(self.diff_tab, text="Diff View")
 
-        self.diff_text = tk.Text(self.diff_tab, bg=self.colors["panel"],
+        # Create a frame to hold the text widget and scrollbars
+        diff_frame = ttk.Frame(self.diff_tab)
+        diff_frame.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
+
+        self.diff_text = tk.Text(diff_frame, bg=self.colors["panel"],
                                  fg=self.colors["text"],
                                  insertbackground=self.colors["text"],
                                  wrap=tk.NONE, font=self.font)
-        self.diff_text.pack(fill=tk.BOTH, expand=True, padx=6, pady=(6, 0))
+        self.diff_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        diff_yscroll = ttk.Scrollbar(self.diff_tab, orient=tk.VERTICAL, command=self.diff_text.yview)
-        diff_xscroll = ttk.Scrollbar(self.diff_tab, orient=tk.HORIZONTAL, command=self.diff_text.xview)
-        self.diff_text.configure(yscrollcommand=diff_yscroll.set, xscrollcommand=diff_xscroll.set)
+        # Vertical scrollbar
+        diff_yscroll = ttk.Scrollbar(diff_frame, orient=tk.VERTICAL, command=self.diff_text.yview)
         diff_yscroll.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        # Horizontal scrollbar
+        diff_xscroll = ttk.Scrollbar(self.diff_tab, orient=tk.HORIZONTAL, command=self.diff_text.xview)
         diff_xscroll.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        # Configure the text widget to use both scrollbars
+        self.diff_text.configure(yscrollcommand=diff_yscroll.set, xscrollcommand=diff_xscroll.set)
 
         self.diff_text.tag_configure("added", foreground=self.colors["added"]) 
         self.diff_text.tag_configure("removed", foreground=self.colors["removed"]) 
@@ -1354,8 +1365,118 @@ class ConfigChangeTrackerApp:
             col = self.changes_tree.identify_column(event.x)
             if col == '#5':  # summary column
                 self.edit_selected_summary(from_summary_tab=False)
+            else:
+                # Open file in default editor
+                selection = self.changes_tree.selection()
+                if selection:
+                    item = self.changes_tree.item(selection[0])
+                    file_path = item['values'][1]
+                    self.open_file_in_editor(file_path)
         except Exception:
             pass
+
+    def open_file_in_editor(self, file_path: str) -> None:
+        """Open a file in the system's default editor with change highlighting."""
+        try:
+            full_path = self.config_root / file_path
+            
+            if not full_path.exists():
+                self._set_status(f"File not found: {file_path}")
+                return
+            
+            # Get the workspace root (Valheim_Testing directory)
+            workspace_root = Path(__file__).resolve().parents[1]
+            
+            # Try to open with VS Code first (most common for development)
+            system = platform.system().lower()
+            
+            if system == "windows":
+                # Try VS Code first, then fall back to default
+                try:
+                    # Use VS Code with workspace folder and goto line if possible
+                    line_number = self._get_first_change_line(file_path)
+                    if line_number:
+                        subprocess.Popen(['code', '-g', f'{full_path}:{line_number}', str(workspace_root)], shell=True)
+                    else:
+                        subprocess.Popen(['code', str(workspace_root)], shell=True)
+                    self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    return
+                except FileNotFoundError:
+                    # Fall back to default editor
+                    subprocess.Popen(['start', str(full_path)], shell=True)
+            elif system == "darwin":  # macOS
+                try:
+                    line_number = self._get_first_change_line(file_path)
+                    if line_number:
+                        subprocess.Popen(['code', '-g', f'{full_path}:{line_number}', str(workspace_root)])
+                    else:
+                        subprocess.Popen(['code', str(workspace_root)])
+                    self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    return
+                except FileNotFoundError:
+                    subprocess.Popen(['open', str(full_path)])
+            else:  # Linux and other Unix-like systems
+                try:
+                    line_number = self._get_first_change_line(file_path)
+                    if line_number:
+                        subprocess.Popen(['code', '-g', f'{full_path}:{line_number}', str(workspace_root)])
+                    else:
+                        subprocess.Popen(['code', str(workspace_root)])
+                    self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    return
+                except FileNotFoundError:
+                    # Try other editors
+                    editors = ['nano', 'vim', 'gedit', 'kate', 'mousepad']
+                    for editor in editors:
+                        try:
+                            subprocess.Popen([editor, str(full_path)])
+                            break
+                        except FileNotFoundError:
+                            continue
+                    else:
+                        # Fall back to xdg-open
+                        try:
+                            subprocess.Popen(['xdg-open', str(full_path)])
+                        except FileNotFoundError:
+                            self._set_status(f"Could not open {file_path} - no suitable editor found")
+                            return
+            
+            self._set_status(f"Opened {file_path} in default editor")
+            
+        except Exception as e:
+            self._set_status(f"Error opening {file_path}: {e}")
+
+    def _get_first_change_line(self, file_path: str) -> int | None:
+        """Get the line number of the first change in the file for editor navigation."""
+        try:
+            # Determine comparison type
+            compare_against = "initial" if self.compare_var.get() == "Since Baseline (All-Time)" else "current"
+            diff = self.snapshot.get_diff(file_path, compare_against)
+            
+            if not diff or diff.startswith("[Ignored path:") or diff.startswith("File not found"):
+                return None
+            
+            # Parse the diff to find the first change
+            lines = diff.splitlines()
+            for line in lines:
+                # Look for @@ lines that indicate change locations
+                if line.startswith("@@"):
+                    # Extract line number from @@ -old_start,old_count +new_start,new_count @@
+                    match = re.search(r'@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@', line)
+                    if match:
+                        return int(match.group(1))
+                # Look for + or - lines that indicate actual changes
+                elif line.startswith('+') and not line.startswith('+++'):
+                    # This is an added line, we need to find its context
+                    # For simplicity, return None and let editor open normally
+                    return None
+                elif line.startswith('-') and not line.startswith('---'):
+                    # This is a deleted line, we need to find its context
+                    return None
+            
+            return None
+        except Exception:
+            return None
 
     def edit_selected_summary(self, from_summary_tab: bool) -> None:
         tree = self.summary_tree if from_summary_tab else self.changes_tree

@@ -1,2 +1,8 @@
 {"timestamp": "2025-08-11T19:57:08", "action": "snapshot", "file": "", "success": true, "details": {"type": "current", "file_count": 1667}}
 {"timestamp": "2025-08-11T21:28:12", "action": "snapshot", "file": "", "success": true, "details": {"type": "current", "file_count": 1667}}
+{"timestamp": "2025-08-14T14:12:23", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.cfg", "success": true, "details": {"action": "Updated baseline for"}}
+{"timestamp": "2025-08-14T14:12:28", "action": "accept_baseline", "file": "org.bepinex.plugins.farming.cfg", "success": true, "details": {"action": "Updated baseline for"}}
+{"timestamp": "2025-08-14T14:12:31", "action": "accept_baseline", "file": "org.bepinex.plugins.building.cfg", "success": true, "details": {"action": "Updated baseline for"}}
+{"timestamp": "2025-08-14T14:14:30", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml.20250813_195946.bak", "success": true, "details": {"action": "Updated baseline for"}}
+{"timestamp": "2025-08-14T14:14:33", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml.20250813_200813.bak", "success": true, "details": {"action": "Updated baseline for"}}
+{"timestamp": "2025-08-14T14:14:35", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml", "success": true, "details": {"action": "Updated baseline for"}}
