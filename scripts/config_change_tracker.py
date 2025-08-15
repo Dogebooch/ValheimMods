@@ -25,36 +25,24 @@ class Tooltip:
         self.delay_ms = delay_ms
         self._tip_window = None
         self._after_id = None
-        try:
-            widget.bind("<Enter>", self._schedule)
-            widget.bind("<Leave>", self._unschedule)
-            widget.bind("<ButtonPress>", self._unschedule)
-        except Exception:
-            pass
+        widget.bind("<Enter>", self._schedule)
+        widget.bind("<Leave>", self._unschedule)
+        widget.bind("<ButtonPress>", self._unschedule)
 
     def _schedule(self, _event=None):
         self._unschedule()
-        try:
-            self._after_id = self.widget.after(self.delay_ms, self._show)
-        except Exception:
-            pass
+        self._after_id = self.widget.after(self.delay_ms, self._show)
 
     def _unschedule(self, _event=None):
-        try:
-            if self._after_id:
-                self.widget.after_cancel(self._after_id)
-                self._after_id = None
-            self._hide()
-        except Exception:
-            pass
+        if self._after_id:
+            self.widget.after_cancel(self._after_id)
+            self._after_id = None
+        self._hide()
 
     def _show(self):
         if self._tip_window or not self.text:
             return
-        try:
-            x, y, cx, cy = self.widget.bbox("insert") if hasattr(self.widget, "bbox") else (0, 0, 0, 0)
-        except Exception:
-            x = y = 0
+        x, y, cx, cy = self.widget.bbox("insert") if hasattr(self.widget, "bbox") else (0, 0, 0, 0)
         x += self.widget.winfo_rootx() + 20
         y += self.widget.winfo_rooty() + 20
         self._tip_window = tw = tk.Toplevel(self.widget)
@@ -67,12 +55,9 @@ class Tooltip:
         label.pack(ipadx=6, ipady=4)
 
     def _hide(self):
-        try:
-            if self._tip_window is not None:
-                self._tip_window.destroy()
-                self._tip_window = None
-        except Exception:
-            pass
+        if self._tip_window is not None:
+            self._tip_window.destroy()
+            self._tip_window = None
 
 class ConfigSnapshot:
     def __init__(self, config_root: Path):
@@ -93,10 +78,7 @@ class ConfigSnapshot:
         self._snapshot_index_cache: dict[str, dict] = {}
 
     def _should_ignore(self, file_path: Path) -> bool:
-        try:
-            rel_parts = (file_path.relative_to(self.config_root)).parts
-        except Exception:
-            rel_parts = file_path.parts
+        rel_parts = (file_path.relative_to(self.config_root)).parts
         for part in rel_parts:
             if part.lower() in self._ignored_dir_names:
                 return True
@@ -164,13 +146,13 @@ class ConfigSnapshot:
             snapshot_type = "initial" if is_initial else "current"
             msg = f"{snapshot_type.capitalize()} snapshot created with {len(snapshot['files'])} files"
             self.log_event(action="snapshot", success=True, extra={"type": snapshot_type, "file_count": len(snapshot['files'])})
-            # Update caches (minimal index and full snapshot)
-            try:
-                self._snapshot_cache[snapshot_type] = snapshot
-                idx: dict[str, dict] = {rel: {'size': m.get('size', 0), 'mtime': m.get('mtime', 0), 'hash': m.get('hash', '')} for rel, m in snapshot['files'].items()}
-                self._snapshot_index_cache[snapshot_type] = {'session': snapshot.get('session', ''), 'index': idx}
-            except Exception:
-                pass
+            
+            # Update caches
+            self._snapshot_cache[snapshot_type] = snapshot
+            idx = {rel: {'size': m.get('size', 0), 'mtime': m.get('mtime', 0), 'hash': m.get('hash', '')} 
+                   for rel, m in snapshot['files'].items()}
+            self._snapshot_index_cache[snapshot_type] = {'session': snapshot.get('session', ''), 'index': idx}
+            
             return True, msg
         except Exception as e:
             self.log_event(action="snapshot", success=False, extra={"error": str(e)})
@@ -178,41 +160,34 @@ class ConfigSnapshot:
     
     def load_snapshot(self, snapshot_type: str = "current") -> dict:
         """Load a snapshot by type. Served from in-memory cache when available."""
-        try:
-            if snapshot_type in self._snapshot_cache:
-                return self._snapshot_cache[snapshot_type]
-            file_path = self.initial_snapshot_file if snapshot_type == "initial" else self.current_snapshot_file
-            if file_path.exists():
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    snap = json.load(f)
-                    self._snapshot_cache[snapshot_type] = snap
-                    return snap
-        except Exception:
-            pass
+        if snapshot_type in self._snapshot_cache:
+            return self._snapshot_cache[snapshot_type]
+        
+        file_path = self.initial_snapshot_file if snapshot_type == "initial" else self.current_snapshot_file
+        if file_path.exists():
+            with open(file_path, 'r', encoding='utf-8') as f:
+                snap = json.load(f)
+                self._snapshot_cache[snapshot_type] = snap
+                return snap
         return {'timestamp': '', 'session': '', 'files': {}}
 
     def load_snapshot_index(self, snapshot_type: str = "current") -> dict:
         """Load a minimal snapshot index (session + file meta only), cached in memory."""
-        try:
-            if snapshot_type in self._snapshot_index_cache:
-                return self._snapshot_index_cache[snapshot_type]
-            snap = self.load_snapshot(snapshot_type)
-            files = snap.get('files', {}) or {}
-            idx: dict[str, dict] = {}
-            for rel, meta in files.items():
-                try:
-                    idx[rel] = {
-                        'size': meta.get('size', 0),
-                        'mtime': meta.get('mtime', 0),
-                        'hash': meta.get('hash', ''),
-                    }
-                except Exception:
-                    continue
-            result = {'session': snap.get('session', ''), 'index': idx}
-            self._snapshot_index_cache[snapshot_type] = result
-            return result
-        except Exception:
-            return {'session': '', 'index': {}}
+        if snapshot_type in self._snapshot_index_cache:
+            return self._snapshot_index_cache[snapshot_type]
+        
+        snap = self.load_snapshot(snapshot_type)
+        files = snap.get('files', {}) or {}
+        idx = {}
+        for rel, meta in files.items():
+            idx[rel] = {
+                'size': meta.get('size', 0),
+                'mtime': meta.get('mtime', 0),
+                'hash': meta.get('hash', ''),
+            }
+        result = {'session': snap.get('session', ''), 'index': idx}
+        self._snapshot_index_cache[snapshot_type] = result
+        return result
 
     def revert_file(self, rel_path: str, from_snapshot: str = "current") -> tuple[bool, str]:
         """Revert a single file to the content stored in the chosen snapshot.
@@ -580,34 +555,35 @@ class ConfigChangeTrackerApp:
         except Exception:
             pass
         
-        # Menu bar
+        # Menu bar - Simplified
         menubar = tk.Menu(self.root, tearoff=False)
         
-        # File menu
+        # File menu - Core operations only
         file_menu = tk.Menu(menubar, tearoff=False)
         file_menu.add_command(label="Scan for Changes", command=self.refresh_changes)
         file_menu.add_separator()
         file_menu.add_command(label="Save Session Snapshot", command=self.create_snapshot)
-        file_menu.add_command(label="Set New Baseline (All Files)", command=self.create_initial_snapshot)
+        file_menu.add_command(label="Set New Baseline", command=self.create_initial_snapshot)
+        file_menu.add_separator()
+        file_menu.add_command(label="Compare vs RelicHeim", command=self.show_relicheim_comparison)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
         menubar.add_cascade(label="File", menu=file_menu)
         
-        # View menu
+        # View menu - Display options
         view_menu = tk.Menu(menubar, tearoff=False)
+        view_menu.add_command(label="All-Time Summary", command=self.show_baseline_summary)
+        view_menu.add_separator()
         view_menu.add_command(label="Zoom In (Ctrl +)", command=self.zoom_in)
         view_menu.add_command(label="Zoom Out (Ctrl -)", command=self.zoom_out)
         view_menu.add_command(label="Reset Zoom (Ctrl 0)", command=self.reset_zoom)
-        view_menu.add_separator()
-        view_menu.add_command(label="All Changes Since Baseline...", command=self.show_baseline_summary)
         menubar.add_cascade(label="View", menu=view_menu)
 
-        # Tools menu (optional/advanced)
-        tools_menu = tk.Menu(menubar, tearoff=False)
-        tools_menu.add_command(label="Open Event Log (Detailed)", command=self.open_event_log)
-        tools_menu.add_separator()
-        tools_menu.add_command(label="Help: What do these buttons do?", command=self.show_help)
-        menubar.add_cascade(label="Tools", menu=tools_menu)
+        # Help menu - Documentation
+        help_menu = tk.Menu(menubar, tearoff=False)
+        help_menu.add_command(label="What do these buttons do?", command=self.show_help)
+        help_menu.add_command(label="Event Log", command=self.open_event_log)
+        menubar.add_cascade(label="Help", menu=help_menu)
         
         self.root.config(menu=menubar)
         
@@ -624,17 +600,14 @@ class ConfigChangeTrackerApp:
         left_frame = ttk.Frame(main_paned)
         main_paned.add(left_frame, weight=1)
         
-        # Top controls (simplified)
+        # Top controls - Simplified
         controls_frame = ttk.Frame(left_frame)
         controls_frame.pack(fill=tk.X, padx=6, pady=6)
         
+        # Main action buttons
         self.btn_refresh = ttk.Button(controls_frame, text="Scan for Changes", 
                                      style="Action.TButton", command=self.refresh_changes)
         self.btn_refresh.pack(side=tk.LEFT, padx=(0, 6))
-        
-        self.btn_relicheim = ttk.Button(controls_frame, text="Compare vs RelicHeim", 
-                                       style="Action.TButton", command=self.show_relicheim_comparison)
-        self.btn_relicheim.pack(side=tk.LEFT, padx=(0, 6))
         
         # Zoom controls
         zoom_frame = ttk.Frame(controls_frame)
@@ -826,18 +799,11 @@ class ConfigChangeTrackerApp:
         status_bar.pack(side=tk.LEFT, fill=tk.X, expand=True)
         self.progress = ttk.Progressbar(status_container, mode="indeterminate", length=120)
         self.progress.pack(side=tk.RIGHT)
-        try:
-            self.progress.stop()
-        except Exception:
-            pass
+        self.progress.stop()
 
-        # Attach tooltips (simplified)
-        try:
-            Tooltip(self.btn_refresh, "Scan the config folder and list files that differ from the selected reference.")
-            Tooltip(self.btn_relicheim, "Compare current configuration files against the base RelicHeim installation to see all changes.")
-            Tooltip(self.compare_combo, "Choose whether to compare against the last Session Snapshot or the all-time Baseline.")
-        except Exception:
-            pass
+        # Attach tooltips
+        Tooltip(self.btn_refresh, "Scan the config folder and list files that differ from the selected reference.")
+        Tooltip(self.compare_combo, "Choose whether to compare against the last Session Snapshot or the all-time Baseline.")
     
     def zoom_in(self) -> None:
         """Increase zoom level."""
@@ -858,32 +824,23 @@ class ConfigChangeTrackerApp:
         """Apply current zoom level to fonts."""
         new_size = int(self.base_font_size * self.zoom_level)
         self.font.configure(size=new_size)
+        
         # Apply font to key widgets and ttk styles
-        try:
-            self.diff_text.configure(font=self.font)
-        except Exception:
-            pass
-        try:
-            self.style.configure("Treeview", font=self.font)
-            self.style.configure("Treeview.Heading", font=self.font)
-            self.style.configure("Action.TButton", font=self.font)
-            self.style.configure("TLabel", font=self.font)
-            self.style.configure("TCombobox", font=self.font)
-        except Exception:
-            pass
-        # Update tk.Label widgets as well
-        try:
-            self._apply_font_to_widgets(self.root)
-        except Exception:
-            pass
+        self.diff_text.configure(font=self.font)
+        self.style.configure("Treeview", font=self.font)
+        self.style.configure("Treeview.Heading", font=self.font)
+        self.style.configure("Action.TButton", font=self.font)
+        self.style.configure("TLabel", font=self.font)
+        self.style.configure("TCombobox", font=self.font)
+        
+        # Update tk.Label widgets recursively
+        self._apply_font_to_widgets(self.root)
 
     def _apply_font_to_widgets(self, widget):
+        """Recursively apply font to tk.Label and tk.Text widgets."""
         for child in widget.winfo_children():
-            try:
-                if isinstance(child, (tk.Label, tk.Text)):
-                    child.configure(font=self.font)
-            except Exception:
-                pass
+            if isinstance(child, (tk.Label, tk.Text)):
+                child.configure(font=self.font)
             self._apply_font_to_widgets(child)
     
     def _init_snapshot_and_refresh(self) -> None:
@@ -908,22 +865,18 @@ class ConfigChangeTrackerApp:
                     else:
                         self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
                 
-                # Update snapshot info label
-                def update_info():
+                # Update snapshot info and auto-scan
+                def update_and_scan():
                     ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
                     cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
                     self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
-                self.root.after(0, update_info)
-
-                # Auto-scan for changes and open All-Time Summary by default
-                def do_initial_scan():
-                    try:
-                        self.compare_var.set("Since Baseline (All-Time)")
-                        self.on_compare_change()
-                        self.show_baseline_summary()
-                    except Exception:
-                        self.refresh_changes()
-                self.root.after(0, do_initial_scan)
+                    
+                    # Auto-scan for changes and open All-Time Summary by default
+                    self.compare_var.set("Since Baseline (All-Time)")
+                    self.on_compare_change()
+                    self.show_baseline_summary()
+                
+                self.root.after(0, update_and_scan)
             except Exception as e:
                 self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
         
@@ -1708,34 +1661,7 @@ class ConfigChangeTrackerApp:
 
         threading.Thread(target=worker, daemon=True).start()
 
-    def _open_diff_from_summary(self, _event=None) -> None:
-        try:
-            sel = self.summary_tree.selection()
-            if not sel:
-                return
-            vals = self.summary_tree.item(sel[0]).get('values', [])
-            if len(vals) < 2:
-                return
-            file_path = vals[1]
-            if not file_path or file_path.startswith('['):
-                return
-            # Switch to Diff tab and load diff vs baseline
-            try:
-                self.right_notebook.select(self.diff_tab)
-            except Exception:
-                pass
 
-            def worker():
-                try:
-                    self.root.after(0, lambda: self._set_busy(True, "Loading diff..."))
-                    diff = self.snapshot.get_diff(file_path, compare_against="initial")
-                    self.root.after(0, lambda: (self._show_diff(diff, file_path, "initial"), self._set_busy(False)))
-                except Exception as e:
-                    self.root.after(0, lambda: self._set_busy(False, f"Error loading diff: {e}"))
-
-            threading.Thread(target=worker, daemon=True).start()
-        except Exception:
-            pass
 
     def show_relicheim_comparison(self) -> None:
         """Show a comparison between current config files and RelicHeim base files.
@@ -1785,10 +1711,7 @@ class ConfigChangeTrackerApp:
             export_btn.pack(side=tk.RIGHT, padx=(10, 0))
             
             # Add tooltip for export button
-            try:
-                Tooltip(export_btn, "Export the complete comparison results to a markdown file for further analysis")
-            except Exception:
-                pass
+            Tooltip(export_btn, "Export the complete comparison results to a markdown file for further analysis")
             
             tk.Label(header_frame, text="Right-click any item to open in editor", 
                     bg=self.colors["bg"], fg=self.colors["accent"]).pack(anchor="w")
@@ -1883,6 +1806,10 @@ class ConfigChangeTrackerApp:
                 "Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
                 "Valheim.ThisGoesHere.DeleteWDBCache.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeleteWDBCachebackup.yml",
                 
+                # Files in _RelicHeimFiles root directory (current config files)
+                "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
+                "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFilesbackup.yml",
+                
                 # Additional Drop That files (if they exist in current config)
                 "drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
                 "drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
@@ -1899,11 +1826,42 @@ class ConfigChangeTrackerApp:
                 "spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
                 "spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
                 
+                # Files in _RelicHeimFiles/Drop,Spawn_That/ subdirectory (current config files)
+                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNests.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNestsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Locals.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Localsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanilla.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanillabackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chests.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VES.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrum.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonsters.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonstersbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophy.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
+                
+                # Files in _RelicHeimFiles/Drop,Spawn_That/RockPiles/ subdirectory (current config files)
+                "_RelicHeimFiles/Drop,Spawn_That/RockPiles/spawn_that.world_spawners.PileOres.cfg": "_RelicHeimFiles/Drop,Spawn_That/RockPiles/spawn_that.world_spawners.PileOresbackup.cfg",
+                "_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOres.cfg": "_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOresbackup.cfg",
+                
                 # Additional Custom Raids files (if they exist in current config)
                 "custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
                 "custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
                 "custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
                 "custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
+                
+                # Files in _RelicHeimFiles/Raids/ subdirectory (current config files)
+                "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
+                "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
+                "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
+                "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
+                "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
                 
                 # EpicMMO System files (if they exist in current config)
                 "EpicMMOSystem/Version.txt": "EpicMMOSystembackup/Version.txt",
@@ -2591,43 +2549,23 @@ This report shows all changes made to configuration files compared to the base R
 
     def _set_busy(self, is_busy: bool, text: str | None = None) -> None:
         """Toggle busy UI state with optional status text."""
-        try:
-            if text is not None:
-                self._set_status(text)
-            # Busy cursor for whole window
-            try:
-                self.root.configure(cursor="watch" if is_busy else "")
-            except Exception:
-                pass
-            # Start/stop progress animation
-            if is_busy:
-                try:
-                    self.progress.start(60)
-                except Exception:
-                    pass
-                # Disable main actions to avoid re-entry
-                try:
-                    self.btn_refresh.state(["disabled"])  # may not exist in some flows yet
-                except Exception:
-                    pass
-            else:
-                try:
-                    self.progress.stop()
-                except Exception:
-                    pass
-                try:
-                    self.btn_refresh.state(["!disabled"])  # re-enable
-                except Exception:
-                    pass
-            # Ensure redraw
-            try:
-                self.root.update_idletasks()
-            except Exception:
-                pass
-        except Exception:
-            # Fallback to plain status
-            if text is not None:
-                self._set_status(text)
+        if text is not None:
+            self._set_status(text)
+        
+        # Busy cursor for whole window
+        self.root.configure(cursor="watch" if is_busy else "")
+        
+        # Start/stop progress animation
+        if is_busy:
+            self.progress.start(60)
+            # Disable main actions to avoid re-entry
+            self.btn_refresh.state(["disabled"])
+        else:
+            self.progress.stop()
+            self.btn_refresh.state(["!disabled"])
+        
+        # Ensure redraw
+        self.root.update_idletasks()
 
 
 def locate_config_root() -> Path:
