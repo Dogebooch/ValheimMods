@@ -1685,7 +1685,7 @@ class ConfigChangeTrackerApp:
         """
         try:
             win = tk.Toplevel(self.root)
-            win.title("RelicHeim Base Comparison")
+            win.title("RelicHeim Changes Only")
             win.geometry("1200x800")
             win.configure(bg=self.colors["bg"])
 
@@ -1700,7 +1700,7 @@ class ConfigChangeTrackerApp:
             title_frame = ttk.Frame(header_frame)
             title_frame.pack(fill=tk.X)
             
-            tk.Label(title_frame, text="Changes from RelicHeim Base Files", 
+            tk.Label(title_frame, text="RelicHeim Changes Only", 
                     bg=self.colors["bg"], fg=self.colors["text"], 
                     font=("Arial", 12, "bold")).pack(side=tk.LEFT)
             
@@ -1711,9 +1711,9 @@ class ConfigChangeTrackerApp:
             export_btn.pack(side=tk.RIGHT, padx=(10, 0))
             
             # Add tooltip for export button
-            Tooltip(export_btn, "Export the complete comparison results to a markdown file for further analysis")
+            Tooltip(export_btn, "Export the changed files to a markdown file for further analysis")
             
-            tk.Label(header_frame, text="Right-click any item to open in editor", 
+            tk.Label(header_frame, text="Showing only files that differ from RelicHeim backup. Right-click any item to open in editor.", 
                     bg=self.colors["bg"], fg=self.colors["accent"]).pack(anchor="w")
 
             # Create treeview for comparison results
@@ -2148,17 +2148,15 @@ class ConfigChangeTrackerApp:
                                             current_content = subfile.read_text(encoding='utf-8', errors='replace')
                                             backup_content = backup_subfile.read_text(encoding='utf-8', errors='replace')
                                             
-                                            if current_content == backup_content:
-                                                tree.insert("", "end", values=("Same", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), "No changes"))
-                                            else:
+                                            if current_content != backup_content:
+                                                # Only show files that have changed
                                                 summary = self._generate_relicheim_diff_summary(current_content, backup_content)
                                                 tree.insert("", "end", values=("Modified", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), summary))
                                             
                                             used_backup_files.add(str(backup_subfile.relative_to(backup_dir)))
                                         except Exception as e:
                                             tree.insert("", "end", values=("Error", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), f"Error: {e}"))
-                                    else:
-                                        tree.insert("", "end", values=("New", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), "No backup file found"))
+                                    # Removed: Don't show files with no backup found
                         continue
                     
                     # Handle regular file mappings
@@ -2166,8 +2164,7 @@ class ConfigChangeTrackerApp:
                         continue
                     
                     if not backup_path.exists():
-                        # Backup file doesn't exist, mark as new
-                        tree.insert("", "end", values=("New", current_file, get_file_category(current_file), "No backup file found"))
+                        # Skip files with no backup - don't show them
                         continue
                     
                     # Compare files
@@ -2175,11 +2172,8 @@ class ConfigChangeTrackerApp:
                         current_content = current_path.read_text(encoding='utf-8', errors='replace')
                         backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
                         
-                        if current_content == backup_content:
-                            # Files are identical
-                            tree.insert("", "end", values=("Same", current_file, get_file_category(current_file), "No changes"))
-                        else:
-                            # Files differ, generate summary
+                        if current_content != backup_content:
+                            # Only show files that have changed
                             summary = self._generate_relicheim_diff_summary(current_content, backup_content)
                             tree.insert("", "end", values=("Modified", current_file, get_file_category(current_file), summary))
                         
@@ -2298,13 +2292,13 @@ class ConfigChangeTrackerApp:
                     tree.insert("", "end", values=("Info", "Unused Backup Files", "System", 
                                                   f"Found {len(unused_backup_files)} backup files not mapped: {unused_list}"))
                 
-                # Add summary statistics
-                total_mapped = len([item for item in tree.get_children() if tree.item(item)['values'][0] in ['Same', 'Modified', 'New', 'Error']])
-                total_unmapped = len([item for item in tree.get_children() if tree.item(item)['values'][0] == 'Info' and 'Unmapped' in tree.item(item)['values'][1]])
+                # Add summary statistics (only for changed files)
+                changed_files = len([item for item in tree.get_children() if tree.item(item)['values'][0] in ['Modified', 'Error']])
+                info_items = len([item for item in tree.get_children() if tree.item(item)['values'][0] == 'Info'])
                 
-                if total_mapped > 0 or total_unmapped > 0:
-                    tree.insert("", "end", values=("Summary", "Total Files Checked", "System", 
-                                                  f"Mapped: {total_mapped}, Unmapped RelicHeim: {total_unmapped}"))
+                if changed_files > 0 or info_items > 0:
+                    tree.insert("", "end", values=("Summary", "Changed Files Only", "System", 
+                                                  f"Changed: {changed_files}, Info: {info_items}"))
 
             def export_to_markdown():
                 """Export the comparison results to a markdown file."""
@@ -2324,13 +2318,15 @@ class ConfigChangeTrackerApp:
                     if not file_path:
                         return
                     
-                    # Collect all items from the tree
+                    # Collect only changed items from the tree (Modified, Error, Info)
                     items = []
                     for item_id in tree.get_children():
                         values = tree.item(item_id)['values']
                         if len(values) >= 4:
                             status, filename, category, summary = values
-                            items.append((status, filename, category, summary))
+                            # Only include modified files, errors, and info items (no "New" files)
+                            if status in ['Modified', 'Error', 'Info']:
+                                items.append((status, filename, category, summary))
                     
                     # Group by category
                     categories = {}
@@ -2344,51 +2340,71 @@ class ConfigChangeTrackerApp:
 
 Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
-This report shows all changes made to configuration files compared to the base RelicHeim installation.
+This report shows **only the changes** made to configuration files compared to the base RelicHeim installation.
+Files that are identical to the backup or have no backup file are not shown.
 
 ## Summary
 
 """
                     
-                    # Add summary statistics
+                    # Add summary statistics (only changed files)
                     total_files = len(items)
                     modified_files = sum(1 for status, _, _, _ in items if status == "Modified")
-                    new_files = sum(1 for status, _, _, _ in items if status == "New")
-                    same_files = sum(1 for status, _, _, _ in items if status == "Same")
                     error_files = sum(1 for status, _, _, _ in items if status == "Error")
+                    info_items = sum(1 for status, _, _, _ in items if status == "Info")
                     
                     md_content += f"""
-- **Total Files**: {total_files}
+- **Total Changed Files**: {total_files}
 - **Modified**: {modified_files}
-- **New**: {new_files}
-- **Unchanged**: {same_files}
 - **Errors**: {error_files}
+- **Info Items**: {info_items}
 
 ## Changes by Category
 
 """
                     
-                    # Add detailed breakdown by category
+                    # Add detailed breakdown by category (only for actual file changes, not info items)
                     for category in sorted(categories.keys()):
-                        md_content += f"### {category}\n\n"
-                        md_content += "| Status | File | Summary |\n"
-                        md_content += "|--------|------|--------|\n"
+                        # Filter out info items from category breakdown
+                        file_changes = [(status, filename, summary) for status, filename, summary in categories[category] 
+                                       if status in ['Modified', 'Error']]
                         
-                        for status, filename, summary in categories[category]:
-                            # Escape pipe characters in summary
-                            safe_summary = summary.replace("|", "\\|") if summary else ""
-                            md_content += f"| {status} | `{filename}` | {safe_summary} |\n"
-                        
-                        md_content += "\n"
+                        if file_changes:  # Only show categories with actual file changes
+                            md_content += f"### {category}\n\n"
+                            md_content += "| Status | File | Summary |\n"
+                            md_content += "|--------|------|--------|\n"
+                            
+                            for status, filename, summary in file_changes:
+                                # Escape pipe characters in summary
+                                safe_summary = summary.replace("|", "\\|") if summary else ""
+                                md_content += f"| {status} | `{filename}` | {safe_summary} |\n"
+                            
+                            md_content += "\n"
                     
-                    # Add detailed file list
-                    md_content += "## Complete File List\n\n"
+                    # Add detailed file list (only changed files)
+                    md_content += "## Changed Files List\n\n"
                     md_content += "| Status | Category | File | Summary |\n"
                     md_content += "|--------|----------|------|--------|\n"
                     
-                    for status, filename, category, summary in sorted(items, key=lambda x: (x[2], x[1])):
+                    # Sort by category, then by filename, excluding info items from the main list
+                    changed_items = [(status, filename, category, summary) for status, filename, category, summary in items 
+                                   if status in ['Modified', 'Error']]
+                    
+                    for status, filename, category, summary in sorted(changed_items, key=lambda x: (x[2], x[1])):
                         safe_summary = summary.replace("|", "\\|") if summary else ""
                         md_content += f"| {status} | {category} | `{filename}` | {safe_summary} |\n"
+                    
+                    # Add info items in a separate section if any exist
+                    info_items_list = [(status, filename, category, summary) for status, filename, category, summary in items 
+                                      if status == 'Info']
+                    if info_items_list:
+                        md_content += "\n## Information Items\n\n"
+                        md_content += "| Type | Description | Summary |\n"
+                        md_content += "|------|-------------|--------|\n"
+                        
+                        for status, filename, category, summary in info_items_list:
+                            safe_summary = summary.replace("|", "\\|") if summary else ""
+                            md_content += f"| {category} | {filename} | {safe_summary} |\n"
                     
                     # Add footer
                     md_content += f"""
@@ -2397,6 +2413,7 @@ This report shows all changes made to configuration files compared to the base R
 
 *Report generated by Config Change Tracker*
 *Base RelicHeim version: 5.4.10*
+*Note: Only changed files are shown. Files identical to backup or with no backup are filtered out.*
 """
                     
                     # Write to file
@@ -2406,9 +2423,9 @@ This report shows all changes made to configuration files compared to the base R
                     # Show success message
                     messagebox.showinfo("Export Complete", 
                                       f"RelicHeim changes exported to:\n{file_path}\n\n"
-                                      f"Total files: {total_files}\n"
+                                      f"Changed files: {total_files}\n"
                                       f"Modified: {modified_files}\n"
-                                      f"New: {new_files}")
+                                      f"Errors: {error_files}")
                     
                 except Exception as e:
                     messagebox.showerror("Export Error", f"Failed to export: {e}")
