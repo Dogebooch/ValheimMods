@@ -1738,7 +1738,25 @@ class ConfigChangeTrackerApp:
             pass
 
     def show_relicheim_comparison(self) -> None:
-        """Show a comparison between current config files and RelicHeim base files."""
+        """Show a comparison between current config files and RelicHeim base files.
+        
+        This function performs a comprehensive comparison between the current configuration
+        files and the base RelicHeim installation files. It includes:
+        
+        1. Explicit file mappings for known RelicHeim files
+        2. Directory-based comparisons for subdirectories
+        3. Keyword-based detection for unmapped RelicHeim-related files
+        4. Detection of backup files that aren't being used
+        5. Comprehensive categorization of all files by mod/plugin
+        
+        The comparison covers all major RelicHeim components including:
+        - Core mods (EpicMMO, EpicLoot, Drop That, Custom Raids, etc.)
+        - Smoothbrain plugins (all org.bepinex.plugins.* files)
+        - Creature and item configurations
+        - Spawn That and Drop That configurations
+        - Additional mods (Warpalicious, Vapok, Southsil, etc.)
+        - System and utility files
+        """
         try:
             win = tk.Toplevel(self.root)
             win.title("RelicHeim Base Comparison")
@@ -1886,10 +1904,147 @@ class ConfigChangeTrackerApp:
                 "custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
                 "custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
                 "custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
+                
+                # EpicMMO System files (if they exist in current config)
+                "EpicMMOSystem/Version.txt": "EpicMMOSystembackup/Version.txt",
+                "EpicMMOSystem/Valheim.ThisGoesHere.EpicMMOCleanup.yml": "EpicMMOSystembackup/Valheim.ThisGoesHere.EpicMMOCleanup.yml",
+                "EpicMMOSystem/Therzie_Wizardry.json": "EpicMMOSystembackup/Therzie_Wizardry.json",
+                "EpicMMOSystem/Therzie_Monstrum.json": "EpicMMOSystembackup/Therzie_Monstrum.json",
+                "EpicMMOSystem/Monstrum_DeepNorth.json": "EpicMMOSystembackup/Monstrum_DeepNorth.json",
+                "EpicMMOSystem/Jewelcrafting.json": "EpicMMOSystembackup/Jewelcrafting.json",
+                "EpicMMOSystem/Default.json": "EpicMMOSystembackup/Default.json",
+                
+                # Valheim Enchantment System files (if they exist in current config)
+                "ValheimEnchantmentSystem/ScrollRecipes.cfg": "ValheimEnchantmentSystembackup/ScrollRecipes.cfg",
+                "ValheimEnchantmentSystem/kg.ValheimEnchantmentSystem.cfg": "ValheimEnchantmentSystembackup/kg.ValheimEnchantmentSystem.cfg",
+                "ValheimEnchantmentSystem/EnchantmentStats_Weapons.yml": "ValheimEnchantmentSystembackup/EnchantmentStats_Weapons.yml",
+                "ValheimEnchantmentSystem/EnchantmentStats_Armor.yml": "ValheimEnchantmentSystembackup/EnchantmentStats_Armor.yml",
+                "ValheimEnchantmentSystem/EnchantmentReqs.yml": "ValheimEnchantmentSystembackup/EnchantmentReqs.yml",
+                "ValheimEnchantmentSystem/EnchantmentColors.yml": "ValheimEnchantmentSystembackup/EnchantmentColors.yml",
+                "ValheimEnchantmentSystem/EnchantmentChancesV2.yml": "ValheimEnchantmentSystembackup/EnchantmentChancesV2.yml",
+                
+                # WackyDatabase files (if they exist in current config)
+                "wackysDatabase/": "wackysDatabase_backup/",
+                
+                # EpicLoot files (if they exist in current config)
+                "EpicLoot/": "EpicLootbackup/",
+                
+                # NEW ADDITIONS - Missing files that exist in current config
+                
+                # Warpalicious mods (multiple files)
+                "warpalicious.Swamp_Pack_1.cfg": "warpalicious.Swamp_Pack_1backup.cfg",  # May not have backup
+                "warpalicious.Underground_Ruins.cfg": "warpalicious.Underground_Ruinsbackup.cfg",  # May not have backup
+                "warpalicious.More_World_Traders.cfg": "warpalicious.More_World_Tradersbackup.cfg",  # May not have backup
+                "warpalicious.Mountains_Pack_1.cfg": "warpalicious.Mountains_Pack_1backup.cfg",  # May not have backup
+                "warpalicious.Plains_Pack_1.cfg": "warpalicious.Plains_Pack_1backup.cfg",  # May not have backup
+                "warpalicious.More_World_Locations_LootLists.yml": "warpalicious.More_World_Locations_LootListsbackup.yml",  # May not have backup
+                "warpalicious.More_World_Locations_PickableItemLists.yml": "warpalicious.More_World_Locations_PickableItemListsbackup.yml",  # May not have backup
+                "warpalicious.More_World_Locations_CreatureLists.yml": "warpalicious.More_World_Locations_CreatureListsbackup.yml",  # May not have backup
+                "warpalicious.Meadows_Pack_2.cfg": "warpalicious.Meadows_Pack_2backup.cfg",  # May not have backup
+                "warpalicious.Mistlands_Pack_1.cfg": "warpalicious.Mistlands_Pack_1backup.cfg",  # May not have backup
+                "warpalicious.Meadows_Pack_1.cfg": "warpalicious.Meadows_Pack_1backup.cfg",  # May not have backup
+                "warpalicious.Forbidden_Catacombs.cfg": "warpalicious.Forbidden_Catacombsbackup.cfg",  # May not have backup
+                "warpalicious.MWL_Blackforest_Pack_1.cfg": "warpalicious.MWL_Blackforest_Pack_1backup.cfg",  # May not have backup
+                "warpalicious.AshlandsPack1.cfg": "warpalicious.AshlandsPack1backup.cfg",  # May not have backup
+                "warpalicious.Blackforest_Pack_2.cfg": "warpalicious.Blackforest_Pack_2backup.cfg",  # May not have backup
+                "warpalicious.Adventure_Map_Pack_1.cfg": "warpalicious.Adventure_Map_Pack_1backup.cfg",  # May not have backup
+                
+                # Vapok mods
+                "vapok.mods.adventurebackpacks.cfg": "vapok.mods.adventurebackpacksbackup.cfg",  # May not have backup
+                
+                # Southsil mods
+                "southsil.SouthsilArmor.cfg": "southsil.SouthsilArmorbackup.cfg",  # May not have backup
+                
+                # Shudnal mods
+                "shudnal.TradersExtended.cfg": "shudnal.TradersExtendedbackup.cfg",  # May not have backup
+                "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.buy.json": "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.buybackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.sell.json": "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.sellbackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.buy.json": "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.buybackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sell.json": "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sellbackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.sellbackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_OceanTavern1_Trader.buy.json": "shudnal.TradersExtended.MWL_OceanTavern1_Trader.buybackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_OceanTavern1_Trader.sell.json": "shudnal.TradersExtended.MWL_OceanTavern1_Trader.sellbackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.sellbackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.buybackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.buybackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.sellbackup.json",  # May not have backup
+                "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.buybackup.json",  # May not have backup
+                "shudnal.Seasons.cfg": "shudnal.Seasonsbackup.cfg",  # May not have backup
+                
+                # Server and system files
+                "server_devcommands.cfg": "server_devcommandsbackup.cfg",  # May not have backup
+                "org.bepinex.valheim.displayinfo.cfg": "org.bepinex.valheim.displayinfobackup.cfg",  # May not have backup
+                
+                # Redseiko mods
+                "redseiko.valheim.scenic.cfg": "redseiko.valheim.scenicbackup.cfg",  # May not have backup
+                
+                # OdinPlus mods
+                "odinplus.plugins.odinskingdom.cfg": "odinplus.plugins.odinskingdombackup.cfg",  # May not have backup
+                
+                # Nex mods
+                "nex.SpeedyPaths.cfg": "nex.SpeedyPathsbackup.cfg",  # May not have backup
+                
+                # Marcopogo mods
+                "marcopogo.PlanBuild.cfg": "marcopogo.PlanBuildbackup.cfg",  # May not have backup
+                
+                # Marlthon mods
+                "marlthon.OdinShipPlus.cfg": "marlthon.OdinShipPlusbackup.cfg",  # May not have backup
+                
+                # HTD mods
+                "htd.armory.cfg": "htd.armorybackup.cfg",  # May not have backup
+                
+                # GoldenRevolver mods
+                "goldenrevolver.quick_stack_store.cfg": "goldenrevolver.quick_stack_storebackup.cfg",  # May not have backup
+                
+                # Com mods
+                "com.maxsch.valheim.vnei.cfg": "com.maxsch.valheim.vneibackup.cfg",  # May not have backup
+                "com.odinplus.potionsplus.cfg": "com.odinplus.potionsplusbackup.cfg",  # May not have backup
+                "com.bepis.bepinex.configurationmanager.cfg": "com.bepis.bepinex.configurationmanagerbackup.cfg",  # May not have backup
+                "com.maxsch.valheim.pressure_plate.cfg": "com.maxsch.valheim.pressure_platebackup.cfg",  # May not have backup
+                "com.maxsch.valheim.vnei.blacklist.txt": "com.maxsch.valheim.vnei.blacklistbackup.txt",  # May not have backup
+                
+                # Blacks7ar mods
+                "blacks7ar.MagicRevamp.cfg": "blacks7ar.MagicRevampbackup.cfg",  # May not have backup
+                "blacks7ar.FineWoodBuildPieces.cfg": "blacks7ar.FineWoodBuildPiecesbackup.cfg",  # May not have backup
+                "blacks7ar.FineWoodFurnitures.cfg": "blacks7ar.FineWoodFurnituresbackup.cfg",  # May not have backup
+                "blacks7ar.CookingAdditions.cfg": "blacks7ar.CookingAdditionsbackup.cfg",  # May not have backup
+                
+                # ZenDragon mods
+                "ZenDragon.ZenUI.cfg": "ZenDragon.ZenUIbackup.cfg",  # May not have backup
+                "WackyMole.WackysDatabase.cfg": "WackyMole.WackysDatabasebackup.cfg",  # May not have backup
+                "ZenDragon.Zen.ModLib.cfg": "ZenDragon.Zen.ModLibbackup.cfg",  # May not have backup
+                "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystemUIbackup.cfg",  # May not have backup
+                
+                # Other files
+                "binds.yaml": "bindsbackup.yaml",  # May not have backup
+                "upgrade_world.cfg": "upgrade_worldbackup.cfg",  # May not have backup
+                
+                # Directory mappings for subdirectories
+                "wackyDatabase-BulkYML/": "wackyDatabase-BulkYML_backup/",  # May not have backup
+                "shudnal.Seasons/": "shudnal.Seasons_backup/",  # May not have backup
+                "_RelicHeimFiles/": "_RelicHeimFiles_backup/",  # May not have backup
             }
 
             def get_file_category(filename: str) -> str:
                 """Get category for file based on name."""
+                # Handle subdirectory paths
+                if '/' in filename or '\\' in filename:
+                    # Extract the first directory or file name
+                    parts = filename.replace('\\', '/').split('/')
+                    if parts:
+                        first_part = parts[0]
+                        if first_part == "EpicMMOSystem":
+                            return "EpicMMO System"
+                        elif first_part == "ValheimEnchantmentSystem":
+                            return "Enchantment System"
+                        elif first_part == "wackysDatabase":
+                            return "WackyDatabase"
+                        elif first_part == "EpicLoot":
+                            return "EpicLoot"
+                        elif first_part == "wackyDatabase-BulkYML":
+                            return "WackyDatabase Bulk"
+                
+                # Handle regular file names
                 if filename.startswith("WackyMole.EpicMMOSystem"):
                     return "EpicMMO"
                 elif filename.startswith("randyknapp.mods.epicloot"):
@@ -1956,6 +2111,56 @@ class ConfigChangeTrackerApp:
                     return "Redseiko"
                 elif filename.startswith("ZenDragon"):
                     return "ZenDragon"
+                elif filename.startswith("warpalicious"):
+                    return "Warpalicious"
+                elif filename.startswith("vapok"):
+                    return "Vapok Mods"
+                elif filename.startswith("southsil"):
+                    return "Southsil"
+                elif filename.startswith("shudnal"):
+                    return "Shudnal Mods"
+                elif filename.startswith("server_devcommands"):
+                    return "Server Commands"
+                elif filename.startswith("redseiko"):
+                    return "Redseiko"
+                elif filename.startswith("marcopogo"):
+                    return "Marcopogo"
+                elif filename.startswith("marlthon"):
+                    return "Marlthon"
+                elif filename.startswith("goldenrevolver"):
+                    return "GoldenRevolver"
+                elif filename.startswith("flueno"):
+                    return "Flueno"
+                elif filename.startswith("com.maxsch"):
+                    return "MaxSch Mods"
+                elif filename.startswith("com.odinplus"):
+                    return "OdinPlus Com"
+                elif filename.startswith("com.bepis"):
+                    return "BepInEx"
+                elif filename.startswith("blacks7ar"):
+                    return "Blacks7ar Mods"
+                elif filename.startswith("binds"):
+                    return "Key Bindings"
+                elif filename.startswith("upgrade_world"):
+                    return "World Upgrade"
+                elif filename.startswith("EnchantmentStats"):
+                    return "Enchantment Stats"
+                elif filename.startswith("EnchantmentReqs"):
+                    return "Enchantment Reqs"
+                elif filename.startswith("EnchantmentColors"):
+                    return "Enchantment Colors"
+                elif filename.startswith("EnchantmentChances"):
+                    return "Enchantment Chances"
+                elif filename.startswith("ScrollRecipes"):
+                    return "Enchantment Scrolls"
+                elif filename.startswith("Therzie_"):
+                    return "Therzie Mods"
+                elif filename.startswith("Monstrum_"):
+                    return "Monstrum Mods"
+                elif filename.startswith("Jewelcrafting"):
+                    return "Jewelcrafting"
+                elif filename.startswith("Version"):
+                    return "System Files"
                 else:
                     return "Other"
 
@@ -1971,6 +2176,34 @@ class ConfigChangeTrackerApp:
                     current_path = self.config_root / current_file
                     backup_path = backup_dir / backup_file
                     
+                    # Handle directory mappings (for wackysDatabase and EpicLoot)
+                    if backup_file.endswith('/'):
+                        # This is a directory mapping - scan all files in the directory
+                        if current_path.exists() and current_path.is_dir():
+                            for subfile in current_path.rglob('*'):
+                                if subfile.is_file():
+                                    rel_subfile = subfile.relative_to(current_path)
+                                    backup_subfile = backup_dir / backup_file.rstrip('/') / rel_subfile
+                                    
+                                    if backup_subfile.exists():
+                                        try:
+                                            current_content = subfile.read_text(encoding='utf-8', errors='replace')
+                                            backup_content = backup_subfile.read_text(encoding='utf-8', errors='replace')
+                                            
+                                            if current_content == backup_content:
+                                                tree.insert("", "end", values=("Same", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), "No changes"))
+                                            else:
+                                                summary = self._generate_relicheim_diff_summary(current_content, backup_content)
+                                                tree.insert("", "end", values=("Modified", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), summary))
+                                            
+                                            used_backup_files.add(str(backup_subfile.relative_to(backup_dir)))
+                                        except Exception as e:
+                                            tree.insert("", "end", values=("Error", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), f"Error: {e}"))
+                                    else:
+                                        tree.insert("", "end", values=("New", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), "No backup file found"))
+                        continue
+                    
+                    # Handle regular file mappings
                     if not current_path.exists():
                         continue
                     
@@ -1996,16 +2229,18 @@ class ConfigChangeTrackerApp:
                     except Exception as e:
                         tree.insert("", "end", values=("Error", current_file, get_file_category(current_file), f"Error: {e}"))
                 
-                # Now scan ALL config files in current directory for RelicHeim-related files
+                # Now scan ALL config files in current directory and subdirectories for RelicHeim-related files
                 current_config_files = set()
                 relicheim_related_files = []
                 
-                for config_file in self.config_root.glob("*"):
-                    if config_file.is_file() and config_file.suffix in ['.cfg', '.yml', '.yaml', '.json']:
-                        current_config_files.add(config_file.name)
+                for config_file in self.config_root.rglob("*"):
+                    if config_file.is_file() and config_file.suffix in ['.cfg', '.yml', '.yaml', '.json', '.txt']:
+                        # Get relative path from config root
+                        rel_path = config_file.relative_to(self.config_root)
+                        current_config_files.add(str(rel_path))
                         
                         # Check if this looks like a RelicHeim-related file
-                        filename_lower = config_file.name.lower()
+                        filename_lower = str(rel_path).lower()
                         if any(keyword in filename_lower for keyword in [
                             'wacky', 'randyknapp', 'drop_that', 'custom_raids', 
                             'org.bepinex', 'creatureconfig', 'backpacks', 
@@ -2014,9 +2249,13 @@ class ConfigChangeTrackerApp:
                             'shudnal', 'blacks7ar', 'odinplus', 'com.maxsch',
                             'com.odinplus', 'com.bepis', 'nex', 'marcopogo',
                             'marlthon', 'htd', 'goldenrevolver', 'vapok',
-                            'southsil', 'redseiko', 'zen'
+                            'southsil', 'redseiko', 'zen', 'epicmmo', 'valheimench',
+                            'wackysdatabase', 'epicloot', 'warpalicious', 'southsil',
+                            'server_devcommands', 'redseiko', 'marcopogo', 'marlthon',
+                            'goldenrevolver', 'flueno', 'com.maxsch', 'com.odinplus',
+                            'com.bepis', 'blacks7ar', 'zendragon', 'binds', 'upgrade_world'
                         ]):
-                            relicheim_related_files.append(config_file.name)
+                            relicheim_related_files.append(str(rel_path))
                 
                 # Check for unmapped RelicHeim-related files
                 mapped_current_files = set(relicheim_mapping.keys())
@@ -2038,6 +2277,34 @@ class ConfigChangeTrackerApp:
                             mod = 'odinplus'
                         elif file.startswith('com.'):
                             mod = 'com'
+                        elif file.startswith('vapok.'):
+                            mod = 'vapok'
+                        elif file.startswith('southsil.'):
+                            mod = 'southsil'
+                        elif file.startswith('redseiko.'):
+                            mod = 'redseiko'
+                        elif file.startswith('nex.'):
+                            mod = 'nex'
+                        elif file.startswith('marcopogo.'):
+                            mod = 'marcopogo'
+                        elif file.startswith('marlthon.'):
+                            mod = 'marlthon'
+                        elif file.startswith('htd.'):
+                            mod = 'htd'
+                        elif file.startswith('goldenrevolver.'):
+                            mod = 'goldenrevolver'
+                        elif file.startswith('flueno.'):
+                            mod = 'flueno'
+                        elif file.startswith('ZenDragon.'):
+                            mod = 'zendragon'
+                        elif file.startswith('WackyMole.'):
+                            mod = 'wackymole'
+                        elif file.startswith('server_devcommands'):
+                            mod = 'server'
+                        elif file.startswith('binds'):
+                            mod = 'system'
+                        elif file.startswith('upgrade_world'):
+                            mod = 'system'
                         else:
                             mod = 'other'
                         
