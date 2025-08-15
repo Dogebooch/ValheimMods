@@ -1661,7 +1661,135 @@ class ConfigChangeTrackerApp:
 
         threading.Thread(target=worker, daemon=True).start()
 
+    def _export_relicheim_to_markdown(self, tree) -> None:
+        """Export the RelicHeim comparison results to a markdown file."""
+        try:
+            # Get file save location
+            from tkinter import filedialog
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            default_filename = f"RelicHeim_Changes_{timestamp}.md"
+            
+            file_path = filedialog.asksaveasfilename(
+                title="Export RelicHeim Changes",
+                defaultextension=".md",
+                filetypes=[("Markdown files", "*.md"), ("All files", "*.*")],
+                initialvalue=default_filename
+            )
+            
+            if not file_path:
+                return
+            
+            # Collect only changed items from the tree (Modified, Error, Info)
+            items = []
+            for item_id in tree.get_children():
+                values = tree.item(item_id)['values']
+                if len(values) >= 4:
+                    status, filename, category, summary = values
+                    # Only include modified files, errors, and info items (no "New" files)
+                    if status in ['Modified', 'Error', 'Info']:
+                        items.append((status, filename, category, summary))
+            
+            # Group by category
+            categories = {}
+            for status, filename, category, summary in items:
+                if category not in categories:
+                    categories[category] = []
+                categories[category].append((status, filename, summary))
+            
+            # Generate markdown content
+            md_content = f"""# RelicHeim Configuration Changes Report
 
+Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+This report shows **only the changes** made to configuration files compared to the base RelicHeim installation.
+Files that are identical to the backup or have no backup file are not shown.
+
+## Summary
+
+"""
+            
+            # Add summary statistics (only changed files)
+            total_files = len(items)
+            modified_files = sum(1 for status, _, _, _ in items if status == "Modified")
+            error_files = sum(1 for status, _, _, _ in items if status == "Error")
+            info_items = sum(1 for status, _, _, _ in items if status == "Info")
+            
+            md_content += f"""
+- **Total Changed Files**: {total_files}
+- **Modified**: {modified_files}
+- **Errors**: {error_files}
+- **Info Items**: {info_items}
+
+## Changes by Category
+
+"""
+            
+            # Add detailed breakdown by category (only for actual file changes, not info items)
+            for category in sorted(categories.keys()):
+                # Filter out info items from category breakdown
+                file_changes = [(status, filename, summary) for status, filename, summary in categories[category] 
+                               if status in ['Modified', 'Error']]
+                
+                if file_changes:  # Only show categories with actual file changes
+                    md_content += f"### {category}\n\n"
+                    md_content += "| Status | File | Summary |\n"
+                    md_content += "|--------|------|--------|\n"
+                    
+                    for status, filename, summary in file_changes:
+                        # Escape pipe characters in summary
+                        safe_summary = summary.replace("|", "\\|") if summary else ""
+                        md_content += f"| {status} | `{filename}` | {safe_summary} |\n"
+                    
+                    md_content += "\n"
+            
+            # Add detailed file list (only changed files)
+            md_content += "## Changed Files List\n\n"
+            md_content += "| Status | Category | File | Summary |\n"
+            md_content += "|--------|----------|------|--------|\n"
+            
+            # Sort by category, then by filename, excluding info items from the main list
+            changed_items = [(status, filename, category, summary) for status, filename, category, summary in items 
+                           if status in ['Modified', 'Error']]
+            
+            for status, filename, category, summary in sorted(changed_items, key=lambda x: (x[2], x[1])):
+                safe_summary = summary.replace("|", "\\|") if summary else ""
+                md_content += f"| {status} | {category} | `{filename}` | {safe_summary} |\n"
+            
+            # Add info items in a separate section if any exist
+            info_items_list = [(status, filename, category, summary) for status, filename, category, summary in items 
+                              if status == 'Info']
+            if info_items_list:
+                md_content += "\n## Information Items\n\n"
+                md_content += "| Type | Description | Summary |\n"
+                md_content += "|------|-------------|--------|\n"
+                
+                for status, filename, category, summary in info_items_list:
+                    safe_summary = summary.replace("|", "\\|") if summary else ""
+                    md_content += f"| {category} | {filename} | {safe_summary} |\n"
+            
+            # Add footer
+            md_content += f"""
+
+---
+
+*Report generated by Config Change Tracker*
+*Base RelicHeim version: 5.4.10*
+*Note: Only changed files are shown. Files identical to backup or with no backup are filtered out.*
+"""
+            
+            # Write to file
+            with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+                f.write(md_content)
+            
+            # Show success message
+            messagebox.showinfo("Export Complete", 
+                              f"RelicHeim changes exported to:\n{file_path}\n\n"
+                              f"Changed files: {total_files}\n"
+                              f"Modified: {modified_files}\n"
+                              f"Errors: {error_files}")
+            
+        except Exception as e:
+            messagebox.showerror("Export Error", f"Failed to export: {e}")
 
     def show_relicheim_comparison(self) -> None:
         """Show a comparison between current config files and RelicHeim base files.
@@ -1707,7 +1835,7 @@ class ConfigChangeTrackerApp:
             # Export button
             export_btn = ttk.Button(title_frame, text="Export to MD", 
                                    style="Action.TButton", 
-                                   command=lambda: export_to_markdown())
+                                   command=lambda: self._export_relicheim_to_markdown(tree))
             export_btn.pack(side=tk.RIGHT, padx=(10, 0))
             
             # Add tooltip for export button
@@ -2299,136 +2427,6 @@ class ConfigChangeTrackerApp:
                 if changed_files > 0 or info_items > 0:
                     tree.insert("", "end", values=("Summary", "Changed Files Only", "System", 
                                                   f"Changed: {changed_files}, Info: {info_items}"))
-
-            def export_to_markdown():
-                """Export the comparison results to a markdown file."""
-                try:
-                    # Get file save location
-                    from tkinter import filedialog
-                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    default_filename = f"RelicHeim_Changes_{timestamp}.md"
-                    
-                    file_path = filedialog.asksaveasfilename(
-                        title="Export RelicHeim Changes",
-                        defaultextension=".md",
-                        filetypes=[("Markdown files", "*.md"), ("All files", "*.*")],
-                        initialvalue=default_filename
-                    )
-                    
-                    if not file_path:
-                        return
-                    
-                    # Collect only changed items from the tree (Modified, Error, Info)
-                    items = []
-                    for item_id in tree.get_children():
-                        values = tree.item(item_id)['values']
-                        if len(values) >= 4:
-                            status, filename, category, summary = values
-                            # Only include modified files, errors, and info items (no "New" files)
-                            if status in ['Modified', 'Error', 'Info']:
-                                items.append((status, filename, category, summary))
-                    
-                    # Group by category
-                    categories = {}
-                    for status, filename, category, summary in items:
-                        if category not in categories:
-                            categories[category] = []
-                        categories[category].append((status, filename, summary))
-                    
-                    # Generate markdown content
-                    md_content = f"""# RelicHeim Configuration Changes Report
-
-Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-
-This report shows **only the changes** made to configuration files compared to the base RelicHeim installation.
-Files that are identical to the backup or have no backup file are not shown.
-
-## Summary
-
-"""
-                    
-                    # Add summary statistics (only changed files)
-                    total_files = len(items)
-                    modified_files = sum(1 for status, _, _, _ in items if status == "Modified")
-                    error_files = sum(1 for status, _, _, _ in items if status == "Error")
-                    info_items = sum(1 for status, _, _, _ in items if status == "Info")
-                    
-                    md_content += f"""
-- **Total Changed Files**: {total_files}
-- **Modified**: {modified_files}
-- **Errors**: {error_files}
-- **Info Items**: {info_items}
-
-## Changes by Category
-
-"""
-                    
-                    # Add detailed breakdown by category (only for actual file changes, not info items)
-                    for category in sorted(categories.keys()):
-                        # Filter out info items from category breakdown
-                        file_changes = [(status, filename, summary) for status, filename, summary in categories[category] 
-                                       if status in ['Modified', 'Error']]
-                        
-                        if file_changes:  # Only show categories with actual file changes
-                            md_content += f"### {category}\n\n"
-                            md_content += "| Status | File | Summary |\n"
-                            md_content += "|--------|------|--------|\n"
-                            
-                            for status, filename, summary in file_changes:
-                                # Escape pipe characters in summary
-                                safe_summary = summary.replace("|", "\\|") if summary else ""
-                                md_content += f"| {status} | `{filename}` | {safe_summary} |\n"
-                            
-                            md_content += "\n"
-                    
-                    # Add detailed file list (only changed files)
-                    md_content += "## Changed Files List\n\n"
-                    md_content += "| Status | Category | File | Summary |\n"
-                    md_content += "|--------|----------|------|--------|\n"
-                    
-                    # Sort by category, then by filename, excluding info items from the main list
-                    changed_items = [(status, filename, category, summary) for status, filename, category, summary in items 
-                                   if status in ['Modified', 'Error']]
-                    
-                    for status, filename, category, summary in sorted(changed_items, key=lambda x: (x[2], x[1])):
-                        safe_summary = summary.replace("|", "\\|") if summary else ""
-                        md_content += f"| {status} | {category} | `{filename}` | {safe_summary} |\n"
-                    
-                    # Add info items in a separate section if any exist
-                    info_items_list = [(status, filename, category, summary) for status, filename, category, summary in items 
-                                      if status == 'Info']
-                    if info_items_list:
-                        md_content += "\n## Information Items\n\n"
-                        md_content += "| Type | Description | Summary |\n"
-                        md_content += "|------|-------------|--------|\n"
-                        
-                        for status, filename, category, summary in info_items_list:
-                            safe_summary = summary.replace("|", "\\|") if summary else ""
-                            md_content += f"| {category} | {filename} | {safe_summary} |\n"
-                    
-                    # Add footer
-                    md_content += f"""
-
----
-
-*Report generated by Config Change Tracker*
-*Base RelicHeim version: 5.4.10*
-*Note: Only changed files are shown. Files identical to backup or with no backup are filtered out.*
-"""
-                    
-                    # Write to file
-                    with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
-                        f.write(md_content)
-                    
-                    # Show success message
-                    messagebox.showinfo("Export Complete", 
-                                      f"RelicHeim changes exported to:\n{file_path}\n\n"
-                                      f"Changed files: {total_files}\n"
-                                      f"Modified: {modified_files}\n"
-                                      f"Errors: {error_files}")
-                    
-                except Exception as e:
-                    messagebox.showerror("Export Error", f"Failed to export: {e}")
 
             def on_tree_right_click(event):
                 """Handle right-click on tree items."""
