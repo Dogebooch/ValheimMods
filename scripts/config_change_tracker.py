@@ -287,10 +287,28 @@ class ConfigSnapshot:
         
         file_path = self.initial_snapshot_file if snapshot_type == "initial" else self.current_snapshot_file
         if file_path.exists():
-            with open(file_path, 'r', encoding='utf-8') as f:
-                snap = json.load(f)
-                self._snapshot_cache[snapshot_type] = snap
-                return snap
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    snap = json.load(f)
+                    self._snapshot_cache[snapshot_type] = snap
+                    return snap
+            except (json.JSONDecodeError, UnicodeDecodeError, IOError) as e:
+                # Handle corrupted snapshot files
+                print(f"Warning: Corrupted {snapshot_type} snapshot file: {e}")
+                # Try to backup the corrupted file
+                try:
+                    backup_path = file_path.with_suffix(f'.{snapshot_type}.corrupted.{int(datetime.now().timestamp())}')
+                    shutil.copy2(file_path, backup_path)
+                    print(f"Corrupted file backed up to: {backup_path}")
+                except Exception as backup_error:
+                    print(f"Failed to backup corrupted file: {backup_error}")
+                
+                # Return empty snapshot and log the issue
+                empty_snap = {'timestamp': '', 'session': '', 'files': {}}
+                self.log_event(action="load_snapshot", success=False, 
+                              extra={"type": snapshot_type, "error": str(e), "file": str(file_path)})
+                return empty_snap
+        
         return {'timestamp': '', 'session': '', 'files': {}}
 
     def load_snapshot_index(self, snapshot_type: str = "current") -> dict:
@@ -689,6 +707,8 @@ class ConfigChangeTrackerApp:
         file_menu.add_separator()
         file_menu.add_command(label="Compare vs RelicHeim", command=self.show_relicheim_comparison)
         file_menu.add_separator()
+        file_menu.add_command(label="Recover Corrupted Snapshots", command=self.show_recovery_dialog)
+        file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
         menubar.add_cascade(label="File", menu=file_menu)
         
@@ -992,11 +1012,11 @@ class ConfigChangeTrackerApp:
                     ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
                     cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
                     self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
-                    
-                    # Auto-scan for changes and open All-Time Summary by default
-                    self.compare_var.set("Since Baseline (All-Time)")
-                    self.on_compare_change()
-                    self.show_baseline_summary()
+
+                # Auto-scan for changes and open All-Time Summary by default
+                self.compare_var.set("Since Baseline (All-Time)")
+                self.on_compare_change()
+                self.show_baseline_summary()
                 
                 self.root.after(0, update_and_scan)
             except Exception as e:
@@ -1609,6 +1629,156 @@ class ConfigChangeTrackerApp:
             
             return f"{', '.join(parts)}"
 
+    def _generate_detailed_change_summary(self, current_content: str, base_content: str, max_changes: int = 8) -> str:
+        """Generate a detailed summary showing old vs new values for key changes."""
+        try:
+            # Parse both files as config-like
+            current_kv = self.snapshot._parse_cfg_like(current_content)
+            base_kv = self.snapshot._parse_cfg_like(base_content)
+            
+            changes = []
+            
+            # Find modified values
+            for key in set(current_kv.keys()) | set(base_kv.keys()):
+                if key not in base_kv:
+                    changes.append((key, None, current_kv[key], "added"))
+                elif key not in current_kv:
+                    changes.append((key, base_kv[key], None, "removed"))
+                elif current_kv[key] != base_kv[key]:
+                    changes.append((key, base_kv[key], current_kv[key], "modified"))
+            
+            if not changes:
+                return "No changes detected"
+            
+            # Sort by key for consistent output
+            changes.sort(key=lambda x: x[0])
+            
+            # Prioritize numeric changes and important settings
+            def change_priority(change):
+                key, old_val, new_val, change_type = change
+                key_lower = key.lower()
+                
+                # High priority: numeric values, multipliers, rates, levels
+                if any(term in key_lower for term in ['multiplier', 'rate', 'level', 'amount', 'count', 'chance', 'damage', 'health', 'speed', 'time', 'distance', 'radius', 'size']):
+                    return 0
+                # Medium priority: boolean and important settings
+                elif any(term in key_lower for term in ['enabled', 'active', 'allow', 'use', 'show', 'display', 'debug']):
+                    return 1
+                # Lower priority: other settings
+                else:
+                    return 2
+            
+            # Sort by priority, then by key
+            changes.sort(key=lambda x: (change_priority(x), x[0]))
+            
+            # Limit to max_changes to avoid overwhelming output
+            total_changes = len(changes)
+            if total_changes > max_changes:
+                changes = changes[:max_changes]
+                extra_count = total_changes - max_changes
+            
+            summary_lines = []
+            
+            # Add summary header
+            summary_lines.append(f"**Total changes**: {total_changes} (showing top {min(max_changes, total_changes)})")
+            summary_lines.append("")
+            
+            for key, old_val, new_val, change_type in changes:
+                if change_type == "added":
+                    summary_lines.append(f"• **{key}**: `{new_val}` *(new setting)*")
+                elif change_type == "removed":
+                    summary_lines.append(f"• **{key}**: `{old_val}` *(removed)*")
+                elif change_type == "modified":
+                    # Try to detect if it's a numeric change for better formatting
+                    try:
+                        old_num = float(old_val) if old_val and old_val.replace('.', '').replace('-', '').isdigit() else None
+                        new_num = float(new_val) if new_val and new_val.replace('.', '').replace('-', '').isdigit() else None
+                        
+                        if old_num is not None and new_num is not None:
+                            # Numeric change - show the difference
+                            diff = new_num - old_num
+                            if diff > 0:
+                                diff_str = f" (+{diff:g})"
+                            elif diff < 0:
+                                diff_str = f" ({diff:g})"
+                            else:
+                                diff_str = ""
+                            
+                            summary_lines.append(f"• **{key}**: `{old_val}` → `{new_val}`{diff_str}")
+                        else:
+                            # Non-numeric change
+                            summary_lines.append(f"• **{key}**: `{old_val}` → `{new_val}`")
+                    except (ValueError, TypeError):
+                        # Fallback for non-numeric values
+                        summary_lines.append(f"• **{key}**: `{old_val}` → `{new_val}`")
+            
+            if total_changes > max_changes:
+                summary_lines.append(f"• ... and {extra_count} more changes")
+            
+            return "\n".join(summary_lines)
+            
+        except Exception:
+            # Fallback to simple line-based summary
+            current_lines = current_content.splitlines()
+            base_lines = base_content.splitlines()
+            
+            added = sum(1 for line in current_lines if line.strip() and line.strip() not in base_lines)
+            removed = sum(1 for line in base_lines if line.strip() and line.strip() not in current_lines)
+            
+            if added == 0 and removed == 0:
+                return "No changes detected"
+            
+            parts = []
+            if added > 0:
+                parts.append(f"+{added} lines")
+            if removed > 0:
+                parts.append(f"-{removed} lines")
+            
+            return f"{', '.join(parts)}"
+
+    def _extract_numeric_changes(self, current_content: str, base_content: str) -> list:
+        """Extract numeric changes for comparison table."""
+        try:
+            # Parse both files as config-like
+            current_kv = self.snapshot._parse_cfg_like(current_content)
+            base_kv = self.snapshot._parse_cfg_like(base_content)
+            
+            numeric_changes = []
+            
+            # Find modified numeric values
+            for key in set(current_kv.keys()) & set(base_kv.keys()):
+                old_val = base_kv[key]
+                new_val = current_kv[key]
+                
+                if old_val != new_val:
+                    # Try to parse as numeric
+                    try:
+                        old_num = float(old_val) if old_val and old_val.replace('.', '').replace('-', '').isdigit() else None
+                        new_num = float(new_val) if new_val and new_val.replace('.', '').replace('-', '').isdigit() else None
+                        
+                        if old_num is not None and new_num is not None:
+                            # Calculate difference
+                            diff = new_num - old_num
+                            if diff > 0:
+                                diff_str = f"+{diff:g}"
+                            elif diff < 0:
+                                diff_str = f"{diff:g}"
+                            else:
+                                diff_str = "0"
+                            
+                            numeric_changes.append((key, old_val, new_val, diff_str))
+                    except (ValueError, TypeError):
+                        # Not numeric, skip
+                        continue
+            
+            # Sort by key for consistent output
+            numeric_changes.sort(key=lambda x: x[0])
+            
+            return numeric_changes
+            
+        except Exception:
+            return []
+
     def edit_selected_summary(self, from_summary_tab: bool) -> None:
         tree = self.summary_tree if from_summary_tab else self.changes_tree
         sel = tree.selection()
@@ -1800,6 +1970,9 @@ class ConfigChangeTrackerApp:
             if not file_path:
                 return
             
+            # Get the backup directory path
+            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10_Backup" / "config"
+            
             # Collect only changed items from the tree (Modified, Error, Info)
             items = []
             for item_id in tree.get_children():
@@ -1825,6 +1998,10 @@ Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 This report shows **only the changes** made to configuration files compared to the base RelicHeim installation.
 Files that are identical to the backup or have no backup file are not shown.
 
+For each modified file, you'll see:
+- **Key Changes**: Specific configuration values that changed (old → new)
+- **Full Diff**: Complete diff showing all line-by-line changes
+
 ## Summary
 
 """
@@ -1837,15 +2014,15 @@ Files that are identical to the backup or have no backup file are not shown.
             
             md_content += f"""
 - **Total Changed Files**: {total_files}
-- **Modified**: {modified_files}
+- **Modified**: {modified_files} 
 - **Errors**: {error_files}
 - **Info Items**: {info_items}
 
-## Changes by Category
+## Detailed Changes
 
 """
             
-            # Add detailed breakdown by category (only for actual file changes, not info items)
+            # Add detailed breakdown by category with actual diffs
             for category in sorted(categories.keys()):
                 # Filter out info items from category breakdown
                 file_changes = [(status, filename, summary) for status, filename, summary in categories[category] 
@@ -1853,13 +2030,79 @@ Files that are identical to the backup or have no backup file are not shown.
                 
                 if file_changes:  # Only show categories with actual file changes
                     md_content += f"### {category}\n\n"
-                    md_content += "| Status | File | Summary |\n"
-                    md_content += "|--------|------|--------|\n"
+                    md_content += f"*Files in this category with changes from RelicHeim backup:*\n\n"
                     
                     for status, filename, summary in file_changes:
-                        # Escape pipe characters in summary
-                        safe_summary = summary.replace("|", "\\|") if summary else ""
-                        md_content += f"| {status} | `{filename}` | {safe_summary} |\n"
+                        md_content += f"#### {filename}\n\n"
+                        md_content += f"**Status**: {status}\n\n"
+                        md_content += f"**Summary**: {summary}\n\n"
+                        
+                        # Generate detailed change summary and diff content
+                        if status == "Modified":
+                            try:
+                                # Find the backup file mapping
+                                backup_file = None
+                                for current_file, backup_file_path in self._get_relicheim_mapping().items():
+                                    if current_file == filename:
+                                        backup_file = backup_file_path
+                                        break
+                                
+                                if backup_file and backup_file.endswith('/'):
+                                    # Handle directory mappings
+                                    current_path = self.config_root / filename
+                                    if current_path.exists() and current_path.is_dir():
+                                        # For directory mappings, we need to find the specific file
+                                        # This is complex, so we'll just show the summary
+                                        md_content += "**Note**: Directory mapping - see summary above for changes.\n\n"
+                                elif backup_file:
+                                    # Handle regular file mappings
+                                    current_path = self.config_root / filename
+                                    backup_path = backup_dir / backup_file
+                                    
+                                    if current_path.exists() and backup_path.exists():
+                                        current_content = current_path.read_text(encoding='utf-8', errors='replace')
+                                        backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
+                                        
+                                        # Generate detailed change summary
+                                        detailed_summary = self._generate_detailed_change_summary(current_content, backup_content)
+                                        if detailed_summary and detailed_summary != "No changes detected":
+                                            md_content += "**Key Changes**:\n\n"
+                                            md_content += f"{detailed_summary}\n\n"
+                                            
+                                            # Add numeric comparison table for debugging
+                                            numeric_changes = self._extract_numeric_changes(current_content, backup_content)
+                                            if numeric_changes:
+                                                md_content += "**Numeric Values Comparison**:\n\n"
+                                                md_content += "| Setting | Old Value | New Value | Difference |\n"
+                                                md_content += "|---------|-----------|-----------|------------|\n"
+                                                for key, old_val, new_val, diff_str in numeric_changes:
+                                                    md_content += f"| {key} | {old_val} | {new_val} | {diff_str} |\n"
+                                                md_content += "\n"
+                                        
+                                        # Generate unified diff
+                                        diff_lines = list(unified_diff(
+                                            backup_content.splitlines(keepends=True),
+                                            current_content.splitlines(keepends=True),
+                                            fromfile=f'backup/{filename}',
+                                            tofile=f'current/{filename}',
+                                            lineterm=''
+                                        ))
+                                        
+                                        if diff_lines:
+                                            md_content += "**Full Diff**:\n\n"
+                                            md_content += "```diff\n"
+                                            md_content += ''.join(diff_lines)
+                                            md_content += "\n```\n\n"
+                                        else:
+                                            md_content += "**Note**: Files differ but no diff could be generated.\n\n"
+                                    else:
+                                        md_content += "**Note**: Could not read file contents for diff generation.\n\n"
+                                else:
+                                    md_content += "**Note**: No backup file mapping found for diff generation.\n\n"
+                            except Exception as e:
+                                md_content += f"**Error generating diff**: {e}\n\n"
+                        
+                        md_content += "---\n\n"
                     
                     md_content += "\n"
             
@@ -1911,6 +2154,258 @@ Files that are identical to the backup or have no backup file are not shown.
             
         except Exception as e:
             CopyableErrorDialog(self.root, "Export Error", f"Failed to export: {e}")
+
+    def _get_relicheim_mapping(self) -> dict:
+        """Get the RelicHeim file mapping dictionary."""
+        return {
+            # Core mod files
+            "WackyMole.EpicMMOSystem.cfg": "WackyMole.EpicMMOSystembackup.cfg",
+            "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystembackup.cfg",  # May be part of main config
+            "randyknapp.mods.epicloot.cfg": "randyknapp.mods.epiclootbackup.cfg",
+            "drop_that.cfg": "drop_thatbackup.cfg",
+            "drop_that.character_drop.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+            "drop_that.drop_table.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
+            "drop_that.character_drop.elite_additions.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+            "custom_raids.cfg": "custom_raidsbackup.cfg",
+            "custom_raids.raids.cfg": "custom_raidsbackup.cfg",  # May be part of main config
+            "custom_raids.supplemental.deathsquitoseason.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
+            "custom_raids.supplemental.ragnarok.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
+            "advize.PlantEverything.cfg": "advize.PlantEverythingbackup.cfg",
+            "kg.ValheimEnchantmentSystem.cfg": "kg.ValheimEnchantmentSystembackup.cfg",
+            "WackyMole.Tone_Down_the_Twang.cfg": "WackyMole.Tone_Down_the_Twangbackup.cfg",
+            
+            # Smoothbrain plugins - ALL of them
+            "org.bepinex.plugins.smartskills.cfg": "org.bepinex.plugins.smartskillsbackup.cfg",
+            "org.bepinex.plugins.targetportal.cfg": "org.bepinex.plugins.targetportalbackup.cfg",
+            "org.bepinex.plugins.tenacity.cfg": "org.bepinex.plugins.tenacitybackup.cfg",
+            "org.bepinex.plugins.sailing.cfg": "org.bepinex.plugins.sailingbackup.cfg",
+            "org.bepinex.plugins.sailingspeed.cfg": "org.bepinex.plugins.sailingspeedbackup.cfg",
+            "org.bepinex.plugins.passivepowers.cfg": "org.bepinex.plugins.passivepowersbackup.cfg",
+            "org.bepinex.plugins.packhorse.cfg": "org.bepinex.plugins.packhorsebackup.cfg",
+            "org.bepinex.plugins.mining.cfg": "org.bepinex.plugins.miningbackup.cfg",
+            "org.bepinex.plugins.lumberjacking.cfg": "org.bepinex.plugins.lumberjackingbackup.cfg",
+            "org.bepinex.plugins.foraging.cfg": "org.bepinex.plugins.foragingbackup.cfg",
+            "org.bepinex.plugins.farming.cfg": "org.bepinex.plugins.farmingbackup.cfg",
+            "org.bepinex.plugins.creaturelevelcontrol.cfg": "org.bepinex.plugins.creaturelevelcontrolbackup.cfg",
+            "org.bepinex.plugins.conversionsizespeed.cfg": "org.bepinex.pluginsbackup.conversionsizespeed.cfg",
+            "org.bepinex.plugins.building.cfg": "org.bepinex.pluginsbackup.building.cfg",
+            "org.bepinex.plugins.blacksmithing.cfg": "org.bepinex.pluginsbackup.blacksmithing.cfg",
+            "org.bepinex.plugins.backpacks.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",
+            "org.bepinex.plugins.ranching.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+            "org.bepinex.plugins.groups.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+            "org.bepinex.plugins.exploration.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+            "org.bepinex.plugins.cooking.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+            
+            # Other important mods
+            "RandomSteve.BreatheEasy.cfg": "RandomSteve.BreatheEasybackup.cfg",
+            "Azumatt.AzuCraftyBoxes.cfg": "Azumatt.AzuCraftyBoxesbackup.yml",
+            "Azumatt.FactionAssigner.cfg": "Azumatt.FactionAssignerbackup.yml",
+            "horemvore.MushroomMonsters.cfg": "CreatureConfig_Creaturesbackup.yml",  # May be part of creature config
+            "flueno.SmartContainers.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+            
+            # Creature configs (if they exist in current config)
+            "CreatureConfig_Creatures.yml": "CreatureConfig_Creaturesbackup.yml",
+            "CreatureConfig_Bosses.yml": "CreatureConfig_Bossesbackup.yml",
+            "CreatureConfig_BiomeIncrease.yml": "CreatureConfig_BiomeIncreasebackup.yml",
+            "CreatureConfig_Monstrum.yml": "CreatureConfig_Monstrumbackup.yml",
+            "CreatureConfig_Wizardry.yml": "CreatureConfig_Wizardrybackup.yml",
+            
+            # Backpack configs (if they exist in current config)
+            "Backpacks.Wizardry.yml": "Backpacks.Wizardrybackup.yml",
+            "Backpacks.MajesticEpicLoot.yml": "Backpacks.MajesticEpicLootbackup.yml",
+            "Backpacks.Majestic.yml": "Backpacks.Majesticbackup.yml",
+            
+            # Item configs (if they exist in current config)
+            "ItemConfig_Base.yml": "ItemConfig_Basebackup.yml",
+            
+            # Spawn That files (if they exist in current config)
+            "spawn_that.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+            "spawn_that.world_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+            "spawn_that.local_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Localsbackup.cfg",
+            "spawn_that.spawnarea_spawners.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNestsbackup.cfg",
+            "spawn_that.simple.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+            
+            # This Goes Here files (if they exist in current config)
+            "Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFilesbackup.yml",
+            "Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
+            "Valheim.ThisGoesHere.DeleteWDBCache.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeleteWDBCachebackup.yml",
+            
+            # Files in _RelicHeimFiles root directory (current config files)
+            "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
+            "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFilesbackup.yml",
+            
+            # Additional Drop That files (if they exist in current config)
+            "drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
+            "drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
+            "drop_that.character_drop.VES.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
+            "drop_that.character_drop.Monstrum.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
+            "drop_that.character_drop.GoldTrophy.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
+            "drop_that.character_drop.Bosses.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
+            "drop_that.character_drop.aListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
+            "drop_that.drop_table.EpicLootChest.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
+            "drop_that.drop_table.Chests.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
+            
+            # Additional Spawn That files (if they exist in current config)
+            "spawn_that.world_spawners.zVanilla.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanillabackup.cfg",
+            "spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
+            "spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
+            
+            # Files in _RelicHeimFiles/Drop,Spawn_That/ subdirectory (current config files)
+            "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNests.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNestsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Locals.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Localsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanilla.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanillabackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chests.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VES.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrum.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonsters.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonstersbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophy.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
+            
+            # Files in _RelicHeimFiles/Drop,Spawn_That/RockPiles/ subdirectory (current config files)
+            "_RelicHeimFiles/Drop,Spawn_That/RockPiles/spawn_that.world_spawners.PileOres.cfg": "_RelicHeimFiles/Drop,Spawn_That/RockPiles/spawn_that.world_spawners.PileOresbackup.cfg",
+            "_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOres.cfg": "_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOresbackup.cfg",
+            
+            # Additional Custom Raids files (if they exist in current config)
+            "custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
+            "custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
+            "custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
+            "custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
+            
+            # Files in _RelicHeimFiles/Raids/ subdirectory (current config files)
+            "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
+            "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
+            "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
+            "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
+            "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
+            
+            # EpicMMO System files (if they exist in current config)
+            "EpicMMOSystem/Version.txt": "EpicMMOSystembackup/Version.txt",
+            "EpicMMOSystem/Valheim.ThisGoesHere.EpicMMOCleanup.yml": "EpicMMOSystembackup/Valheim.ThisGoesHere.EpicMMOCleanup.yml",
+            "EpicMMOSystem/Therzie_Wizardry.json": "EpicMMOSystembackup/Therzie_Wizardry.json",
+            "EpicMMOSystem/Therzie_Monstrum.json": "EpicMMOSystembackup/Therzie_Monstrum.json",
+            "EpicMMOSystem/Monstrum_DeepNorth.json": "EpicMMOSystembackup/Monstrum_DeepNorth.json",
+            "EpicMMOSystem/Jewelcrafting.json": "EpicMMOSystembackup/Jewelcrafting.json",
+            "EpicMMOSystem/Default.json": "EpicMMOSystembackup/Default.json",
+            
+            # Valheim Enchantment System files (if they exist in current config)
+            "ValheimEnchantmentSystem/ScrollRecipes.cfg": "ValheimEnchantmentSystembackup/ScrollRecipes.cfg",
+            "ValheimEnchantmentSystem/kg.ValheimEnchantmentSystem.cfg": "ValheimEnchantmentSystembackup/kg.ValheimEnchantmentSystem.cfg",
+            "ValheimEnchantmentSystem/EnchantmentStats_Weapons.yml": "ValheimEnchantmentSystembackup/EnchantmentStats_Weapons.yml",
+            "ValheimEnchantmentSystem/EnchantmentStats_Armor.yml": "ValheimEnchantmentSystembackup/EnchantmentStats_Armor.yml",
+            "ValheimEnchantmentSystem/EnchantmentReqs.yml": "ValheimEnchantmentSystembackup/EnchantmentReqs.yml",
+            "ValheimEnchantmentSystem/EnchantmentColors.yml": "ValheimEnchantmentSystembackup/EnchantmentColors.yml",
+            "ValheimEnchantmentSystem/EnchantmentChancesV2.yml": "ValheimEnchantmentSystembackup/EnchantmentChancesV2.yml",
+            
+            # WackyDatabase files (if they exist in current config)
+            "wackysDatabase/": "wackysDatabase_backup/",
+            
+            # EpicLoot files (if they exist in current config)
+            "EpicLoot/": "EpicLootbackup/",
+            
+            # NEW ADDITIONS - Missing files that exist in current config
+            
+            # Warpalicious mods (multiple files)
+            "warpalicious.Swamp_Pack_1.cfg": "warpalicious.Swamp_Pack_1backup.cfg",  # May not have backup
+            "warpalicious.Underground_Ruins.cfg": "warpalicious.Underground_Ruinsbackup.cfg",  # May not have backup
+            "warpalicious.More_World_Traders.cfg": "warpalicious.More_World_Tradersbackup.cfg",  # May not have backup
+            "warpalicious.Mountains_Pack_1.cfg": "warpalicious.Mountains_Pack_1backup.cfg",  # May not have backup
+            "warpalicious.Plains_Pack_1.cfg": "warpalicious.Plains_Pack_1backup.cfg",  # May not have backup
+            "warpalicious.More_World_Locations_LootLists.yml": "warpalicious.More_World_Locations_LootListsbackup.yml",  # May not have backup
+            "warpalicious.More_World_Locations_PickableItemLists.yml": "warpalicious.More_World_Locations_PickableItemListsbackup.yml",  # May not have backup
+            "warpalicious.More_World_Locations_CreatureLists.yml": "warpalicious.More_World_Locations_CreatureListsbackup.yml",  # May not have backup
+            "warpalicious.Meadows_Pack_2.cfg": "warpalicious.Meadows_Pack_2backup.cfg",  # May not have backup
+            "warpalicious.Mistlands_Pack_1.cfg": "warpalicious.Mistlands_Pack_1backup.cfg",  # May not have backup
+            "warpalicious.Meadows_Pack_1.cfg": "warpalicious.Meadows_Pack_1backup.cfg",  # May not have backup
+            "warpalicious.Forbidden_Catacombs.cfg": "warpalicious.Forbidden_Catacombsbackup.cfg",  # May not have backup
+            "warpalicious.MWL_Blackforest_Pack_1.cfg": "warpalicious.MWL_Blackforest_Pack_1backup.cfg",  # May not have backup
+            "warpalicious.AshlandsPack1.cfg": "warpalicious.AshlandsPack1backup.cfg",  # May not have backup
+            "warpalicious.Blackforest_Pack_2.cfg": "warpalicious.Blackforest_Pack_2backup.cfg",  # May not have backup
+            "warpalicious.Adventure_Map_Pack_1.cfg": "warpalicious.Adventure_Map_Pack_1backup.cfg",  # May not have backup
+            
+            # Vapok mods
+            "vapok.mods.adventurebackpacks.cfg": "vapok.mods.adventurebackpacksbackup.cfg",  # May not have backup
+            
+            # Southsil mods
+            "southsil.SouthsilArmor.cfg": "southsil.SouthsilArmorbackup.cfg",  # May not have backup
+            
+            # Shudnal mods
+            "shudnal.TradersExtended.cfg": "shudnal.TradersExtendedbackup.cfg",  # May not have backup
+            "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.buy.json": "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.buybackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.sell.json": "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.sellbackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.buy.json": "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.buybackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sell.json": "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sellbackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.sellbackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_OceanTavern1_Trader.buy.json": "shudnal.TradersExtended.MWL_OceanTavern1_Trader.buybackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_OceanTavern1_Trader.sell.json": "shudnal.TradersExtended.MWL_OceanTavern1_Trader.sellbackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.sellbackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.buybackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.buybackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.sellbackup.json",  # May not have backup
+            "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.buybackup.json",  # May not have backup
+            "shudnal.Seasons.cfg": "shudnal.Seasonsbackup.cfg",  # May not have backup
+            
+            # Server and system files
+            "server_devcommands.cfg": "server_devcommandsbackup.cfg",  # May not have backup
+            "org.bepinex.valheim.displayinfo.cfg": "org.bepinex.valheim.displayinfobackup.cfg",  # May not have backup
+            
+            # Redseiko mods
+            "redseiko.valheim.scenic.cfg": "redseiko.valheim.scenicbackup.cfg",  # May not have backup
+            
+            # OdinPlus mods
+            "odinplus.plugins.odinskingdom.cfg": "odinplus.plugins.odinskingdombackup.cfg",  # May not have backup
+            
+            # Nex mods
+            "nex.SpeedyPaths.cfg": "nex.SpeedyPathsbackup.cfg",  # May not have backup
+            
+            # Marcopogo mods
+            "marcopogo.PlanBuild.cfg": "marcopogo.PlanBuildbackup.cfg",  # May not have backup
+            
+            # Marlthon mods
+            "marlthon.OdinShipPlus.cfg": "marlthon.OdinShipPlusbackup.cfg",  # May not have backup
+            
+            # HTD mods
+            "htd.armory.cfg": "htd.armorybackup.cfg",  # May not have backup
+            
+            # GoldenRevolver mods
+            "goldenrevolver.quick_stack_store.cfg": "goldenrevolver.quick_stack_storebackup.cfg",  # May not have backup
+            
+            # Com mods
+            "com.maxsch.valheim.vnei.cfg": "com.maxsch.valheim.vneibackup.cfg",  # May not have backup
+            "com.odinplus.potionsplus.cfg": "com.odinplus.potionsplusbackup.cfg",  # May not have backup
+            "com.bepis.bepinex.configurationmanager.cfg": "com.bepis.bepinex.configurationmanagerbackup.cfg",  # May not have backup
+            "com.maxsch.valheim.pressure_plate.cfg": "com.maxsch.valheim.pressure_platebackup.cfg",  # May not have backup
+            "com.maxsch.valheim.vnei.blacklist.txt": "com.maxsch.valheim.vnei.blacklistbackup.txt",  # May not have backup
+            
+            # Blacks7ar mods
+            "blacks7ar.MagicRevamp.cfg": "blacks7ar.MagicRevampbackup.cfg",  # May not have backup
+            "blacks7ar.FineWoodBuildPieces.cfg": "blacks7ar.FineWoodBuildPiecesbackup.cfg",  # May not have backup
+            "blacks7ar.FineWoodFurnitures.cfg": "blacks7ar.FineWoodFurnituresbackup.cfg",  # May not have backup
+            "blacks7ar.CookingAdditions.cfg": "blacks7ar.CookingAdditionsbackup.cfg",  # May not have backup
+            
+            # ZenDragon mods
+            "ZenDragon.ZenUI.cfg": "ZenDragon.ZenUIbackup.cfg",  # May not have backup
+            "WackyMole.WackysDatabase.cfg": "WackyMole.WackysDatabasebackup.cfg",  # May not have backup
+            "ZenDragon.Zen.ModLib.cfg": "ZenDragon.Zen.ModLibbackup.cfg",  # May not have backup
+            "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystemUIbackup.cfg",  # May not have backup
+            
+            # Other files
+            "binds.yaml": "bindsbackup.yaml",  # May not have backup
+            "upgrade_world.cfg": "upgrade_worldbackup.cfg",  # May not have backup
+            
+            # Directory mappings for subdirectories
+            "wackyDatabase-BulkYML/": "wackyDatabase-BulkYML_backup/",  # May not have backup
+            "shudnal.Seasons/": "shudnal.Seasons_backup/",  # May not have backup
+            "_RelicHeimFiles/": "_RelicHeimFiles_backup/",  # May not have backup
+        }
 
     def show_relicheim_comparison(self) -> None:
         """Show a comparison between current config files and RelicHeim base files.
@@ -2702,6 +3197,190 @@ Files that are identical to the backup or have no backup file are not shown.
         
         # Ensure redraw
         self.root.update_idletasks()
+
+    def recreate_corrupted_snapshot(self, snapshot_type: str = "current") -> tuple[bool, str]:
+        """Recreate a corrupted snapshot file."""
+        try:
+            # Clear the cache for this snapshot type
+            if snapshot_type in self._snapshot_cache:
+                del self._snapshot_cache[snapshot_type]
+            if snapshot_type in self._snapshot_index_cache:
+                del self._snapshot_index_cache[snapshot_type]
+            
+            # Create a new snapshot
+            success, message = self.create_snapshot(is_initial=(snapshot_type == "initial"))
+            
+            if success:
+                self.log_event(action="recreate_snapshot", success=True, 
+                              extra={"type": snapshot_type, "reason": "corrupted_file_recovery"})
+                return True, f"Successfully recreated {snapshot_type} snapshot: {message}"
+            else:
+                return False, f"Failed to recreate {snapshot_type} snapshot: {message}"
+                
+        except Exception as e:
+            self.log_event(action="recreate_snapshot", success=False, 
+                          extra={"type": snapshot_type, "error": str(e)})
+            return False, f"Error recreating {snapshot_type} snapshot: {e}"
+
+    def _init_snapshot_and_refresh(self) -> None:
+        """Initialize snapshot and refresh changes."""
+        def worker():
+            try:
+                # Create initial snapshot if none exists
+                if not self.snapshot.initial_snapshot_file.exists():
+                    self.root.after(0, lambda: self._set_busy(True, "Creating initial snapshot..."))
+                    ok, msg = self.snapshot.create_snapshot(is_initial=True)
+                    if ok:
+                        self.root.after(0, lambda: self._set_busy(False, msg))
+                    else:
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
+                
+                # Create current snapshot if none exists
+                if not self.snapshot.current_snapshot_file.exists():
+                    self.root.after(0, lambda: self._set_busy(True, "Creating current snapshot..."))
+                    ok, msg = self.snapshot.create_snapshot()
+                    if ok:
+                        self.root.after(0, lambda: self._set_busy(False, msg))
+                    else:
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
+                
+                # Update snapshot info and auto-scan
+                def update_and_scan():
+                    ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
+                    cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
+                    self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
+
+                # Auto-scan for changes and open All-Time Summary by default
+                self.compare_var.set("Since Baseline (All-Time)")
+                self.on_compare_change()
+                self.show_baseline_summary()
+                
+                self.root.after(0, update_and_scan)
+            except Exception as e:
+                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
+        
+        threading.Thread(target=worker, daemon=True).start()
+
+    def show_recovery_dialog(self) -> None:
+        """Show a dialog to help recover from corrupted snapshots."""
+        try:
+            win = tk.Toplevel(self.root)
+            win.title("Snapshot Recovery")
+            win.geometry("500x300")
+            win.configure(bg=self.colors["bg"])
+            
+            # Center the dialog
+            win.update_idletasks()
+            x = (win.winfo_screenwidth() // 2) - (500 // 2)
+            y = (win.winfo_screenheight() // 2) - (300 // 2)
+            win.geometry(f"500x300+{x}+{y}")
+            
+            # Make dialog modal
+            win.transient(self.root)
+            win.grab_set()
+            
+            main_frame = ttk.Frame(win)
+            main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+            # Title
+            title_label = tk.Label(main_frame, text="Snapshot Recovery", 
+                                  font=("Arial", 12, "bold"), 
+                                  fg=self.colors["text"], bg=self.colors["bg"])
+            title_label.pack(pady=(0, 10))
+            
+            # Description
+            desc_text = """This tool helps recover from corrupted snapshot files.
+
+If you're experiencing errors loading snapshots, you can recreate them here.
+
+• Initial Snapshot: Used for "Since Baseline" comparisons
+• Current Snapshot: Used for "Since Last Snapshot" comparisons
+
+Note: Recreating snapshots will reset your comparison baselines."""
+            
+            desc_label = tk.Label(main_frame, text=desc_text, justify=tk.LEFT,
+                                 fg=self.colors["text"], bg=self.colors["bg"],
+                                 wraplength=450)
+            desc_label.pack(pady=(0, 20))
+            
+            # Buttons frame
+            button_frame = ttk.Frame(main_frame)
+            button_frame.pack(fill=tk.X, pady=(0, 10))
+            
+            def recreate_initial():
+                def worker():
+                    try:
+                        self.root.after(0, lambda: self._set_busy(True, "Recreating initial snapshot..."))
+                        success, message = self.recreate_corrupted_snapshot("initial")
+                        if success:
+                            self.root.after(0, lambda: self._set_busy(False, message))
+                            self.root.after(0, self.refresh_changes)
+                        else:
+                            self.root.after(0, lambda: self._set_busy(False, f"Error: {message}"))
+                    except Exception as e:
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
+                
+                threading.Thread(target=worker, daemon=True).start()
+                win.destroy()
+            
+            def recreate_current():
+                def worker():
+                    try:
+                        self.root.after(0, lambda: self._set_busy(True, "Recreating current snapshot..."))
+                        success, message = self.recreate_corrupted_snapshot("current")
+                        if success:
+                            self.root.after(0, lambda: self._set_busy(False, message))
+                            self.root.after(0, self.refresh_changes)
+                        else:
+                            self.root.after(0, lambda: self._set_busy(False, f"Error: {message}"))
+                    except Exception as e:
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
+                
+                threading.Thread(target=worker, daemon=True).start()
+                win.destroy()
+            
+            def recreate_both():
+                def worker():
+                    try:
+                        self.root.after(0, lambda: self._set_busy(True, "Recreating both snapshots..."))
+                        
+                        # Recreate initial first
+                        success1, message1 = self.recreate_corrupted_snapshot("initial")
+                        if not success1:
+                            self.root.after(0, lambda: self._set_busy(False, f"Error recreating initial: {message1}"))
+                            return
+                        
+                        # Then recreate current
+                        success2, message2 = self.recreate_corrupted_snapshot("current")
+                        if not success2:
+                            self.root.after(0, lambda: self._set_busy(False, f"Error recreating current: {message2}"))
+                            return
+                        
+                        self.root.after(0, lambda: self._set_busy(False, "Both snapshots recreated successfully"))
+                        self.root.after(0, self.refresh_changes)
+                    except Exception as e:
+                        self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
+                
+                threading.Thread(target=worker, daemon=True).start()
+                win.destroy()
+            
+            # Buttons
+            ttk.Button(button_frame, text="Recreate Initial Snapshot", 
+                      command=recreate_initial, style="Action.TButton").pack(fill=tk.X, pady=2)
+            ttk.Button(button_frame, text="Recreate Current Snapshot", 
+                      command=recreate_current, style="Action.TButton").pack(fill=tk.X, pady=2)
+            ttk.Button(button_frame, text="Recreate Both Snapshots", 
+                      command=recreate_both, style="Action.TButton").pack(fill=tk.X, pady=2)
+            
+            # Cancel button
+            ttk.Button(main_frame, text="Cancel", 
+                      command=win.destroy, style="Action.TButton").pack(pady=(10, 0))
+            
+            # Focus on dialog
+            win.focus_set()
+            
+        except Exception as e:
+            self._set_status(f"Error showing recovery dialog: {e}")
 
 
 def locate_config_root() -> Path:

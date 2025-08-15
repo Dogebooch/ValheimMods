@@ -8,3 +8,6 @@
 {"timestamp": "2025-08-14T14:14:35", "action": "accept_baseline", "file": "Detalhes.ItemRequiresSkillLevel.yml", "success": true, "details": {"action": "Updated baseline for"}}
 {"timestamp": "2025-08-14T15:57:32", "action": "revert", "file": "Detalhes.ItemRequiresSkillLevel.cfg", "success": true, "details": {"from": "initial", "method": "write"}}
 {"timestamp": "2025-08-14T15:58:07", "action": "snapshot", "file": "", "success": true, "details": {"type": "current", "file_count": 1668}}
+{"timestamp": "2025-08-15T12:23:14", "action": "load_snapshot", "file": "", "success": false, "details": {"type": "current", "error": "Extra data: line 1 column 13 (char 12)", "file": "c:\\Users\\doug1\\ValheimMods\\scripts\\snapshots\\current_snapshot.json"}}
+{"timestamp": "2025-08-15T12:29:36", "action": "load_snapshot", "file": "", "success": false, "details": {"type": "current", "error": "Extra data: line 1 column 13 (char 12)", "file": "c:\\Users\\doug1\\ValheimMods\\scripts\\snapshots\\current_snapshot.json"}}
+{"timestamp": "2025-08-15T12:30:19", "action": "load_snapshot", "file": "", "success": false, "details": {"type": "current", "error": "Extra data: line 1 column 13 (char 12)", "file": "c:\\Users\\doug1\\ValheimMods\\scripts\\snapshots\\current_snapshot.json"}}
