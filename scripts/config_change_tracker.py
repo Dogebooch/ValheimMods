@@ -59,6 +59,128 @@ class Tooltip:
             self._tip_window.destroy()
             self._tip_window = None
 
+
+class CopyableErrorDialog:
+    """Custom error dialog that allows text selection and copying."""
+    def __init__(self, parent, title: str, message: str):
+        self.dialog = tk.Toplevel(parent)
+        self.dialog.title(title)
+        self.dialog.geometry("600x400")
+        self.dialog.configure(bg="#2e2b23")
+        self.dialog.resizable(True, True)
+        
+        # Make dialog modal
+        self.dialog.transient(parent)
+        self.dialog.grab_set()
+        
+        # Center the dialog
+        self.dialog.update_idletasks()
+        x = (self.dialog.winfo_screenwidth() // 2) - (600 // 2)
+        y = (self.dialog.winfo_screenheight() // 2) - (400 // 2)
+        self.dialog.geometry(f"600x400+{x}+{y}")
+        
+        # Main frame
+        main_frame = ttk.Frame(self.dialog)
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Error icon and title
+        title_frame = ttk.Frame(main_frame)
+        title_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        # Error icon (text-based)
+        error_icon = tk.Label(title_frame, text="⚠", font=("Arial", 16, "bold"), 
+                             fg="#cc0000", bg="#2e2b23")
+        error_icon.pack(side=tk.LEFT, padx=(0, 10))
+        
+        # Title
+        title_label = tk.Label(title_frame, text=title, font=("Arial", 12, "bold"), 
+                              fg="#e8e2d0", bg="#2e2b23")
+        title_label.pack(side=tk.LEFT)
+        
+        # Message text (selectable)
+        message_frame = ttk.Frame(main_frame)
+        message_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+        
+        # Scrollable text widget
+        text_frame = ttk.Frame(message_frame)
+        text_frame.pack(fill=tk.BOTH, expand=True)
+        
+        self.text_widget = tk.Text(text_frame, wrap=tk.WORD, font=("Consolas", 10),
+                                  bg="#3b352a", fg="#e8e2d0", insertbackground="#e8e2d0",
+                                  selectbackground="#7d6f5e", selectforeground="#e8e2d0",
+                                  relief=tk.SUNKEN, borderwidth=1)
+        
+        # Scrollbars
+        y_scrollbar = ttk.Scrollbar(text_frame, orient=tk.VERTICAL, command=self.text_widget.yview)
+        x_scrollbar = ttk.Scrollbar(message_frame, orient=tk.HORIZONTAL, command=self.text_widget.xview)
+        
+        self.text_widget.configure(yscrollcommand=y_scrollbar.set, xscrollcommand=x_scrollbar.set)
+        
+        # Pack widgets
+        self.text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        y_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        x_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        # Insert message
+        self.text_widget.insert(tk.END, message)
+        self.text_widget.config(state=tk.DISABLED)  # Make read-only but still selectable
+        
+        # Buttons frame
+        button_frame = ttk.Frame(main_frame)
+        button_frame.pack(fill=tk.X, pady=(10, 0))
+        
+        # Copy button
+        copy_btn = ttk.Button(button_frame, text="Copy Error", 
+                             command=self.copy_text, style="Action.TButton")
+        copy_btn.pack(side=tk.LEFT, padx=(0, 10))
+        
+        # OK button
+        ok_btn = ttk.Button(button_frame, text="OK", 
+                           command=self.dialog.destroy, style="Action.TButton")
+        ok_btn.pack(side=tk.RIGHT)
+        
+        # Bind Ctrl+C to copy
+        self.dialog.bind("<Control-c>", lambda e: self.copy_text())
+        
+        # Focus on dialog
+        self.dialog.focus_set()
+        ok_btn.focus_set()
+        
+        # Wait for dialog to close
+        self.dialog.wait_window()
+    
+    def copy_text(self):
+        """Copy selected text or all text to clipboard."""
+        try:
+            selected_text = self.text_widget.get(tk.SEL_FIRST, tk.SEL_LAST)
+        except tk.TclError:
+            # No selection, copy all text
+            selected_text = self.text_widget.get("1.0", tk.END)
+        
+        self.dialog.clipboard_clear()
+        self.dialog.clipboard_append(selected_text)
+        
+        # Show brief feedback
+        self.text_widget.config(state=tk.NORMAL)
+        self.text_widget.insert(tk.END, "\n\n[Copied to clipboard]")
+        self.text_widget.config(state=tk.DISABLED)
+        self.text_widget.see(tk.END)
+        
+        # Clear the feedback after 2 seconds
+        self.dialog.after(2000, self.clear_feedback)
+    
+    def clear_feedback(self):
+        """Clear the copy feedback message."""
+        try:
+            self.text_widget.config(state=tk.NORMAL)
+            content = self.text_widget.get("1.0", tk.END)
+            if content.endswith("\n\n[Copied to clipboard]"):
+                self.text_widget.delete("1.0", tk.END)
+                self.text_widget.insert("1.0", content[:-23])  # Remove the feedback
+            self.text_widget.config(state=tk.DISABLED)
+        except Exception:
+            pass
+
 class ConfigSnapshot:
     def __init__(self, config_root: Path):
         self.config_root = config_root
@@ -1672,8 +1794,7 @@ class ConfigChangeTrackerApp:
             file_path = filedialog.asksaveasfilename(
                 title="Export RelicHeim Changes",
                 defaultextension=".md",
-                filetypes=[("Markdown files", "*.md"), ("All files", "*.*")],
-                initialvalue=default_filename
+                filetypes=[("Markdown files", "*.md"), ("All files", "*.*")]
             )
             
             if not file_path:
@@ -1789,7 +1910,7 @@ Files that are identical to the backup or have no backup file are not shown.
                               f"Errors: {error_files}")
             
         except Exception as e:
-            messagebox.showerror("Export Error", f"Failed to export: {e}")
+            CopyableErrorDialog(self.root, "Export Error", f"Failed to export: {e}")
 
     def show_relicheim_comparison(self) -> None:
         """Show a comparison between current config files and RelicHeim base files.
@@ -2516,7 +2637,7 @@ Files that are identical to the backup or have no backup file are not shown.
                             iid = tree.insert("", "end", values=(ts, action, filev, success, details))
                             iid_to_line_idx[iid] = idx
                 except Exception as e:
-                    messagebox.showerror("Event Log", f"Failed to read log: {e}")
+                    CopyableErrorDialog(win, "Event Log", f"Failed to read log: {e}")
 
             def delete_selected_event():
                 sel = tree.selection()
@@ -2535,7 +2656,7 @@ Files that are identical to the backup or have no backup file are not shown.
                         f.writelines(lines)
                     refresh_tree()
                 except Exception as e:
-                    messagebox.showerror("Delete Event", f"Failed to delete: {e}")
+                    CopyableErrorDialog(win, "Delete Event", f"Failed to delete: {e}")
 
             # Context menu
             menu = tk.Menu(win, tearoff=False)
@@ -2598,8 +2719,12 @@ def locate_config_root() -> Path:
 def main() -> int:
     config_root = locate_config_root()
     if not config_root.exists():
-        messagebox.showerror("Config Path Not Found", 
+        # Create a temporary root for the error dialog
+        temp_root = tk.Tk()
+        temp_root.withdraw()  # Hide the temporary root
+        CopyableErrorDialog(temp_root, "Config Path Not Found", 
                            f"Config directory does not exist:\n{config_root}")
+        temp_root.destroy()
         return 2
     
     root = tk.Tk()
