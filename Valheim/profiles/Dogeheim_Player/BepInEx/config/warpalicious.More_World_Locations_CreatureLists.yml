@@ -3,167 +3,61 @@
 # Optimized for reduced spawn quantities with increased variety and excitement
 # Aligned with CONTINUE.md material-focused economy and thematic consistency
 
+# Combined Creature Lists - Reduced from 28 → 11 groups
+# Preserving all spawn variety while eliminating duplication
+
+MeadowsCreatures_Standard:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+
+BlackforestCreatures_Standard:
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+
+BlackforestPack2Creatures:
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+
+MountainsCreatures_Standard:
+  - Wolf
+  - Ulv
+  - Hatchling
+
+MistlandsCreatures_Full:
+  - Seeker
+  - SeekerBrute
+  - Tick
+  - Gjall
+
+MistlandsCreatures_Light:
+  - Seeker
+  - SeekerBrute
+  - Gjall
+
+SwampCreatures_Standard:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Draugr
+  - Draugr_Elite
+  - Wraith
+
+CatacombCreatures_Expanded:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Wraith
+
 # Meadows Pack 1 - Enhanced Creature Variety
-MeadowsCreatures1:
-  # Common locations - Diverse mix for early-game progression
-  - Skeleton
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  - Skeleton
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  # Rare spawns for excitement
-  - Skeleton_NoArcher
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-MeadowsCreatures2:
-  # Elite locations - Higher tier creatures for better rewards
-  - Skeleton
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  - Skeleton
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  # Elite variants
-  - Skeleton_NoArcher
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  # Rare elite spawns
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-MeadowsCreatures3:
-  # Elite locations - Maximum challenge and rewards
-  - Skeleton
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  - Skeleton
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  # Elite variants
-  - Skeleton_NoArcher
-  - Skeleton_Poison
-  - Skeleton_NoArcher
-  - Skeleton_Poison
-  # Rare elite spawns
-  - Skeleton_NoArcher
-  - Skeleton_Poison
+# Combined into MeadowsCreatures_Standard
 # Meadows Pack 2 Barns - peaceful farm animal spawns
 MeadowsCreatures5:
   - Boar
 # Black Forest Pack 1 - Enhanced Creature Variety
-# Thematic consistency with Black Forest biome identity
-BlackforestCreatures1:
-  # Common locations - Diverse mix for early Black Forest progression
-  # Focus: Reliable material farming with moderate challenge
-  # Enhanced variety to compensate for reduced spawn quantities
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  # Elite variants for better materials (35% chance)
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  # Rare spawns for excitement (20% chance)
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-
-BlackforestCreatures2:
-  # Uncommon locations - Higher tier creatures for better rewards
-  # Focus: Premium materials and rare drops for mid-tier progression
-  # Enhanced elite density to compensate for reduced spawn quantities
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  # Elite variants for premium materials (55% chance)
-  - Greydwarf_Elite
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  # Rare elite spawns for excitement (30% chance)
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-
-BlackforestCreatures3:
-  # Elite locations - Maximum challenge and rewards
-  # Focus: Ultimate materials and rare drops for endgame progression
-  # Maximum elite density for premium rewards
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  # Elite variants for ultimate materials (70% chance)
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  # Rare elite spawns for maximum excitement (35% chance)
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
+# Combined into BlackforestCreatures_Standard
 
 # Tavern-specific creature list for social locations
 WoodTavernCreatures1:
@@ -194,122 +88,7 @@ WoodTavernCreatures1:
   - Skeleton_NoArcher
 
 # Black Forest Pack 2 - Enhanced Creature Variety
-# Thematic consistency with Black Forest biome identity
-# Performance optimized with enhanced elite density
-# to compensate for reduced spawn quantities
-
-BlackforestPack2Creatures1:
-  # Common/Forge locations - Diverse mix for early Black Forest progression
-  # Focus: Reliable material farming with moderate challenge
-  # Enhanced variety to compensate for reduced spawn quantities
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  # Elite variants for better materials (35% chance)
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  # Rare spawns for excitement (20% chance)
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-
-BlackforestPack2Creatures2:
-  # Uncommon/Tower locations - Higher tier creatures for better rewards
-  # Focus: Premium materials and rare drops for mid-tier progression
-  # Enhanced elite density to compensate for reduced spawn quantities
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  # Elite variants for premium materials (55% chance)
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  # Rare elite spawns for excitement (30% chance)
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-
-BlackforestPack2Creatures3:
-  # Elite/Ruins locations - Maximum challenge and rewards
-  # Focus: Ultimate materials and rare drops for endgame progression
-  # Maximum elite density for premium rewards
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  # Elite variants for ultimate materials (70% chance)
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  # Rare elite spawns for maximum excitement (35% chance)
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
-  - Greydwarf_Shaman
-  - Greydwarf_Elite
+# Combined into BlackforestPack2Creatures
 
 # Specialized creature lists for specific Black Forest Pack 2 location themes
 BlackforestPack2SkullCreatures1:

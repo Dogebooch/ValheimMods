@@ -2753,9 +2753,220 @@ These are settings that directly affect gameplay, such as:
         if hasattr(self, '_all_comparison_items'):
             self._populate_tree_with_filter(tree, self._all_comparison_items)
 
+    def show_relicheim_comparison(self) -> None:
+        """Show the RelicHeim comparison dialog and perform the comparison."""
+        # Check if we have a baseline to compare against
+        if not self.baseline_snapshot:
+            messagebox.showwarning("No Baseline", "Please create a baseline snapshot first before comparing against RelicHeim.")
+            return
+
+        # Get RelicHeim backup path
+        relicheim_backup = Path("Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/config")
+        if not relicheim_backup.exists():
+            messagebox.showerror("RelicHeim Backup Not Found", 
+                               f"RelicHeim backup directory not found at:\n{relicheim_backup}\n\nPlease ensure the RelicHeim backup is available.")
+            return
+
+        # Perform the comparison
+        self._set_busy(True, "Comparing current configs vs RelicHeim backup...")
+
+        def worker():
+            try:
+                # Get current config files
+                current_files = self._get_config_files(self.config_root)
+                
+                # Get RelicHeim backup files
+                relicheim_files = self._get_config_files(relicheim_backup)
+                
+                # Compare the configurations
+                comparison_items = []
+                
+                for current_file in current_files:
+                    current_path = current_file['path']
+                    relative_path = current_path.relative_to(self.config_root)
+                    relicheim_path = relicheim_backup / relative_path
+                    
+                    if relicheim_path.exists():
+                        # Compare the files
+                        current_content = current_file['content']
+                        with open(relicheim_path, 'r', encoding='utf-8', errors='ignore') as f:
+                            relicheim_content = f.read()
+                        
+                        if current_content != relicheim_content:
+                            # Generate diff summary
+                            diff_summary = self._generate_relicheim_diff_summary(current_content, relicheim_content)
+                            
+                            comparison_items.append({
+                                'file': relative_path,
+                                'current_content': current_content,
+                                'relicheim_content': relicheim_content,
+                                'diff_summary': diff_summary,
+                                'has_changes': True
+                            })
+                    else:
+                        # File exists in current but not in RelicHeim
+                        comparison_items.append({
+                            'file': relative_path,
+                            'current_content': current_file['content'],
+                            'relicheim_content': '',
+                            'diff_summary': "File added (not present in RelicHeim backup)",
+                            'has_changes': True
+                        })
+                
+                # Check for files in RelicHeim but not in current
+                for relicheim_file in relicheim_files:
+                    relicheim_path = relicheim_file['path']
+                    relative_path = relicheim_path.relative_to(relicheim_backup)
+                    current_path = self.config_root / relative_path
+                    
+                    if not current_path.exists():
+                        comparison_items.append({
+                            'file': relative_path,
+                            'current_content': '',
+                            'relicheim_content': relicheim_file['content'],
+                            'diff_summary': "File removed (not present in current config)",
+                            'has_changes': True
+                        })
+                
+                # Store the comparison data
+                self.relicheim_tree = comparison_items
+                
+                # Show results
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: self._show_relicheim_results(comparison_items))
+                
+            except Exception as e:
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to compare with RelicHeim: {str(e)}"))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _show_relicheim_results(self, comparison_items: list) -> None:
+        """Show the RelicHeim comparison results in a dialog."""
+        dialog = tk.Toplevel(self.root)
+        dialog.title("RelicHeim Comparison Results")
+        dialog.geometry("800x600")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Center the dialog
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (dialog.winfo_width() // 2)
+        y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        # Create the UI
+        main_frame = ttk.Frame(dialog, padding="10")
+        main_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Header
+        header_frame = ttk.Frame(main_frame)
+        header_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        ttk.Label(header_frame, text="RelicHeim Comparison Results", font=("Arial", 14, "bold")).pack(side=tk.LEFT)
+        
+        # Summary
+        changed_files = [item for item in comparison_items if item['has_changes']]
+        summary_text = f"Found {len(changed_files)} files with changes compared to RelicHeim backup"
+        ttk.Label(main_frame, text=summary_text, font=("Arial", 10)).pack(anchor=tk.W, pady=(0, 10))
+        
+        # Buttons
+        button_frame = ttk.Frame(main_frame)
+        button_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        ttk.Button(button_frame, text="Export to Markdown", 
+                  command=lambda: self._export_relicheim_to_markdown(comparison_items)).pack(side=tk.LEFT, padx=(0, 5))
+        
+        ttk.Button(button_frame, text="Save Report", 
+                  command=lambda: self._save_relicheim_report(comparison_items)).pack(side=tk.LEFT, padx=(0, 5))
+        
+        ttk.Button(button_frame, text="Close", 
+                  command=dialog.destroy).pack(side=tk.RIGHT)
+        
+        # Results list
+        list_frame = ttk.Frame(main_frame)
+        list_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Create treeview
+        columns = ("File", "Status", "Changes")
+        tree = ttk.Treeview(list_frame, columns=columns, show="headings", height=15)
+        
+        for col in columns:
+            tree.heading(col, text=col)
+            tree.column(col, width=200)
+        
+        # Add scrollbar
+        scrollbar = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+        
+        tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        # Populate the tree
+        for item in comparison_items:
+            if item['has_changes']:
+                status = "Modified" if item['current_content'] and item['relicheim_content'] else \
+                        "Added" if item['current_content'] else "Removed"
+                
+                tree.insert("", tk.END, values=(
+                    str(item['file']),
+                    status,
+                    item['diff_summary'][:50] + "..." if len(item['diff_summary']) > 50 else item['diff_summary']
+                ))
+
+    def _save_relicheim_report(self, comparison_items: list) -> None:
+        """Save the RelicHeim comparison report to the default location."""
+        file_path = Path("Valheim_Help_Docs/Files for GPT/RelicHeimChanges.md")
+        
+        # Ensure directory exists
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Get export options
+        export_options = self._get_relicheim_export_options()
+        if not export_options:
+            return
+        
+        self._set_busy(True, "Saving RelicHeim comparison report...")
+        
+        def worker():
+            try:
+                output = self._generate_relicheim_markdown(comparison_items, export_options)
+                
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(output)
+                
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showinfo("Success", f"RelicHeim comparison report saved to:\n{file_path}"))
+                
+            except Exception as e:
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to save report: {str(e)}"))
+        
+        threading.Thread(target=worker, daemon=True).start()
+
+    def show_recovery_dialog(self) -> None:
+        """Show dialog to recover corrupted snapshots."""
+        messagebox.showinfo("Recovery", "Snapshot recovery functionality is not yet implemented.")
+
+    def open_event_log(self) -> None:
+        """Open the event log file."""
+        log_file = Path("scripts/event_log.txt")
+        if log_file.exists():
+            try:
+                import subprocess
+                import platform
+                if platform.system() == "Windows":
+                    subprocess.run(["notepad", str(log_file)])
+                else:
+                    subprocess.run(["xdg-open", str(log_file)])
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to open event log: {str(e)}")
+        else:
+            messagebox.showinfo("Event Log", "No event log file found.")
+
     def regenerate_relicheim_report(self) -> None:
         """Regenerate the RelicHeim changes report with current settings."""
-        if not hasattr(self, 'relicheim_tree') or not self.relicheim_tree.get_children():
+        if not hasattr(self, 'relicheim_tree') or not self.relicheim_tree:
             messagebox.showwarning("No Data", "No RelicHeim comparison data available. Please run the RelicHeim comparison first.")
             return
 
@@ -2796,7 +3007,7 @@ These are settings that directly affect gameplay, such as:
             return
 
         # Check if we have current comparison data
-        if not hasattr(self, 'relicheim_tree') or not self.relicheim_tree.get_children():
+        if not hasattr(self, 'relicheim_tree') or not self.relicheim_tree:
             messagebox.showwarning("No Data", "No RelicHeim comparison data available. Please run the RelicHeim comparison first.")
             return
 
