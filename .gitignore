@@ -162,5 +162,11 @@ Valheim_PlayerWorldData/worlds_local/*.fwl
 # Keep cached icons for mod context (valuable for AI analysis)
 Valheim_PlayerWorldData/Jotunn/CachedIcons/*.png
 
-# Exclude RelicHeim backup files to prevent confusion with multiple versions
-Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/ 
+# Exclude original RelicHeim backup files (before renaming)
+# But allow the newly renamed backup files with BACKUP_5.4.10_ prefix
+Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/*.cfg
+Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/*.yml
+# Allow the renamed backup files
+!Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/BACKUP_5.4.10_*.cfg
+!Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/BACKUP_5.4.10_*.yml
+!Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/BACKUP_README.md

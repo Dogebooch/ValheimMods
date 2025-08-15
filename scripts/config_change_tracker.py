@@ -1971,7 +1971,7 @@ class ConfigChangeTrackerApp:
                 return
             
             # Get the backup directory path
-            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10_Backup" / "config"
+            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
             
             # Collect only changed items from the tree (Modified, Error, Info)
             items = []
@@ -2156,11 +2156,96 @@ For each modified file, you'll see:
             CopyableErrorDialog(self.root, "Export Error", f"Failed to export: {e}")
 
     def _get_relicheim_mapping(self) -> dict:
-        """Get the RelicHeim file mapping dictionary."""
-        return {
+        """Get the RelicHeim file mapping dictionary using the new BACKUP_5.4.10_ prefix."""
+        # Helper function to generate backup filename
+        def get_backup_filename(original_name: str) -> str:
+            """Convert original filename to backup filename with BACKUP_5.4.10_ prefix."""
+            return f"BACKUP_5.4.10_{original_name}"
+        
+        # Base mapping - most files follow the simple pattern
+        base_mapping = {
             # Core mod files
-            "WackyMole.EpicMMOSystem.cfg": "WackyMole.EpicMMOSystembackup.cfg",
-            "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystembackup.cfg",  # May be part of main config
+            "WackyMole.EpicMMOSystem.cfg": get_backup_filename("WackyMole.EpicMMOSystem.cfg"),
+            "WackyMole.EpicMMOSystemUI.cfg": get_backup_filename("WackyMole.EpicMMOSystem.cfg"),  # May be part of main config
+            "randyknapp.mods.epicloot.cfg": get_backup_filename("randyknapp.mods.epicloot.cfg"),
+            "drop_that.cfg": get_backup_filename("drop_that.cfg"),
+            "custom_raids.cfg": get_backup_filename("custom_raids.cfg"),
+            "custom_raids.raids.cfg": get_backup_filename("custom_raids.cfg"),  # May be part of main config
+            "advize.PlantEverything.cfg": get_backup_filename("advize.PlantEverything.cfg"),
+            "kg.ValheimEnchantmentSystem.cfg": get_backup_filename("kg.ValheimEnchantmentSystem.cfg"),
+            "WackyMole.Tone_Down_the_Twang.cfg": get_backup_filename("WackyMole.Tone_Down_the_Twang.cfg"),
+            
+            # Smoothbrain plugins - ALL of them
+            "org.bepinex.plugins.smartskills.cfg": get_backup_filename("org.bepinex.plugins.smartskills.cfg"),
+            "org.bepinex.plugins.targetportal.cfg": get_backup_filename("org.bepinex.plugins.targetportal.cfg"),
+            "org.bepinex.plugins.tenacity.cfg": get_backup_filename("org.bepinex.plugins.tenacity.cfg"),
+            "org.bepinex.plugins.sailing.cfg": get_backup_filename("org.bepinex.plugins.sailing.cfg"),
+            "org.bepinex.plugins.sailingspeed.cfg": get_backup_filename("org.bepinex.plugins.sailingspeed.cfg"),
+            "org.bepinex.plugins.passivepowers.cfg": get_backup_filename("org.bepinex.plugins.passivepowers.cfg"),
+            "org.bepinex.plugins.packhorse.cfg": get_backup_filename("org.bepinex.plugins.packhorse.cfg"),
+            "org.bepinex.plugins.mining.cfg": get_backup_filename("org.bepinex.plugins.mining.cfg"),
+            "org.bepinex.plugins.lumberjacking.cfg": get_backup_filename("org.bepinex.plugins.lumberjacking.cfg"),
+            "org.bepinex.plugins.foraging.cfg": get_backup_filename("org.bepinex.plugins.foraging.cfg"),
+            "org.bepinex.plugins.farming.cfg": get_backup_filename("org.bepinex.plugins.farming.cfg"),
+            "org.bepinex.plugins.creaturelevelcontrol.cfg": get_backup_filename("org.bepinex.plugins.creaturelevelcontrol.cfg"),
+            "org.bepinex.plugins.conversionsizespeed.cfg": get_backup_filename("org.bepinex.plugins.conversionsizespeed.cfg"),
+            "org.bepinex.plugins.building.cfg": get_backup_filename("org.bepinex.plugins.building.cfg"),
+            "org.bepinex.plugins.blacksmithing.cfg": get_backup_filename("org.bepinex.plugins.blacksmithing.cfg"),
+            "org.bepinex.plugins.backpacks.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),
+            "org.bepinex.plugins.ranching.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
+            "org.bepinex.plugins.groups.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
+            "org.bepinex.plugins.exploration.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
+            "org.bepinex.plugins.cooking.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
+            
+            # Other important mods
+            "RandomSteve.BreatheEasy.cfg": get_backup_filename("RandomSteve.BreatheEasy.cfg"),
+            "Azumatt.AzuCraftyBoxes.cfg": get_backup_filename("Azumatt.AzuCraftyBoxes.yml"),
+            "Azumatt.FactionAssigner.cfg": get_backup_filename("Azumatt.FactionAssigner.yml"),
+            "horemvore.MushroomMonsters.cfg": get_backup_filename("CreatureConfig_Creatures.yml"),  # May be part of creature config
+            "flueno.SmartContainers.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
+            
+            # Creature configs (if they exist in current config)
+            "CreatureConfig_Creatures.yml": get_backup_filename("CreatureConfig_Creatures.yml"),
+            "CreatureConfig_Bosses.yml": get_backup_filename("CreatureConfig_Bosses.yml"),
+            "CreatureConfig_BiomeIncrease.yml": get_backup_filename("CreatureConfig_BiomeIncrease.yml"),
+            "CreatureConfig_Monstrum.yml": get_backup_filename("CreatureConfig_Monstrum.yml"),
+            "CreatureConfig_Wizardry.yml": get_backup_filename("CreatureConfig_Wizardry.yml"),
+            
+            # Backpack configs (if they exist in current config)
+            "Backpacks.Wizardry.yml": get_backup_filename("Backpacks.Wizardry.yml"),
+            "Backpacks.MajesticEpicLoot.yml": get_backup_filename("Backpacks.MajesticEpicLoot.yml"),
+            "Backpacks.Majestic.yml": get_backup_filename("Backpacks.Majestic.yml"),
+            
+            # Item configs (if they exist in current config)
+            "ItemConfig_Base.yml": get_backup_filename("ItemConfig_Base.yml"),
+        }
+        
+        # Special cases that need custom mapping
+        special_mapping = {
+            # Spawn That files (if they exist in current config)
+            "spawn_that.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.world_spawners.zBase.cfg",
+            "spawn_that.world_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.world_spawners.zBase.cfg",
+            "spawn_that.local_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.local_spawners.Locals.cfg",
+            "spawn_that.spawnarea_spawners.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.spawnarea_spawners.PilesNests.cfg",
+            "spawn_that.simple.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.world_spawners.zBase.cfg",
+            
+            # This Goes Here files (if they exist in current config)
+            "Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.MovingFiles.yml",
+            "Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.DeletingFiles.yml",
+            "Valheim.ThisGoesHere.DeleteWDBCache.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.DeleteWDBCache.yml",
+            
+            # Files in _RelicHeimFiles root directory (current config files)
+            "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.DeletingFiles.yml",
+            "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.MovingFiles.yml",
+        }
+        
+        # Combine base and special mappings
+        result = {**base_mapping, **special_mapping}
+        
+        # Add dynamic mappings for files in subdirectories
+        # These will be handled by the comparison logic that scans for actual files
+        
+        return result
             "randyknapp.mods.epicloot.cfg": "randyknapp.mods.epiclootbackup.cfg",
             "drop_that.cfg": "drop_thatbackup.cfg",
             "drop_that.character_drop.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
@@ -2474,258 +2559,10 @@ For each modified file, you'll see:
             yscroll.pack(fill=tk.Y, side=tk.RIGHT)
 
             # Get the backup directory path
-            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10_Backup" / "config"
+            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
             
-            # RelicHeim file mapping - current file to backup file
-            relicheim_mapping = {
-                # Core mod files
-                "WackyMole.EpicMMOSystem.cfg": "WackyMole.EpicMMOSystembackup.cfg",
-                "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystembackup.cfg",  # May be part of main config
-                "randyknapp.mods.epicloot.cfg": "randyknapp.mods.epiclootbackup.cfg",
-                "drop_that.cfg": "drop_thatbackup.cfg",
-                "drop_that.character_drop.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
-                "drop_that.drop_table.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
-                "drop_that.character_drop.elite_additions.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
-                "custom_raids.cfg": "custom_raidsbackup.cfg",
-                "custom_raids.raids.cfg": "custom_raidsbackup.cfg",  # May be part of main config
-                "custom_raids.supplemental.deathsquitoseason.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
-                "custom_raids.supplemental.ragnarok.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
-                "advize.PlantEverything.cfg": "advize.PlantEverythingbackup.cfg",
-                "kg.ValheimEnchantmentSystem.cfg": "kg.ValheimEnchantmentSystembackup.cfg",
-                "WackyMole.Tone_Down_the_Twang.cfg": "WackyMole.Tone_Down_the_Twangbackup.cfg",
-                
-                # Smoothbrain plugins - ALL of them
-                "org.bepinex.plugins.smartskills.cfg": "org.bepinex.plugins.smartskillsbackup.cfg",
-                "org.bepinex.plugins.targetportal.cfg": "org.bepinex.plugins.targetportalbackup.cfg",
-                "org.bepinex.plugins.tenacity.cfg": "org.bepinex.plugins.tenacitybackup.cfg",
-                "org.bepinex.plugins.sailing.cfg": "org.bepinex.plugins.sailingbackup.cfg",
-                "org.bepinex.plugins.sailingspeed.cfg": "org.bepinex.plugins.sailingspeedbackup.cfg",
-                "org.bepinex.plugins.passivepowers.cfg": "org.bepinex.plugins.passivepowersbackup.cfg",
-                "org.bepinex.plugins.packhorse.cfg": "org.bepinex.plugins.packhorsebackup.cfg",
-                "org.bepinex.plugins.mining.cfg": "org.bepinex.plugins.miningbackup.cfg",
-                "org.bepinex.plugins.lumberjacking.cfg": "org.bepinex.plugins.lumberjackingbackup.cfg",
-                "org.bepinex.plugins.foraging.cfg": "org.bepinex.plugins.foragingbackup.cfg",
-                "org.bepinex.plugins.farming.cfg": "org.bepinex.plugins.farmingbackup.cfg",
-                "org.bepinex.plugins.creaturelevelcontrol.cfg": "org.bepinex.plugins.creaturelevelcontrolbackup.cfg",
-                "org.bepinex.plugins.conversionsizespeed.cfg": "org.bepinex.pluginsbackup.conversionsizespeed.cfg",
-                "org.bepinex.plugins.building.cfg": "org.bepinex.pluginsbackup.building.cfg",
-                "org.bepinex.plugins.blacksmithing.cfg": "org.bepinex.pluginsbackup.blacksmithing.cfg",
-                "org.bepinex.plugins.backpacks.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",
-                "org.bepinex.plugins.ranching.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
-                "org.bepinex.plugins.groups.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
-                "org.bepinex.plugins.exploration.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
-                "org.bepinex.plugins.cooking.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
-                
-                # Other important mods
-                "RandomSteve.BreatheEasy.cfg": "RandomSteve.BreatheEasybackup.cfg",
-                "Azumatt.AzuCraftyBoxes.cfg": "Azumatt.AzuCraftyBoxesbackup.yml",
-                "Azumatt.FactionAssigner.cfg": "Azumatt.FactionAssignerbackup.yml",
-                "horemvore.MushroomMonsters.cfg": "CreatureConfig_Creaturesbackup.yml",  # May be part of creature config
-                "flueno.SmartContainers.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
-                
-                # Creature configs (if they exist in current config)
-                "CreatureConfig_Creatures.yml": "CreatureConfig_Creaturesbackup.yml",
-                "CreatureConfig_Bosses.yml": "CreatureConfig_Bossesbackup.yml",
-                "CreatureConfig_BiomeIncrease.yml": "CreatureConfig_BiomeIncreasebackup.yml",
-                "CreatureConfig_Monstrum.yml": "CreatureConfig_Monstrumbackup.yml",
-                "CreatureConfig_Wizardry.yml": "CreatureConfig_Wizardrybackup.yml",
-                
-                # Backpack configs (if they exist in current config)
-                "Backpacks.Wizardry.yml": "Backpacks.Wizardrybackup.yml",
-                "Backpacks.MajesticEpicLoot.yml": "Backpacks.MajesticEpicLootbackup.yml",
-                "Backpacks.Majestic.yml": "Backpacks.Majesticbackup.yml",
-                
-                # Item configs (if they exist in current config)
-                "ItemConfig_Base.yml": "ItemConfig_Basebackup.yml",
-                
-                # Spawn That files (if they exist in current config)
-                "spawn_that.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
-                "spawn_that.world_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
-                "spawn_that.local_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Localsbackup.cfg",
-                "spawn_that.spawnarea_spawners.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNestsbackup.cfg",
-                "spawn_that.simple.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
-                
-                # This Goes Here files (if they exist in current config)
-                "Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFilesbackup.yml",
-                "Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
-                "Valheim.ThisGoesHere.DeleteWDBCache.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeleteWDBCachebackup.yml",
-                
-                # Files in _RelicHeimFiles root directory (current config files)
-                "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
-                "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFilesbackup.yml",
-                
-                # Additional Drop That files (if they exist in current config)
-                "drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
-                "drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
-                "drop_that.character_drop.VES.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
-                "drop_that.character_drop.Monstrum.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
-                "drop_that.character_drop.GoldTrophy.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
-                "drop_that.character_drop.Bosses.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
-                "drop_that.character_drop.aListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
-                "drop_that.drop_table.EpicLootChest.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
-                "drop_that.drop_table.Chests.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
-                
-                # Additional Spawn That files (if they exist in current config)
-                "spawn_that.world_spawners.zVanilla.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanillabackup.cfg",
-                "spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
-                "spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
-                
-                # Files in _RelicHeimFiles/Drop,Spawn_That/ subdirectory (current config files)
-                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNests.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNestsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Locals.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Localsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanilla.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanillabackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chests.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VES.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrum.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonsters.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonstersbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophy.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
-                
-                # Files in _RelicHeimFiles/Drop,Spawn_That/RockPiles/ subdirectory (current config files)
-                "_RelicHeimFiles/Drop,Spawn_That/RockPiles/spawn_that.world_spawners.PileOres.cfg": "_RelicHeimFiles/Drop,Spawn_That/RockPiles/spawn_that.world_spawners.PileOresbackup.cfg",
-                "_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOres.cfg": "_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOresbackup.cfg",
-                
-                # Additional Custom Raids files (if they exist in current config)
-                "custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
-                "custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
-                "custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
-                "custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
-                
-                # Files in _RelicHeimFiles/Raids/ subdirectory (current config files)
-                "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
-                "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
-                "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
-                "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
-                "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
-                
-                # EpicMMO System files (if they exist in current config)
-                "EpicMMOSystem/Version.txt": "EpicMMOSystembackup/Version.txt",
-                "EpicMMOSystem/Valheim.ThisGoesHere.EpicMMOCleanup.yml": "EpicMMOSystembackup/Valheim.ThisGoesHere.EpicMMOCleanup.yml",
-                "EpicMMOSystem/Therzie_Wizardry.json": "EpicMMOSystembackup/Therzie_Wizardry.json",
-                "EpicMMOSystem/Therzie_Monstrum.json": "EpicMMOSystembackup/Therzie_Monstrum.json",
-                "EpicMMOSystem/Monstrum_DeepNorth.json": "EpicMMOSystembackup/Monstrum_DeepNorth.json",
-                "EpicMMOSystem/Jewelcrafting.json": "EpicMMOSystembackup/Jewelcrafting.json",
-                "EpicMMOSystem/Default.json": "EpicMMOSystembackup/Default.json",
-                
-                # Valheim Enchantment System files (if they exist in current config)
-                "ValheimEnchantmentSystem/ScrollRecipes.cfg": "ValheimEnchantmentSystembackup/ScrollRecipes.cfg",
-                "ValheimEnchantmentSystem/kg.ValheimEnchantmentSystem.cfg": "ValheimEnchantmentSystembackup/kg.ValheimEnchantmentSystem.cfg",
-                "ValheimEnchantmentSystem/EnchantmentStats_Weapons.yml": "ValheimEnchantmentSystembackup/EnchantmentStats_Weapons.yml",
-                "ValheimEnchantmentSystem/EnchantmentStats_Armor.yml": "ValheimEnchantmentSystembackup/EnchantmentStats_Armor.yml",
-                "ValheimEnchantmentSystem/EnchantmentReqs.yml": "ValheimEnchantmentSystembackup/EnchantmentReqs.yml",
-                "ValheimEnchantmentSystem/EnchantmentColors.yml": "ValheimEnchantmentSystembackup/EnchantmentColors.yml",
-                "ValheimEnchantmentSystem/EnchantmentChancesV2.yml": "ValheimEnchantmentSystembackup/EnchantmentChancesV2.yml",
-                
-                # WackyDatabase files (if they exist in current config)
-                "wackysDatabase/": "wackysDatabase_backup/",
-                
-                # EpicLoot files (if they exist in current config)
-                "EpicLoot/": "EpicLootbackup/",
-                
-                # NEW ADDITIONS - Missing files that exist in current config
-                
-                # Warpalicious mods (multiple files)
-                "warpalicious.Swamp_Pack_1.cfg": "warpalicious.Swamp_Pack_1backup.cfg",  # May not have backup
-                "warpalicious.Underground_Ruins.cfg": "warpalicious.Underground_Ruinsbackup.cfg",  # May not have backup
-                "warpalicious.More_World_Traders.cfg": "warpalicious.More_World_Tradersbackup.cfg",  # May not have backup
-                "warpalicious.Mountains_Pack_1.cfg": "warpalicious.Mountains_Pack_1backup.cfg",  # May not have backup
-                "warpalicious.Plains_Pack_1.cfg": "warpalicious.Plains_Pack_1backup.cfg",  # May not have backup
-                "warpalicious.More_World_Locations_LootLists.yml": "warpalicious.More_World_Locations_LootListsbackup.yml",  # May not have backup
-                "warpalicious.More_World_Locations_PickableItemLists.yml": "warpalicious.More_World_Locations_PickableItemListsbackup.yml",  # May not have backup
-                "warpalicious.More_World_Locations_CreatureLists.yml": "warpalicious.More_World_Locations_CreatureListsbackup.yml",  # May not have backup
-                "warpalicious.Meadows_Pack_2.cfg": "warpalicious.Meadows_Pack_2backup.cfg",  # May not have backup
-                "warpalicious.Mistlands_Pack_1.cfg": "warpalicious.Mistlands_Pack_1backup.cfg",  # May not have backup
-                "warpalicious.Meadows_Pack_1.cfg": "warpalicious.Meadows_Pack_1backup.cfg",  # May not have backup
-                "warpalicious.Forbidden_Catacombs.cfg": "warpalicious.Forbidden_Catacombsbackup.cfg",  # May not have backup
-                "warpalicious.MWL_Blackforest_Pack_1.cfg": "warpalicious.MWL_Blackforest_Pack_1backup.cfg",  # May not have backup
-                "warpalicious.AshlandsPack1.cfg": "warpalicious.AshlandsPack1backup.cfg",  # May not have backup
-                "warpalicious.Blackforest_Pack_2.cfg": "warpalicious.Blackforest_Pack_2backup.cfg",  # May not have backup
-                "warpalicious.Adventure_Map_Pack_1.cfg": "warpalicious.Adventure_Map_Pack_1backup.cfg",  # May not have backup
-                
-                # Vapok mods
-                "vapok.mods.adventurebackpacks.cfg": "vapok.mods.adventurebackpacksbackup.cfg",  # May not have backup
-                
-                # Southsil mods
-                "southsil.SouthsilArmor.cfg": "southsil.SouthsilArmorbackup.cfg",  # May not have backup
-                
-                # Shudnal mods
-                "shudnal.TradersExtended.cfg": "shudnal.TradersExtendedbackup.cfg",  # May not have backup
-                "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.buy.json": "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.buybackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.sell.json": "shudnal.TradersExtended.MWL_PlainsCamp1_Trader.sellbackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.buy.json": "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.buybackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sell.json": "shudnal.TradersExtended.MWL_PlainsTavern1_Trader.sellbackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.sellbackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_OceanTavern1_Trader.buy.json": "shudnal.TradersExtended.MWL_OceanTavern1_Trader.buybackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_OceanTavern1_Trader.sell.json": "shudnal.TradersExtended.MWL_OceanTavern1_Trader.sellbackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.sellbackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_MountainsBlacksmith1_Trader.buybackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.buybackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.sell.json": "shudnal.TradersExtended.MWL_BlackForestBlacksmith1_Trader.sellbackup.json",  # May not have backup
-                "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.buy.json": "shudnal.TradersExtended.MWL_MistlandsBlacksmith1_Trader.buybackup.json",  # May not have backup
-                "shudnal.Seasons.cfg": "shudnal.Seasonsbackup.cfg",  # May not have backup
-                
-                # Server and system files
-                "server_devcommands.cfg": "server_devcommandsbackup.cfg",  # May not have backup
-                "org.bepinex.valheim.displayinfo.cfg": "org.bepinex.valheim.displayinfobackup.cfg",  # May not have backup
-                
-                # Redseiko mods
-                "redseiko.valheim.scenic.cfg": "redseiko.valheim.scenicbackup.cfg",  # May not have backup
-                
-                # OdinPlus mods
-                "odinplus.plugins.odinskingdom.cfg": "odinplus.plugins.odinskingdombackup.cfg",  # May not have backup
-                
-                # Nex mods
-                "nex.SpeedyPaths.cfg": "nex.SpeedyPathsbackup.cfg",  # May not have backup
-                
-                # Marcopogo mods
-                "marcopogo.PlanBuild.cfg": "marcopogo.PlanBuildbackup.cfg",  # May not have backup
-                
-                # Marlthon mods
-                "marlthon.OdinShipPlus.cfg": "marlthon.OdinShipPlusbackup.cfg",  # May not have backup
-                
-                # HTD mods
-                "htd.armory.cfg": "htd.armorybackup.cfg",  # May not have backup
-                
-                # GoldenRevolver mods
-                "goldenrevolver.quick_stack_store.cfg": "goldenrevolver.quick_stack_storebackup.cfg",  # May not have backup
-                
-                # Com mods
-                "com.maxsch.valheim.vnei.cfg": "com.maxsch.valheim.vneibackup.cfg",  # May not have backup
-                "com.odinplus.potionsplus.cfg": "com.odinplus.potionsplusbackup.cfg",  # May not have backup
-                "com.bepis.bepinex.configurationmanager.cfg": "com.bepis.bepinex.configurationmanagerbackup.cfg",  # May not have backup
-                "com.maxsch.valheim.pressure_plate.cfg": "com.maxsch.valheim.pressure_platebackup.cfg",  # May not have backup
-                "com.maxsch.valheim.vnei.blacklist.txt": "com.maxsch.valheim.vnei.blacklistbackup.txt",  # May not have backup
-                
-                # Blacks7ar mods
-                "blacks7ar.MagicRevamp.cfg": "blacks7ar.MagicRevampbackup.cfg",  # May not have backup
-                "blacks7ar.FineWoodBuildPieces.cfg": "blacks7ar.FineWoodBuildPiecesbackup.cfg",  # May not have backup
-                "blacks7ar.FineWoodFurnitures.cfg": "blacks7ar.FineWoodFurnituresbackup.cfg",  # May not have backup
-                "blacks7ar.CookingAdditions.cfg": "blacks7ar.CookingAdditionsbackup.cfg",  # May not have backup
-                
-                # ZenDragon mods
-                "ZenDragon.ZenUI.cfg": "ZenDragon.ZenUIbackup.cfg",  # May not have backup
-                "WackyMole.WackysDatabase.cfg": "WackyMole.WackysDatabasebackup.cfg",  # May not have backup
-                "ZenDragon.Zen.ModLib.cfg": "ZenDragon.Zen.ModLibbackup.cfg",  # May not have backup
-                "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystemUIbackup.cfg",  # May not have backup
-                
-                # Other files
-                "binds.yaml": "bindsbackup.yaml",  # May not have backup
-                "upgrade_world.cfg": "upgrade_worldbackup.cfg",  # May not have backup
-                
-                # Directory mappings for subdirectories
-                "wackyDatabase-BulkYML/": "wackyDatabase-BulkYML_backup/",  # May not have backup
-                "shudnal.Seasons/": "shudnal.Seasons_backup/",  # May not have backup
-                "_RelicHeimFiles/": "_RelicHeimFiles_backup/",  # May not have backup
-            }
+            # Use the centralized RelicHeim file mapping
+            relicheim_mapping = self._get_relicheim_mapping()
 
             def get_file_category(filename: str) -> str:
                 """Get category for file based on name."""
