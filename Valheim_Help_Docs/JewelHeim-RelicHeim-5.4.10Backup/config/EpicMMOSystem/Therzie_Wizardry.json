@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Sheep_TW",
+    "minExp": 30,
+    "maxExp": 50,
+    "level": 8
+  },
+  {
+    "name": "GreydwarfMage_TW",
+    "minExp": 100,
+    "maxExp": 150,
+    "level": 18
+  },
+  {
+    "name": "SkeletonMage_TW",
+    "minExp": 100,
+    "maxExp": 150,
+    "level": 28
+  },
+  {
+    "name": "FenringMage_TW",
+    "minExp": 300,
+    "maxExp": 400,
+    "level": 38
+  },
+  {
+    "name": "GoblinMage_TW",
+    "minExp": 300,
+    "maxExp": 400,
+    "level": 48
+  },
+  {
+    "name": "CorruptedDvergerMage_TW",
+    "minExp": 700,
+    "maxExp": 900,
+    "level": 58
+  },
+  {
+    "name": "SummonedSeeker_TW",
+    "minExp": 350,
+    "maxExp": 450,
+    "level": 55
+  }
+]
