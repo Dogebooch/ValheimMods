@@ -640,6 +640,156 @@
           ]
         }
       ]
+    },
+    {
+      "Path": "$.LootTables",
+      "Action": "AppendAll",
+      "Value": [
+        {
+          "Object": "MissingItemsTier1",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [
+                  0,
+                  95
+                ],
+                [
+                  1,
+                  5
+                ],
+                [
+                  2,
+                  0
+                ]
+              ],
+              "Loot": [
+                {
+                  "Item": "PlanHammer",
+                  "Weight": 1
+                },
+                {
+                  "Item": "PickaxeStone_JH",
+                  "Weight": 1
+                },
+                {
+                  "Item": "SkillPotionAxe_JH",
+                  "Weight": 1
+                },
+                {
+                  "Item": "ArmorChestBoarHTD",
+                  "Weight": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Path": "$.LootTables",
+      "Action": "AppendAll",
+      "Value": [
+        {
+          "Object": "MissingItemsTier2",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [
+                  0,
+                  90
+                ],
+                [
+                  1,
+                  8
+                ],
+                [
+                  2,
+                  2
+                ]
+              ],
+              "Loot": [
+                {
+                  "Item": "StaffPoisonBurst_JH",
+                  "Weight": 1
+                },
+                {
+                  "Item": "ArmorSpellSlingerChest_Swamp_TW",
+                  "Weight": 1
+                },
+                {
+                  "Item": "NTSTAFF",
+                  "Weight": 1
+                },
+                {
+                  "Item": "CapeTrollBlack_TW",
+                  "Weight": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Path": "$.LootTables",
+      "Action": "AppendAll",
+      "Value": [
+        {
+          "Object": "MissingItemsTier6",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [
+                  0,
+                  98
+                ],
+                [
+                  1,
+                  2
+                ],
+                [
+                  2,
+                  0
+                ]
+              ],
+              "Loot": [
+                {
+                  "Item": "ArmorHunterChestTyranium_TW",
+                  "Weight": 1
+                },
+                {
+                  "Item": "FrostGodJotnarCape",
+                  "Weight": 1
+                },
+                {
+                  "Item": "CapeYmir_TW",
+                  "Weight": 1
+                },
+                {
+                  "Item": "ArmorLegionThoradusChest_TW",
+                  "Weight": 1
+                },
+                {
+                  "Item": "ShieldArcticSerpentscale_TW",
+                  "Weight": 1
+                },
+                {
+                  "Item": "ArmorFenrirThoradusChest_TW",
+                  "Weight": 1
+                },
+                {
+                  "Item": "MeldursonCape",
+                  "Weight": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
