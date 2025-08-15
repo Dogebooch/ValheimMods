@@ -707,6 +707,8 @@ class ConfigChangeTrackerApp:
         file_menu.add_command(label="Set New Baseline", command=self.create_initial_snapshot)
         file_menu.add_separator()
         file_menu.add_command(label="Compare vs RelicHeim", command=self.show_relicheim_comparison)
+        file_menu.add_command(label="Regenerate RelicHeim Report", command=self.regenerate_relicheim_report)
+        file_menu.add_command(label="Check Report Accuracy", command=self.check_relicheim_report_accuracy)
         file_menu.add_separator()
         file_menu.add_command(label="Recover Corrupted Snapshots", command=self.show_recovery_dialog)
         file_menu.add_separator()
@@ -1955,15 +1957,549 @@ class ConfigChangeTrackerApp:
         threading.Thread(target=worker, daemon=True).start()
 
     def _export_relicheim_to_markdown(self, tree) -> None:
-        """Export the RelicHeim comparison results to a markdown file."""
+        """Export RelicHeim comparison to markdown with enhanced token reduction features."""
+        if not tree.get_children():
+            messagebox.showwarning("No Data", "No RelicHeim comparison data available.")
+            return
+
+        # Get export options from user
+        export_options = self._get_relicheim_export_options()
+        if not export_options:
+            return
+
+        file_path = filedialog.asksaveasfilename(
+            title="Save RelicHeim Changes Report",
+            defaultextension=".md",
+            filetypes=[("Markdown files", "*.md"), ("All files", "*.*")]
+        )
+        
+        if not file_path:
+            return
+
+        self._set_busy(True, "Generating RelicHeim changes report...")
+
+        def worker():
+            try:
+                output = self._generate_relicheim_markdown(tree, export_options)
+                
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(output)
+                
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showinfo("Success", f"RelicHeim changes report saved to:\n{file_path}"))
+                
+            except Exception as e:
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to export: {str(e)}"))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _get_relicheim_export_options(self) -> dict:
+        """Get export options from user to reduce token usage."""
+        dialog = tk.Toplevel(self.root)
+        dialog.title("RelicHeim Export Options")
+        dialog.geometry("500x600")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Center the dialog
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (dialog.winfo_width() // 2)
+        y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        options = {
+            'max_file_size_kb': tk.IntVar(value=50),
+            'max_diff_lines': tk.IntVar(value=100),
+            'max_changes_per_file': tk.IntVar(value=10),
+            'include_full_diffs': tk.BooleanVar(value=False),
+            'include_numeric_comparison': tk.BooleanVar(value=True),
+            'include_summary_only': tk.BooleanVar(value=False),
+            'group_by_category': tk.BooleanVar(value=True),
+            'exclude_unchanged_files': tk.BooleanVar(value=True),
+            'max_files_per_category': tk.IntVar(value=20),
+            'truncate_long_values': tk.BooleanVar(value=True),
+            'max_value_length': tk.IntVar(value=100)
+        }
+        
+        # Create the UI
+        main_frame = ttk.Frame(dialog, padding="10")
+        main_frame.pack(fill=tk.BOTH, expand=True)
+        
+        ttk.Label(main_frame, text="RelicHeim Export Options", font=("Arial", 14, "bold")).pack(pady=(0, 10))
+        
+        # File size limits
+        size_frame = ttk.LabelFrame(main_frame, text="File Size Limits", padding="5")
+        size_frame.pack(fill=tk.X, pady=5)
+        
+        ttk.Label(size_frame, text="Max file size to include (KB):").pack(anchor=tk.W)
+        ttk.Spinbox(size_frame, from_=1, to=1000, textvariable=options['max_file_size_kb'], width=10).pack(anchor=tk.W, pady=2)
+        
+        # Diff limits
+        diff_frame = ttk.LabelFrame(main_frame, text="Diff Limits", padding="5")
+        diff_frame.pack(fill=tk.X, pady=5)
+        
+        ttk.Label(diff_frame, text="Max diff lines per file:").pack(anchor=tk.W)
+        ttk.Spinbox(diff_frame, from_=10, to=500, textvariable=options['max_diff_lines'], width=10).pack(anchor=tk.W, pady=2)
+        
+        ttk.Label(diff_frame, text="Max changes to show per file:").pack(anchor=tk.W)
+        ttk.Spinbox(diff_frame, from_=5, to=50, textvariable=options['max_changes_per_file'], width=10).pack(anchor=tk.W, pady=2)
+        
+        # Content options
+        content_frame = ttk.LabelFrame(main_frame, text="Content Options", padding="5")
+        content_frame.pack(fill=tk.X, pady=5)
+        
+        ttk.Checkbutton(content_frame, text="Include full diffs", variable=options['include_full_diffs']).pack(anchor=tk.W)
+        ttk.Checkbutton(content_frame, text="Include numeric comparison tables", variable=options['include_numeric_comparison']).pack(anchor=tk.W)
+        ttk.Checkbutton(content_frame, text="Summary only (no detailed changes)", variable=options['include_summary_only']).pack(anchor=tk.W)
+        ttk.Checkbutton(content_frame, text="Group by category", variable=options['group_by_category']).pack(anchor=tk.W)
+        ttk.Checkbutton(content_frame, text="Exclude unchanged files", variable=options['exclude_unchanged_files']).pack(anchor=tk.W)
+        
+        # Truncation options
+        truncate_frame = ttk.LabelFrame(main_frame, text="Value Truncation", padding="5")
+        truncate_frame.pack(fill=tk.X, pady=5)
+        
+        ttk.Checkbutton(truncate_frame, text="Truncate long values", variable=options['truncate_long_values']).pack(anchor=tk.W)
+        ttk.Label(truncate_frame, text="Max value length:").pack(anchor=tk.W)
+        ttk.Spinbox(truncate_frame, from_=20, to=500, textvariable=options['max_value_length'], width=10).pack(anchor=tk.W, pady=2)
+        
+        # File limits
+        file_frame = ttk.LabelFrame(main_frame, text="File Limits", padding="5")
+        file_frame.pack(fill=tk.X, pady=5)
+        
+        ttk.Label(file_frame, text="Max files per category:").pack(anchor=tk.W)
+        ttk.Spinbox(file_frame, from_=5, to=100, textvariable=options['max_files_per_category'], width=10).pack(anchor=tk.W, pady=2)
+        
+        # Buttons
+        button_frame = ttk.Frame(main_frame)
+        button_frame.pack(fill=tk.X, pady=10)
+        
+        result = [None]
+        
+        def on_ok():
+            result[0] = {k: v.get() for k, v in options.items()}
+            dialog.destroy()
+        
+        def on_cancel():
+            dialog.destroy()
+        
+        ttk.Button(button_frame, text="OK", command=on_ok).pack(side=tk.RIGHT, padx=5)
+        ttk.Button(button_frame, text="Cancel", command=on_cancel).pack(side=tk.RIGHT)
+        
+        dialog.wait_window()
+        return result[0]
+
+    def _generate_relicheim_markdown(self, tree, options: dict) -> str:
+        """Generate RelicHeim markdown with token reduction features."""
+        output = []
+        output.append("# RelicHeim Configuration Changes Report")
+        output.append("")
+        output.append(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        output.append("")
+        
+        if options['include_summary_only']:
+            output.append("**Summary Only Mode** - Detailed changes have been excluded to reduce file size.")
+            output.append("")
+        
+        # Get all items from tree
+        all_items = []
+        for item in tree.get_children():
+            all_items.append(tree.item(item))
+        
+        # Filter and process items based on options
+        processed_items = self._process_relicheim_items(all_items, options)
+        
+        # Generate summary
+        summary = self._generate_relicheim_summary(processed_items)
+        output.extend(summary)
+        output.append("")
+        
+        if not options['include_summary_only']:
+            # Generate detailed changes
+            details = self._generate_relicheim_details(processed_items, options)
+            output.extend(details)
+        
+        return "\n".join(output)
+
+    def _process_relicheim_items(self, items: list, options: dict) -> list:
+        """Process and filter RelicHeim items based on options."""
+        processed = []
+        
+        for item in items:
+            values = item['values']
+            if len(values) < 4:
+                continue
+                
+            status, category, filename, changes = values
+            
+            # Skip unchanged files if option is enabled
+            if options['exclude_unchanged_files'] and status == "Unchanged":
+                continue
+            
+            # Check file size limit
+            file_path = self.config_root / filename
+            if file_path.exists():
+                file_size_kb = file_path.stat().st_size / 1024
+                if file_size_kb > options['max_file_size_kb']:
+                    continue
+            
+            processed.append({
+                'status': status,
+                'category': category,
+                'filename': filename,
+                'changes': changes,
+                'file_path': file_path
+            })
+        
+        # Limit files per category
+        if options['max_files_per_category'] > 0:
+            category_counts = {}
+            filtered = []
+            for item in processed:
+                category = item['category']
+                if category_counts.get(category, 0) < options['max_files_per_category']:
+                    filtered.append(item)
+                    category_counts[category] = category_counts.get(category, 0) + 1
+            processed = filtered
+        
+        return processed
+
+    def _generate_relicheim_summary(self, items: list) -> list:
+        """Generate summary section."""
+        output = []
+        output.append("## Summary")
+        output.append("")
+        
+        # Count by status
+        status_counts = {}
+        category_counts = {}
+        
+        for item in items:
+            status = item['status']
+            category = item['category']
+            
+            status_counts[status] = status_counts.get(status, 0) + 1
+            category_counts[category] = category_counts.get(category, 0) + 1
+        
+        output.append("- **Total Changed Files**: " + str(len(items)))
+        for status, count in status_counts.items():
+            output.append(f"- **{status}**: {count}")
+        output.append("")
+        
+        # Category breakdown
+        output.append("### Categories")
+        for category, count in sorted(category_counts.items()):
+            output.append(f"- **{category}**: {count} files")
+        output.append("")
+        
+        return output
+
+    def _generate_relicheim_details(self, items: list, options: dict) -> list:
+        """Generate detailed changes section."""
+        output = []
+        output.append("## Detailed Changes")
+        output.append("")
+        
+        # Group by category if enabled
+        if options['group_by_category']:
+            categories = {}
+            for item in items:
+                category = item['category']
+                if category not in categories:
+                    categories[category] = []
+                categories[category].append(item)
+            
+            for category, category_items in sorted(categories.items()):
+                output.append(f"### {category}")
+                output.append("")
+                output.append(f"*Files in this category with changes from RelicHeim backup:*")
+                output.append("")
+                
+                for item in category_items:
+                    file_output = self._generate_file_section(item, options)
+                    output.extend(file_output)
+                    output.append("")
+        else:
+            # No grouping
+            for item in items:
+                file_output = self._generate_file_section(item, options)
+                output.extend(file_output)
+                output.append("")
+        
+        return output
+
+    def _generate_file_section(self, item: dict, options: dict) -> list:
+        """Generate a single file's change section."""
+        output = []
+        
+        filename = item['filename']
+        status = item['status']
+        changes = item['changes']
+        
+        output.append(f"#### {filename}")
+        output.append("")
+        output.append(f"**Status**: {status}")
+        output.append("")
+        output.append(f"**Summary**: {changes}")
+        output.append("")
+        
+        if not options['include_summary_only']:
+            # Generate key changes
+            key_changes = self._generate_key_changes(item, options)
+            if key_changes:
+                output.extend(key_changes)
+                output.append("")
+            
+            # Generate numeric comparison if enabled
+            if options['include_numeric_comparison']:
+                numeric_comparison = self._generate_numeric_comparison(item, options)
+                if numeric_comparison:
+                    output.extend(numeric_comparison)
+                    output.append("")
+            
+            # Generate diff if enabled
+            if options['include_full_diffs']:
+                diff = self._generate_truncated_diff(item, options)
+                if diff:
+                    output.extend(diff)
+                    output.append("")
+        
+        return output
+
+    def _generate_key_changes(self, item: dict, options: dict) -> list:
+        """Generate key changes section with truncation."""
+        output = []
+        
+        try:
+            # Get the diff for this file
+            diff = self.get_diff(item['filename'], "current")
+            if not diff:
+                return output
+            
+            # Parse the diff to extract key changes
+            changes = self._parse_diff_for_key_changes(diff, options)
+            
+            if changes:
+                output.append("**Key Changes**:")
+                output.append("")
+                
+                max_changes = options['max_changes_per_file']
+                for i, change in enumerate(changes[:max_changes]):
+                    if options['truncate_long_values']:
+                        change = self._truncate_value(change, options['max_value_length'])
+                    output.append(f"• {change}")
+                
+                if len(changes) > max_changes:
+                    output.append(f"• ... and {len(changes) - max_changes} more changes")
+                
+                output.append("")
+        
+        except Exception as e:
+            output.append(f"**Error parsing changes**: {str(e)}")
+            output.append("")
+        
+        return output
+
+    def _parse_diff_for_key_changes(self, diff: str, options: dict) -> list:
+        """Parse diff to extract key changes."""
+        changes = []
+        lines = diff.split('\n')
+        
+        for line in lines:
+            if line.startswith('+') or line.startswith('-'):
+                # Extract setting name and value
+                if '=' in line:
+                    parts = line.split('=', 1)
+                    if len(parts) == 2:
+                        setting = parts[0].strip().replace('+', '').replace('-', '')
+                        value = parts[1].strip()
+                        
+                        if options['truncate_long_values']:
+                            value = self._truncate_value(value, options['max_value_length'])
+                        
+                        changes.append(f"**{setting}**: `{value}`")
+        
+        return changes
+
+    def _generate_numeric_comparison(self, item: dict, options: dict) -> list:
+        """Generate numeric comparison table."""
+        output = []
+        
+        try:
+            # This would need to be implemented based on your existing numeric comparison logic
+            # For now, return empty list
+            pass
+        except Exception:
+            pass
+        
+        return output
+
+    def _generate_truncated_diff(self, item: dict, options: dict) -> list:
+        """Generate truncated diff."""
+        output = []
+        
+        try:
+            diff = self.get_diff(item['filename'], "current")
+            if not diff:
+                return output
+            
+            lines = diff.split('\n')
+            max_lines = options['max_diff_lines']
+            
+            if len(lines) <= max_lines:
+                output.append("**Full Diff**:")
+                output.append("")
+                output.append("```diff")
+                output.extend(lines)
+                output.append("```")
+            else:
+                output.append(f"**Truncated Diff** (showing first {max_lines} lines):")
+                output.append("")
+                output.append("```diff")
+                output.extend(lines[:max_lines])
+                output.append(f"... (truncated, {len(lines) - max_lines} more lines)")
+                output.append("```")
+        
+        except Exception as e:
+            output.append(f"**Error generating diff**: {str(e)}")
+        
+        return output
+
+    def _truncate_value(self, value: str, max_length: int) -> str:
+        """Truncate a value if it's too long."""
+        if len(value) <= max_length:
+            return value
+        
+        return value[:max_length-3] + "..."
+
+    def _is_game_changing_setting(self, key: str, value: str) -> bool:
+        """Determine if a setting is likely to change game behavior."""
+        key_lower = key.lower()
+        value_lower = str(value).lower()
+        
+        # High priority game-changing keywords
+        game_changing_keywords = [
+            'multiplier', 'rate', 'level', 'amount', 'count', 'chance', 'damage', 
+            'health', 'speed', 'time', 'distance', 'radius', 'size', 'scale',
+            'drop', 'loot', 'spawn', 'respawn', 'experience', 'xp', 'skill',
+            'durability', 'weight', 'capacity', 'range', 'duration', 'cooldown',
+            'cost', 'price', 'value', 'bonus', 'penalty', 'modifier', 'factor',
+            'enabled', 'active', 'allow', 'use', 'show', 'display', 'debug',
+            'difficulty', 'hard', 'easy', 'normal', 'extreme', 'insane',
+            'quality', 'tier', 'grade', 'rarity', 'common', 'uncommon', 'rare', 'epic', 'legendary',
+            'biome', 'zone', 'area', 'region', 'world', 'map', 'location',
+            'creature', 'monster', 'boss', 'enemy', 'animal', 'pet', 'companion',
+            'weapon', 'armor', 'tool', 'item', 'gear', 'equipment', 'accessory',
+            'crafting', 'building', 'construction', 'recipe', 'material', 'resource',
+            'farming', 'mining', 'fishing', 'hunting', 'gathering', 'foraging',
+            'combat', 'fighting', 'battle', 'war', 'attack', 'defense', 'protection',
+            'magic', 'spell', 'ability', 'power', 'effect', 'buff', 'debuff',
+            'weather', 'season', 'day', 'night', 'time', 'cycle', 'event',
+            'raid', 'invasion', 'attack', 'defense', 'wave', 'spawner',
+            'portal', 'teleport', 'travel', 'movement', 'transport',
+            'inventory', 'storage', 'container', 'chest', 'bag', 'backpack',
+            'hunger', 'thirst', 'stamina', 'energy', 'mana', 'magic', 'health',
+            'death', 'respawn', 'revive', 'heal', 'restore', 'regenerate',
+            'temperature', 'cold', 'heat', 'fire', 'ice', 'frost', 'burn',
+            'poison', 'disease', 'curse', 'blessing', 'enchantment', 'upgrade',
+            'evolution', 'growth', 'maturity', 'age', 'breeding', 'reproduction',
+            'territory', 'home', 'base', 'settlement', 'village', 'town', 'city',
+            'trade', 'commerce', 'economy', 'currency', 'money', 'gold', 'silver',
+            'quest', 'mission', 'task', 'objective', 'goal', 'achievement',
+            'reputation', 'faction', 'alliance', 'enemy', 'friend', 'neutral',
+            'technology', 'advancement', 'progress', 'development', 'research',
+            'artifact', 'relic', 'treasure', 'loot', 'reward', 'prize', 'gift'
+        ]
+        
+        # Check if key contains game-changing keywords
+        for keyword in game_changing_keywords:
+            if keyword in key_lower:
+                return True
+        
+        # Check for numeric values that are likely game-changing
+        try:
+            if value_lower.replace('.', '').replace('-', '').isdigit():
+                num_value = float(value_lower)
+                # Values that are likely game-changing
+                if num_value != 0 and num_value != 1 and num_value != 100:
+                    return True
+        except (ValueError, TypeError):
+            pass
+        
+        # Check for boolean values (true/false, yes/no, 1/0)
+        if value_lower in ['true', 'false', 'yes', 'no', '1', '0', 'on', 'off']:
+            return True
+        
+        return False
+
+    def _filter_game_changing_changes(self, changes: list) -> list:
+        """Filter changes to only include game-changing settings."""
+        filtered_changes = []
+        
+        for status, filename, category, summary in changes:
+            if status == "Modified":
+                # Parse the file to find game-changing settings
+                try:
+                    current_path = self.config_root / filename
+                    if current_path.exists():
+                        current_content = current_path.read_text(encoding='utf-8', errors='replace')
+                        
+                        # Parse based on file type
+                        ext = Path(filename).suffix.lower()
+                        if ext in ('.cfg', '.ini', '.conf'):
+                            kv_pairs = self.snapshot._parse_cfg_like(current_content)
+                        elif ext in ('.yml', '.yaml'):
+                            kv_pairs = self.snapshot._parse_yaml_like(current_content)
+                        elif ext == '.json':
+                            try:
+                                kv_pairs = self.snapshot._flatten_json(json.loads(current_content or '{}'))
+                            except Exception:
+                                kv_pairs = {}
+                        else:
+                            kv_pairs = {}
+                        
+                        # Check if any settings are game-changing
+                        game_changing_settings = []
+                        for key, value in kv_pairs.items():
+                            if self._is_game_changing_setting(key, value):
+                                game_changing_settings.append((key, value))
+                        
+                        if game_changing_settings:
+                            # Create a focused summary of game-changing settings
+                            setting_summaries = []
+                            for key, value in game_changing_settings[:5]:  # Limit to 5 most important
+                                setting_summaries.append(f"{key}={value}")
+                            
+                            focused_summary = f"Game-changing settings: {', '.join(setting_summaries)}"
+                            if len(game_changing_settings) > 5:
+                                focused_summary += f" (+{len(game_changing_settings) - 5} more)"
+                            
+                            filtered_changes.append((status, filename, category, focused_summary))
+                        else:
+                            # Include with original summary if no game-changing settings found
+                            filtered_changes.append((status, filename, category, summary))
+                    else:
+                        # File doesn't exist, include with original summary
+                        filtered_changes.append((status, filename, category, summary))
+                except Exception:
+                    # If parsing fails, include with original summary
+                    filtered_changes.append((status, filename, category, summary))
+            else:
+                # Include non-modified items (errors, info) as they might be important
+                filtered_changes.append((status, filename, category, summary))
+        
+        return filtered_changes
+
+    def _export_game_changing_changes_to_markdown(self, tree) -> None:
+        """Export only game-changing settings to a focused markdown file."""
         try:
             # Get file save location
             from tkinter import filedialog
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            default_filename = f"RelicHeim_Changes_{timestamp}.md"
+            default_filename = f"RelicHeim_Game_Changes_{timestamp}.md"
             
             file_path = filedialog.asksaveasfilename(
-                title="Export RelicHeim Changes",
+                title="Export Game-Changing Settings",
                 defaultextension=".md",
                 filetypes=[("Markdown files", "*.md"), ("All files", "*.*")]
             )
@@ -1974,89 +2510,83 @@ class ConfigChangeTrackerApp:
             # Get the backup directory path
             backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
             
-            # Collect only changed items from the tree (Modified, Error, Info)
-            items = []
+            # Collect all changed items from the tree
+            all_items = []
             for item_id in tree.get_children():
                 values = tree.item(item_id)['values']
                 if len(values) >= 4:
                     status, filename, category, summary = values
-                    # Only include modified files, errors, and info items (no "New" files)
                     if status in ['Modified', 'Error', 'Info']:
-                        items.append((status, filename, category, summary))
+                        all_items.append((status, filename, category, summary))
+            
+            # Filter for game-changing settings
+            filtered_items = self._filter_game_changing_changes(all_items)
             
             # Group by category
             categories = {}
-            for status, filename, category, summary in items:
+            for status, filename, category, summary in filtered_items:
                 if category not in categories:
                     categories[category] = []
                 categories[category].append((status, filename, summary))
             
-            # Generate markdown content
-            md_content = f"""# RelicHeim Configuration Changes Report
+            # Generate focused markdown content
+            md_content = f"""# RelicHeim Game-Changing Settings Report
 
 Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
-This report shows **only the changes** made to configuration files compared to the base RelicHeim installation.
-Files that are identical to the backup or have no backup file are not shown.
-
-For each modified file, you'll see:
-- **Key Changes**: Specific configuration values that changed (old → new)
-- **Full Diff**: Complete diff showing all line-by-line changes
+This report shows **only the game-changing settings** that differ from the base RelicHeim installation.
+These are settings that directly affect gameplay, such as:
+- Multipliers, rates, and scaling factors
+- Damage, health, and combat values
+- Drop rates, loot chances, and spawn rates
+- Experience, skill, and progression settings
+- Difficulty, balance, and gameplay mechanics
+- Enabled/disabled features and systems
 
 ## Summary
 
 """
             
-            # Add summary statistics (only changed files)
-            total_files = len(items)
-            modified_files = sum(1 for status, _, _, _ in items if status == "Modified")
-            error_files = sum(1 for status, _, _, _ in items if status == "Error")
-            info_items = sum(1 for status, _, _, _ in items if status == "Info")
+            # Add summary statistics
+            total_files = len(filtered_items)
+            modified_files = sum(1 for status, _, _, _ in filtered_items if status == "Modified")
+            error_files = sum(1 for status, _, _, _ in filtered_items if status == "Error")
+            info_items = sum(1 for status, _, _, _ in filtered_items if status == "Info")
             
             md_content += f"""
-- **Total Changed Files**: {total_files}
-- **Modified**: {modified_files} 
+- **Total Files with Game-Changing Settings**: {total_files}
+- **Modified Files**: {modified_files} 
 - **Errors**: {error_files}
 - **Info Items**: {info_items}
 
-## Detailed Changes
+## Game-Changing Settings by Category
 
 """
             
-            # Add detailed breakdown by category with actual diffs
+            # Add detailed breakdown by category
             for category in sorted(categories.keys()):
-                # Filter out info items from category breakdown
                 file_changes = [(status, filename, summary) for status, filename, summary in categories[category] 
                                if status in ['Modified', 'Error']]
                 
-                if file_changes:  # Only show categories with actual file changes
+                if file_changes:
                     md_content += f"### {category}\n\n"
-                    md_content += f"*Files in this category with changes from RelicHeim backup:*\n\n"
+                    md_content += f"*Files with game-changing settings:*\n\n"
                     
                     for status, filename, summary in file_changes:
                         md_content += f"#### {filename}\n\n"
                         md_content += f"**Status**: {status}\n\n"
-                        md_content += f"**Summary**: {summary}\n\n"
+                        md_content += f"**Game-Changing Settings**: {summary}\n\n"
                         
-                        # Generate detailed change summary and diff content
+                        # Generate detailed analysis of game-changing settings
                         if status == "Modified":
                             try:
-                                # Find the backup file mapping
                                 backup_file = None
                                 for current_file, backup_file_path in self._get_relicheim_mapping().items():
                                     if current_file == filename:
                                         backup_file = backup_file_path
                                         break
                                 
-                                if backup_file and backup_file.endswith('/'):
-                                    # Handle directory mappings
-                                    current_path = self.config_root / filename
-                                    if current_path.exists() and current_path.is_dir():
-                                        # For directory mappings, we need to find the specific file
-                                        # This is complex, so we'll just show the summary
-                                        md_content += "**Note**: Directory mapping - see summary above for changes.\n\n"
-                                elif backup_file:
-                                    # Handle regular file mappings
+                                if backup_file and not backup_file.endswith('/'):
                                     current_path = self.config_root / filename
                                     backup_path = backup_dir / backup_file
                                     
@@ -2064,82 +2594,79 @@ For each modified file, you'll see:
                                         current_content = current_path.read_text(encoding='utf-8', errors='replace')
                                         backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
                                         
-                                        # Generate detailed change summary
-                                        detailed_summary = self._generate_detailed_change_summary(current_content, backup_content)
-                                        if detailed_summary and detailed_summary != "No changes detected":
-                                            md_content += "**Key Changes**:\n\n"
-                                            md_content += f"{detailed_summary}\n\n"
-                                            
-                                            # Add numeric comparison table for debugging
-                                            numeric_changes = self._extract_numeric_changes(current_content, backup_content)
-                                            if numeric_changes:
-                                                md_content += "**Numeric Values Comparison**:\n\n"
-                                                md_content += "| Setting | Old Value | New Value | Difference |\n"
-                                                md_content += "|---------|-----------|-----------|------------|\n"
-                                                for key, old_val, new_val, diff_str in numeric_changes:
-                                                    md_content += f"| {key} | {old_val} | {new_val} | {diff_str} |\n"
-                                                md_content += "\n"
-                                        
-                                        # Generate unified diff
-                                        diff_lines = list(unified_diff(
-                                            backup_content.splitlines(keepends=True),
-                                            current_content.splitlines(keepends=True),
-                                            fromfile=f'backup/{filename}',
-                                            tofile=f'current/{filename}',
-                                            lineterm=''
-                                        ))
-                                        
-                                        if diff_lines:
-                                            md_content += "**Full Diff**:\n\n"
-                                            md_content += "```diff\n"
-                                            md_content += ''.join(diff_lines)
-                                            md_content += "\n```\n\n"
+                                        # Parse both files
+                                        ext = Path(filename).suffix.lower()
+                                        if ext in ('.cfg', '.ini', '.conf'):
+                                            current_kv = self.snapshot._parse_cfg_like(current_content)
+                                            backup_kv = self.snapshot._parse_cfg_like(backup_content)
+                                        elif ext in ('.yml', '.yaml'):
+                                            current_kv = self.snapshot._parse_yaml_like(current_content)
+                                            backup_kv = self.snapshot._parse_yaml_like(backup_content)
+                                        elif ext == '.json':
+                                            try:
+                                                current_kv = self.snapshot._flatten_json(json.loads(current_content or '{}'))
+                                                backup_kv = self.snapshot._flatten_json(json.loads(backup_content or '{}'))
+                                            except Exception:
+                                                current_kv = {}
+                                                backup_kv = {}
                                         else:
-                                            md_content += "**Note**: Files differ but no diff could be generated.\n\n"
+                                            current_kv = {}
+                                            backup_kv = {}
+                                        
+                                        # Find game-changing differences
+                                        game_changing_diffs = []
+                                        for key in sorted(set(current_kv.keys()) | set(backup_kv.keys())):
+                                            old_val = backup_kv.get(key)
+                                            new_val = current_kv.get(key)
+                                            
+                                            if old_val != new_val and self._is_game_changing_setting(key, new_val or old_val):
+                                                game_changing_diffs.append((key, old_val, new_val))
+                                        
+                                        if game_changing_diffs:
+                                            md_content += "**Detailed Game-Changing Settings**:\n\n"
+                                            md_content += "| Setting | Old Value | New Value | Impact |\n"
+                                            md_content += "|---------|-----------|-----------|--------|\n"
+                                            
+                                            for key, old_val, new_val in game_changing_diffs:
+                                                # Determine impact
+                                                impact = self._analyze_setting_impact(key, old_val, new_val)
+                                                safe_key = key.replace("|", "\\|")
+                                                safe_old = str(old_val).replace("|", "\\|") if old_val is not None else "N/A"
+                                                safe_new = str(new_val).replace("|", "\\|") if new_val is not None else "N/A"
+                                                md_content += f"| {safe_key} | {safe_old} | {safe_new} | {impact} |\n"
+                                            
+                                            md_content += "\n"
+                                        else:
+                                            md_content += "**Note**: No specific game-changing setting differences detected.\n\n"
                                     else:
-                                        md_content += "**Note**: Could not read file contents for diff generation.\n\n"
+                                        md_content += "**Note**: Could not read file contents for detailed analysis.\n\n"
                                 else:
-                                    md_content += "**Note**: No backup file mapping found for diff generation.\n\n"
+                                    md_content += "**Note**: File mapping not available for detailed analysis.\n\n"
                             except Exception as e:
-                                md_content += f"**Error generating diff**: {e}\n\n"
+                                md_content += f"**Error analyzing settings**: {e}\n\n"
                         
                         md_content += "---\n\n"
                     
                     md_content += "\n"
             
-            # Add detailed file list (only changed files)
-            md_content += "## Changed Files List\n\n"
-            md_content += "| Status | Category | File | Summary |\n"
-            md_content += "|--------|----------|------|--------|\n"
+            # Add summary table
+            md_content += "## Summary Table\n\n"
+            md_content += "| Category | File | Key Changes |\n"
+            md_content += "|----------|------|-------------|\n"
             
-            # Sort by category, then by filename, excluding info items from the main list
-            changed_items = [(status, filename, category, summary) for status, filename, category, summary in items 
-                           if status in ['Modified', 'Error']]
-            
-            for status, filename, category, summary in sorted(changed_items, key=lambda x: (x[2], x[1])):
-                safe_summary = summary.replace("|", "\\|") if summary else ""
-                md_content += f"| {status} | {category} | `{filename}` | {safe_summary} |\n"
-            
-            # Add info items in a separate section if any exist
-            info_items_list = [(status, filename, category, summary) for status, filename, category, summary in items 
-                              if status == 'Info']
-            if info_items_list:
-                md_content += "\n## Information Items\n\n"
-                md_content += "| Type | Description | Summary |\n"
-                md_content += "|------|-------------|--------|\n"
-                
-                for status, filename, category, summary in info_items_list:
-                    safe_summary = summary.replace("|", "\\|") if summary else ""
-                    md_content += f"| {category} | {filename} | {safe_summary} |\n"
+            for status, filename, category, summary in filtered_items:
+                if status == "Modified":
+                    safe_summary = summary.replace("|", "\\|")
+                    md_content += f"| {category} | `{filename}` | {safe_summary} |\n"
             
             # Add footer
             md_content += f"""
 
 ---
 
-*Report generated by Config Change Tracker*
+*Report generated by Config Change Tracker - Game-Changing Settings Focus*
 *Base RelicHeim version: 5.4.10*
-*Note: Only changed files are shown. Files identical to backup or with no backup are filtered out.*
+*Note: Only settings that directly affect gameplay are shown.*
 """
             
             # Write to file
@@ -2148,931 +2675,164 @@ For each modified file, you'll see:
             
             # Show success message
             messagebox.showinfo("Export Complete", 
-                              f"RelicHeim changes exported to:\n{file_path}\n\n"
-                              f"Changed files: {total_files}\n"
-                              f"Modified: {modified_files}\n"
-                              f"Errors: {error_files}")
+                              f"Game-changing settings exported to:\n{file_path}\n\n"
+                              f"Files with game-changing settings: {total_files}\n"
+                              f"Modified files: {modified_files}\n"
+                              f"Focus: Only settings that affect gameplay")
             
         except Exception as e:
-            CopyableErrorDialog(self.root, "Export Error", f"Failed to export: {e}")
+            CopyableErrorDialog(self.root, "Export Error", f"Failed to export game-changing settings: {e}")
 
-    def _get_relicheim_mapping(self) -> dict:
-        """Get the RelicHeim file mapping dictionary using the BACKUP_5.4.10_ prefix."""
-        # Helper function to generate backup filename
-        def get_backup_filename(original_name: str) -> str:
-            """Convert original filename to backup filename with BACKUP_5.4.10_ prefix."""
-            return f"BACKUP_5.4.10_{original_name}"
+    def _analyze_setting_impact(self, key: str, old_val: str, new_val: str) -> str:
+        """Analyze the potential impact of a setting change."""
+        key_lower = key.lower()
         
-        # Base mapping - most files follow the simple pattern
-        base_mapping = {
-            # Core mod files
-            "WackyMole.EpicMMOSystem.cfg": get_backup_filename("WackyMole.EpicMMOSystem.cfg"),
-            "WackyMole.EpicMMOSystemUI.cfg": get_backup_filename("WackyMole.EpicMMOSystem.cfg"),  # May be part of main config
-            "randyknapp.mods.epicloot.cfg": get_backup_filename("randyknapp.mods.epicloot.cfg"),
-            "drop_that.cfg": get_backup_filename("drop_that.cfg"),
-            "custom_raids.cfg": get_backup_filename("custom_raids.cfg"),
-            "custom_raids.raids.cfg": get_backup_filename("custom_raids.cfg"),  # May be part of main config
-            "advize.PlantEverything.cfg": get_backup_filename("advize.PlantEverything.cfg"),
-            "kg.ValheimEnchantmentSystem.cfg": get_backup_filename("kg.ValheimEnchantmentSystem.cfg"),
-            "WackyMole.Tone_Down_the_Twang.cfg": get_backup_filename("WackyMole.Tone_Down_the_Twang.cfg"),
-            
-            # Smoothbrain plugins - ALL of them
-            "org.bepinex.plugins.smartskills.cfg": get_backup_filename("org.bepinex.plugins.smartskills.cfg"),
-            "org.bepinex.plugins.targetportal.cfg": get_backup_filename("org.bepinex.plugins.targetportal.cfg"),
-            "org.bepinex.plugins.tenacity.cfg": get_backup_filename("org.bepinex.plugins.tenacity.cfg"),
-            "org.bepinex.plugins.sailing.cfg": get_backup_filename("org.bepinex.plugins.sailing.cfg"),
-            "org.bepinex.plugins.sailingspeed.cfg": get_backup_filename("org.bepinex.plugins.sailingspeed.cfg"),
-            "org.bepinex.plugins.passivepowers.cfg": get_backup_filename("org.bepinex.plugins.passivepowers.cfg"),
-            "org.bepinex.plugins.packhorse.cfg": get_backup_filename("org.bepinex.plugins.packhorse.cfg"),
-            "org.bepinex.plugins.mining.cfg": get_backup_filename("org.bepinex.plugins.mining.cfg"),
-            "org.bepinex.plugins.lumberjacking.cfg": get_backup_filename("org.bepinex.plugins.lumberjacking.cfg"),
-            "org.bepinex.plugins.foraging.cfg": get_backup_filename("org.bepinex.plugins.foraging.cfg"),
-            "org.bepinex.plugins.farming.cfg": get_backup_filename("org.bepinex.plugins.farming.cfg"),
-            "org.bepinex.plugins.creaturelevelcontrol.cfg": get_backup_filename("org.bepinex.plugins.creaturelevelcontrol.cfg"),
-            "org.bepinex.plugins.conversionsizespeed.cfg": get_backup_filename("org.bepinex.plugins.conversionsizespeed.cfg"),
-            "org.bepinex.plugins.building.cfg": get_backup_filename("org.bepinex.plugins.building.cfg"),
-            "org.bepinex.plugins.blacksmithing.cfg": get_backup_filename("org.bepinex.plugins.blacksmithing.cfg"),
-            "org.bepinex.plugins.backpacks.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),
-            "org.bepinex.plugins.ranching.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            "org.bepinex.plugins.groups.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            "org.bepinex.plugins.exploration.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            "org.bepinex.plugins.cooking.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            
-            # Other important mods
-            "RandomSteve.BreatheEasy.cfg": get_backup_filename("RandomSteve.BreatheEasy.cfg"),
-            "Azumatt.AzuCraftyBoxes.cfg": get_backup_filename("Azumatt.AzuCraftyBoxes.yml"),
-            "Azumatt.FactionAssigner.cfg": get_backup_filename("Azumatt.FactionAssigner.yml"),
-            "horemvore.MushroomMonsters.cfg": get_backup_filename("CreatureConfig_Creatures.yml"),  # May be part of creature config
-            "flueno.SmartContainers.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            
-            # Creature configs (if they exist in current config)
-            "CreatureConfig_Creatures.yml": get_backup_filename("CreatureConfig_Creatures.yml"),
-            "CreatureConfig_Bosses.yml": get_backup_filename("CreatureConfig_Bosses.yml"),
-            "CreatureConfig_BiomeIncrease.yml": get_backup_filename("CreatureConfig_BiomeIncrease.yml"),
-            "CreatureConfig_Monstrum.yml": get_backup_filename("CreatureConfig_Monstrum.yml"),
-            "CreatureConfig_Wizardry.yml": get_backup_filename("CreatureConfig_Wizardry.yml"),
-            
-            # Backpack configs (if they exist in current config)
-            "Backpacks.Wizardry.yml": get_backup_filename("Backpacks.Wizardry.yml"),
-            "Backpacks.MajesticEpicLoot.yml": get_backup_filename("Backpacks.MajesticEpicLoot.yml"),
-            "Backpacks.Majestic.yml": get_backup_filename("Backpacks.Majestic.yml"),
-            
-            # Item configs (if they exist in current config)
-            "ItemConfig_Base.yml": get_backup_filename("ItemConfig_Base.yml"),
-        }
-        
-        # Directory mappings for subdirectories
-        directory_mapping = {
-            # EpicMMO System subdirectory
-            "EpicMMOSystem/": "EpicMMOSystem/",
-            # Valheim Enchantment System subdirectory  
-            "ValheimEnchantmentSystem/": "ValheimEnchantmentSystem/",
-            # WackyDatabase subdirectory
-            "wackysDatabase/": "wackysDatabase/",
-            # EpicLoot subdirectory
-            "EpicLoot/": "EpicLoot/",
-        }
-        
-        # Special cases that need custom mapping
-        special_mapping = {
-            # Spawn That files (if they exist in current config)
-            "spawn_that.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.world_spawners.zBase.cfg",
-            "spawn_that.world_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.world_spawners.zBase.cfg",
-            "spawn_that.local_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.local_spawners.Locals.cfg",
-            "spawn_that.spawnarea_spawners.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.spawnarea_spawners.PilesNests.cfg",
-            "spawn_that.simple.cfg": "_RelicHeimFiles/Drop,Spawn_That/BACKUP_5.4.10_spawn_that.world_spawners.zBase.cfg",
-            
-            # This Goes Here files (if they exist in current config)
-            "Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.MovingFiles.yml",
-            "Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.DeletingFiles.yml",
-            "Valheim.ThisGoesHere.DeleteWDBCache.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.DeleteWDBCache.yml",
-            
-            # Files in _RelicHeimFiles root directory (current config files)
-            "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.DeletingFiles.yml",
-            "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/BACKUP_5.4.10_Valheim.ThisGoesHere.MovingFiles.yml",
-            
-            # Additional files that exist in current config but need special mapping
-            "custom_raids.supplemental.deathsquitoseason.cfg": "_RelicHeimFiles/Raids/BACKUP_5.4.10_custom_raids.supplemental.MoreRaids.cfg",
-            "custom_raids.supplemental.ragnarok.cfg": "_RelicHeimFiles/Raids/BACKUP_5.4.10_custom_raids.supplemental.MoreRaids.cfg",
-            
-            # Warpalicious mods (these may not have backups, but include them for completeness)
-            "warpalicious.Meadows_Pack_2.cfg": None,  # No backup found
-            "warpalicious.Swamp_Pack_1.cfg": None,  # No backup found
-            "warpalicious.Underground_Ruins.cfg": None,  # No backup found
-            "warpalicious.Plains_Pack_1.cfg": None,  # No backup found
-            "warpalicious.MWL_Blackforest_Pack_1.cfg": None,  # No backup found
-            "warpalicious.Mountains_Pack_1.cfg": None,  # No backup found
-            "warpalicious.Mistlands_Pack_1.cfg": None,  # No backup found
-            "warpalicious.More_World_Traders.cfg": None,  # No backup found
-            "warpalicious.Meadows_Pack_1.cfg": None,  # No backup found
-            "warpalicious.Forbidden_Catacombs.cfg": None,  # No backup found
-            "warpalicious.Blackforest_Pack_2.cfg": None,  # No backup found
-            "warpalicious.AshlandsPack1.cfg": None,  # No backup found
-            "warpalicious.Adventure_Map_Pack_1.cfg": None,  # No backup found
-            "warpalicious.More_World_Locations_CreatureLists.yml": None,  # No backup found
-            
-            # Therzie mods (these may not have backups)
-            "Therzie.Warfare.cfg": None,  # No backup found
-            "Therzie.Wizardry.cfg": None,  # No backup found
-            "Therzie.MonstrumDeepNorth.cfg": None,  # No backup found
-            "Therzie.WarfareFireAndIce.cfg": None,  # No backup found
-            "Therzie.Monstrum.cfg": None,  # No backup found
-            "Therzie.Armory.cfg": None,  # No backup found
-            
-            # Other mods that may not have backups
-            "Taeguk.BiomeLords.cfg": None,  # No backup found
-            "southsil.SouthsilArmor.cfg": None,  # No backup found
-            "server_devcommands.cfg": None,  # No backup found
-            "blacks7ar.MagicRevamp.cfg": None,  # No backup found
-            "blacks7ar.FineWoodFurnitures.cfg": None,  # No backup found
-            "blacks7ar.FineWoodBuildPieces.cfg": None,  # No backup found
-            "blacks7ar.CookingAdditions.cfg": None,  # No backup found
-            "Azumatt.MouseTweaks.cfg": None,  # No backup found
-            "Azumatt.PetPantry.cfg": None,  # No backup found
-            "Azumatt.AzuWorkbenchTweaks.cfg": None,  # No backup found
-            "Azumatt.AzuExtendedPlayerInventory.cfg": None,  # No backup found
-            "Azumatt.AzuClock.cfg": None,  # No backup found
-            "com.maxsch.valheim.vnei.cfg": None,  # No backup found
-            "org.bepinex.plugins.conversionsizespeed.cfg": get_backup_filename("org.bepinex.plugins.conversionsizespeed.cfg"),
-            "custom_raids.raids.cfg": get_backup_filename("custom_raids.cfg"),  # May be part of main config
-            "odinplus.plugins.odinskingdom.cfg": None,  # No backup found
-            "marlthon.OdinShipPlus.cfg": None,  # No backup found
-            "com.odinplus.potionsplus.cfg": None,  # No backup found
-            "org.bepinex.plugins.backpacks.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),
-            "vapok.mods.adventurebackpacks.cfg": None,  # No backup found
-            "goldenrevolver.quick_stack_store.cfg": None,  # No backup found
-            "flueno.SmartContainers.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            "com.bepis.bepinex.configurationmanager.cfg": None,  # No backup found
-            "WackyMole.EpicMMOSystemUI.cfg": get_backup_filename("WackyMole.EpicMMOSystem.cfg"),  # May be part of main config
-            "Soloredis.RtDMagic.cfg": None,  # No backup found
-            "Shawesome.Shawesomes_Divine_Armaments.cfg": None,  # No backup found
-            "redseiko.valheim.scenic.cfg": None,  # No backup found
-            "Raelaziel.OdinArchitect.cfg": None,  # No backup found
-            "org.bepinex.valheim.displayinfo.cfg": None,  # No backup found
-            "org.bepinex.plugins.targetportal.cfg": get_backup_filename("org.bepinex.plugins.targetportal.cfg"),
-            "org.bepinex.plugins.smartskills.cfg": get_backup_filename("org.bepinex.plugins.smartskills.cfg"),
-            "org.bepinex.plugins.sailingspeed.cfg": get_backup_filename("org.bepinex.plugins.sailingspeed.cfg"),
-            "org.bepinex.plugins.ranching.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            "org.bepinex.plugins.passivepowers.cfg": get_backup_filename("org.bepinex.plugins.passivepowers.cfg"),
-            "org.bepinex.plugins.cooking.cfg": get_backup_filename("org.bepinex.plugins.backpacks.cfg"),  # May not have backup
-            "ZenDragon.Zen.ModLib.cfg": None,  # No backup found
-            "ZenDragon.ZenUI.cfg": None,  # No backup found
-            "WackyMole.WackysDatabase.cfg": None,  # No backup found
-            "Detalhes.ItemRequiresSkillLevel.cfg": None,  # No backup found
-            "Detalhes.ItemRequiresSkillLevel.yml": None,  # No backup found
-            "shudnal.TradersExtended.cfg": None,  # No backup found
-            "shudnal.Seasons.cfg": None,  # No backup found
-            "upgrade_world.cfg": None,  # No backup found
-            "TastyChickenLegs.AutomaticFuel.cfg": None,  # No backup found
-        }
-        
-        # Combine all mappings
-        result = {**base_mapping, **directory_mapping, **special_mapping}
-        
-        # Add dynamic mappings for files in subdirectories
-        # These will be handled by the comparison logic that scans for actual files
-        
-        return result
-
-    def show_relicheim_comparison(self) -> None:
-        """Show a comparison between current config files and RelicHeim base files.
-        
-        This function performs a comprehensive comparison between the current configuration
-        files and the base RelicHeim installation files. It includes:
-        
-        1. Explicit file mappings for known RelicHeim files
-        2. Directory-based comparisons for subdirectories
-        3. Keyword-based detection for unmapped RelicHeim-related files
-        4. Detection of backup files that aren't being used
-        5. Comprehensive categorization of all files by mod/plugin
-        
-        The comparison covers all major RelicHeim components including:
-        - Core mods (EpicMMO, EpicLoot, Drop That, Custom Raids, etc.)
-        - Smoothbrain plugins (all org.bepinex.plugins.* files)
-        - Creature and item configurations
-        - Spawn That and Drop That configurations
-        - Additional mods (Warpalicious, Vapok, Southsil, etc.)
-        - System and utility files
-        """
+        # Try to parse numeric values
         try:
-            win = tk.Toplevel(self.root)
-            win.title("RelicHeim Changes Only")
-            win.geometry("1200x800")
-            win.configure(bg=self.colors["bg"])
-
-            # Create main container
-            main_frame = ttk.Frame(win)
-            main_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
-
-            # Header
-            header_frame = ttk.Frame(main_frame)
-            header_frame.pack(fill=tk.X, pady=(0, 8))
+            old_num = float(old_val) if old_val and old_val.replace('.', '').replace('-', '').isdigit() else None
+            new_num = float(new_val) if new_val and new_val.replace('.', '').replace('-', '').isdigit() else None
             
-            title_frame = ttk.Frame(header_frame)
-            title_frame.pack(fill=tk.X)
-            
-            tk.Label(title_frame, text="RelicHeim Changes Only", 
-                    bg=self.colors["bg"], fg=self.colors["text"], 
-                    font=("Arial", 12, "bold")).pack(side=tk.LEFT)
-            
-            # Export button
-            export_btn = ttk.Button(title_frame, text="Export to MD", 
-                                   style="Action.TButton", 
-                                   command=lambda: self._export_relicheim_to_markdown(tree))
-            export_btn.pack(side=tk.RIGHT, padx=(10, 0))
-            
-            # Add tooltip for export button
-            Tooltip(export_btn, "Export the changed files to a markdown file for further analysis")
-            
-            tk.Label(header_frame, text="Showing only files that differ from RelicHeim backup. Right-click any item to open in editor.", 
-                    bg=self.colors["bg"], fg=self.colors["accent"]).pack(anchor="w")
-
-            # Create treeview for comparison results
-            cols = ("status", "file", "category", "summary")
-            tree = ttk.Treeview(main_frame, columns=cols, show="headings")
-            for c, w in [("status", 80), ("file", 400), ("category", 150), ("summary", 500)]:
-                tree.heading(c, text=c.capitalize())
-                tree.column(c, width=w)
-            tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
-
-            # Scrollbar
-            yscroll = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=tree.yview)
-            tree.configure(yscrollcommand=yscroll.set)
-            yscroll.pack(fill=tk.Y, side=tk.RIGHT)
-
-            # Get the backup directory path
-            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
-            
-            # Use the centralized RelicHeim file mapping
-            relicheim_mapping = self._get_relicheim_mapping()
-
-            def get_file_category(filename: str) -> str:
-                """Get category for file based on name."""
-                # Handle subdirectory paths
-                if '/' in filename or '\\' in filename:
-                    # Extract the first directory or file name
-                    parts = filename.replace('\\', '/').split('/')
-                    if parts:
-                        first_part = parts[0]
-                        if first_part == "EpicMMOSystem":
-                            return "EpicMMO System"
-                        elif first_part == "ValheimEnchantmentSystem":
-                            return "Enchantment System"
-                        elif first_part == "wackysDatabase":
-                            return "WackyDatabase"
-                        elif first_part == "EpicLoot":
-                            return "EpicLoot"
-                        elif first_part == "wackyDatabase-BulkYML":
-                            return "WackyDatabase Bulk"
-                
-                # Handle regular file names
-                if filename.startswith("WackyMole.EpicMMOSystem"):
-                    return "EpicMMO"
-                elif filename.startswith("randyknapp.mods.epicloot"):
-                    return "EpicLoot"
-                elif filename.startswith("drop_that"):
-                    return "Drop That"
-                elif filename.startswith("custom_raids"):
-                    return "Custom Raids"
-                elif filename.startswith("org.bepinex.plugins"):
-                    return "Smoothbrain"
-                elif filename.startswith("CreatureConfig"):
-                    return "Creature Config"
-                elif filename.startswith("Backpacks"):
-                    return "Backpacks"
-                elif filename.startswith("ItemConfig"):
-                    return "Item Config"
-                elif filename.startswith("advize.PlantEverything"):
-                    return "Plant Everything"
-                elif filename.startswith("kg.ValheimEnchantmentSystem"):
-                    return "Enchantment System"
-                elif filename.startswith("WackyMole.Tone_Down_the_Twang"):
-                    return "Tone Down Twang"
-                elif filename.startswith("RandomSteve.BreatheEasy"):
-                    return "Breathe Easy"
-                elif filename.startswith("Azumatt"):
-                    return "Azumatt Mods"
-                elif filename.startswith("horemvore.MushroomMonsters"):
-                    return "Mushroom Monsters"
-                elif filename.startswith("flueno.SmartContainers"):
-                    return "Smart Containers"
-                elif filename.startswith("spawn_that"):
-                    return "Spawn That"
-                elif filename.startswith("Valheim.ThisGoesHere"):
-                    return "This Goes Here"
-                elif filename.startswith("shudnal"):
-                    return "Shudnal Mods"
-                elif filename.startswith("blacks7ar"):
-                    return "Blacks7ar Mods"
-                elif filename.startswith("odinplus"):
-                    return "OdinPlus Mods"
-                elif filename.startswith("com.maxsch"):
-                    return "MaxSch Mods"
-                elif filename.startswith("com.odinplus"):
-                    return "OdinPlus Com"
-                elif filename.startswith("com.bepis"):
-                    return "BepInEx"
-                elif filename.startswith("warpalicious"):
-                    return "Warpalicious"
-                elif filename.startswith("nex"):
-                    return "Nex Mods"
-                elif filename.startswith("marcopogo"):
-                    return "Marcopogo"
-                elif filename.startswith("marlthon"):
-                    return "Marlthon"
-                elif filename.startswith("htd"):
-                    return "HTD Mods"
-                elif filename.startswith("goldenrevolver"):
-                    return "GoldenRevolver"
-                elif filename.startswith("vapok"):
-                    return "Vapok Mods"
-                elif filename.startswith("southsil"):
-                    return "Southsil"
-                elif filename.startswith("redseiko"):
-                    return "Redseiko"
-                elif filename.startswith("ZenDragon"):
-                    return "ZenDragon"
-                elif filename.startswith("warpalicious"):
-                    return "Warpalicious"
-                elif filename.startswith("vapok"):
-                    return "Vapok Mods"
-                elif filename.startswith("southsil"):
-                    return "Southsil"
-                elif filename.startswith("shudnal"):
-                    return "Shudnal Mods"
-                elif filename.startswith("server_devcommands"):
-                    return "Server Commands"
-                elif filename.startswith("redseiko"):
-                    return "Redseiko"
-                elif filename.startswith("marcopogo"):
-                    return "Marcopogo"
-                elif filename.startswith("marlthon"):
-                    return "Marlthon"
-                elif filename.startswith("goldenrevolver"):
-                    return "GoldenRevolver"
-                elif filename.startswith("flueno"):
-                    return "Flueno"
-                elif filename.startswith("com.maxsch"):
-                    return "MaxSch Mods"
-                elif filename.startswith("com.odinplus"):
-                    return "OdinPlus Com"
-                elif filename.startswith("com.bepis"):
-                    return "BepInEx"
-                elif filename.startswith("blacks7ar"):
-                    return "Blacks7ar Mods"
-                elif filename.startswith("binds"):
-                    return "Key Bindings"
-                elif filename.startswith("upgrade_world"):
-                    return "World Upgrade"
-                elif filename.startswith("EnchantmentStats"):
-                    return "Enchantment Stats"
-                elif filename.startswith("EnchantmentReqs"):
-                    return "Enchantment Reqs"
-                elif filename.startswith("EnchantmentColors"):
-                    return "Enchantment Colors"
-                elif filename.startswith("EnchantmentChances"):
-                    return "Enchantment Chances"
-                elif filename.startswith("ScrollRecipes"):
-                    return "Enchantment Scrolls"
-                elif filename.startswith("Therzie_"):
-                    return "Therzie Mods"
-                elif filename.startswith("Monstrum_"):
-                    return "Monstrum Mods"
-                elif filename.startswith("Jewelcrafting"):
-                    return "Jewelcrafting"
-                elif filename.startswith("Version"):
-                    return "System Files"
+            if old_num is not None and new_num is not None:
+                if new_num > old_num:
+                    if new_num > old_num * 2:
+                        return "**Major Increase**"
+                    else:
+                        return "Increase"
+                elif new_num < old_num:
+                    if new_num < old_num * 0.5:
+                        return "**Major Decrease**"
+                    else:
+                        return "Decrease"
                 else:
-                    return "Other"
-
-            def compare_files():
-                """Compare current files with RelicHeim base files."""
-                tree.delete(*tree.get_children())
-                
-                # Track which backup files are actually used
-                used_backup_files = set()
-                
-                # First, check all mapped files
-                for current_file, backup_file in relicheim_mapping.items():
-                    current_path = self.config_root / current_file
-                    
-                    # Skip if current file doesn't exist
-                    if not current_path.exists():
-                        continue
-                    
-                    # Handle None values (files with no backup)
-                    if backup_file is None:
-                        # File exists but has no backup - mark as new
-                        tree.insert("", "end", values=("New", current_file, get_file_category(current_file), "No backup file found"))
-                        continue
-                    
-                    # Handle directory mappings (for wackysDatabase and EpicLoot)
-                    if backup_file.endswith('/'):
-                        # This is a directory mapping - scan all files in the directory
-                        if current_path.is_dir():
-                            for subfile in current_path.rglob('*'):
-                                if subfile.is_file():
-                                    rel_subfile = subfile.relative_to(current_path)
-                                    backup_subfile = backup_dir / backup_file.rstrip('/') / rel_subfile
-                                    
-                                    if backup_subfile.exists():
-                                        try:
-                                            current_content = subfile.read_text(encoding='utf-8', errors='replace')
-                                            backup_content = backup_subfile.read_text(encoding='utf-8', errors='replace')
-                                            
-                                            if current_content != backup_content:
-                                                # Only show files that have changed
-                                                summary = self._generate_relicheim_diff_summary(current_content, backup_content)
-                                                tree.insert("", "end", values=("Modified", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), summary))
-                                            
-                                            used_backup_files.add(str(backup_subfile.relative_to(backup_dir)))
-                                        except Exception as e:
-                                            tree.insert("", "end", values=("Error", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), f"Error: {e}"))
-                                    else:
-                                        # File exists but no backup - mark as new
-                                        tree.insert("", "end", values=("New", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), "No backup file found"))
-                        continue
-                    
-                    # Handle regular file mappings
-                    backup_path = backup_dir / backup_file
-                    
-                    if not backup_path.exists():
-                        # File exists but no backup - mark as new
-                        tree.insert("", "end", values=("New", current_file, get_file_category(current_file), "No backup file found"))
-                        continue
-                    
-                    # Compare files
-                    try:
-                        current_content = current_path.read_text(encoding='utf-8', errors='replace')
-                        backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
-                        
-                        if current_content != backup_content:
-                            # Only show files that have changed
-                            summary = self._generate_relicheim_diff_summary(current_content, backup_content)
-                            tree.insert("", "end", values=("Modified", current_file, get_file_category(current_file), summary))
-                        
-                        used_backup_files.add(backup_file)
-                    except Exception as e:
-                        tree.insert("", "end", values=("Error", current_file, get_file_category(current_file), f"Error: {e}"))
-                
-                # Now scan ALL config files in current directory and subdirectories for RelicHeim-related files
-                current_config_files = set()
-                relicheim_related_files = []
-                
-                for config_file in self.config_root.rglob("*"):
-                    if config_file.is_file() and config_file.suffix in ['.cfg', '.yml', '.yaml', '.json', '.txt']:
-                        # Get relative path from config root
-                        rel_path = config_file.relative_to(self.config_root)
-                        current_config_files.add(str(rel_path))
-                        
-                        # Check if this looks like a RelicHeim-related file
-                        filename_lower = str(rel_path).lower()
-                        if any(keyword in filename_lower for keyword in [
-                            'wacky', 'randyknapp', 'drop_that', 'custom_raids', 
-                            'org.bepinex', 'creatureconfig', 'backpacks', 
-                            'itemconfig', 'advize', 'kg.', 'randomsteve', 
-                            'azumatt', 'horemvore', 'flueno', 'spawn_that',
-                            'shudnal', 'blacks7ar', 'odinplus', 'com.maxsch',
-                            'com.odinplus', 'com.bepis', 'nex', 'marcopogo',
-                            'marlthon', 'htd', 'goldenrevolver', 'vapok',
-                            'southsil', 'redseiko', 'zen', 'epicmmo', 'valheimench',
-                            'wackysdatabase', 'epicloot', 'warpalicious', 'southsil',
-                            'server_devcommands', 'redseiko', 'marcopogo', 'marlthon',
-                            'goldenrevolver', 'flueno', 'com.maxsch', 'com.odinplus',
-                            'com.bepis', 'blacks7ar', 'zendragon', 'binds', 'upgrade_world'
-                        ]):
-                            relicheim_related_files.append(str(rel_path))
-                
-                # Check for unmapped RelicHeim-related files
-                mapped_current_files = set(relicheim_mapping.keys())
-                unmapped_relicheim_files = [f for f in relicheim_related_files if f not in mapped_current_files]
-                
-                if unmapped_relicheim_files:
-                    # Group by likely mod/plugin
-                    grouped_unmapped = {}
-                    for file in unmapped_relicheim_files:
-                        if file.startswith('org.bepinex.plugins.'):
-                            mod = 'org.bepinex.plugins'
-                        elif file.startswith('warpalicious.'):
-                            mod = 'warpalicious'
-                        elif file.startswith('shudnal.'):
-                            mod = 'shudnal'
-                        elif file.startswith('blacks7ar.'):
-                            mod = 'blacks7ar'
-                        elif file.startswith('odinplus.'):
-                            mod = 'odinplus'
-                        elif file.startswith('com.'):
-                            mod = 'com'
-                        elif file.startswith('vapok.'):
-                            mod = 'vapok'
-                        elif file.startswith('southsil.'):
-                            mod = 'southsil'
-                        elif file.startswith('redseiko.'):
-                            mod = 'redseiko'
-                        elif file.startswith('nex.'):
-                            mod = 'nex'
-                        elif file.startswith('marcopogo.'):
-                            mod = 'marcopogo'
-                        elif file.startswith('marlthon.'):
-                            mod = 'marlthon'
-                        elif file.startswith('htd.'):
-                            mod = 'htd'
-                        elif file.startswith('goldenrevolver.'):
-                            mod = 'goldenrevolver'
-                        elif file.startswith('flueno.'):
-                            mod = 'flueno'
-                        elif file.startswith('ZenDragon.'):
-                            mod = 'zendragon'
-                        elif file.startswith('WackyMole.'):
-                            mod = 'wackymole'
-                        elif file.startswith('server_devcommands'):
-                            mod = 'server'
-                        elif file.startswith('binds'):
-                            mod = 'system'
-                        elif file.startswith('upgrade_world'):
-                            mod = 'system'
-                        else:
-                            mod = 'other'
-                        
-                        if mod not in grouped_unmapped:
-                            grouped_unmapped[mod] = []
-                        grouped_unmapped[mod].append(file)
-                    
-                    # Add info about unmapped files
-                    for mod, files in grouped_unmapped.items():
-                        if len(files) > 0:
-                            file_list = ", ".join(sorted(files)[:3])  # Show first 3
-                            if len(files) > 3:
-                                file_list += f" and {len(files) - 3} more"
-                            
-                            tree.insert("", "end", values=("Info", f"Unmapped {mod} Files", "System", 
-                                                          f"Found {len(files)} {mod} files not mapped: {file_list}"))
-                
-                # Check for backup files that aren't being used (including subdirectories)
-                all_backup_files = set()
-                for backup_file in backup_dir.rglob("*"):
-                    if backup_file.is_file():
-                        # Get relative path from backup_dir
-                        rel_path = backup_file.relative_to(backup_dir)
-                        all_backup_files.add(str(rel_path))
-                
-                unused_backup_files = all_backup_files - used_backup_files
-                if unused_backup_files:
-                    # Add a note about unused backup files
-                    unused_list = ", ".join(sorted(unused_backup_files)[:5])  # Show first 5
-                    if len(unused_backup_files) > 5:
-                        unused_list += f" and {len(unused_backup_files) - 5} more"
-                    
-                    tree.insert("", "end", values=("Info", "Unused Backup Files", "System", 
-                                                  f"Found {len(unused_backup_files)} backup files not mapped: {unused_list}"))
-                
-                # Add summary statistics (only for changed files)
-                changed_files = len([item for item in tree.get_children() if tree.item(item)['values'][0] in ['Modified', 'Error']])
-                info_items = len([item for item in tree.get_children() if tree.item(item)['values'][0] == 'Info'])
-                
-                if changed_files > 0 or info_items > 0:
-                    tree.insert("", "end", values=("Summary", "Changed Files Only", "System", 
-                                                  f"Changed: {changed_files}, Info: {info_items}"))
-
-            def on_tree_right_click(event):
-                """Handle right-click on tree items."""
-                try:
-                    rowid = tree.identify_row(event.y)
-                    if rowid:
-                        tree.selection_set(rowid)
-                        item = tree.item(rowid)
-                        file_path = item['values'][1]
-                        
-                        # Open file in editor
-                        self.open_file_in_editor(file_path)
-                except Exception as e:
-                    self._set_status(f"Error opening file: {e}")
-
-            def on_tree_double_click(event):
-                """Handle double-click on tree items."""
-                try:
-                    rowid = tree.identify_row(event.y)
-                    if rowid:
-                        item = tree.item(rowid)
-                        file_path = item['values'][1]
-                        
-                        # Open file in editor
-                        self.open_file_in_editor(file_path)
-                except Exception as e:
-                    self._set_status(f"Error opening file: {e}")
-
-            # Bind events
-            tree.bind("<Button-3>", on_tree_right_click)
-            tree.bind("<Double-1>", on_tree_double_click)
-
-            # Populate the tree
-            compare_files()
-
-        except Exception as e:
-            self._set_status(f"Error showing RelicHeim comparison: {e}")
-
-    def open_event_log(self) -> None:
-        """Open an interactive viewer for the JSONL event log with right-click delete."""
-        try:
-            if not self.snapshot.event_log_file.exists():
-                messagebox.showinfo("Event Log", "No events have been logged yet.")
-                return
-
-            win = tk.Toplevel(self.root)
-            win.title("Detailed Event Log")
-            win.geometry("1100x750")
-            win.configure(bg=self.colors["bg"])
-
-            container = ttk.Frame(win)
-            container.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
-
-            cols = ("time", "action", "file", "success", "details")
-            tree = ttk.Treeview(container, columns=cols, show="headings")
-            for c, w in [("time", 160), ("action", 120), ("file", 380), ("success", 80), ("details", 300)]:
-                tree.heading(c, text=c.capitalize())
-                tree.column(c, width=w)
-            tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
-
-            yscroll = ttk.Scrollbar(container, orient=tk.VERTICAL, command=tree.yview)
-            tree.configure(yscrollcommand=yscroll.set)
-            yscroll.pack(fill=tk.Y, side=tk.RIGHT)
-
-            iid_to_line_idx: dict[str, int] = {}
-
-            def refresh_tree():
-                tree.delete(*tree.get_children())
-                iid_to_line_idx.clear()
-                try:
-                    with open(self.snapshot.event_log_file, 'r', encoding='utf-8') as f:
-                        for idx, line in enumerate(f):
-                            line = line.strip()
-                            if not line:
-                                continue
-                            try:
-                                obj = json.loads(line)
-                            except Exception:
-                                obj = {"timestamp": "", "action": "?", "file": "", "success": "", "details": line[:200]}
-                            ts = obj.get("timestamp", "")
-                            action = obj.get("action", "")
-                            filev = obj.get("file", "")
-                            success = obj.get("success", "")
-                            details = obj.get("details", "")
-                            if isinstance(details, dict):
-                                details = json.dumps(details, ensure_ascii=False)
-                            iid = tree.insert("", "end", values=(ts, action, filev, success, details))
-                            iid_to_line_idx[iid] = idx
-                except Exception as e:
-                    CopyableErrorDialog(win, "Event Log", f"Failed to read log: {e}")
-
-            def delete_selected_event():
-                sel = tree.selection()
-                if not sel:
-                    return
-                if not messagebox.askyesno("Delete Event", "Delete selected event(s) from the log? This cannot be undone."):
-                    return
-                try:
-                    to_delete = sorted({iid_to_line_idx[i] for i in sel}, reverse=True)
-                    with open(self.snapshot.event_log_file, 'r', encoding='utf-8') as f:
-                        lines = f.readlines()
-                    for li in to_delete:
-                        if 0 <= li < len(lines):
-                            del lines[li]
-                    with open(self.snapshot.event_log_file, 'w', encoding='utf-8', newline='\n') as f:
-                        f.writelines(lines)
-                    refresh_tree()
-                except Exception as e:
-                    CopyableErrorDialog(win, "Delete Event", f"Failed to delete: {e}")
-
-            # Context menu
-            menu = tk.Menu(win, tearoff=False)
-            menu.add_command(label="Delete", command=delete_selected_event)
-
-            def on_right_click(event):
-                try:
-                    rowid = tree.identify_row(event.y)
-                    if rowid:
-                        tree.selection_set(rowid)
-                        menu.tk_popup(event.x_root, event.y_root)
-                finally:
-                    menu.grab_release()
-
-            tree.bind("<Button-3>", on_right_click)
-            win.bind("<Delete>", lambda e: delete_selected_event())
-
-            refresh_tree()
-        except Exception as e:
-            self._set_status(f"Error opening event log: {e}")
-    
-    def _set_status(self, text: str) -> None:
-        """Update status bar."""
-        ts = datetime.now().strftime("%H:%M:%S")
-        self.status_var.set(f"[{ts}] {text}")
-
-    def _set_busy(self, is_busy: bool, text: str | None = None) -> None:
-        """Toggle busy UI state with optional status text."""
-        if text is not None:
-            self._set_status(text)
+                    return "No Change"
+        except (ValueError, TypeError):
+            pass
         
-        # Busy cursor for whole window
-        self.root.configure(cursor="watch" if is_busy else "")
+        # Analyze boolean changes
+        if old_val in ['false', '0', 'no', 'off'] and new_val in ['true', '1', 'yes', 'on']:
+            return "**Enabled**"
+        elif old_val in ['true', '1', 'yes', 'on'] and new_val in ['false', '0', 'no', 'off']:
+            return "**Disabled**"
         
-        # Start/stop progress animation
-        if is_busy:
-            self.progress.start(60)
-            # Disable main actions to avoid re-entry
-            self.btn_refresh.state(["disabled"])
+        # Analyze based on key content
+        if any(term in key_lower for term in ['multiplier', 'rate', 'chance']):
+            return "Rate Change"
+        elif any(term in key_lower for term in ['damage', 'health', 'armor']):
+            return "Combat Change"
+        elif any(term in key_lower for term in ['drop', 'loot', 'reward']):
+            return "Loot Change"
+        elif any(term in key_lower for term in ['spawn', 'respawn']):
+            return "Spawn Change"
+        elif any(term in key_lower for term in ['experience', 'xp', 'skill']):
+            return "Progression Change"
+        elif any(term in key_lower for term in ['enabled', 'active', 'allow']):
+            return "Feature Toggle"
         else:
-            self.progress.stop()
-            self.btn_refresh.state(["!disabled"])
+            return "Setting Change"
+
+    def _populate_tree_with_filter(self, tree, all_items):
+        """Populate the tree with items, applying game-changing filter if enabled."""
+        tree.delete(*tree.get_children())
         
-        # Ensure redraw
-        self.root.update_idletasks()
+        if hasattr(self, 'game_changing_filter_var') and self.game_changing_filter_var.get():
+            # Apply game-changing filter
+            filtered_items = self._filter_game_changing_changes(all_items)
+        else:
+            # Show all items
+            filtered_items = all_items
+        
+        # Populate tree with filtered items
+        for status, filename, category, summary in filtered_items:
+            tree.insert("", "end", values=(status, filename, category, summary))
+        
+        # Store all items for later filtering
+        self._all_comparison_items = all_items
 
-    def recreate_corrupted_snapshot(self, snapshot_type: str = "current") -> tuple[bool, str]:
-        """Recreate a corrupted snapshot file."""
-        try:
-            # Clear the cache for this snapshot type
-            if snapshot_type in self._snapshot_cache:
-                del self._snapshot_cache[snapshot_type]
-            if snapshot_type in self._snapshot_index_cache:
-                del self._snapshot_index_cache[snapshot_type]
-            
-            # Create a new snapshot
-            success, message = self.create_snapshot(is_initial=(snapshot_type == "initial"))
-            
-            if success:
-                self.log_event(action="recreate_snapshot", success=True, 
-                              extra={"type": snapshot_type, "reason": "corrupted_file_recovery"})
-                return True, f"Successfully recreated {snapshot_type} snapshot: {message}"
-            else:
-                return False, f"Failed to recreate {snapshot_type} snapshot: {message}"
-                
-        except Exception as e:
-            self.log_event(action="recreate_snapshot", success=False, 
-                          extra={"type": snapshot_type, "error": str(e)})
-            return False, f"Error recreating {snapshot_type} snapshot: {e}"
+    def _apply_game_changing_filter(self, tree):
+        """Apply or remove the game-changing filter."""
+        if hasattr(self, '_all_comparison_items'):
+            self._populate_tree_with_filter(tree, self._all_comparison_items)
 
-    def _init_snapshot_and_refresh(self) -> None:
-        """Initialize snapshot and refresh changes."""
+    def regenerate_relicheim_report(self) -> None:
+        """Regenerate the RelicHeim changes report with current settings."""
+        if not hasattr(self, 'relicheim_tree') or not self.relicheim_tree.get_children():
+            messagebox.showwarning("No Data", "No RelicHeim comparison data available. Please run the RelicHeim comparison first.")
+            return
+
+        # Get export options from user
+        export_options = self._get_relicheim_export_options()
+        if not export_options:
+            return
+
+        file_path = Path("Valheim_Help_Docs/Files for GPT/RelicHeimChanges.md")
+        
+        # Ensure directory exists
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        self._set_busy(True, "Regenerating RelicHeim changes report...")
+
         def worker():
             try:
-                # Create initial snapshot if none exists
-                if not self.snapshot.initial_snapshot_file.exists():
-                    self.root.after(0, lambda: self._set_busy(True, "Creating initial snapshot..."))
-                    ok, msg = self.snapshot.create_snapshot(is_initial=True)
-                    if ok:
-                        self.root.after(0, lambda: self._set_busy(False, msg))
-                    else:
-                        self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
+                output = self._generate_relicheim_markdown(self.relicheim_tree, export_options)
                 
-                # Create current snapshot if none exists
-                if not self.snapshot.current_snapshot_file.exists():
-                    self.root.after(0, lambda: self._set_busy(True, "Creating current snapshot..."))
-                    ok, msg = self.snapshot.create_snapshot()
-                    if ok:
-                        self.root.after(0, lambda: self._set_busy(False, msg))
-                    else:
-                        self.root.after(0, lambda: self._set_busy(False, f"Error: {msg}"))
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(output)
                 
-                # Update snapshot info and auto-scan
-                def update_and_scan():
-                    ini = self.snapshot.load_snapshot("initial").get('timestamp', 'N/A')
-                    cur = self.snapshot.load_snapshot("current").get('timestamp', 'N/A')
-                    self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
-
-                # Auto-scan for changes and open All-Time Summary by default
-                self.compare_var.set("Since Baseline (All-Time)")
-                self.on_compare_change()
-                self.show_baseline_summary()
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showinfo("Success", f"RelicHeim changes report regenerated:\n{file_path}"))
                 
-                self.root.after(0, update_and_scan)
             except Exception as e:
-                self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
-        
+                self.root.after(0, lambda: self._set_busy(False))
+                self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to regenerate report: {str(e)}"))
+
         threading.Thread(target=worker, daemon=True).start()
 
-    def show_recovery_dialog(self) -> None:
-        """Show a dialog to help recover from corrupted snapshots."""
+    def check_relicheim_report_accuracy(self) -> None:
+        """Check if the current RelicHeimChanges.md file is accurate and up-to-date."""
+        file_path = Path("Valheim_Help_Docs/Files for GPT/RelicHeimChanges.md")
+        
+        if not file_path.exists():
+            messagebox.showinfo("Report Status", "RelicHeimChanges.md file does not exist.")
+            return
+
+        # Check if we have current comparison data
+        if not hasattr(self, 'relicheim_tree') or not self.relicheim_tree.get_children():
+            messagebox.showwarning("No Data", "No RelicHeim comparison data available. Please run the RelicHeim comparison first.")
+            return
+
+        # Read the current file
         try:
-            win = tk.Toplevel(self.root)
-            win.title("Snapshot Recovery")
-            win.geometry("500x300")
-            win.configure(bg=self.colors["bg"])
-            
-            # Center the dialog
-            win.update_idletasks()
-            x = (win.winfo_screenwidth() // 2) - (500 // 2)
-            y = (win.winfo_screenheight() // 2) - (300 // 2)
-            win.geometry(f"500x300+{x}+{y}")
-            
-            # Make dialog modal
-            win.transient(self.root)
-            win.grab_set()
-            
-            main_frame = ttk.Frame(win)
-            main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-            
-            # Title
-            title_label = tk.Label(main_frame, text="Snapshot Recovery", 
-                                  font=("Arial", 12, "bold"), 
-                                  fg=self.colors["text"], bg=self.colors["bg"])
-            title_label.pack(pady=(0, 10))
-            
-            # Description
-            desc_text = """This tool helps recover from corrupted snapshot files.
-
-If you're experiencing errors loading snapshots, you can recreate them here.
-
-• Initial Snapshot: Used for "Since Baseline" comparisons
-• Current Snapshot: Used for "Since Last Snapshot" comparisons
-
-Note: Recreating snapshots will reset your comparison baselines."""
-            
-            desc_label = tk.Label(main_frame, text=desc_text, justify=tk.LEFT,
-                                 fg=self.colors["text"], bg=self.colors["bg"],
-                                 wraplength=450)
-            desc_label.pack(pady=(0, 20))
-            
-            # Buttons frame
-            button_frame = ttk.Frame(main_frame)
-            button_frame.pack(fill=tk.X, pady=(0, 10))
-            
-            def recreate_initial():
-                def worker():
-                    try:
-                        self.root.after(0, lambda: self._set_busy(True, "Recreating initial snapshot..."))
-                        success, message = self.recreate_corrupted_snapshot("initial")
-                        if success:
-                            self.root.after(0, lambda: self._set_busy(False, message))
-                            self.root.after(0, self.refresh_changes)
-                        else:
-                            self.root.after(0, lambda: self._set_busy(False, f"Error: {message}"))
-                    except Exception as e:
-                        self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
-                
-                threading.Thread(target=worker, daemon=True).start()
-                win.destroy()
-            
-            def recreate_current():
-                def worker():
-                    try:
-                        self.root.after(0, lambda: self._set_busy(True, "Recreating current snapshot..."))
-                        success, message = self.recreate_corrupted_snapshot("current")
-                        if success:
-                            self.root.after(0, lambda: self._set_busy(False, message))
-                            self.root.after(0, self.refresh_changes)
-                        else:
-                            self.root.after(0, lambda: self._set_busy(False, f"Error: {message}"))
-                    except Exception as e:
-                        self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
-                
-                threading.Thread(target=worker, daemon=True).start()
-                win.destroy()
-            
-            def recreate_both():
-                def worker():
-                    try:
-                        self.root.after(0, lambda: self._set_busy(True, "Recreating both snapshots..."))
-                        
-                        # Recreate initial first
-                        success1, message1 = self.recreate_corrupted_snapshot("initial")
-                        if not success1:
-                            self.root.after(0, lambda: self._set_busy(False, f"Error recreating initial: {message1}"))
-                            return
-                        
-                        # Then recreate current
-                        success2, message2 = self.recreate_corrupted_snapshot("current")
-                        if not success2:
-                            self.root.after(0, lambda: self._set_busy(False, f"Error recreating current: {message2}"))
-                            return
-                        
-                        self.root.after(0, lambda: self._set_busy(False, "Both snapshots recreated successfully"))
-                        self.root.after(0, self.refresh_changes)
-                    except Exception as e:
-                        self.root.after(0, lambda: self._set_busy(False, f"Error: {e}"))
-                
-                threading.Thread(target=worker, daemon=True).start()
-                win.destroy()
-            
-            # Buttons
-            ttk.Button(button_frame, text="Recreate Initial Snapshot", 
-                      command=recreate_initial, style="Action.TButton").pack(fill=tk.X, pady=2)
-            ttk.Button(button_frame, text="Recreate Current Snapshot", 
-                      command=recreate_current, style="Action.TButton").pack(fill=tk.X, pady=2)
-            ttk.Button(button_frame, text="Recreate Both Snapshots", 
-                      command=recreate_both, style="Action.TButton").pack(fill=tk.X, pady=2)
-            
-            # Cancel button
-            ttk.Button(main_frame, text="Cancel", 
-                      command=win.destroy, style="Action.TButton").pack(pady=(10, 0))
-            
-            # Focus on dialog
-            win.focus_set()
-            
+            with open(file_path, 'r', encoding='utf-8') as f:
+                current_content = f.read()
         except Exception as e:
-            self._set_status(f"Error showing recovery dialog: {e}")
+            messagebox.showerror("Error", f"Failed to read current report: {str(e)}")
+            return
 
+        # Check for outdated information
+        issues = []
+        
+        # Check if it mentions the old custom raid settings
+        if "EventCheckInterval = 90" in current_content:
+            issues.append("• Report shows old EventCheckInterval = 90 (should be 60)")
+        
+        if "EventTriggerChance = 25" in current_content:
+            issues.append("• Report shows old EventTriggerChance = 25 (should be 40)")
+        
+        # Check if it mentions deleted custom raid files
+        if "custom_raids.supplemental.deathsquitoseason.cfg" in current_content:
+            issues.append("• Report still mentions deleted deathsquitoseason.cfg file")
+        
+        if "custom_raids.supplemental.ragnarok.cfg" in current_content:
+            issues.append("• Report still mentions deleted ragnarok.cfg file")
 
+        if issues:
+            message = "The RelicHeimChanges.md file appears to be outdated:\n\n" + "\n".join(issues) + "\n\nWould you like to regenerate it with current settings?"
+            if messagebox.askyesno("Outdated Report", message):
+                self.regenerate_relicheim_report()
+        else:
+            messagebox.showinfo("Report Status", "The RelicHeimChanges.md file appears to be up-to-date.")
+
+ 
 def run_relicheim_comparison_headless(config_root: Path, output_file: Path = None) -> bool:
     """
     Run RelicHeim comparison in headless mode without GUI.
