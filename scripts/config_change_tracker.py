@@ -7,6 +7,7 @@ import hashlib
 import threading
 import subprocess
 import platform
+import argparse
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -3072,12 +3073,454 @@ Note: Recreating snapshots will reset your comparison baselines."""
             self._set_status(f"Error showing recovery dialog: {e}")
 
 
+def run_relicheim_comparison_headless(config_root: Path, output_file: Path = None) -> bool:
+    """
+    Run RelicHeim comparison in headless mode without GUI.
+    
+    Args:
+        config_root: Path to the config directory
+        output_file: Optional path for output markdown file. If None, uses default naming.
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        print("Starting RelicHeim comparison in headless mode...")
+        
+        # Create a minimal app instance for headless operation
+        # We need to create a dummy root for the app to work
+        root = tk.Tk()
+        root.withdraw()  # Hide the root window
+        
+        app = ConfigChangeTrackerApp(root, config_root)
+        
+        # Get the backup directory path
+        backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
+        
+        if not backup_dir.exists():
+            print(f"Error: RelicHeim backup directory not found: {backup_dir}")
+            root.destroy()
+            return False
+        
+        # Use the centralized RelicHeim file mapping
+        relicheim_mapping = app._get_relicheim_mapping()
+        
+        def get_file_category(filename: str) -> str:
+            """Get category for file based on name."""
+            # Handle subdirectory paths
+            if '/' in filename or '\\' in filename:
+                parts = filename.replace('\\', '/').split('/')
+                if parts:
+                    first_part = parts[0]
+                    if first_part == "EpicMMOSystem":
+                        return "EpicMMO System"
+                    elif first_part == "ValheimEnchantmentSystem":
+                        return "Enchantment System"
+                    elif first_part == "wackysDatabase":
+                        return "WackyDatabase"
+                    elif first_part == "EpicLoot":
+                        return "EpicLoot"
+                    elif first_part == "wackyDatabase-BulkYML":
+                        return "WackyDatabase Bulk"
+            
+            # Handle regular file names (same logic as GUI version)
+            if filename.startswith("WackyMole.EpicMMOSystem"):
+                return "EpicMMO"
+            elif filename.startswith("randyknapp.mods.epicloot"):
+                return "EpicLoot"
+            elif filename.startswith("drop_that"):
+                return "Drop That"
+            elif filename.startswith("custom_raids"):
+                return "Custom Raids"
+            elif filename.startswith("org.bepinex.plugins"):
+                return "Smoothbrain"
+            elif filename.startswith("CreatureConfig"):
+                return "Creature Config"
+            elif filename.startswith("Backpacks"):
+                return "Backpacks"
+            elif filename.startswith("ItemConfig"):
+                return "Item Config"
+            elif filename.startswith("advize.PlantEverything"):
+                return "Plant Everything"
+            elif filename.startswith("kg.ValheimEnchantmentSystem"):
+                return "Enchantment System"
+            elif filename.startswith("WackyMole.Tone_Down_the_Twang"):
+                return "Tone Down Twang"
+            elif filename.startswith("RandomSteve.BreatheEasy"):
+                return "Breathe Easy"
+            elif filename.startswith("Azumatt"):
+                return "Azumatt Mods"
+            elif filename.startswith("horemvore.MushroomMonsters"):
+                return "Mushroom Monsters"
+            elif filename.startswith("flueno.SmartContainers"):
+                return "Smart Containers"
+            elif filename.startswith("spawn_that"):
+                return "Spawn That"
+            elif filename.startswith("Valheim.ThisGoesHere"):
+                return "This Goes Here"
+            elif filename.startswith("shudnal"):
+                return "Shudnal Mods"
+            elif filename.startswith("blacks7ar"):
+                return "Blacks7ar Mods"
+            elif filename.startswith("odinplus"):
+                return "OdinPlus Mods"
+            elif filename.startswith("com.maxsch"):
+                return "MaxSch Mods"
+            elif filename.startswith("com.odinplus"):
+                return "OdinPlus Com"
+            elif filename.startswith("com.bepis"):
+                return "BepInEx"
+            elif filename.startswith("warpalicious"):
+                return "Warpalicious"
+            elif filename.startswith("nex"):
+                return "Nex Mods"
+            elif filename.startswith("marcopogo"):
+                return "Marcopogo"
+            elif filename.startswith("marlthon"):
+                return "Marlthon"
+            elif filename.startswith("htd"):
+                return "HTD Mods"
+            elif filename.startswith("goldenrevolver"):
+                return "GoldenRevolver"
+            elif filename.startswith("vapok"):
+                return "Vapok Mods"
+            elif filename.startswith("southsil"):
+                return "Southsil"
+            elif filename.startswith("redseiko"):
+                return "Redseiko"
+            elif filename.startswith("ZenDragon"):
+                return "ZenDragon"
+            elif filename.startswith("server_devcommands"):
+                return "Server Commands"
+            elif filename.startswith("binds"):
+                return "Key Bindings"
+            elif filename.startswith("upgrade_world"):
+                return "World Upgrade"
+            elif filename.startswith("EnchantmentStats"):
+                return "Enchantment Stats"
+            elif filename.startswith("EnchantmentReqs"):
+                return "Enchantment Reqs"
+            elif filename.startswith("EnchantmentColors"):
+                return "Enchantment Colors"
+            elif filename.startswith("EnchantmentChances"):
+                return "Enchantment Chances"
+            elif filename.startswith("ScrollRecipes"):
+                return "Enchantment Scrolls"
+            elif filename.startswith("Therzie_"):
+                return "Therzie Mods"
+            elif filename.startswith("Monstrum_"):
+                return "Monstrum Mods"
+            elif filename.startswith("Jewelcrafting"):
+                return "Jewelcrafting"
+            elif filename.startswith("Version"):
+                return "System Files"
+            else:
+                return "Other"
+        
+        # Collect comparison results
+        items = []
+        used_backup_files = set()
+        
+        print("Comparing mapped files...")
+        
+        # First, check all mapped files
+        for current_file, backup_file in relicheim_mapping.items():
+            current_path = config_root / current_file
+            
+            # Skip if current file doesn't exist
+            if not current_path.exists():
+                continue
+            
+            # Handle None values (files with no backup)
+            if backup_file is None:
+                items.append(("New", current_file, get_file_category(current_file), "No backup file found"))
+                continue
+            
+            # Handle directory mappings
+            if backup_file.endswith('/'):
+                if current_path.is_dir():
+                    for subfile in current_path.rglob('*'):
+                        if subfile.is_file():
+                            rel_subfile = subfile.relative_to(current_path)
+                            backup_subfile = backup_dir / backup_file.rstrip('/') / rel_subfile
+                            
+                            if backup_subfile.exists():
+                                try:
+                                    current_content = subfile.read_text(encoding='utf-8', errors='replace')
+                                    backup_content = backup_subfile.read_text(encoding='utf-8', errors='replace')
+                                    
+                                    if current_content != backup_content:
+                                        summary = app._generate_relicheim_diff_summary(current_content, backup_content)
+                                        items.append(("Modified", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), summary))
+                                    
+                                    used_backup_files.add(str(backup_subfile.relative_to(backup_dir)))
+                                except Exception as e:
+                                    items.append(("Error", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), f"Error: {e}"))
+                            else:
+                                items.append(("New", f"{current_file}{rel_subfile}", get_file_category(str(rel_subfile)), "No backup file found"))
+                continue
+            
+            # Handle regular file mappings
+            backup_path = backup_dir / backup_file
+            
+            if not backup_path.exists():
+                items.append(("New", current_file, get_file_category(current_file), "No backup file found"))
+                continue
+            
+            # Compare files
+            try:
+                current_content = current_path.read_text(encoding='utf-8', errors='replace')
+                backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
+                
+                if current_content != backup_content:
+                    summary = app._generate_relicheim_diff_summary(current_content, backup_content)
+                    items.append(("Modified", current_file, get_file_category(current_file), summary))
+                
+                used_backup_files.add(backup_file)
+            except Exception as e:
+                items.append(("Error", current_file, get_file_category(current_file), f"Error: {e}"))
+        
+        print("Scanning for unmapped RelicHeim files...")
+        
+        # Scan for unmapped RelicHeim-related files
+        current_config_files = set()
+        relicheim_related_files = []
+        
+        for config_file in config_root.rglob("*"):
+            if config_file.is_file() and config_file.suffix in ['.cfg', '.yml', '.yaml', '.json', '.txt']:
+                rel_path = config_file.relative_to(config_root)
+                current_config_files.add(str(rel_path))
+                
+                filename_lower = str(rel_path).lower()
+                if any(keyword in filename_lower for keyword in [
+                    'wacky', 'randyknapp', 'drop_that', 'custom_raids', 
+                    'org.bepinex', 'creatureconfig', 'backpacks', 
+                    'itemconfig', 'advize', 'kg.', 'randomsteve', 
+                    'azumatt', 'horemvore', 'flueno', 'spawn_that',
+                    'shudnal', 'blacks7ar', 'odinplus', 'com.maxsch',
+                    'com.odinplus', 'com.bepis', 'nex', 'marcopogo',
+                    'marlthon', 'htd', 'goldenrevolver', 'vapok',
+                    'southsil', 'redseiko', 'zen', 'epicmmo', 'valheimench',
+                    'wackysdatabase', 'epicloot', 'warpalicious', 'southsil',
+                    'server_devcommands', 'redseiko', 'marcopogo', 'marlthon',
+                    'goldenrevolver', 'flueno', 'com.maxsch', 'com.odinplus',
+                    'com.bepis', 'blacks7ar', 'zendragon', 'binds', 'upgrade_world'
+                ]):
+                    relicheim_related_files.append(str(rel_path))
+        
+        # Check for unmapped RelicHeim-related files
+        mapped_current_files = set(relicheim_mapping.keys())
+        unmapped_relicheim_files = [f for f in relicheim_related_files if f not in mapped_current_files]
+        
+        if unmapped_relicheim_files:
+            grouped_unmapped = {}
+            for file in unmapped_relicheim_files:
+                if file.startswith('org.bepinex.plugins.'):
+                    mod = 'org.bepinex.plugins'
+                elif file.startswith('warpalicious.'):
+                    mod = 'warpalicious'
+                elif file.startswith('shudnal.'):
+                    mod = 'shudnal'
+                elif file.startswith('blacks7ar.'):
+                    mod = 'blacks7ar'
+                elif file.startswith('odinplus.'):
+                    mod = 'odinplus'
+                elif file.startswith('com.'):
+                    mod = 'com'
+                elif file.startswith('vapok.'):
+                    mod = 'vapok'
+                elif file.startswith('southsil.'):
+                    mod = 'southsil'
+                elif file.startswith('redseiko.'):
+                    mod = 'redseiko'
+                elif file.startswith('nex.'):
+                    mod = 'nex'
+                elif file.startswith('marcopogo.'):
+                    mod = 'marcopogo'
+                elif file.startswith('marlthon.'):
+                    mod = 'marlthon'
+                elif file.startswith('htd.'):
+                    mod = 'htd'
+                elif file.startswith('goldenrevolver.'):
+                    mod = 'goldenrevolver'
+                elif file.startswith('flueno.'):
+                    mod = 'flueno'
+                elif file.startswith('ZenDragon.'):
+                    mod = 'zendragon'
+                elif file.startswith('WackyMole.'):
+                    mod = 'wackymole'
+                elif file.startswith('server_devcommands'):
+                    mod = 'server'
+                elif file.startswith('binds'):
+                    mod = 'system'
+                elif file.startswith('upgrade_world'):
+                    mod = 'system'
+                else:
+                    mod = 'other'
+                
+                if mod not in grouped_unmapped:
+                    grouped_unmapped[mod] = []
+                grouped_unmapped[mod].append(file)
+            
+            for mod, files in grouped_unmapped.items():
+                if len(files) > 0:
+                    file_list = ", ".join(sorted(files)[:3])
+                    if len(files) > 3:
+                        file_list += f" and {len(files) - 3} more"
+                    
+                    items.append(("Info", f"Unmapped {mod} Files", "System", 
+                                  f"Found {len(files)} {mod} files not mapped: {file_list}"))
+        
+        # Check for unused backup files
+        all_backup_files = set()
+        for backup_file in backup_dir.rglob("*"):
+            if backup_file.is_file():
+                rel_path = backup_file.relative_to(backup_dir)
+                all_backup_files.add(str(rel_path))
+        
+        unused_backup_files = all_backup_files - used_backup_files
+        if unused_backup_files:
+            unused_list = ", ".join(sorted(unused_backup_files)[:5])
+            if len(unused_backup_files) > 5:
+                unused_list += f" and {len(unused_backup_files) - 5} more"
+            
+            items.append(("Info", "Unused Backup Files", "System", 
+                          f"Found {len(unused_backup_files)} backup files not mapped: {unused_list}"))
+        
+        # Generate markdown content
+        print("Generating markdown report...")
+        
+        # Determine output file
+        if output_file is None:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            output_file = Path(f"RelicHeim_Changes_{timestamp}.md")
+        
+        # Group by category
+        categories = {}
+        for status, filename, category, summary in items:
+            if category not in categories:
+                categories[category] = []
+            categories[category].append((status, filename, summary))
+        
+        # Generate markdown content (same as GUI version)
+        md_content = f"""# RelicHeim Configuration Changes Report
+
+Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+This report shows **only the changes** made to configuration files compared to the base RelicHeim installation.
+Files that are identical to the backup or have no backup file are not shown.
+
+For each modified file, you'll see:
+- **Key Changes**: Specific configuration values that changed (old → new)
+- **Full Diff**: Complete diff showing all line-by-line changes
+
+## Summary
+
+"""
+        
+        # Add summary statistics
+        total_files = len(items)
+        modified_files = sum(1 for status, _, _, _ in items if status == "Modified")
+        error_files = sum(1 for status, _, _, _ in items if status == "Error")
+        info_items = sum(1 for status, _, _, _ in items if status == "Info")
+        
+        md_content += f"""
+- **Total Changed Files**: {total_files}
+- **Modified**: {modified_files} 
+- **Errors**: {error_files}
+- **Info Items**: {info_items}
+
+## Detailed Changes
+
+"""
+        
+        # Add detailed breakdown by category
+        for category in sorted(categories.keys()):
+            file_changes = [(status, filename, summary) for status, filename, summary in categories[category] 
+                           if status in ['Modified', 'Error']]
+            
+            if file_changes:
+                md_content += f"### {category}\n\n"
+                md_content += f"*Files in this category with changes from RelicHeim backup:*\n\n"
+                
+                for status, filename, summary in file_changes:
+                    md_content += f"#### {filename}\n\n"
+                    md_content += f"**Status**: {status}\n\n"
+                    md_content += f"**Summary**: {summary}\n\n"
+                    
+                    if status == "Modified":
+                        try:
+                            backup_file = None
+                            for current_file, backup_file_path in relicheim_mapping.items():
+                                if current_file == filename:
+                                    backup_file = backup_file_path
+                                    break
+                            
+                            if backup_file and backup_file.endswith('/'):
+                                md_content += "**Note**: Directory mapping - see summary above for changes.\n\n"
+                            elif backup_file:
+                                current_path = config_root / filename
+                                backup_path = backup_dir / backup_file
+                                
+                                if current_path.exists() and backup_path.exists():
+                                    current_content = current_path.read_text(encoding='utf-8', errors='replace')
+                                    backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
+                                    
+                                    detailed_summary = app._generate_detailed_change_summary(current_content, backup_content)
+                                    if detailed_summary and detailed_summary != "No changes detected":
+                                        md_content += "**Key Changes**:\n\n"
+                                        md_content += f"{detailed_summary}\n\n"
+                                        
+                                        numeric_changes = app._extract_numeric_changes(current_content, backup_content)
+                                        if numeric_changes:
+                                            md_content += "**Numeric Values Comparison**:\n\n"
+                                            md_content += "| Setting | Old Value | New Value | Difference |\n"
+                                            md_content += "|---------|-----------|-----------|------------|\n"
+                                            for key, old_val, new_val, diff_str in numeric_changes:
+                                                md_content += f"| {key} | {old_val} | {new_val} | {diff_str} |\n"
+                                            md_content += "\n"
+                                    
+                                    diff_lines = list(unified_diff(
+                                        backup_content.splitlines(keepends=True),
+                                        current_content.splitlines(keepends=True),
+                                        fromfile=f'backup/{filename}',
+                                        tofile=f'current/{filename}',
+                                        lineterm=''
+                                    ))
+                                    
+                                    if diff_lines:
+                                        md_content += "**Full Diff**:\n\n"
+                                        md_content += "```diff\n"
+                                        md_content += ''.join(diff_lines)
+                                        md_content += "\n```\n\n"
+                                    else:
+                                        md_content += "**Note**: Files differ but no diff could be generated.\n\n"
+                                else:
+                                    md_content += "**Note**: Could not read file contents for diff generation.\n\n"
+                            else:
+                                md_content += "**Note**: No backup file mapping found.\n\n"
+                        except Exception as e:
+                            md_content += f"**Error generating diff**: {e}\n\n"
+        
+        # Write the markdown file
+        output_file.write_text(md_content, encoding='utf-8')
+        
+        print(f"RelicHeim comparison completed successfully!")
+        print(f"Report saved to: {output_file}")
+        print(f"Summary: {modified_files} modified files, {error_files} errors, {info_items} info items")
+        
+        # Clean up
+        root.destroy()
+        
+        return True
+        
+    except Exception as e:
+        print(f"Error during headless RelicHeim comparison: {e}")
+        return False
+
+
 def locate_config_root() -> Path:
     """Locate the config directory."""
-    if len(sys.argv) >= 2:
-        arg = Path(sys.argv[1]).expanduser().resolve()
-        return arg
-    
     # Default to the known path
     workspace = Path(__file__).resolve().parents[1]
     candidate = workspace / "Valheim" / "profiles" / "Dogeheim_Player" / "BepInEx" / "config"
@@ -3085,16 +3528,91 @@ def locate_config_root() -> Path:
 
 
 def main() -> int:
-    config_root = locate_config_root()
-    if not config_root.exists():
-        # Create a temporary root for the error dialog
-        temp_root = tk.Tk()
-        temp_root.withdraw()  # Hide the temporary root
-        CopyableErrorDialog(temp_root, "Config Path Not Found", 
-                           f"Config directory does not exist:\n{config_root}")
-        temp_root.destroy()
-        return 2
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description="Valheim Configuration Change Tracker",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Run GUI mode (default)
+  python config_change_tracker.py
+  
+  # Run headless RelicHeim comparison
+  python config_change_tracker.py --headless --relicheim
+  
+  # Run headless with custom output file
+  python config_change_tracker.py --headless --relicheim --output my_report.md
+  
+  # Specify config directory
+  python config_change_tracker.py --config /path/to/config
+        """
+    )
     
+    parser.add_argument(
+        '--headless', 
+        action='store_true',
+        help='Run in headless mode without GUI (for environments without display)'
+    )
+    
+    parser.add_argument(
+        '--relicheim', 
+        action='store_true',
+        help='Run RelicHeim comparison (requires --headless)'
+    )
+    
+    parser.add_argument(
+        '--output', 
+        type=str,
+        help='Output file path for headless mode (default: auto-generated timestamp)'
+    )
+    
+    parser.add_argument(
+        '--config', 
+        type=str,
+        help='Path to config directory (default: auto-detected)'
+    )
+    
+    args = parser.parse_args()
+    
+    # Validate arguments
+    if args.relicheim and not args.headless:
+        print("Error: --relicheim requires --headless mode")
+        return 1
+    
+    # Determine config root
+    if args.config:
+        config_root = Path(args.config).expanduser().resolve()
+    else:
+        config_root = locate_config_root()
+    
+    if not config_root.exists():
+        if args.headless:
+            print(f"Error: Config directory does not exist: {config_root}")
+            return 2
+        else:
+            # Create a temporary root for the error dialog
+            temp_root = tk.Tk()
+            temp_root.withdraw()  # Hide the temporary root
+            CopyableErrorDialog(temp_root, "Config Path Not Found", 
+                               f"Config directory does not exist:\n{config_root}")
+            temp_root.destroy()
+            return 2
+    
+    # Handle headless mode
+    if args.headless:
+        if args.relicheim:
+            # Run RelicHeim comparison in headless mode
+            output_file = None
+            if args.output:
+                output_file = Path(args.output)
+            
+            success = run_relicheim_comparison_headless(config_root, output_file)
+            return 0 if success else 1
+        else:
+            print("Error: Headless mode requires --relicheim or other operation")
+            return 1
+    
+    # Run GUI mode (default)
     root = tk.Tk()
     app = ConfigChangeTrackerApp(root, config_root)
     root.mainloop()
