@@ -632,6 +632,10 @@ class ConfigChangeTrackerApp:
                                      style="Action.TButton", command=self.refresh_changes)
         self.btn_refresh.pack(side=tk.LEFT, padx=(0, 6))
         
+        self.btn_relicheim = ttk.Button(controls_frame, text="Compare vs RelicHeim", 
+                                       style="Action.TButton", command=self.show_relicheim_comparison)
+        self.btn_relicheim.pack(side=tk.LEFT, padx=(0, 6))
+        
         # Zoom controls
         zoom_frame = ttk.Frame(controls_frame)
         zoom_frame.pack(side=tk.RIGHT)
@@ -830,6 +834,7 @@ class ConfigChangeTrackerApp:
         # Attach tooltips (simplified)
         try:
             Tooltip(self.btn_refresh, "Scan the config folder and list files that differ from the selected reference.")
+            Tooltip(self.btn_relicheim, "Compare current configuration files against the base RelicHeim installation to see all changes.")
             Tooltip(self.compare_combo, "Choose whether to compare against the last Session Snapshot or the all-time Baseline.")
         except Exception:
             pass
@@ -1478,6 +1483,57 @@ class ConfigChangeTrackerApp:
         except Exception:
             return None
 
+    def _generate_relicheim_diff_summary(self, current_content: str, base_content: str) -> str:
+        """Generate a brief summary of differences between files."""
+        try:
+            # Parse both files as config-like
+            current_kv = self.snapshot._parse_cfg_like(current_content)
+            base_kv = self.snapshot._parse_cfg_like(base_content)
+            
+            # Count differences
+            added = 0
+            removed = 0
+            modified = 0
+            
+            for key in set(current_kv.keys()) | set(base_kv.keys()):
+                if key not in base_kv:
+                    added += 1
+                elif key not in current_kv:
+                    removed += 1
+                elif current_kv[key] != base_kv[key]:
+                    modified += 1
+            
+            if added == 0 and removed == 0 and modified == 0:
+                return "No changes detected"
+            
+            parts = []
+            if added > 0:
+                parts.append(f"+{added}")
+            if removed > 0:
+                parts.append(f"-{removed}")
+            if modified > 0:
+                parts.append(f"~{modified}")
+            
+            return f"{', '.join(parts)} changes"
+        except Exception:
+            # Fallback to line-based comparison
+            current_lines = current_content.splitlines()
+            base_lines = base_content.splitlines()
+            
+            added = sum(1 for line in current_lines if line.strip() and line.strip() not in base_lines)
+            removed = sum(1 for line in base_lines if line.strip() and line.strip() not in current_lines)
+            
+            if added == 0 and removed == 0:
+                return "No changes detected"
+            
+            parts = []
+            if added > 0:
+                parts.append(f"+{added} lines")
+            if removed > 0:
+                parts.append(f"-{removed} lines")
+            
+            return f"{', '.join(parts)}"
+
     def edit_selected_summary(self, from_summary_tab: bool) -> None:
         tree = self.summary_tree if from_summary_tab else self.changes_tree
         sel = tree.selection()
@@ -1680,6 +1736,494 @@ class ConfigChangeTrackerApp:
             threading.Thread(target=worker, daemon=True).start()
         except Exception:
             pass
+
+    def show_relicheim_comparison(self) -> None:
+        """Show a comparison between current config files and RelicHeim base files."""
+        try:
+            win = tk.Toplevel(self.root)
+            win.title("RelicHeim Base Comparison")
+            win.geometry("1200x800")
+            win.configure(bg=self.colors["bg"])
+
+            # Create main container
+            main_frame = ttk.Frame(win)
+            main_frame.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+            # Header
+            header_frame = ttk.Frame(main_frame)
+            header_frame.pack(fill=tk.X, pady=(0, 8))
+            
+            title_frame = ttk.Frame(header_frame)
+            title_frame.pack(fill=tk.X)
+            
+            tk.Label(title_frame, text="Changes from RelicHeim Base Files", 
+                    bg=self.colors["bg"], fg=self.colors["text"], 
+                    font=("Arial", 12, "bold")).pack(side=tk.LEFT)
+            
+            # Export button
+            export_btn = ttk.Button(title_frame, text="Export to MD", 
+                                   style="Action.TButton", 
+                                   command=lambda: export_to_markdown())
+            export_btn.pack(side=tk.RIGHT, padx=(10, 0))
+            
+            # Add tooltip for export button
+            try:
+                Tooltip(export_btn, "Export the complete comparison results to a markdown file for further analysis")
+            except Exception:
+                pass
+            
+            tk.Label(header_frame, text="Right-click any item to open in editor", 
+                    bg=self.colors["bg"], fg=self.colors["accent"]).pack(anchor="w")
+
+            # Create treeview for comparison results
+            cols = ("status", "file", "category", "summary")
+            tree = ttk.Treeview(main_frame, columns=cols, show="headings")
+            for c, w in [("status", 80), ("file", 400), ("category", 150), ("summary", 500)]:
+                tree.heading(c, text=c.capitalize())
+                tree.column(c, width=w)
+            tree.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+
+            # Scrollbar
+            yscroll = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=tree.yview)
+            tree.configure(yscrollcommand=yscroll.set)
+            yscroll.pack(fill=tk.Y, side=tk.RIGHT)
+
+            # Get the backup directory path
+            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10_Backup" / "config"
+            
+            # RelicHeim file mapping - current file to backup file
+            relicheim_mapping = {
+                # Core mod files
+                "WackyMole.EpicMMOSystem.cfg": "WackyMole.EpicMMOSystembackup.cfg",
+                "WackyMole.EpicMMOSystemUI.cfg": "WackyMole.EpicMMOSystembackup.cfg",  # May be part of main config
+                "randyknapp.mods.epicloot.cfg": "randyknapp.mods.epiclootbackup.cfg",
+                "drop_that.cfg": "drop_thatbackup.cfg",
+                "drop_that.character_drop.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+                "drop_that.drop_table.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
+                "drop_that.character_drop.elite_additions.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+                "custom_raids.cfg": "custom_raidsbackup.cfg",
+                "custom_raids.raids.cfg": "custom_raidsbackup.cfg",  # May be part of main config
+                "custom_raids.supplemental.deathsquitoseason.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
+                "custom_raids.supplemental.ragnarok.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MoreRaidsbackup.cfg",
+                "advize.PlantEverything.cfg": "advize.PlantEverythingbackup.cfg",
+                "kg.ValheimEnchantmentSystem.cfg": "kg.ValheimEnchantmentSystembackup.cfg",
+                "WackyMole.Tone_Down_the_Twang.cfg": "WackyMole.Tone_Down_the_Twangbackup.cfg",
+                
+                # Smoothbrain plugins - ALL of them
+                "org.bepinex.plugins.smartskills.cfg": "org.bepinex.plugins.smartskillsbackup.cfg",
+                "org.bepinex.plugins.targetportal.cfg": "org.bepinex.plugins.targetportalbackup.cfg",
+                "org.bepinex.plugins.tenacity.cfg": "org.bepinex.plugins.tenacitybackup.cfg",
+                "org.bepinex.plugins.sailing.cfg": "org.bepinex.plugins.sailingbackup.cfg",
+                "org.bepinex.plugins.sailingspeed.cfg": "org.bepinex.plugins.sailingspeedbackup.cfg",
+                "org.bepinex.plugins.passivepowers.cfg": "org.bepinex.plugins.passivepowersbackup.cfg",
+                "org.bepinex.plugins.packhorse.cfg": "org.bepinex.plugins.packhorsebackup.cfg",
+                "org.bepinex.plugins.mining.cfg": "org.bepinex.plugins.miningbackup.cfg",
+                "org.bepinex.plugins.lumberjacking.cfg": "org.bepinex.plugins.lumberjackingbackup.cfg",
+                "org.bepinex.plugins.foraging.cfg": "org.bepinex.plugins.foragingbackup.cfg",
+                "org.bepinex.plugins.farming.cfg": "org.bepinex.plugins.farmingbackup.cfg",
+                "org.bepinex.plugins.creaturelevelcontrol.cfg": "org.bepinex.plugins.creaturelevelcontrolbackup.cfg",
+                "org.bepinex.plugins.conversionsizespeed.cfg": "org.bepinex.pluginsbackup.conversionsizespeed.cfg",
+                "org.bepinex.plugins.building.cfg": "org.bepinex.pluginsbackup.building.cfg",
+                "org.bepinex.plugins.blacksmithing.cfg": "org.bepinex.pluginsbackup.blacksmithing.cfg",
+                "org.bepinex.plugins.backpacks.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",
+                "org.bepinex.plugins.ranching.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+                "org.bepinex.plugins.groups.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+                "org.bepinex.plugins.exploration.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+                "org.bepinex.plugins.cooking.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+                
+                # Other important mods
+                "RandomSteve.BreatheEasy.cfg": "RandomSteve.BreatheEasybackup.cfg",
+                "Azumatt.AzuCraftyBoxes.cfg": "Azumatt.AzuCraftyBoxesbackup.yml",
+                "Azumatt.FactionAssigner.cfg": "Azumatt.FactionAssignerbackup.yml",
+                "horemvore.MushroomMonsters.cfg": "CreatureConfig_Creaturesbackup.yml",  # May be part of creature config
+                "flueno.SmartContainers.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",  # May not have backup
+                
+                # Creature configs (if they exist in current config)
+                "CreatureConfig_Creatures.yml": "CreatureConfig_Creaturesbackup.yml",
+                "CreatureConfig_Bosses.yml": "CreatureConfig_Bossesbackup.yml",
+                "CreatureConfig_BiomeIncrease.yml": "CreatureConfig_BiomeIncreasebackup.yml",
+                "CreatureConfig_Monstrum.yml": "CreatureConfig_Monstrumbackup.yml",
+                "CreatureConfig_Wizardry.yml": "CreatureConfig_Wizardrybackup.yml",
+                
+                # Backpack configs (if they exist in current config)
+                "Backpacks.Wizardry.yml": "Backpacks.Wizardrybackup.yml",
+                "Backpacks.MajesticEpicLoot.yml": "Backpacks.MajesticEpicLootbackup.yml",
+                "Backpacks.Majestic.yml": "Backpacks.Majesticbackup.yml",
+                
+                # Item configs (if they exist in current config)
+                "ItemConfig_Base.yml": "ItemConfig_Basebackup.yml",
+                
+                # Spawn That files (if they exist in current config)
+                "spawn_that.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+                "spawn_that.world_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+                "spawn_that.local_spawners_advanced.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.Localsbackup.cfg",
+                "spawn_that.spawnarea_spawners.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNestsbackup.cfg",
+                "spawn_that.simple.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBasebackup.cfg",
+                
+                # This Goes Here files (if they exist in current config)
+                "Valheim.ThisGoesHere.MovingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.MovingFilesbackup.yml",
+                "Valheim.ThisGoesHere.DeletingFiles.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeletingFilesbackup.yml",
+                "Valheim.ThisGoesHere.DeleteWDBCache.yml": "_RelicHeimFiles/Valheim.ThisGoesHere.DeleteWDBCachebackup.yml",
+                
+                # Additional Drop That files (if they exist in current config)
+                "drop_that.character_drop_list.zListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
+                "drop_that.character_drop.Wizardry.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
+                "drop_that.character_drop.VES.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
+                "drop_that.character_drop.Monstrum.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
+                "drop_that.character_drop.GoldTrophy.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
+                "drop_that.character_drop.Bosses.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
+                "drop_that.character_drop.aListDrops.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
+                "drop_that.drop_table.EpicLootChest.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
+                "drop_that.drop_table.Chests.cfg": "_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
+                
+                # Additional Spawn That files (if they exist in current config)
+                "spawn_that.world_spawners.zVanilla.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zVanillabackup.cfg",
+                "spawn_that.world_spawners.zBossSpawns.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.world_spawners.zBossSpawnsbackup.cfg",
+                "spawn_that.local_spawners.LocalsDungeons.cfg": "_RelicHeimFiles/Drop,Spawn_That/spawn_that.local_spawners.LocalsDungeonsbackup.cfg",
+                
+                # Additional Custom Raids files (if they exist in current config)
+                "custom_raids.supplemental.WizardryRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.WizardryRaidsbackup.cfg",
+                "custom_raids.supplemental.VanillaRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.VanillaRaidsbackup.cfg",
+                "custom_raids.supplemental.MonstrumRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumRaidsbackup.cfg",
+                "custom_raids.supplemental.MonstrumDNRaids.cfg": "_RelicHeimFiles/Raids/custom_raids.supplemental.MonstrumDNRaidsbackup.cfg",
+            }
+
+            def get_file_category(filename: str) -> str:
+                """Get category for file based on name."""
+                if filename.startswith("WackyMole.EpicMMOSystem"):
+                    return "EpicMMO"
+                elif filename.startswith("randyknapp.mods.epicloot"):
+                    return "EpicLoot"
+                elif filename.startswith("drop_that"):
+                    return "Drop That"
+                elif filename.startswith("custom_raids"):
+                    return "Custom Raids"
+                elif filename.startswith("org.bepinex.plugins"):
+                    return "Smoothbrain"
+                elif filename.startswith("CreatureConfig"):
+                    return "Creature Config"
+                elif filename.startswith("Backpacks"):
+                    return "Backpacks"
+                elif filename.startswith("ItemConfig"):
+                    return "Item Config"
+                elif filename.startswith("advize.PlantEverything"):
+                    return "Plant Everything"
+                elif filename.startswith("kg.ValheimEnchantmentSystem"):
+                    return "Enchantment System"
+                elif filename.startswith("WackyMole.Tone_Down_the_Twang"):
+                    return "Tone Down Twang"
+                elif filename.startswith("RandomSteve.BreatheEasy"):
+                    return "Breathe Easy"
+                elif filename.startswith("Azumatt"):
+                    return "Azumatt Mods"
+                elif filename.startswith("horemvore.MushroomMonsters"):
+                    return "Mushroom Monsters"
+                elif filename.startswith("flueno.SmartContainers"):
+                    return "Smart Containers"
+                elif filename.startswith("spawn_that"):
+                    return "Spawn That"
+                elif filename.startswith("Valheim.ThisGoesHere"):
+                    return "This Goes Here"
+                elif filename.startswith("shudnal"):
+                    return "Shudnal Mods"
+                elif filename.startswith("blacks7ar"):
+                    return "Blacks7ar Mods"
+                elif filename.startswith("odinplus"):
+                    return "OdinPlus Mods"
+                elif filename.startswith("com.maxsch"):
+                    return "MaxSch Mods"
+                elif filename.startswith("com.odinplus"):
+                    return "OdinPlus Com"
+                elif filename.startswith("com.bepis"):
+                    return "BepInEx"
+                elif filename.startswith("warpalicious"):
+                    return "Warpalicious"
+                elif filename.startswith("nex"):
+                    return "Nex Mods"
+                elif filename.startswith("marcopogo"):
+                    return "Marcopogo"
+                elif filename.startswith("marlthon"):
+                    return "Marlthon"
+                elif filename.startswith("htd"):
+                    return "HTD Mods"
+                elif filename.startswith("goldenrevolver"):
+                    return "GoldenRevolver"
+                elif filename.startswith("vapok"):
+                    return "Vapok Mods"
+                elif filename.startswith("southsil"):
+                    return "Southsil"
+                elif filename.startswith("redseiko"):
+                    return "Redseiko"
+                elif filename.startswith("ZenDragon"):
+                    return "ZenDragon"
+                else:
+                    return "Other"
+
+            def compare_files():
+                """Compare current files with RelicHeim base files."""
+                tree.delete(*tree.get_children())
+                
+                # Track which backup files are actually used
+                used_backup_files = set()
+                
+                # First, check all mapped files
+                for current_file, backup_file in relicheim_mapping.items():
+                    current_path = self.config_root / current_file
+                    backup_path = backup_dir / backup_file
+                    
+                    if not current_path.exists():
+                        continue
+                    
+                    if not backup_path.exists():
+                        # Backup file doesn't exist, mark as new
+                        tree.insert("", "end", values=("New", current_file, get_file_category(current_file), "No backup file found"))
+                        continue
+                    
+                    # Compare files
+                    try:
+                        current_content = current_path.read_text(encoding='utf-8', errors='replace')
+                        backup_content = backup_path.read_text(encoding='utf-8', errors='replace')
+                        
+                        if current_content == backup_content:
+                            # Files are identical
+                            tree.insert("", "end", values=("Same", current_file, get_file_category(current_file), "No changes"))
+                        else:
+                            # Files differ, generate summary
+                            summary = self._generate_relicheim_diff_summary(current_content, backup_content)
+                            tree.insert("", "end", values=("Modified", current_file, get_file_category(current_file), summary))
+                        
+                        used_backup_files.add(backup_file)
+                    except Exception as e:
+                        tree.insert("", "end", values=("Error", current_file, get_file_category(current_file), f"Error: {e}"))
+                
+                # Now scan ALL config files in current directory for RelicHeim-related files
+                current_config_files = set()
+                relicheim_related_files = []
+                
+                for config_file in self.config_root.glob("*"):
+                    if config_file.is_file() and config_file.suffix in ['.cfg', '.yml', '.yaml', '.json']:
+                        current_config_files.add(config_file.name)
+                        
+                        # Check if this looks like a RelicHeim-related file
+                        filename_lower = config_file.name.lower()
+                        if any(keyword in filename_lower for keyword in [
+                            'wacky', 'randyknapp', 'drop_that', 'custom_raids', 
+                            'org.bepinex', 'creatureconfig', 'backpacks', 
+                            'itemconfig', 'advize', 'kg.', 'randomsteve', 
+                            'azumatt', 'horemvore', 'flueno', 'spawn_that',
+                            'shudnal', 'blacks7ar', 'odinplus', 'com.maxsch',
+                            'com.odinplus', 'com.bepis', 'nex', 'marcopogo',
+                            'marlthon', 'htd', 'goldenrevolver', 'vapok',
+                            'southsil', 'redseiko', 'zen'
+                        ]):
+                            relicheim_related_files.append(config_file.name)
+                
+                # Check for unmapped RelicHeim-related files
+                mapped_current_files = set(relicheim_mapping.keys())
+                unmapped_relicheim_files = [f for f in relicheim_related_files if f not in mapped_current_files]
+                
+                if unmapped_relicheim_files:
+                    # Group by likely mod/plugin
+                    grouped_unmapped = {}
+                    for file in unmapped_relicheim_files:
+                        if file.startswith('org.bepinex.plugins.'):
+                            mod = 'org.bepinex.plugins'
+                        elif file.startswith('warpalicious.'):
+                            mod = 'warpalicious'
+                        elif file.startswith('shudnal.'):
+                            mod = 'shudnal'
+                        elif file.startswith('blacks7ar.'):
+                            mod = 'blacks7ar'
+                        elif file.startswith('odinplus.'):
+                            mod = 'odinplus'
+                        elif file.startswith('com.'):
+                            mod = 'com'
+                        else:
+                            mod = 'other'
+                        
+                        if mod not in grouped_unmapped:
+                            grouped_unmapped[mod] = []
+                        grouped_unmapped[mod].append(file)
+                    
+                    # Add info about unmapped files
+                    for mod, files in grouped_unmapped.items():
+                        if len(files) > 0:
+                            file_list = ", ".join(sorted(files)[:3])  # Show first 3
+                            if len(files) > 3:
+                                file_list += f" and {len(files) - 3} more"
+                            
+                            tree.insert("", "end", values=("Info", f"Unmapped {mod} Files", "System", 
+                                                          f"Found {len(files)} {mod} files not mapped: {file_list}"))
+                
+                # Check for backup files that aren't being used (including subdirectories)
+                all_backup_files = set()
+                for backup_file in backup_dir.rglob("*"):
+                    if backup_file.is_file():
+                        # Get relative path from backup_dir
+                        rel_path = backup_file.relative_to(backup_dir)
+                        all_backup_files.add(str(rel_path))
+                
+                unused_backup_files = all_backup_files - used_backup_files
+                if unused_backup_files:
+                    # Add a note about unused backup files
+                    unused_list = ", ".join(sorted(unused_backup_files)[:5])  # Show first 5
+                    if len(unused_backup_files) > 5:
+                        unused_list += f" and {len(unused_backup_files) - 5} more"
+                    
+                    tree.insert("", "end", values=("Info", "Unused Backup Files", "System", 
+                                                  f"Found {len(unused_backup_files)} backup files not mapped: {unused_list}"))
+                
+                # Add summary statistics
+                total_mapped = len([item for item in tree.get_children() if tree.item(item)['values'][0] in ['Same', 'Modified', 'New', 'Error']])
+                total_unmapped = len([item for item in tree.get_children() if tree.item(item)['values'][0] == 'Info' and 'Unmapped' in tree.item(item)['values'][1]])
+                
+                if total_mapped > 0 or total_unmapped > 0:
+                    tree.insert("", "end", values=("Summary", "Total Files Checked", "System", 
+                                                  f"Mapped: {total_mapped}, Unmapped RelicHeim: {total_unmapped}"))
+
+            def export_to_markdown():
+                """Export the comparison results to a markdown file."""
+                try:
+                    # Get file save location
+                    from tkinter import filedialog
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    default_filename = f"RelicHeim_Changes_{timestamp}.md"
+                    
+                    file_path = filedialog.asksaveasfilename(
+                        title="Export RelicHeim Changes",
+                        defaultextension=".md",
+                        filetypes=[("Markdown files", "*.md"), ("All files", "*.*")],
+                        initialvalue=default_filename
+                    )
+                    
+                    if not file_path:
+                        return
+                    
+                    # Collect all items from the tree
+                    items = []
+                    for item_id in tree.get_children():
+                        values = tree.item(item_id)['values']
+                        if len(values) >= 4:
+                            status, filename, category, summary = values
+                            items.append((status, filename, category, summary))
+                    
+                    # Group by category
+                    categories = {}
+                    for status, filename, category, summary in items:
+                        if category not in categories:
+                            categories[category] = []
+                        categories[category].append((status, filename, summary))
+                    
+                    # Generate markdown content
+                    md_content = f"""# RelicHeim Configuration Changes Report
+
+Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+This report shows all changes made to configuration files compared to the base RelicHeim installation.
+
+## Summary
+
+"""
+                    
+                    # Add summary statistics
+                    total_files = len(items)
+                    modified_files = sum(1 for status, _, _, _ in items if status == "Modified")
+                    new_files = sum(1 for status, _, _, _ in items if status == "New")
+                    same_files = sum(1 for status, _, _, _ in items if status == "Same")
+                    error_files = sum(1 for status, _, _, _ in items if status == "Error")
+                    
+                    md_content += f"""
+- **Total Files**: {total_files}
+- **Modified**: {modified_files}
+- **New**: {new_files}
+- **Unchanged**: {same_files}
+- **Errors**: {error_files}
+
+## Changes by Category
+
+"""
+                    
+                    # Add detailed breakdown by category
+                    for category in sorted(categories.keys()):
+                        md_content += f"### {category}\n\n"
+                        md_content += "| Status | File | Summary |\n"
+                        md_content += "|--------|------|--------|\n"
+                        
+                        for status, filename, summary in categories[category]:
+                            # Escape pipe characters in summary
+                            safe_summary = summary.replace("|", "\\|") if summary else ""
+                            md_content += f"| {status} | `{filename}` | {safe_summary} |\n"
+                        
+                        md_content += "\n"
+                    
+                    # Add detailed file list
+                    md_content += "## Complete File List\n\n"
+                    md_content += "| Status | Category | File | Summary |\n"
+                    md_content += "|--------|----------|------|--------|\n"
+                    
+                    for status, filename, category, summary in sorted(items, key=lambda x: (x[2], x[1])):
+                        safe_summary = summary.replace("|", "\\|") if summary else ""
+                        md_content += f"| {status} | {category} | `{filename}` | {safe_summary} |\n"
+                    
+                    # Add footer
+                    md_content += f"""
+
+---
+
+*Report generated by Config Change Tracker*
+*Base RelicHeim version: 5.4.10*
+"""
+                    
+                    # Write to file
+                    with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+                        f.write(md_content)
+                    
+                    # Show success message
+                    messagebox.showinfo("Export Complete", 
+                                      f"RelicHeim changes exported to:\n{file_path}\n\n"
+                                      f"Total files: {total_files}\n"
+                                      f"Modified: {modified_files}\n"
+                                      f"New: {new_files}")
+                    
+                except Exception as e:
+                    messagebox.showerror("Export Error", f"Failed to export: {e}")
+
+            def on_tree_right_click(event):
+                """Handle right-click on tree items."""
+                try:
+                    rowid = tree.identify_row(event.y)
+                    if rowid:
+                        tree.selection_set(rowid)
+                        item = tree.item(rowid)
+                        file_path = item['values'][1]
+                        
+                        # Open file in editor
+                        self.open_file_in_editor(file_path)
+                except Exception as e:
+                    self._set_status(f"Error opening file: {e}")
+
+            def on_tree_double_click(event):
+                """Handle double-click on tree items."""
+                try:
+                    rowid = tree.identify_row(event.y)
+                    if rowid:
+                        item = tree.item(rowid)
+                        file_path = item['values'][1]
+                        
+                        # Open file in editor
+                        self.open_file_in_editor(file_path)
+                except Exception as e:
+                    self._set_status(f"Error opening file: {e}")
+
+            # Bind events
+            tree.bind("<Button-3>", on_tree_right_click)
+            tree.bind("<Double-1>", on_tree_double_click)
+
+            # Populate the tree
+            compare_files()
+
+        except Exception as e:
+            self._set_status(f"Error showing RelicHeim comparison: {e}")
 
     def open_event_log(self) -> None:
         """Open an interactive viewer for the JSONL event log with right-click delete."""

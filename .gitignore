@@ -160,4 +160,7 @@ Valheim_PlayerWorldData/worlds_local/*.fwl
 !Valheim_PlayerWorldData/worlds_local/DogeheimTesting.fwl
 
 # Keep cached icons for mod context (valuable for AI analysis)
-Valheim_PlayerWorldData/Jotunn/CachedIcons/*.png 
+Valheim_PlayerWorldData/Jotunn/CachedIcons/*.png
+
+# Exclude RelicHeim backup files to prevent confusion with multiple versions
+Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/ 
