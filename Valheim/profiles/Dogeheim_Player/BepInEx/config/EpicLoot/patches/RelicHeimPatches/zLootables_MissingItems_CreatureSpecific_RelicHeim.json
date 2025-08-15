@@ -1,0 +1,742 @@
+{
+  "TargetFile": "loottables.json",
+  "Author": "MissingItemsCreatureSpecific",
+  "Priority": 960,
+  "RequireAll": true,
+  "Patches": [
+    {
+      "Path": "$.LootTables",
+      "Action": "AppendAll",
+      "Value": [
+        {
+          "Object": "Greydwarf",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "PlanHammer", "Weight": 0.15 },
+                { "Item": "PickaxeStone_JH", "Weight": 0.12 },
+                { "Item": "SkillPotionAxe_JH", "Weight": 0.10 },
+                { "Item": "ArrowPickaxe_TW", "Weight": 0.15 },
+                { "Item": "AtgeirFlint_TW", "Weight": 0.12 },
+                { "Item": "KnifeBronze_TW", "Weight": 0.10 },
+                { "Item": "MaceFlint_TW", "Weight": 0.12 },
+                { "Item": "SwordFlint_TW", "Weight": 0.12 },
+                { "Item": "ThrowAxeBronze_TW", "Weight": 0.10 },
+                { "Item": "ThrowAxeFlint_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Skeleton",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "chiefchest", "Weight": 0.15 },
+                { "Item": "ClaymoreBone_TW", "Weight": 0.12 },
+                { "Item": "DualKnifeBone_TW", "Weight": 0.10 },
+                { "Item": "SwordBone_TW", "Weight": 0.12 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Boar",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ArmorChestBoarHTD", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Greydwarf_Elite",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ArmorLeatherChest_TW", "Weight": 0.15 },
+                { "Item": "HelmetDvergerWishboneTG", "Weight": 0.12 },
+                { "Item": "BronzeBattleaxeHTD", "Weight": 0.10 },
+                { "Item": "FistBronze_TW", "Weight": 0.10 },
+                { "Item": "GreatClub_TW", "Weight": 0.12 },
+                { "Item": "ShieldBronzeBanded_TW", "Weight": 0.10 },
+                { "Item": "ShieldBronzeTower_TW", "Weight": 0.10 },
+                { "Item": "SledgeBronze_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Draugr",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "KnifeIron_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Draugr_Elite",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "knightchest", "Weight": 0.15 },
+                { "Item": "BattleaxeIron_TW", "Weight": 0.12 },
+                { "Item": "ClaymoreIron_TW", "Weight": 0.10 },
+                { "Item": "DualKnifeIron_TW", "Weight": 0.10 },
+                { "Item": "FistIron_TW", "Weight": 0.10 },
+                { "Item": "SledgeIron_TW", "Weight": 0.10 },
+                { "Item": "ThrowAxeIron_TW", "Weight": 0.10 },
+                { "Item": "HelmetCircletIron_Elemental_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletIron_Hunter_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletIron_Sneak_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletIron_Stamina_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletIron_TW", "Weight": 0.08 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Troll",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "CapeTrollBlack_TW", "Weight": 0.15 },
+                { "Item": "frostmagechest", "Weight": 0.12 },
+                { "Item": "StaffFrostBurst_JH", "Weight": 0.10 },
+                { "Item": "CrossbowChitin_TW", "Weight": 0.10 },
+                { "Item": "DualKnifeChitin_TW", "Weight": 0.10 },
+                { "Item": "FistChitin_TW", "Weight": 0.10 },
+                { "Item": "MaceChitin_TW", "Weight": 0.10 },
+                { "Item": "ShieldChitinBuckler_TW", "Weight": 0.10 },
+                { "Item": "ShieldChitinTower_TW", "Weight": 0.10 },
+                { "Item": "ShieldChitin_TW", "Weight": 0.10 },
+                { "Item": "SwordChitin_TW", "Weight": 0.10 },
+                { "Item": "SageIceStaff", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Wolf",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "TGCapeFlameFeather", "Weight": 0.15 },
+                { "Item": "BMR_PolarWolfCape", "Weight": 0.12 },
+                { "Item": "bearchest", "Weight": 0.10 },
+                { "Item": "AxeSilver_TW", "Weight": 0.10 },
+                { "Item": "DualKnifeSilver_TW", "Weight": 0.10 },
+                { "Item": "FistSilver_TW", "Weight": 0.10 },
+                { "Item": "ThrowAxeSilver_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "SGolem",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BMR_CrystalStaff", "Weight": 0.15 },
+                { "Item": "skogchest", "Weight": 0.12 },
+                { "Item": "BattleaxeCrystal_TW", "Weight": 0.10 },
+                { "Item": "PickaxeSilver_TW", "Weight": 0.10 },
+                { "Item": "ShieldSilverBuckler_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Abomination",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "StaffPoisonBurst_JH", "Weight": 0.15 },
+                { "Item": "NTSTAFF", "Weight": 0.12 },
+                { "Item": "BMR_CrimsonCape", "Weight": 0.10 },
+                { "Item": "BMR_SorcerersCape", "Weight": 0.10 },
+                { "Item": "NecroTechBow", "Weight": 0.10 },
+                { "Item": "SageDarkStaff", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Surtling",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "StaffSurtling_TW", "Weight": 0.15 },
+                { "Item": "SageFireStaff", "Weight": 0.12 },
+                { "Item": "ScholarFireStaff", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Fenring",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "TGStaff_LightningWolf", "Weight": 0.15 },
+                { "Item": "SilverBattleaxeHTD", "Weight": 0.12 },
+                { "Item": "BattleaxeSilver_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Cultist",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "StaffofHealing2_JH", "Weight": 0.15 },
+                { "Item": "SledgeSilver_TW", "Weight": 0.12 },
+                { "Item": "SageHolyStaff", "Weight": 0.10 },
+                { "Item": "HelmetCircletSilver_Elemental_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletSilver_Hunter_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletSilver_Sneak_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletSilver_Stamina_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletSilver_TW", "Weight": 0.08 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Wraith",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BMR_CrimsonCape", "Weight": 0.15 },
+                { "Item": "BMR_SorcerersCape", "Weight": 0.12 },
+                { "Item": "NecroTechBow", "Weight": 0.10 },
+                { "Item": "SageDarkStaff", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Serpent",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ss_serpentcape", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Growth",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "StaffGolem_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Goblin",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "DualKnifeBM_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "GoblinBrute",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ArmorBoldCarapaceChest_TW", "Weight": 0.15 },
+                { "Item": "ArmorHunterChestBM_TW", "Weight": 0.12 },
+                { "Item": "BlackMetalBattleaxeHTD", "Weight": 0.10 },
+                { "Item": "bpchest", "Weight": 0.10 },
+                { "Item": "CrossbowBlackmetal_TW", "Weight": 0.10 },
+                { "Item": "FistBlackmetal_TW", "Weight": 0.10 },
+                { "Item": "GreatbowBlackmetal_TW", "Weight": 0.10 },
+                { "Item": "SledgeBlackmetal_TW", "Weight": 0.10 },
+                { "Item": "ThrowAxeBlackmetal_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "gd_king",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ArmorFenrirBMChest_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "GoblinShaman",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ArmorRogueBMChest_TW", "Weight": 0.15 },
+                { "Item": "ss_barbchest", "Weight": 0.12 },
+                { "Item": "StaffLightningBurst_JH", "Weight": 0.10 },
+                { "Item": "ClaymoreBlackmetal_TW", "Weight": 0.10 },
+                { "Item": "SageLightningStaff", "Weight": 0.10 },
+                { "Item": "HelmetCircletBM_Elemental_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBM_Hunter_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBM_Sneak_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBM_Stamina_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBM_TW", "Weight": 0.08 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Deathsquito",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BowBlackmetal_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Lox",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BattleaxeBlackmetal_TW", "Weight": 0.15 },
+                { "Item": "ShieldBlackmetalBuckler_TW", "Weight": 0.12 },
+                { "Item": "SpearBlackmetal_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Prowler",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "SwordScimitar_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Seeker",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BMR_SeekerCape", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "SeekerBrute",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "ClaymoreDvergr_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Gjall",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BattleaxeDvergr_TW", "Weight": 0.15 },
+                { "Item": "GreatbowDvergr_TW", "Weight": 0.12 },
+                { "Item": "SledgeDemolisher_TW", "Weight": 0.10 },
+                { "Item": "HelmetCircletCarapace_Elemental_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletCarapace_Hunter_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletCarapace_Sneak_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletCarapace_Stamina_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletCarapace_TW", "Weight": 0.08 },
+                { "Item": "ShieldCarapaceTower_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Dvergr",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "Staffcore_Mistlands_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Tick",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "AxeDvergr_TW", "Weight": 0.15 },
+                { "Item": "FistDvergr_TW", "Weight": 0.12 },
+                { "Item": "MaceDvergr_TW", "Weight": 0.10 },
+                { "Item": "ThrowAxeDvergr_TW", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Dragon",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "DragonSlayerSwordHTD", "Weight": 0.15 },
+                { "Item": "Odins_Dragon_Staff", "Weight": 0.12 },
+                { "Item": "lagichest", "Weight": 0.10 },
+                { "Item": "mythrillchest", "Weight": 0.10 },
+                { "Item": "mythrilllegs", "Weight": 0.10 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "SeekerQueen",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "valkchest", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "BonemawSerpent",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "AxeFlametal_TW", "Weight": 0.15 },
+                { "Item": "FistFlametal_TW", "Weight": 0.12 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Morgen",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "SledgeFlametal_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "GreydwarfShaman",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "BMR_AncientStaff", "Weight": 0.15 },
+                { "Item": "Odins_Alchemy_Wand", "Weight": 0.12 },
+                { "Item": "ancientchest", "Weight": 0.10 },
+                { "Item": "druidchest", "Weight": 0.10 },
+                { "Item": "StaffBurst_JH", "Weight": 0.10 },
+                { "Item": "StaffFireBurst_JH", "Weight": 0.10 },
+                { "Item": "StaffofHealing_JH", "Weight": 0.10 },
+                { "Item": "HelmetCircletBronze_Elemental_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBronze_Hunter_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBronze_Sneak_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBronze_Stamina_TW", "Weight": 0.08 },
+                { "Item": "HelmetCircletBronze_TW", "Weight": 0.08 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Eikthyr",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "Staffcore_BlackForest_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "gd_king",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "Staffcore_Mountain_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        },
+        {
+          "Object": "Bonemass",
+          "LeveledLoot": [
+            {
+              "Level": 1,
+              "Drops": [
+                [0, 85],
+                [1, 10],
+                [2, 5],
+                [3, 0]
+              ],
+              "Loot": [
+                { "Item": "Staffcore_Swamp_TW", "Weight": 0.15 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

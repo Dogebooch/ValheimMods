@@ -668,6 +668,9 @@
 	 ]
     },
 	
+//Monstrum Bosses//
+	
+	
 	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
@@ -1040,42 +1043,6 @@
             { "Item": "BossGorr_TW.1", "Weight": 1, "Rarity": [ 0, 50, 35, 10, 5 ] }
          ]
 	    }
-	   ]
-	  }
-	 ]
-	},
-	{
-      "Path": "$.LootTables",
-      "Action": "AppendAll",
-      "Value": [
-	{
-      "Object": "MissingItemsBossDrops",
-      "LeveledLoot": [
-		{
-          "Level": 1,
-          "Drops": [ [1, 0], [2, 80], [3, 20], [4, 0] ],
-          "Loot": [
-            { "Item": "DragonSlayerSwordHTD", "Weight": 1, "Rarity": [ 90, 10, 0, 0, 0 ] },
-            { "Item": "Odins_Dragon_Staff", "Weight": 1, "Rarity": [ 90, 10, 0, 0, 0 ] },
-            { "Item": "lagichest", "Weight": 1, "Rarity": [ 90, 10, 0, 0, 0 ] },
-            { "Item": "mythrillchest", "Weight": 1, "Rarity": [ 90, 10, 0, 0, 0 ] },
-            { "Item": "mythrilllegs", "Weight": 1, "Rarity": [ 90, 10, 0, 0, 0 ] }
-          ]
-        },
-        {
-          "Level": 2,
-          "Drops": [ [1, 0], [2, 70], [3, 25], [4, 5] ],
-          "Loot": [
-            { "Item": "9bchest", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "spearodingungnir", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "svandemhidenbow", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "wschest", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "PickaxeFader_TW", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "dhakharianchest", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "EOMrelicsword", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] },
-            { "Item": "ShawesomeCape", "Weight": 1, "Rarity": [ 70, 20, 10, 0, 0 ] }
-          ]
-        }
 	   ]
 	  }
 	 ]
