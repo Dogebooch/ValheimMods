@@ -78,7 +78,7 @@
     "m_eitrRegenMultiplier": 1.1,
     "m_raiseSkills": {
       "WoodCutting": 1.2,
-      "Fishing": 1.2,
+      "Fishing": 1.4,
       "Pickaxes": 1.2
     },
     "m_skillLevels": {
@@ -108,7 +108,7 @@
     "m_eitrRegenMultiplier": 1.0,
     "m_raiseSkills": {
       "WoodCutting": 1.1,
-      "Fishing": 1.1,
+      "Fishing": 1.3,
       "Pickaxes": 1.1
     },
     "m_skillLevels": {
