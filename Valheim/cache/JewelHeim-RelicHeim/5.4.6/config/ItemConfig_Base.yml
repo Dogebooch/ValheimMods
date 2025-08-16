@@ -69,6 +69,53 @@ groups:
   - RagnoriteOre_TW
   - TyraniumOre_TW
   - LokvyrOre_TW
+  Stackable:
+  - BoneFragments
+  - CryptKey
+  - DeerHide
+  - LeatherScraps
+  - TrollHide
+  - WolfPelt
+  - LoxPelt
+  - GreydwarfEye
+  - Resin
+  - TrophyBoar
+  - TrophyDeer
+  - TrophyNeck
+  - TrophyGreydwarf
+  - TrophyGreydwarfShaman
+  - TrophyGreydwarfBrute
+  - TrophyGreydwarfElite
+  - TrophyTroll
+  - TrophySkeleton
+  - TrophyDraugr
+  - TrophyDraugrElite
+  - TrophyLeech
+  - TrophyBlob
+  - TrophyWraith
+  - TrophySurtling
+  - TrophyLox
+  - TrophySerpent
+  - TrophyDrake
+  - TrophyWolf
+  - TrophyFenring
+  - TrophyUlv
+  - TrophyCultist
+  - TrophySGolem
+  - TrophyAbomination
+  - TrophyBonemass
+  - TrophyEikthyr
+  - TrophyTheElder
+  - TrophyModer
+  - TrophyYagluth
+  - TrophySeeker
+  - TrophySeekerBrute
+  - TrophySeekerQueen
+  - TrophyGjall
+  - TrophyTick
+  - TrophyDverger
+  - TrophyDvergerMage
+  - TrophyDvergerRogue
 #
 all:
     floating: yes
@@ -84,7 +131,7 @@ HoneyGlazedNeck:
 Stackable:
     stack: 200
 WizardryScrolls:
-    stack: 10
+    stack: 200
 DragonEgg:
     stack: 3
     weight: 100
@@ -92,7 +139,7 @@ SurtrDrakeEgg_TW:
     teleportable: yes
     weight: 100
 CryptKey:
-    stack: 10
+    stack: 200
 MeadBase:
     stack: 100
 mmo_mead_minor:
