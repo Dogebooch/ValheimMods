@@ -58,14 +58,14 @@ DEFAULT_TIER_PATTERNS = {
 # Identify enchanting material item types specifically
 ENCHANT_TYPE_PATTERN = re.compile(r"(?:essence|runestone|shard|dust|reagent)", re.IGNORECASE)
 
-# GUI Color palette
+# GUI Color palette - User preferred colors
 PALETTE = {
-    "bg_dark": "#260B01",
-    "bg_mid": "#64563C", 
-    "accent": "#8D5B2F",
-    "muted": "#939789",
-    "paper": "#DBD5CA",
-    "sand": "#CBB89C",
+    "bg_dark": "#260B01",    # Dark brown/black
+    "bg_mid": "#64563C",     # Medium brown
+    "accent": "#8D5B2F",     # Rich brown
+    "muted": "#939789",      # Muted green-gray
+    "paper": "#DBD5CA",      # Light cream
+    "sand": "#CBB89C",       # Sand color
 }
 
 # Keys we look for when parsing entries/tables
@@ -944,93 +944,151 @@ class LootDiffGUI:
         self.master = master
         master.title("Valheim Loot Diff")
         master.configure(bg=PALETTE["bg_dark"])
+        master.geometry("1600x1000")
+
+        # Configure ttk styles for better color integration
+        style = ttk.Style()
+        style.theme_use('clam')  # Use clam theme as base
+        style.configure('TFrame', background=PALETTE["bg_dark"])
+        style.configure('TLabel', background=PALETTE["bg_dark"], foreground=PALETTE["paper"])
+        style.configure('TButton', background=PALETTE["accent"], foreground=PALETTE["paper"])
+        style.configure('TLabelframe', background=PALETTE["bg_dark"], foreground=PALETTE["sand"])
+        style.configure('TLabelframe.Label', background=PALETTE["bg_dark"], foreground=PALETTE["sand"])
+        style.configure('TNotebook', background=PALETTE["bg_dark"])
+        style.configure('TNotebook.Tab', background=PALETTE["bg_mid"], foreground=PALETTE["paper"])
+        style.map('TNotebook.Tab', background=[('selected', PALETTE["accent"])])
+        style.configure('Treeview', background=PALETTE["paper"], foreground=PALETTE["bg_dark"], fieldbackground=PALETTE["paper"])
+        style.configure('Treeview.Heading', background=PALETTE["bg_mid"], foreground=PALETTE["paper"])
 
         # Main frame
         self.main_frame = ttk.Frame(master, padding="10")
         self.main_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        # Title
-        ttk.Label(self.main_frame, text="Valheim Loot Diff", font=("Helvetica", 24, "bold"), foreground=PALETTE["paper"], background=PALETTE["bg_dark"]).pack(pady=10)
-        ttk.Label(self.main_frame, text="Compare RelicHeim/EpicLoot enchanting material drop rates", font=("Helvetica", 10), foreground=PALETTE["muted"], background=PALETTE["bg_dark"]).pack(pady=2)
+        # Title with enhanced styling
+        title_label = tk.Label(self.main_frame, text="Valheim Loot Diff", 
+                              font=("Helvetica", 28, "bold"), 
+                              foreground=PALETTE["paper"], 
+                              background=PALETTE["bg_dark"])
+        title_label.pack(pady=5)
         
-        # Description
-        desc_frame = ttk.Frame(self.main_frame)
-        desc_frame.pack(pady=5, fill="x")
-        ttk.Label(desc_frame, text="Analyzes loot tables, character drops, and CLLC multipliers to estimate enchanting material rates.", 
-                 font=("Helvetica", 9), foreground=PALETTE["muted"], background=PALETTE["bg_dark"], wraplength=600).pack()
+        subtitle_label = tk.Label(self.main_frame, 
+                                 text="Enchanting Material Drop Rate Analysis", 
+                                 font=("Helvetica", 12), 
+                                 foreground=PALETTE["sand"], 
+                                 background=PALETTE["bg_dark"])
+        subtitle_label.pack(pady=2)
 
-        # Input paths
-        self.baseline_path = ttk.Entry(self.main_frame, width=50)
-        self.baseline_path.pack(pady=5)
-        ttk.Button(self.main_frame, text="Select Baseline", command=self.select_baseline).pack(pady=2)
+        # Minimal controls frame
+        controls_frame = ttk.Frame(self.main_frame)
+        controls_frame.pack(pady=10, fill="x")
 
-        self.active_path = ttk.Entry(self.main_frame, width=50)
-        self.active_path.pack(pady=5)
-        ttk.Button(self.main_frame, text="Select Active", command=self.select_active).pack(pady=2)
-
-        self.out_path = ttk.Entry(self.main_frame, width=50)
-        self.out_path.pack(pady=5)
-        ttk.Button(self.main_frame, text="Select Output", command=self.select_output).pack(pady=2)
-
-        # Options
-        self.options_frame = ttk.LabelFrame(self.main_frame, text="Options", padding="5")
-        self.options_frame.pack(pady=10, fill="x")
-
-        # Character Analysis Options
-        char_frame = ttk.LabelFrame(self.options_frame, text="Character & Monster Analysis", padding="5")
-        char_frame.pack(pady=5, fill="x")
-
-        self.compose_chars = tk.BooleanVar(value=False)
-        ttk.Checkbutton(char_frame, text="Generate per-character/monster enchanting material reports", variable=self.compose_chars).pack(pady=2)
-        ttk.Label(char_frame, text="  • Includes direct drops, set-based drops, and global drops", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
-        ttk.Label(char_frame, text="  • Applies CLLC star-based extra loot multipliers", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
-        ttk.Label(char_frame, text="  • Shows E[item/kill] per tier for each monster/boss", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
-
-        world_frame = ttk.Frame(char_frame)
-        world_frame.pack(pady=5, fill="x")
-        ttk.Label(world_frame, text="World Level (0-7):", foreground=PALETTE["paper"]).pack(side=tk.LEFT, padx=(0,5))
+        # World Level control
+        world_frame = ttk.Frame(controls_frame)
+        world_frame.pack(side=tk.LEFT, padx=10)
+        ttk.Label(world_frame, text="World Level:", foreground=PALETTE["paper"], font=("Helvetica", 10)).pack(side=tk.LEFT, padx=(0,5))
         self.world_level = tk.StringVar(value="5")
-        world_spinbox = ttk.Spinbox(world_frame, from_=0, to=7, width=5, textvariable=self.world_level)
+        world_spinbox = ttk.Spinbox(world_frame, from_=0, to=7, width=5, textvariable=self.world_level, font=("Helvetica", 10))
         world_spinbox.pack(side=tk.LEFT)
-        ttk.Label(world_frame, text="  Used for CLLC star distribution and extra loot multipliers", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(side=tk.LEFT, padx=5)
 
-        # General Options
-        gen_frame = ttk.LabelFrame(self.options_frame, text="General Options", padding="5")
-        gen_frame.pack(pady=5, fill="x")
+        # Character Analysis toggle
+        self.compose_chars = tk.BooleanVar(value=True)
+        char_check = ttk.Checkbutton(controls_frame, text="Include Character Analysis", variable=self.compose_chars)
+        char_check.pack(side=tk.LEFT, padx=20)
 
-        self.scan_all = tk.BooleanVar(value=False)
-        ttk.Checkbutton(gen_frame, text="Scan all supported config files", variable=self.scan_all).pack(pady=2)
-        ttk.Label(gen_frame, text="  • Ignores default include filters", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+        # Refresh button
+        self.refresh_button = tk.Button(controls_frame, 
+                                      text="Refresh Analysis", 
+                                      command=self.run_diff,
+                                      font=("Helvetica", 11, "bold"),
+                                      bg=PALETTE["accent"],
+                                      fg=PALETTE["paper"],
+                                      activebackground=PALETTE["bg_mid"],
+                                      activeforeground=PALETTE["paper"],
+                                      relief="raised",
+                                      bd=2,
+                                      padx=15,
+                                      pady=3)
+        self.refresh_button.pack(side=tk.RIGHT, padx=10)
 
-        # Advanced Options
-        adv_frame = ttk.LabelFrame(self.options_frame, text="Advanced Options", padding="5")
-        adv_frame.pack(pady=5, fill="x")
+        # Export button (writes reports on demand)
+        self.export_button = tk.Button(controls_frame,
+                                      text="Export Reports",
+                                      command=self.export_reports,
+                                      font=("Helvetica", 11, "bold"),
+                                      bg=PALETTE["bg_mid"],
+                                      fg=PALETTE["paper"],
+                                      activebackground=PALETTE["accent"],
+                                      activeforeground=PALETTE["paper"],
+                                      relief="raised",
+                                      bd=2,
+                                      padx=12,
+                                      pady=3)
+        self.export_button.pack(side=tk.RIGHT, padx=10)
 
-        self.tier_map_json = ttk.Entry(adv_frame, width=50)
-        self.tier_map_json.pack(pady=2)
-        ttk.Button(adv_frame, text="Select Tier Map JSON", command=self.select_tier_map_json).pack(pady=2)
-        ttk.Label(adv_frame, text="  Override default tier regex patterns", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+        # Coverage check button (diagnostics)
+        self.coverage_button = tk.Button(controls_frame,
+                                        text="Coverage Check",
+                                        command=self.coverage_check,
+                                        font=("Helvetica", 11, "bold"),
+                                        bg=PALETTE["bg_mid"],
+                                        fg=PALETTE["paper"],
+                                        activebackground=PALETTE["accent"],
+                                        activeforeground=PALETTE["paper"],
+                                        relief="raised",
+                                        bd=2,
+                                        padx=12,
+                                        pady=3)
+        self.coverage_button.pack(side=tk.RIGHT, padx=10)
 
-        self.set_weight_json = ttk.Entry(adv_frame, width=50)
-        self.set_weight_json.pack(pady=2)
-        ttk.Button(adv_frame, text="Select Set Weight JSON", command=self.select_set_weight_json).pack(pady=2)
-        ttk.Label(adv_frame, text="  Weight set contributions for global aggregation", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+        # Main display area - simplified layout
+        self.display_frame = ttk.Frame(self.main_frame)
+        self.display_frame.pack(expand=True, fill="both", pady=10)
 
-        self.assert_tier_change = ttk.Entry(adv_frame, width=20)
-        self.assert_tier_change.pack(pady=2)
-        ttk.Label(adv_frame, text="Assert global tier change (e.g., Magic:+10% or Magic:+0.10)").pack(pady=2)
-        ttk.Label(adv_frame, text="  Verify expected change vs baseline", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+        # Overall drop rates summary
+        summary_label = tk.Label(self.display_frame, 
+                                text="Overall Drop Rates (All Monsters)", 
+                                font=("Helvetica", 14, "bold"),
+                                bg=PALETTE["bg_dark"], 
+                                fg=PALETTE["paper"])
+        summary_label.pack(pady=(0, 5))
 
-        self.gui_mode = tk.BooleanVar(value=False)
-        ttk.Checkbutton(adv_frame, text="Run in GUI mode", variable=self.gui_mode).pack(pady=2)
+        self.summary_text = tk.Text(self.display_frame, 
+                               state="normal", 
+                               bg=PALETTE["paper"], 
+                               fg=PALETTE["bg_dark"], 
+                               wrap=tk.WORD,
+                               font=("Consolas", 12),
+                               height=8)
+        self.summary_text.pack(expand=False, fill="x", padx=5, pady=5)
 
-        # Run button
-        self.run_button = ttk.Button(self.main_frame, text="Run Diff", command=self.run_diff)
-        self.run_button.pack(pady=20)
+        # Per-monster breakdown
+        monster_label = tk.Label(self.display_frame, 
+                                text="Per-Monster Breakdown", 
+                                font=("Helvetica", 14, "bold"),
+                                bg=PALETTE["bg_dark"], 
+                                fg=PALETTE["paper"])
+        monster_label.pack(pady=(10, 5))
 
-        # Status/Output area
-        self.status_text = tk.Text(self.main_frame, state="disabled", bg=PALETTE["paper"], fg=PALETTE["bg_dark"])
-        self.status_text.pack(pady=10, expand=True, fill="both")
+        # Create treeview for monster data (active % and Δ vs baseline in percentage points)
+        columns = (
+            "Monster",
+            "Magic %", "Δ Magic (pp)",
+            "Rare %", "Δ Rare (pp)",
+            "Epic %", "Δ Epic (pp)",
+            "Legendary %", "Δ Legendary (pp)",
+            "Mythic %", "Δ Mythic (pp)"
+        )
+        self.monster_tree = self.create_treeview(self.display_frame, columns)
+
+        # Status text for logging
+        self.status_text = tk.Text(self.display_frame, 
+                                  state="normal", 
+                                  bg=PALETTE["paper"], 
+                                  fg=PALETTE["bg_dark"], 
+                                  wrap=tk.WORD,
+                                  font=("Consolas", 8),
+                                  height=8)
+        self.status_text.pack(expand=False, fill="x", padx=5, pady=5)
 
         # GUI-specific attributes
         self.baseline_dir = ""
@@ -1050,84 +1108,85 @@ class LootDiffGUI:
         self.global_act = {}
         self.item_base = {}
         self.item_act = {}
+        self.auto_export = False
 
-    def select_baseline(self):
-        path = filedialog.askdirectory()
-        if path:
-            self.baseline_path.delete(0, tk.END)
-            self.baseline_path.insert(0, path)
-            self.baseline_dir = path
+        # Set default paths
+        self.baseline_path = os.path.normpath("Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/")
+        self.active_path = os.path.normpath("Valheim/profiles/Dogeheim_Player/BepInEx/config/")
+        self.out_path = "./loot_report"
 
-    def select_active(self):
-        path = filedialog.askdirectory()
-        if path:
-            self.active_path.delete(0, tk.END)
-            self.active_path.insert(0, path)
-            self.active_dir = path
+        # Auto-run analysis after a short delay
+        self.master.after(500, self.auto_run_analysis)
 
-    def select_output(self):
-        path = filedialog.asksaveasfilename(defaultextension=".html", filetypes=[("HTML files", "*.html"), ("All files", "*.*")])
-        if path:
-            self.out_path.delete(0, tk.END)
-            self.out_path.insert(0, path)
-            self.out_dir = os.path.dirname(path)
+    def auto_run_analysis(self):
+        """Automatically run the analysis when GUI launches"""
+        self.log_message("Auto-running analysis with default settings...")
+        self.run_diff()
 
-    def select_tier_map_json(self):
-        path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
-        if path:
-            self.tier_map_json.delete(0, tk.END)
-            self.tier_map_json.insert(0, path)
-            self.tier_map_file = path
-            self.load_tier_map()
+    def create_treeview(self, parent, columns, show_headers=True):
+        """Create a Treeview widget with the specified columns"""
+        # Create a frame to hold the treeview and scrollbars
+        tree_frame = ttk.Frame(parent)
+        tree_frame.pack(expand=True, fill="both")
+        
+        tree = ttk.Treeview(tree_frame, columns=columns, show="headings" if show_headers else "tree")
+        if show_headers:
+            for col in columns:
+                tree.heading(col, text=col)
+                tree.column(col, width=100, minwidth=80)
+        
+        # Add scrollbars
+        vsb = ttk.Scrollbar(tree_frame, orient="vertical", command=tree.yview)
+        hsb = ttk.Scrollbar(tree_frame, orient="horizontal", command=tree.xview)
+        tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+        
+        # Grid layout within the frame
+        tree.grid(row=0, column=0, sticky="nsew")
+        vsb.grid(row=0, column=1, sticky="ns")
+        hsb.grid(row=1, column=0, sticky="ew")
+        
+        tree_frame.grid_rowconfigure(0, weight=1)
+        tree_frame.grid_columnconfigure(0, weight=1)
+        
+        return tree
 
-    def select_set_weight_json(self):
-        path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
-        if path:
-            self.set_weight_json.delete(0, tk.END)
-            self.set_weight_json.insert(0, path)
-            self.set_weight_file = path
-            self.load_set_weights()
+    def populate_treeview(self, tree, data, clear_existing=True):
+        """Populate a Treeview with data"""
+        if clear_existing:
+            for item in tree.get_children():
+                tree.delete(item)
+        
+        if not data:
+            return
+        
+        for row_data in data:
+            values = [row_data.get(col, "") for col in tree["columns"]]
+            tree.insert("", "end", values=values)
 
-    def load_tier_map(self):
-        if self.tier_map_file:
-            try:
-                with open(self.tier_map_file, "r", encoding="utf-8") as f:
-                    m = json.load(f)
-                    for k,v in m.items():
-                        self.tier_regex[k] = v
-                    self.status_text.insert(tk.END, f"Loaded tier map from {self.tier_map_file}\n")
+    # File selection methods removed for minimalist interface
+    # All paths are now hardcoded to defaults
+
+    # Load methods removed for minimalist interface
+
+    def log_message(self, message):
+        """Add a message to the status text"""
+        self.status_text.insert(tk.END, f"{message}\n")
                     self.status_text.see(tk.END)
-            except Exception as e:
-                self.status_text.insert(tk.END, f"Error loading tier map from {self.tier_map_file}: {e}\n")
-                self.status_text.see(tk.END)
-
-    def load_set_weights(self):
-        if self.set_weight_file:
-            try:
-                with open(self.set_weight_file, "r", encoding="utf-8") as f:
-                    w = json.load(f)
-                    if isinstance(w, dict):
-                        self.set_weights = {str(k): float(v) for k, v in w.items()}
-                    self.status_text.insert(tk.END, f"Loaded set weights from {self.set_weight_file}\n")
-                    self.status_text.see(tk.END)
-            except Exception as e:
-                self.status_text.insert(tk.END, f"Error loading set weights from {self.set_weight_file}: {e}\n")
-                self.status_text.see(tk.END)
+        self.master.update()
 
     def run_diff(self):
         self.status_text.delete(1.0, tk.END)
-        self.status_text.insert(tk.END, "Running Valheim Loot Diff...\n")
-        self.status_text.see(tk.END)
+        self.log_message("Running Valheim Loot Diff...")
 
-        baseline_path = self.baseline_path.get()
-        active_path = self.active_path.get()
-        out_path = self.out_path.get()
+        # Use default paths
+        baseline_path = self.baseline_path
+        active_path = self.active_path
+        out_path = self.out_path
         compose_chars = self.compose_chars.get()
-        scan_all = self.scan_all.get()
-        tier_map_json = self.tier_map_json.get()
-        set_weight_json = self.set_weight_json.get()
-        assert_tier_change = self.assert_tier_change.get()
-        gui_mode = self.gui_mode.get()
+        scan_all = False  # Use default include paths
+        tier_map_json = ""
+        set_weight_json = ""
+        assert_tier_change = ""
         
         # Get world level from spinbox
         try:
@@ -1136,69 +1195,321 @@ class LootDiffGUI:
         except ValueError:
             world_level = 5  # Default if invalid
 
-        if not baseline_path:
-            messagebox.showerror("Error", "Please select a baseline directory.")
-            return
-        if not active_path:
-            messagebox.showerror("Error", "Please select an active directory.")
-            return
-        if not out_path:
-            messagebox.showerror("Error", "Please select an output path.")
-            return
-
-        if not gui_mode:
-            self.status_text.insert(tk.END, "Running in CLI mode...\n")
-            self.status_text.see(tk.END)
-            self.include_paths = [] if scan_all else self.get_include_paths()
-            self.set_map = crawl_configs(baseline_path, self.include_paths)
-            self.act_sets = crawl_configs(active_path, self.include_paths)
-            self.char_map, _ = crawl_characters(baseline_path, self.include_paths)
-            self.base_shares = compute_shares(self.set_map, self.tier_regex)
-            self.act_shares = compute_shares(self.act_sets, self.tier_regex)
-            self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
-            self.global_act = compute_global_material_expectation(self.act_sets, self.tier_regex, self.set_weights)
-            self.item_base = compute_global_material_expectation_by_item(self.set_map, self.tier_regex, self.set_weights)
-            self.item_act = compute_global_material_expectation_by_item(self.act_sets, self.tier_regex, self.set_weights)
-
-            self.write_reports(out_path, compose_chars)
-            self.assert_global_change(assert_tier_change)
-        else:
-            self.status_text.insert(tk.END, "Running in GUI mode...\n")
-            self.status_text.see(tk.END)
-            self.gui_thread = threading.Thread(target=self.run_diff_gui_thread, args=(baseline_path, active_path, out_path, compose_chars, scan_all, tier_map_json, set_weight_json, assert_tier_change, gui_mode))
+        # Run analysis in a separate thread to keep GUI responsive
+        self.refresh_button.config(state="disabled", bg=PALETTE["muted"])
+        self.gui_thread = threading.Thread(target=self.run_analysis_thread, 
+                                         args=(baseline_path, active_path, out_path, compose_chars, 
+                                               scan_all, tier_map_json, set_weight_json, 
+                                               assert_tier_change, world_level))
             self.gui_thread.start()
 
-    def run_diff_gui_thread(self, baseline_path, active_path, out_path, compose_chars, scan_all, tier_map_json, set_weight_json, assert_tier_change, gui_mode):
-        self.master.withdraw() # Hide main window
+    def run_analysis_thread(self, baseline_path, active_path, out_path, compose_chars, 
+                          scan_all, tier_map_json, set_weight_json, assert_tier_change, world_level):
         try:
+            self.log_message("Loading configurations...")
             self.include_paths = [] if scan_all else self.get_include_paths()
             self.set_map = crawl_configs(baseline_path, self.include_paths)
             self.act_sets = crawl_configs(active_path, self.include_paths)
-            self.char_map, _ = crawl_characters(baseline_path, self.include_paths)
+            
+            self.log_message("Computing shares...")
             self.base_shares = compute_shares(self.set_map, self.tier_regex)
             self.act_shares = compute_shares(self.act_sets, self.tier_regex)
+            
+            self.log_message("Computing global expectations...")
             self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
             self.global_act = compute_global_material_expectation(self.act_sets, self.tier_regex, self.set_weights)
+            
+            self.log_message("Computing per-item expectations...")
             self.item_base = compute_global_material_expectation_by_item(self.set_map, self.tier_regex, self.set_weights)
             self.item_act = compute_global_material_expectation_by_item(self.act_sets, self.tier_regex, self.set_weights)
 
-            self.write_reports(out_path, compose_chars)
+            # Update GUI with results
+            self.master.after(0, self.update_results_display, compose_chars, world_level)
+            
+            # Write reports only if explicitly requested (Export button)
+            if out_path and self.auto_export:
+                self.log_message("Auto-export enabled: writing reports to files...")
+                self.write_reports(out_path, compose_chars)
+            
             self.assert_global_change(assert_tier_change)
+            self.log_message("Analysis complete!")
+            
         except Exception as e:
-            messagebox.showerror("Error", f"An error occurred during the diff process: {e}")
+            self.master.after(0, lambda e=e: messagebox.showerror("Error", f"An error occurred during analysis: {e}"))
         finally:
-            self.master.deiconify() # Show main window
+            self.master.after(0, lambda: self.refresh_button.config(state="normal", bg=PALETTE["accent"]))
+
+    def update_results_display(self, compose_chars, world_level):
+        """Update GUI with analysis results - simplified layout"""
+        try:
+            # Update overall summary
+            self.update_summary_display()
+            
+            # Update per-monster breakdown
+            self.update_monster_breakdown(compose_chars, world_level)
+            
+            self.log_message("GUI updated with analysis results")
+            
+        except Exception as e:
+            self.log_message(f"Error updating GUI: {e}")
+
+    def update_summary_display(self):
+        """Update the overall summary display"""
+        self.summary_text.delete(1.0, tk.END)
+        
+        # Get global material data
+        global_data = self.get_global_material_rows()
+        
+        summary = "Overall Expected Items per Kill (All Monsters):\n\n"
+        for row in global_data:
+            tier = row.get("Tier", "")
+            base_ev = row.get("Base E[item]", "")
+            active_ev = row.get("Active E[item]", "")
+            delta = row.get("Δ E[item]", "")
+            delta_pct = row.get("Δ %", "")
+            
+            if tier and base_ev and active_ev:
+                summary += f"{tier:12} | Base: {base_ev:>8} | Active: {active_ev:>8} | Δ: {delta:>8} ({delta_pct:>6})\n"
+        
+        self.summary_text.insert(tk.END, summary)
+
+    def update_monster_breakdown(self, compose_chars, world_level):
+        """Update the per-monster breakdown display with Active % and Δ vs Baseline (pp)."""
+        try:
+            # Use star multipliers from ACTIVE config
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path, world_level=world_level)
+
+            # BASELINE: characters + baseline sets
+            base_chars_map, _ = crawl_characters(self.baseline_path, self.include_paths)
+            base_rows = compose_characters_report(
+                base_chars_map, self.set_map, self.tier_regex,
+                star_multiplier_creature=mult_creature,
+                star_multiplier_boss=mult_boss,
+            )
+            base_by_char = {}
+            for r in base_rows:
+                try:
+                    base_by_char[r.get("Character", "")] = {
+                        "Magic": float(r.get("Magic E[item/kill]", 0) or 0.0),
+                        "Rare": float(r.get("Rare E[item/kill]", 0) or 0.0),
+                        "Epic": float(r.get("Epic E[item/kill]", 0) or 0.0),
+                        "Legendary": float(r.get("Legendary E[item/kill]", 0) or 0.0),
+                        "Mythic": float(r.get("Mythic E[item/kill]", 0) or 0.0),
+                    }
+                except Exception:
+                    continue
+
+            # ACTIVE: characters + active sets
+            act_chars_map, _ = crawl_characters(self.active_path, self.include_paths)
+            act_rows = compose_characters_report(
+                act_chars_map, self.act_sets, self.tier_regex,
+                star_multiplier_creature=mult_creature,
+                star_multiplier_boss=mult_boss,
+            )
+
+            # Debug: log what characters we found
+            all_chars = [r.get("Character", "") for r in act_rows if r.get("Character", "")]
+            self.log_message(f"Found {len(all_chars)} characters: {all_chars[:10]}...")
+            
+            # Debug: show some sample data
+            if act_rows:
+                sample_row = act_rows[0]
+                self.log_message(f"Sample row keys: {list(sample_row.keys())}")
+                self.log_message(f"Sample row: {dict(list(sample_row.items())[:5])}")
+
+            # Filter out only known bosses
+            KNOWN_BOSSES = {"Eikthyr", "TheElder", "Bonemass", "Moder", "Yagluth"}
+            
+            out_rows = []
+            for r in act_rows:
+                cname = r.get("Character", "")
+                if not cname:
+                    continue
+                    
+                # Skip only known bosses
+                if cname in KNOWN_BOSSES:
+                    continue
+                    
+                try:
+                    a_magic = float(r.get("Magic E[item/kill]", 0) or 0.0)
+                    a_rare = float(r.get("Rare E[item/kill]", 0) or 0.0)
+                    a_epic = float(r.get("Epic E[item/kill]", 0) or 0.0)
+                    a_legend = float(r.get("Legendary E[item/kill]", 0) or 0.0)
+                    a_myth = float(r.get("Mythic E[item/kill]", 0) or 0.0)
+                    a_total = a_magic + a_rare + a_epic + a_legend + a_myth
+
+                    # Include all entries, even if no enchanting drops (for debugging)
+                    b_vals = base_by_char.get(cname, {"Magic":0.0,"Rare":0.0,"Epic":0.0,"Legendary":0.0,"Mythic":0.0})
+                    b_magic = float(b_vals.get("Magic", 0.0))
+                    b_rare = float(b_vals.get("Rare", 0.0))
+                    b_epic = float(b_vals.get("Epic", 0.0))
+                    b_legend = float(b_vals.get("Legendary", 0.0))
+                    b_myth = float(b_vals.get("Mythic", 0.0))
+                    b_total = b_magic + b_rare + b_epic + b_legend + b_myth
+
+                    def pct(x, tot):
+                        return (x / tot * 100.0) if tot > 0 else 0.0
+
+                    a_magic_pct = pct(a_magic, a_total); b_magic_pct = pct(b_magic, b_total)
+                    a_rare_pct = pct(a_rare, a_total); b_rare_pct = pct(b_rare, b_total)
+                    a_epic_pct = pct(a_epic, a_total); b_epic_pct = pct(b_epic, b_total)
+                    a_legend_pct = pct(a_legend, a_total); b_legend_pct = pct(b_legend, b_total)
+                    a_myth_pct = pct(a_myth, a_total); b_myth_pct = pct(b_myth, b_total)
+
+                    out_rows.append({
+                        "Monster": cname,
+                        "Magic %": f"{a_magic_pct:.2f}%", "Δ Magic (pp)": f"{(a_magic_pct - b_magic_pct):+.2f}",
+                        "Rare %": f"{a_rare_pct:.2f}%", "Δ Rare (pp)": f"{(a_rare_pct - b_rare_pct):+.2f}",
+                        "Epic %": f"{a_epic_pct:.2f}%", "Δ Epic (pp)": f"{(a_epic_pct - b_epic_pct):+.2f}",
+                        "Legendary %": f"{a_legend_pct:.2f}%", "Δ Legendary (pp)": f"{(a_legend_pct - b_legend_pct):+.2f}",
+                        "Mythic %": f"{a_myth_pct:.2f}%", "Δ Mythic (pp)": f"{(a_myth_pct - b_myth_pct):+.2f}",
+                        "__sort_key": a_total,
+                    })
+                except Exception as e:
+                    self.log_message(f"Error processing {cname}: {e}")
+                    continue
+
+            self.log_message(f"Found {len(out_rows)} entries after processing")
+            
+            # Sort by active total expected enchanting items per kill (desc)
+            out_rows.sort(key=lambda d: float(d.get("__sort_key", 0.0)), reverse=True)
+            for d in out_rows:
+                d.pop("__sort_key", None)
+
+            self.populate_treeview(self.monster_tree, out_rows)
+
+        except Exception as e:
+            self.log_message(f"Error updating monster breakdown: {e}")
 
     def get_include_paths(self) -> List[str]:
-        paths = []
-        for p in self.include_paths:
-            if p:
-                paths.append(p)
-        return paths
+        # Return the default include paths used by the CLI
+        return [
+            # Active configurations - Loot Tables & Drop Configurations
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDrops.cfg",
+            # Active configurations - Character Drop Files (these contain the actual monster loot)
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VES.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrum.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardry.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophy.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDrops.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonsters.cfg",
+            # Active configurations - Additional Drop Tables
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBase.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chests.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOres.cfg",
+            # Active configurations - EpicLoot Patches
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_TreasureLoot_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_Equipment_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_CreatureDrops_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_BossDrops_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_Adjustments_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_MissingItems_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/zLootables_MissingItems_CreatureSpecific_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/Lootables_Wizardry_RelicHeim.json",
+            # Active configurations - Enchanting System Files
+            "**/EpicLoot/patches/RelicHeimPatches/EnchantCost_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/MaterialConversion_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/EnchantingUpgrades_RelicHeim.json",
+            # Active configurations - Adventure/Shop System Files
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_SecretStash_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_Bounties_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_Gamble_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieWizardry_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieArmory_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieWarfare_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieWarfareFI_RelicHeim.json",
+            # Active configurations - Item Info Files
+            "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_Wizardry_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_Armory_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_Warfare_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_WarfareFI_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_zRandom_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_zOK_RelicHeim.json",
+            # Active configurations - Legendary Sets
+            "**/EpicLoot/patches/RelicHeimPatches/Legendaries_SetsLegendary_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/Legendaries_SetsMythic_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/Legendaries_SetsRemoved_RelicHeim.json",
+            # Active configurations - Magic Effects
+            "**/EpicLoot/patches/RelicHeimPatches/MagicEffects_RelicHeim.json",
+            # Active configurations - Other EpicLoot Files
+            "**/EpicLoot/patches/RelicHeimPatches/Recipes_RelicHeim.json",
+            "**/EpicLoot/patches/RelicHeimPatches/Ability_RelicHeim.json",
+            # Active configurations - Backpack Configuration Files
+            "**/Backpacks.MajesticEpicLoot.yml",
+            # Active configurations - World Location Pickable Items
+            "**/warpalicious.More_World_Locations_PickableItemLists.yml",
+            "**/warpalicious.More_World_Locations_LootLists.yml",
+            # Active configurations - Creature Configurations
+            "**/CreatureConfig_Creatures.yml",
+            # Canonical RelicHeim files - Backup Loot Tables & Drop Configurations
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
+            # Canonical RelicHeim files - Backup Character Drop Files
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
+            # Canonical RelicHeim files - Backup Additional Drop Tables
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
+            "**/_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOresbackup.cfg",
+            # Canonical RelicHeim files - Backup EpicLoot Patches
+            "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_TreasureLoot_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_Equipment_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_CreatureDrops_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_BossDrops_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_Adjustments_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/Lootables_Wizardry_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Enchanting System Files
+            "**/EpicLootbackup/patches/RelicHeimPatches/EnchantCost_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/MaterialConversion_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/EnchantingUpgrades_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Adventure/Shop System Files
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_SecretStash_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_Bounties_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_Gamble_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieWizardry_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieArmory_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieWarfare_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieWarfareFI_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Item Info Files
+            "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_Wizardry_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_Armory_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_Warfare_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_WarfareFI_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_zRandom_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_zOK_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Legendary Sets
+            "**/EpicLootbackup/patches/RelicHeimPatches/Legendaries_SetsLegendary_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/Legendaries_SetsMythic_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/Legendaries_SetsRemoved_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Magic Effects
+            "**/EpicLootbackup/patches/RelicHeimPatches/MagicEffects_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Other EpicLoot Files
+            "**/EpicLootbackup/patches/RelicHeimPatches/Recipes_RelicHeim.json",
+            "**/EpicLootbackup/patches/RelicHeimPatches/Ability_RelicHeim.json",
+            # Canonical RelicHeim files - Backup Backpack Configuration Files
+            "**/Backpacks.MajesticEpicLootbackup.yml",
+            # Canonical RelicHeim files - Backup Item Database Files
+            "**/wackysDatabase_backup/Items/_RelicHeimWDB2.0/zOther/Item_EssenceMagic.yml",
+            "**/wackysDatabase_backup/Items/_RelicHeimWDB2.0/zOther/EpicLoot/Item_LeatherBelt.yml",
+            # Canonical RelicHeim files - Backup Creature Configurations
+            "**/CreatureConfig_Creaturesbackup.yml",
+            "**/CreatureConfig_Monstrumbackup.yml",
+            "**/CreatureConfig_Wizardrybackup.yml",
+            "**/CreatureConfig_BiomeIncreasebackup.yml",
+            "**/CreatureConfig_Bossesbackup.yml"
+        ]
 
     def write_reports(self, out_path: str, compose_chars: bool):
-        self.status_text.insert(tk.END, "Writing reports...\n")
-        self.status_text.see(tk.END)
+        """Write reports to files (existing functionality)"""
+        self.log_message("Writing reports...")
 
         out_csv = out_path + ".csv"
         out_html = out_path + ".html"
@@ -1212,14 +1523,17 @@ class LootDiffGUI:
             base_chars_csv = out_path + ".characters.base.csv"
             act_chars_csv = out_path + ".characters.active.csv"
             # Use CLLC multipliers from active config path with user-selected world level
-            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=world_level)
-            self.status_text.insert(tk.END, f"Using world level {world_level}: creature multiplier={mult_creature:.2f}, boss multiplier={mult_boss:.2f}\n")
-            self.status_text.see(tk.END)
+            try:
+                wl = int(self.world_level.get())
+                wl = max(0, min(7, wl))
+            except ValueError:
+                wl = 5
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path, world_level=wl)
+            self.log_message(f"Using world level {wl}: creature multiplier={mult_creature:.2f}, boss multiplier={mult_boss:.2f}")
             self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
-            act_char_map, _ = crawl_characters(self.active_path.get(), self.include_paths)
+            act_char_map, _ = crawl_characters(self.active_path, self.include_paths)
             self.write_csv_report(act_chars_csv, compose_characters_report(act_char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
-            self.status_text.insert(tk.END, "Wrote character reports.\n")
-            self.status_text.see(tk.END)
+            self.log_message("Wrote character reports.")
 
         item_csv = out_path + ".materials.items.csv"
         self.write_csv_report(item_csv, self.get_item_material_rows())
@@ -1245,21 +1559,21 @@ class LootDiffGUI:
         # Global expected enchanting materials by tier
         parts.append(render_html_table(self.get_global_material_rows(), "Global Expected Enchanting Materials by Tier (per run)"))
         # Also write CSV for global materials
-        global_csv = self.out_path.get() + ".materials.global.csv"
+        global_csv = path + ".materials.global.csv"
         self.write_csv_report(global_csv, self.get_global_material_rows())
 
         if compose_chars:
-            base_chars_csv = self.out_path.get() + ".characters.base.csv"
-            act_chars_csv = self.out_path.get() + ".characters.active.csv"
+            base_chars_csv = path + ".characters.base.csv"
+            act_chars_csv = path + ".characters.active.csv"
             # Use world level from GUI spinbox
             try:
                 wl = int(self.world_level.get())
                 wl = max(0, min(7, wl))
             except ValueError:
                 wl = 5
-            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=wl)
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path, world_level=wl)
             self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
-            act_char_map, _ = crawl_characters(self.active_path.get(), self.include_paths)
+            act_char_map, _ = crawl_characters(self.active_path, self.include_paths)
             self.write_csv_report(act_chars_csv, compose_characters_report(act_char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
             parts.append("<h2>Character Composition Reports</h2>")
             parts.append(f"<p>Wrote character reports to {base_chars_csv} and {act_chars_csv}</p>")
@@ -1268,8 +1582,7 @@ class LootDiffGUI:
         parts.append("</body></html>")
         with open(path, "w", encoding="utf-8") as f:
             f.write("\n".join(parts))
-        self.status_text.insert(tk.END, f"Wrote HTML report to {path}\n")
-        self.status_text.see(tk.END)
+        self.log_message(f"Wrote HTML report to {path}")
 
     def get_common_sets_rows(self) -> List[Dict[str, str]]:
         common = sorted(set(self.base_shares.keys()) & set(self.act_shares.keys()))
@@ -1369,7 +1682,7 @@ class LootDiffGUI:
                 b = self.global_base.get(tier, 0.0)
                 a = self.global_act.get(tier, 0.0)
                 achieved = (a / b) if b > 0 else (float('inf') if a > 0 else 1.0)
-                print(f"Assert {tier} change: baseline={b:.6f}, active={a:.6f}, ratio={achieved:.4f}, target={target_ratio:.4f}")
+                self.log_message(f"Assert {tier} change: baseline={b:.6f}, active={a:.6f}, ratio={achieved:.4f}, target={target_ratio:.4f}")
                 # Simple tolerance
                 tol = 0.02
                 if not (abs(achieved - target_ratio) <= tol * max(target_ratio, 1.0)):
@@ -1378,6 +1691,96 @@ class LootDiffGUI:
                 messagebox.showwarning("Warning", f"Tier '{tier}' not found in global reports or not parseable.")
         else:
             messagebox.showwarning("Warning", f"Assertion '{expr}' is not in the correct format (e.g., Magic:+10% or Magic:+0.10).")
+
+    def export_reports(self):
+        """Export reports to files on demand from the GUI."""
+        try:
+            compose_chars = self.compose_chars.get()
+            self.log_message(f"Exporting reports to base path: {self.out_path}")
+            self.write_reports(self.out_path, compose_chars)
+            self.log_message("Export complete.")
+        except Exception as e:
+            self.log_message(f"Export failed: {e}")
+
+    def coverage_check(self):
+        """Compare parsed monsters vs creatures referenced in active configs and log coverage gaps."""
+        try:
+            # Parsed monsters from current active analysis
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path, world_level=max(0, min(7, int(self.world_level.get() or 5))))
+            act_chars_map, _ = crawl_characters(self.active_path, self.include_paths)
+            act_rows = compose_characters_report(
+                act_chars_map, self.act_sets, self.tier_regex,
+                star_multiplier_creature=mult_creature,
+                star_multiplier_boss=mult_boss,
+            )
+            parsed = {r.get("Character", "") for r in act_rows if r.get("Character", "")}
+
+            # Expected from Drop That character_drop.* headers
+            import re, json
+            expected: set[str] = set()
+            header_re = re.compile(r"^\[([^\].]+?)\.\d+\]")
+            for root, _, files in os.walk(self.active_path):
+                for fn in files:
+                    if fn.startswith("drop_that.character_drop.") and fn.endswith(".cfg"):
+                        fp = os.path.join(root, fn)
+                        try:
+                            with open(fp, "r", encoding="utf-8", errors="ignore") as f:
+                                for line in f:
+                                    m = header_re.match(line.strip())
+                                    if m:
+                                        expected.add(m.group(1))
+                        except Exception:
+                            pass
+
+            # Expected from EpicLoot creature drops JSON (heuristic)
+            def find_files(substring: str) -> list[str]:
+                paths = []
+                for root, _, files in os.walk(self.active_path):
+                    for fn in files:
+                        if substring in fn:
+                            paths.append(os.path.join(root, fn))
+                return paths
+
+            def extract_creatures_from_json(obj):
+                if isinstance(obj, dict):
+                    for k, v in obj.items():
+                        if isinstance(v, (dict, list)):
+                            extract_creatures_from_json(v)
+                        elif isinstance(v, str) and any(s in k.lower() for s in ("creature", "monster", "prefab")):
+                            expected.add(v)
+                elif isinstance(obj, list):
+                    for it in obj:
+                        extract_creatures_from_json(it)
+
+            for name in ["zLootables_CreatureDrops_RelicHeim.json", "zLootables_BossDrops_RelicHeim.json"]:
+                for fp in find_files(name):
+                    try:
+                        with open(fp, "r", encoding="utf-8", errors="ignore") as f:
+                            data = json.load(f)
+                        extract_creatures_from_json(data)
+                    except Exception:
+                        pass
+
+            # Expected from CreatureConfig_Creatures.yml (prefab names)
+            try:
+                prefab_re = re.compile(r"^\s*PrefabName\s*:\s*([A-Za-z0-9_]+)")
+                for root, _, files in os.walk(self.active_path):
+                    for fn in files:
+                        if fn == "CreatureConfig_Creatures.yml":
+                            with open(os.path.join(root, fn), "r", encoding="utf-8", errors="ignore") as f:
+                                for line in f:
+                                    m = prefab_re.match(line)
+                                    if m:
+                                        expected.add(m.group(1))
+            except Exception:
+                pass
+
+            missing = sorted(x for x in expected if x not in parsed)
+            self.log_message(f"Coverage: parsed={len(parsed)}, expected={len(expected)}, missing={len(missing)}")
+            if missing:
+                self.log_message(f"Missing examples: {missing[:25]}{' ...' if len(missing)>25 else ''}")
+        except Exception as e:
+            self.log_message(f"Coverage check failed: {e}")
 
 def main():
     ap = argparse.ArgumentParser(description="Diff RelicHeim/EpicLoot material rates between baseline and active configs (v1.2).")
@@ -1397,33 +1800,124 @@ def main():
         # Active configurations - Loot Tables & Drop Configurations
         "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg",
         "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDrops.cfg",
+        # Active configurations - Character Drop Files (these contain the actual monster loot)
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VES.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrum.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardry.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophy.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDrops.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.MushroomMonsters.cfg",
+        # Active configurations - Additional Drop Tables
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBase.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chests.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOres.cfg",
+        # Active configurations - EpicLoot Patches
         "**/EpicLoot/patches/RelicHeimPatches/zLootables_TreasureLoot_RelicHeim.json",
         "**/EpicLoot/patches/RelicHeimPatches/zLootables_Equipment_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/zLootables_CreatureDrops_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/zLootables_BossDrops_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/zLootables_Adjustments_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/zLootables_MissingItems_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/zLootables_MissingItems_CreatureSpecific_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/Lootables_Wizardry_RelicHeim.json",
         # Active configurations - Enchanting System Files
         "**/EpicLoot/patches/RelicHeimPatches/EnchantCost_RelicHeim.json",
         "**/EpicLoot/patches/RelicHeimPatches/MaterialConversion_RelicHeim.json",
         "**/EpicLoot/patches/RelicHeimPatches/EnchantingUpgrades_RelicHeim.json",
         # Active configurations - Adventure/Shop System Files
         "**/EpicLoot/patches/RelicHeimPatches/AdventureData_SecretStash_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/AdventureData_Bounties_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/AdventureData_Gamble_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieWizardry_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieArmory_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieWarfare_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/AdventureData_TherzieWarfareFI_RelicHeim.json",
+        # Active configurations - Item Info Files
+        "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_Wizardry_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_Armory_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_Warfare_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_WarfareFI_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_zRandom_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/ItemInfo_zOK_RelicHeim.json",
+        # Active configurations - Legendary Sets
+        "**/EpicLoot/patches/RelicHeimPatches/Legendaries_SetsLegendary_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/Legendaries_SetsMythic_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/Legendaries_SetsRemoved_RelicHeim.json",
+        # Active configurations - Magic Effects
+        "**/EpicLoot/patches/RelicHeimPatches/MagicEffects_RelicHeim.json",
+        # Active configurations - Other EpicLoot Files
+        "**/EpicLoot/patches/RelicHeimPatches/Recipes_RelicHeim.json",
+        "**/EpicLoot/patches/RelicHeimPatches/Ability_RelicHeim.json",
         # Active configurations - Backpack Configuration Files
         "**/Backpacks.MajesticEpicLoot.yml",
         # Active configurations - World Location Pickable Items
         "**/warpalicious.More_World_Locations_PickableItemLists.yml",
+        "**/warpalicious.More_World_Locations_LootLists.yml",
+        # Active configurations - Creature Configurations
+        "**/CreatureConfig_Creatures.yml",
         # Canonical RelicHeim files - Backup Loot Tables & Drop Configurations
         "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChestbackup.cfg",
         "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop_list.zListDropsbackup.cfg",
+        # Canonical RelicHeim files - Backup Character Drop Files
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBasebackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.VESbackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Monstrumbackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Wizardrybackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bossesbackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.GoldTrophybackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.aListDropsbackup.cfg",
+        # Canonical RelicHeim files - Backup Additional Drop Tables
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.zBasebackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.Chestsbackup.cfg",
+        "**/_RelicHeimFiles/Drop,Spawn_That/RockPiles/drop_that.drop_table.PileOresbackup.cfg",
+        # Canonical RelicHeim files - Backup EpicLoot Patches
         "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_TreasureLoot_RelicHeim.json",
         "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_Equipment_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_CreatureDrops_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_BossDrops_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/zLootables_Adjustments_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/Lootables_Wizardry_RelicHeim.json",
         # Canonical RelicHeim files - Backup Enchanting System Files
         "**/EpicLootbackup/patches/RelicHeimPatches/EnchantCost_RelicHeim.json",
         "**/EpicLootbackup/patches/RelicHeimPatches/MaterialConversion_RelicHeim.json",
         "**/EpicLootbackup/patches/RelicHeimPatches/EnchantingUpgrades_RelicHeim.json",
         # Canonical RelicHeim files - Backup Adventure/Shop System Files
         "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_SecretStash_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_Bounties_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_Gamble_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieWizardry_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieArmory_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieWarfare_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/AdventureData_TherzieWarfareFI_RelicHeim.json",
+        # Canonical RelicHeim files - Backup Item Info Files
+        "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_Wizardry_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_Armory_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_Warfare_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_WarfareFI_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_zRandom_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/ItemInfo_zOK_RelicHeim.json",
+        # Canonical RelicHeim files - Backup Legendary Sets
+        "**/EpicLootbackup/patches/RelicHeimPatches/Legendaries_SetsLegendary_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/Legendaries_SetsMythic_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/Legendaries_SetsRemoved_RelicHeim.json",
+        # Canonical RelicHeim files - Backup Magic Effects
+        "**/EpicLootbackup/patches/RelicHeimPatches/MagicEffects_RelicHeim.json",
+        # Canonical RelicHeim files - Backup Other EpicLoot Files
+        "**/EpicLootbackup/patches/RelicHeimPatches/Recipes_RelicHeim.json",
+        "**/EpicLootbackup/patches/RelicHeimPatches/Ability_RelicHeim.json",
         # Canonical RelicHeim files - Backup Backpack Configuration Files
         "**/Backpacks.MajesticEpicLootbackup.yml",
         # Canonical RelicHeim files - Backup Item Database Files
-        "**/wackysDatabase_backup/Items/_RelicHeimWDB2.0/zOther/Item_EssenceMagic.yml"
+        "**/wackysDatabase_backup/Items/_RelicHeimWDB2.0/zOther/Item_EssenceMagic.yml",
+        "**/wackysDatabase_backup/Items/_RelicHeimWDB2.0/zOther/EpicLoot/Item_LeatherBelt.yml",
+        # Canonical RelicHeim files - Backup Creature Configurations
+        "**/CreatureConfig_Creaturesbackup.yml",
+        "**/CreatureConfig_Monstrumbackup.yml",
+        "**/CreatureConfig_Wizardrybackup.yml",
+        "**/CreatureConfig_BiomeIncreasebackup.yml",
+        "**/CreatureConfig_Bossesbackup.yml"
     ], help="Restrict parsing to these paths/globs (repeatable)")
     args = ap.parse_args()
 
@@ -1646,105 +2140,12 @@ def main():
 def launch_gui():
     """Launch the Tkinter GUI interface"""
     root = tk.Tk()
-    root.title("Valheim Loot Diff — Enchanting Materials")
-    root.configure(bg=PALETTE["bg_dark"])
-    root.geometry("1200x800")
-
-    # State variables
-    baseline_var = tk.StringVar(value=os.path.normpath("Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/"))
-    active_var = tk.StringVar(value=os.path.normpath("Valheim/profiles/Dogeheim_Player/BepInEx/config/"))
-    out_var = tk.StringVar(value="./loot_report")
-    scan_all_var = tk.BooleanVar(value=False)
-    compose_chars_var = tk.BooleanVar(value=False)
-    weights_path_var = tk.StringVar(value="")
-    assert_var = tk.StringVar(value="")
-
-    def browse_directory(var):
-        d = filedialog.askdirectory()
-        if d:
-            var.set(d)
-
-    def browse_json_file(var):
-        p = filedialog.askopenfilename(filetypes=[["JSON files", "*.json"], ["All files", "*.*"]])
-        if p:
-            var.set(p)
-
-    def browse_save_prefix(var):
-        p = filedialog.asksaveasfilename(defaultextension=".csv",
-                                         filetypes=[["CSV files", "*.csv"], ["All files", "*.*"]])
-        if p:
-            if p.lower().endswith(".csv"):
-                p = p[:-4]
-            var.set(p)
-
-    def run_analysis():
-        try:
-            # Validate paths
-            baseline = baseline_var.get().strip()
-            active = active_var.get().strip()
-            out_path = out_var.get().strip()
-            
-            if not os.path.isdir(baseline):
-                messagebox.showerror("Error", f"Baseline directory does not exist:\n{baseline}")
-                return
-            if not os.path.isdir(active):
-                messagebox.showerror("Error", f"Active directory does not exist:\n{active}")
-                return
-
-            # Build command line args
-            cmd_args = [
-                "--baseline", baseline,
-                "--active", active,
-                "--out", out_path
-            ]
-            
-            if scan_all_var.get():
-                cmd_args.append("--scan-all")
-            if compose_chars_var.get():
-                cmd_args.append("--compose-characters")
-            if weights_path_var.get().strip():
-                cmd_args.extend(["--set-weight-json", weights_path_var.get().strip()])
-            if assert_var.get().strip():
-                cmd_args.extend(["--assert-tier-change", assert_var.get().strip()])
-
-            # Run the analysis
-            import sys
-            sys.argv = [sys.argv[0]] + cmd_args
-            main()
-            
-            messagebox.showinfo("Success", f"Analysis complete!\nOutput written to:\n{out_path}.csv\n{out_path}.html\n{out_path}.materials.global.csv\n{out_path}.materials.items.csv")
-            
-        except Exception as ex:
-            messagebox.showerror("Error", str(ex))
-
-    # Build GUI
-    frm = tk.Frame(root, bg=PALETTE["bg_mid"], bd=0, highlightthickness=0)
-    frm.pack(fill=tk.X, padx=12, pady=12)
-
-    def row(parent, label, var, browse_fn):
-        r = tk.Frame(parent, bg=PALETTE["bg_mid"])
-        tk.Label(r, text=label, fg=PALETTE["paper"], bg=PALETTE["bg_mid"]).pack(side=tk.LEFT, padx=(0,6))
-        e = tk.Entry(r, textvariable=var, width=80)
-        e.pack(side=tk.LEFT, fill=tk.X, expand=True)
-        tk.Button(r, text="Browse", command=lambda: browse_fn(var)).pack(side=tk.LEFT, padx=6)
-        r.pack(fill=tk.X, pady=4)
-
-    row(frm, "Baseline dir:", baseline_var, browse_directory)
-    row(frm, "Active dir:", active_var, browse_directory)
-    row(frm, "Output prefix:", out_var, browse_save_prefix)
-
-    opts = tk.Frame(frm, bg=PALETTE["bg_mid"]) 
-    tk.Checkbutton(opts, text="Scan all files", variable=scan_all_var, fg=PALETTE["paper"], bg=PALETTE["bg_mid"], selectcolor=PALETTE["bg_mid"]).pack(side=tk.LEFT)
-    tk.Checkbutton(opts, text="Compose characters", variable=compose_chars_var, fg=PALETTE["paper"], bg=PALETTE["bg_mid"], selectcolor=PALETTE["bg_mid"]).pack(side=tk.LEFT)
-    opts.pack(fill=tk.X, pady=4)
-
-    row(frm, "Set weights JSON (optional):", weights_path_var, browse_json_file)
-
-    ar = tk.Frame(frm, bg=PALETTE["bg_mid"]) 
-    tk.Label(ar, text="Assert tier change (e.g., Magic:+10%):", fg=PALETTE["paper"], bg=PALETTE["bg_mid"]).pack(side=tk.LEFT)
-    tk.Entry(ar, textvariable=assert_var, width=20).pack(side=tk.LEFT, padx=6)
-    tk.Button(ar, text="Run Analysis", command=run_analysis, bg=PALETTE["accent"], fg="white", activebackground=PALETTE["accent"]).pack(side=tk.RIGHT)
-    ar.pack(fill=tk.X, pady=(6,0))
+    app = LootDiffGUI(root)
+    
+    # Bring window to front
+    root.lift()
+    root.attributes('-topmost', True)
+    root.attributes('-topmost', False)
 
     root.mainloop()
 
