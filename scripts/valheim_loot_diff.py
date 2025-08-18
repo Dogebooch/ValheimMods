@@ -54,7 +54,7 @@ DEFAULT_TIER_PATTERNS = {
 }
 
 # Identify enchanting material item types specifically
-ENCHANT_TYPE_PATTERN = re.compile(r"(?:essence|runestone|shard|dust)", re.IGNORECASE)
+ENCHANT_TYPE_PATTERN = re.compile(r"(?:essence|runestone|shard|dust|reagent)", re.IGNORECASE)
 
 # GUI Color palette
 PALETTE = {
@@ -263,7 +263,7 @@ class LootSet:
     def expected_materials_per_pick_by_tier(self, tier_regex: Dict[str, str]) -> Dict[str, float]:
         """
         Expected number of enchanting material items produced per pick, split by tier.
-        Only counts entries whose item name includes essence/runestone/shard/dust.
+        Only counts entries whose item name includes essence/runestone/shard/dust/reagent.
         For each entry i: P(select i) * chance_i, where P(select i) = weight_i / sum_j weight_j.
         """
         totals_by_tier: Dict[str, float] = {"Magic": 0.0, "Rare": 0.0, "Epic": 0.0, "Legendary": 0.0, "Mythic": 0.0}
@@ -290,7 +290,7 @@ class LootSet:
     def expected_materials_per_pick_by_item(self, tier_regex: Dict[str, str]) -> Dict[str, float]:
         """
         Expected number of enchanting material items produced per pick, keyed by exact item name.
-        Only counts entries whose item name includes essence/runestone/shard/dust.
+        Only counts entries whose item name includes essence/runestone/shard/dust/reagent.
         """
         totals_by_item: Dict[str, float] = {}
         total_weight = 0.0
