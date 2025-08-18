@@ -1,4 +1,0 @@
-      "size": 588,
-      "mtime": 1755294338.0341358,
-      "hash": "68c78f004eaecc95f8e68313abbf0935a2b5a5f486b32439799598ea1893e670",
-      "content": "## Settings file was created by plugin Tenacity v1.0.3\n## Plugin GUID: org.bepinex.plugins.tenacity\n\n[skill_1612888259]\n\n## The rate at which you gain experience for the skill.\n# Setting type: Single\n# Default value: 1\n# Acceptable value range: From 0.01 to 5\nSkill gain factor = 0.5\n\n## The power of the skill, based on the default power.\n# Setting type: Single\n# Default value: 1\n# Acceptable value range: From 0.01 to 5\nSkill effect factor = 0.7\n\n## How much experience to lose on death.\n# Setting type: Int32\n# Default value: 5\n# Acceptable value range: From 0 to 100\nSkill loss = 6\n\n"

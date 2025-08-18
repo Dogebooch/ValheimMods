@@ -283,7 +283,11 @@ class VNEIItemIndex:
         return item, station
 
     def load_items_with_stats(self) -> dict[str, dict]:
-        result = {}
+        """Return mapping: item_name -> { 'station': str, 'stats': str }.
+
+        Heuristically summarizes useful stats for deciding Blacksmithing level.
+        """
+        result: dict[str, dict] = {}
         source = None
         if self.items_csv.exists():
             source = self.items_csv
@@ -291,6 +295,172 @@ class VNEIItemIndex:
             source = self.items_txt
         elif self.items_yml.exists():
             source = self.items_yml
+
+        def summarize_row(row: dict[str, str], lower_headers: list[str]) -> tuple[str, str]:
+            # Determine station
+            station = ""
+            for key in ("craftingstation", "crafting_station", "station", "workbench", "forge", "table"):
+                if key in lower_headers:
+                    station = (row.get(lower_headers[lower_headers.index(key)], "") or "").strip()
+                    break
+
+            # Enhanced numeric extraction with better pattern matching
+            def get_num(keys: list[str]) -> float | None:
+                for k in keys:
+                    if k in lower_headers:
+                        v = row.get(lower_headers[lower_headers.index(k)], "")
+                        if v is None:
+                            continue
+                        try:
+                            # Handle formats like "45", "45.0", "45 (Slash)", "45-60", "45.5", "45,000"
+                            s = str(v).strip()
+                            # Remove common suffixes and parentheses
+                            s = re.sub(r'\s*\([^)]*\)', '', s)  # Remove (Slash) etc
+                            s = re.sub(r'\s*[A-Za-z]+$', '', s)  # Remove trailing text
+                            s = s.replace(',', '')  # Handle thousands separators
+                            s = s.split()[0] if s else ""
+                            
+                            if "-" in s:
+                                parts = [float(p) for p in s.split("-") if p]
+                                if parts:
+                                    return sum(parts) / len(parts)
+                            elif s:
+                                return float(s)
+                        except Exception:
+                            continue
+                return None
+
+            # Enhanced damage detection - look for individual damage types and total
+            damage_types = {
+                "slash": get_num(["slash", "slashdamage", "slash_damage"]),
+                "pierce": get_num(["pierce", "piercedamage", "pierce_damage"]),
+                "blunt": get_num(["blunt", "bluntdamage", "blunt_damage"]),
+                "fire": get_num(["fire", "firedamage", "fire_damage"]),
+                "frost": get_num(["frost", "frostdamage", "frost_damage"]),
+                "poison": get_num(["poison", "poisondamage", "poison_damage"]),
+                "lightning": get_num(["lightning", "lightningdamage", "lightning_damage"]),
+                "spirit": get_num(["spirit", "spiritdamage", "spirit_damage"]),
+                "physical": get_num(["physical", "physicaldamage", "physical_damage"]),
+                "magic": get_num(["magic", "magicdamage", "magic_damage"]),
+            }
+            
+            # Get total damage from various possible fields
+            damage_total = get_num([
+                "damage", "totaldamage", "dmg", "basedamage", "total_damage", "base_damage",
+                "weapondamage", "weapon_damage", "attackdamage", "attack_damage"
+            ])
+            
+            # If no total damage found, sum up individual types
+            if damage_total is None:
+                damage_total = sum(v for v in damage_types.values() if v is not None)
+                if damage_total == 0:
+                    damage_total = None
+
+            # Enhanced armor detection
+            armor = get_num([
+                "armor", "armour", "armorvalue", "armourvalue", "armor_value", "armour_value",
+                "defense", "defence", "protection", "armorrating", "armourrating"
+            ])
+            
+            # Enhanced block detection
+            block = get_num([
+                "blockpower", "block", "parry", "blockpower", "block_power", "parrypower",
+                "blockvalue", "parryvalue", "block_value", "parry_value"
+            ])
+            
+            # Enhanced tier detection
+            tier = get_num([
+                "tier", "crafting_tier", "level", "itemtier", "item_tier", "craftingtier",
+                "tooltier", "tool_tier", "mtooltier", "m_tooltier"
+            ])
+            
+            # Enhanced weight detection
+            weight = get_num([
+                "weight", "itemweight", "item_weight", "mass", "carryweight", "carry_weight"
+            ])
+            
+            # Enhanced durability detection
+            durability = get_num([
+                "durability", "maxdurability", "max_durability", "maxdurability", "durability_max",
+                "uses", "maxuses", "max_uses", "lifetime", "maxlifetime"
+            ])
+            
+            # New stat detections
+            speed = get_num([
+                "speed", "attackspeed", "attack_speed", "swingspeed", "swing_speed",
+                "usespeed", "use_speed", "craftspeed", "craft_speed"
+            ])
+            
+            range_val = get_num([
+                "range", "attackrange", "attack_range", "reach", "distance", "maxrange"
+            ])
+            
+            knockback = get_num([
+                "knockback", "knock_back", "pushback", "push_back", "force"
+            ])
+            
+            backstab = get_num([
+                "backstab", "back_stab", "backstabmultiplier", "back_stab_multiplier"
+            ])
+            
+            parry_force = get_num([
+                "parryforce", "parry_force", "parrybonus", "parry_bonus"
+            ])
+            
+            movement = get_num([
+                "movement", "movementspeed", "movement_speed", "movespeed", "move_speed"
+            ])
+            
+            stamina = get_num([
+                "stamina", "staminause", "stamina_use", "staminaconsumption", "stamina_consumption"
+            ])
+
+            # Build comprehensive summary string
+            parts: list[str] = []
+            
+            # Primary combat stats (damage/armor/block)
+            if armor is not None:
+                parts.append(f"Armor {int(armor) if armor.is_integer() else round(armor,1)}")
+            elif block is not None and (damage_total is None or block >= (damage_total or 0) * 0.6):
+                parts.append(f"Block {int(block) if block.is_integer() else round(block,1)}")
+            elif damage_total is not None:
+                parts.append(f"DMG {int(damage_total) if damage_total.is_integer() else round(damage_total,1)}")
+                
+                # Add damage type breakdown if we have individual types
+                damage_parts = []
+                for dmg_type, dmg_val in damage_types.items():
+                    if dmg_val is not None and dmg_val > 0:
+                        damage_parts.append(f"{dmg_type.capitalize()}:{int(dmg_val) if dmg_val.is_integer() else round(dmg_val,1)}")
+                if damage_parts and len(damage_parts) > 1:
+                    parts.append(f"({', '.join(damage_parts)})")
+
+            # Secondary combat stats
+            if speed is not None:
+                parts.append(f"Spd {round(speed,1)}")
+            if range_val is not None:
+                parts.append(f"Rng {int(range_val) if range_val.is_integer() else round(range_val,1)}")
+            if knockback is not None:
+                parts.append(f"KB {int(knockback) if knockback.is_integer() else round(knockback,1)}")
+            if backstab is not None:
+                parts.append(f"BS {int(backstab) if backstab.is_integer() else round(backstab,1)}")
+            if parry_force is not None:
+                parts.append(f"PF {int(parry_force) if parry_force.is_integer() else round(parry_force,1)}")
+
+            # Utility stats
+            if tier is not None:
+                parts.append(f"T{int(tier)}")
+            if weight is not None:
+                parts.append(f"Wt {round(weight,1)}")
+            if durability is not None:
+                parts.append(f"Dur {int(durability) if durability.is_integer() else round(durability,0)}")
+            if movement is not None:
+                parts.append(f"Mov {round(movement,1)}")
+            if stamina is not None:
+                parts.append(f"Sta {int(stamina) if stamina.is_integer() else round(stamina,1)}")
+
+            summary = " | ".join(parts) if parts else ""
+            return station, summary
+
         if source is None:
             return result
 
@@ -299,73 +469,228 @@ class VNEIItemIndex:
                 reader = csv.DictReader(f)
                 headers = reader.fieldnames or []
                 lower = [h.lower().strip() for h in headers]
-                item_col, _ = self._guess_columns(headers)
-                def get_num(row, cand):
-                    for k in cand:
-                        if k in lower:
-                            v = row.get(headers[lower.index(k)], "")
-                            if v is None: continue
-                            try:
-                                s = str(v).strip()
-                                s = re.sub(r"\s*\([^)]*\)", "", s).replace(",", "").split()[0]
-                                if "-" in s: 
-                                    parts = [float(p) for p in s.split("-") if p]
-                                    if parts:
-                                        return sum(parts)/len(parts)
-                                return float(s)
-                            except Exception:
-                                continue
-                    return None
+                item_col, _station_col = self._guess_columns(headers)
                 for row in reader:
-                    key = (row.get(item_col, "") or "").strip()
-                    if not key:
+                    item = (row.get(item_col, "") or "").strip()
+                    if not item:
                         continue
-                    armor = get_num(row, ["armor","armour","defense"])
-                    dmg = get_num(row, ["damage","totaldamage","dmg","basedamage"])
-                    station = ""
-                    for k in ("craftingstation","crafting_station","station","workbench","forge","table"):
-                        if k in lower:
-                            station = row.get(headers[lower.index(k)], "") or ""
-                            break
-                    parts = []
-                    if armor is not None:
-                        parts.append(f"Armor {int(armor) if float(armor).is_integer() else round(armor,1)}")
-                    elif dmg is not None:
-                        parts.append(f"DMG {int(dmg) if float(dmg).is_integer() else round(dmg,1)}")
-                    result[key] = {"station": station, "stats": " | ".join(parts)}
+                    station, summary = summarize_row(row, lower)
+                    result[item] = {"station": station, "stats": summary}
         else:
-            text = read_text_safely(source)
-            current = None
-            station = ""
-            stats = ""
-            line_items = {}
-            for raw in text.splitlines():
-                line = raw.strip()
-                if not line or line.startswith("#"):
-                    continue
-                m_item = re.search(r"(name|item|internal|prefab)\s*:\s*([A-Za-z0-9_\-\.]+)", line, re.IGNORECASE)
-                if m_item:
-                    if current:
-                        line_items[current] = {"station": station, "stats": stats}
-                    current = m_item.group(2)
-                    station = ""
-                    stats = ""
-                    continue
-                m_station = re.search(r"(crafting[_\s]?station|station)\s*:\s*([A-Za-z0-9_\-\. ]+)", line, re.IGNORECASE)
-                if m_station:
-                    station = m_station.group(2).strip()
-                m_dmg = re.search(r"(damage|totaldamage|dmg|basedamage)\s*:\s*([0-9.\-]+)", line, re.IGNORECASE)
-                m_arm = re.search(r"(armor|armour|defense|defence)\s*:\s*([0-9.]+)", line, re.IGNORECASE)
-                if m_arm:
-                    v = float(m_arm.group(2))
-                    stats = f"Armor {int(v) if float(v).is_integer() else round(v,1)}"
-                elif m_dmg:
-                    v = float(m_dmg.group(2))
-                    stats = f"DMG {int(v) if float(v).is_integer() else round(v,1)}"
-            if current:
-                line_items[current] = {"station": station, "stats": stats}
-            result.update(line_items)
+            # Enhanced YML parsing with more comprehensive stat detection
+            try:
+                with open(source, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                current_item = None
+                stash: dict[str, str] = {}
+                
+                def parse_yml_stats() -> tuple[str, str]:
+                    station = stash.get('station', '')
+                    
+                    # Enhanced stat extraction from stash
+                    stats_parts = []
+                    
+                    # Damage detection
+                    damage_total = None
+                    damage_types = {}
+                    
+                    # Look for total damage
+                    for dmg_key in ['damage', 'totaldamage', 'dmg', 'basedamage']:
+                        if dmg_key in stash:
+                            try:
+                                damage_total = float(stash[dmg_key])
+                                break
+                            except:
+                                pass
+                    
+                    # Look for individual damage types
+                    for dmg_type in ['slash', 'pierce', 'blunt', 'fire', 'frost', 'poison', 'lightning', 'spirit']:
+                        if dmg_type in stash:
+                            try:
+                                damage_types[dmg_type] = float(stash[dmg_type])
+                            except:
+                                pass
+                    
+                    # Sum up damage types if no total found
+                    if damage_total is None and damage_types:
+                        damage_total = sum(damage_types.values())
+                    
+                    # Armor detection
+                    armor = None
+                    for armor_key in ['armor', 'armour', 'defense', 'defence']:
+                        if armor_key in stash:
+                            try:
+                                armor = float(stash[armor_key])
+                                break
+                            except:
+                                pass
+                    
+                    # Block detection
+                    block = None
+                    for block_key in ['block', 'blockpower', 'parry']:
+                        if block_key in stash:
+                            try:
+                                block = float(block_key)
+                                break
+                            except:
+                                pass
+                    
+                    # Build stats string
+                    if armor is not None:
+                        stats_parts.append(f"Armor {int(armor) if armor.is_integer() else round(armor,1)}")
+                    elif block is not None and (damage_total is None or block >= (damage_total or 0) * 0.6):
+                        stats_parts.append(f"Block {int(block) if block.is_integer() else round(block,1)}")
+                    elif damage_total is not None:
+                        stats_parts.append(f"DMG {int(damage_total) if damage_total.is_integer() else round(damage_total,1)}")
+                        
+                        # Add damage breakdown if we have types
+                        if damage_types and len(damage_types) > 1:
+                            dmg_parts = [f"{k.capitalize()}:{int(v) if v.is_integer() else round(v,1)}" 
+                                        for k, v in damage_types.items() if v > 0]
+                            if dmg_parts:
+                                stats_parts.append(f"({', '.join(dmg_parts)})")
+                    
+                    # Add other stats
+                    for stat_key in ['weight', 'durability', 'tier', 'speed', 'range']:
+                        if stat_key in stash:
+                            try:
+                                val = float(stash[stat_key])
+                                if stat_key == 'weight':
+                                    stats_parts.append(f"Wt {round(val,1)}")
+                                elif stat_key == 'durability':
+                                    stats_parts.append(f"Dur {int(val) if val.is_integer() else round(val,0)}")
+                                elif stat_key == 'tier':
+                                    stats_parts.append(f"T{int(val)}")
+                                elif stat_key == 'speed':
+                                    stats_parts.append(f"Spd {round(val,1)}")
+                                elif stat_key == 'range':
+                                    stats_parts.append(f"Rng {int(val) if val.is_integer() else round(val,1)}")
+                            except:
+                                pass
+                    
+                    summary = " | ".join(stats_parts) if stats_parts else ""
+                    return station, summary
+                
+                for raw in text.splitlines():
+                    line = raw.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    
+                    # Item name detection
+                    m_item = re.search(r"(name|item|internal|prefab)\s*:\s*([A-Za-z0-9_\-\.]+)", line, re.IGNORECASE)
+                    if m_item:
+                        if current_item and stash:
+                            # Summarize previous item
+                            station, summary = parse_yml_stats()
+                            result[current_item] = {"station": station, "stats": summary}
+                        current_item = m_item.group(2)
+                        stash = {}
+                        continue
+                    
+                    # Enhanced stat detection patterns
+                    m_station = re.search(r"(crafting[_\s]?station|station)\s*:\s*([A-Za-z0-9_\-\. ]+)", line, re.IGNORECASE)
+                    if m_station:
+                        stash['station'] = m_station.group(2).strip()
+                        continue
+                    
+                    # Enhanced damage detection
+                    for dmg_key in ['damage', 'totaldamage', 'dmg', 'basedamage', 'slash', 'pierce', 'blunt', 'fire', 'frost', 'poison', 'lightning', 'spirit']:
+                        m_dmg = re.search(re.escape(dmg_key) + r"\s*:\s*([0-9.\-]+)", line, re.IGNORECASE)
+                        if m_dmg:
+                            stash[dmg_key] = m_dmg.group(1)
+                            break
+                    
+                    # Enhanced armor detection
+                    for armor_key in ['armor', 'armour', 'defense', 'defence']:
+                        m_arm = re.search(re.escape(armor_key) + r"\s*:\s*([0-9.]+)", line, re.IGNORECASE)
+                        if m_arm:
+                            stash[armor_key] = m_arm.group(1)
+                            break
+                    
+                    # Enhanced block detection
+                    for block_key in ['block', 'blockpower', 'parry']:
+                        m_block = re.search(re.escape(block_key) + r"\s*:\s*([0-9.]+)", line, re.IGNORECASE)
+                        if m_block:
+                            stash[block_key] = m_block.group(1)
+                            break
+                    
+                    # Other stats
+                    for stat_key in ['weight', 'durability', 'tier', 'speed', 'range']:
+                        m_stat = re.search(re.escape(stat_key) + r"\s*:\s*([0-9.\-]+)", line, re.IGNORECASE)
+                        if m_stat:
+                            stash[stat_key] = m_stat.group(1)
+                            break
+                
+                # Don't forget the last item
+                if current_item and stash:
+                    station, summary = parse_yml_stats()
+                    result[current_item] = {"station": station, "stats": summary}
+                    
+            except Exception as e:
+                # Fallback to simple parsing if enhanced parsing fails
+                text = read_text_safely(source)
+                current = None
+                station = ""
+                stats = ""
+                line_items = {}
+                for raw in text.splitlines():
+                    line = raw.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    m_item = re.search(r"(name|item|internal|prefab)\s*:\s*([A-Za-z0-9_\-\.]+)", line, re.IGNORECASE)
+                    if m_item:
+                        if current:
+                            line_items[current] = {"station": station, "stats": stats}
+                        current = m_item.group(2)
+                        station = ""
+                        stats = ""
+                        continue
+                    m_station = re.search(r"(crafting[_\s]?station|station)\s*:\s*([A-Za-z0-9_\-\. ]+)", line, re.IGNORECASE)
+                    if m_station:
+                        station = m_station.group(2).strip()
+                    m_dmg = re.search(r"(damage|totaldamage|dmg|basedamage)\s*:\s*([0-9.\-]+)", line, re.IGNORECASE)
+                    m_arm = re.search(r"(armor|armour|defense|defence)\s*:\s*([0-9.]+)", line, re.IGNORECASE)
+                    if m_arm:
+                        v = float(m_arm.group(2))
+                        stats = f"Armor {int(v) if float(v).is_integer() else round(v,1)}"
+                    elif m_dmg:
+                        v = float(m_dmg.group(2))
+                        stats = f"DMG {int(v) if float(v).is_integer() else round(v,1)}"
+                if current:
+                    line_items[current] = {"station": station, "stats": stats}
+                result.update(line_items)
+        
         return result
+
+    def load_item_metadata(self) -> dict[str, dict]:
+        """Return mapping: item_name -> { 'localized': str, 'type': str, 'source_mod': str }.
+
+        Pulls from CSV/TXT if available; falls back to empty strings.
+        """
+        meta: dict[str, dict] = {}
+        source = None
+        if self.items_csv.exists():
+            source = self.items_csv
+        elif self.items_txt.exists():
+            source = self.items_txt
+        if source is None:
+            return meta
+        try:
+            if source.suffix.lower() in ('.csv', '.txt'):
+                with open(source, newline='', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        key = (row.get('Internal Name', '') or row.get('internalname', '') or '').strip()
+                        if not key:
+                            continue
+                        meta[key] = {
+                            'localized': (row.get('Localized Name', '') or '').strip(),
+                            'type': (row.get('Item Type', '') or '').strip(),
+                            'source_mod': (row.get('Source Mod', '') or '').strip(),
+                        }
+        except Exception:
+            pass
+        return meta
 
 class WackyBulkIndex:
     def __init__(self, bulk_root: Path):
@@ -374,16 +699,21 @@ class WackyBulkIndex:
     def _iter_yaml(self) -> list[Path]:
         if not self.bulk_root or not self.bulk_root.exists():
             return []
-        files = []
-        for sub in ("Items","Recipes","Creatures","Pickables"):
-            p = self.bulk_root/sub
-            if p.exists():
-                files.extend(p.rglob("*.yml"))
-                files.extend(p.rglob("*.yaml"))
-        files.extend(self.bulk_root.glob("*.yml"))
-        files.extend(self.bulk_root.glob("*.yaml"))
-        seen = set()
-        uniq = []
+        files: list[Path] = []
+        try:
+            for sub in ("Items","Recipes","Creatures","Pickables"):
+                p = self.bulk_root/sub
+                if p.exists():
+                    files.extend(p.rglob("*.yml"))
+                    files.extend(p.rglob("*.yaml"))
+            # Fallback: scan root too
+            files.extend(self.bulk_root.glob("*.yml"))
+            files.extend(self.bulk_root.glob("*.yaml"))
+        except Exception:
+            pass
+        # De-duplicate
+        uniq: list[Path] = []
+        seen: set[str] = set()
         for f in files:
             s = str(f.resolve())
             if s not in seen:
@@ -392,6 +722,12 @@ class WackyBulkIndex:
         return uniq
 
     def _product_from_recipe_name(self, name: str) -> str:
+        """Map a recipe name to its output prefab (best-effort).
+
+        Examples:
+          Recipe_Svandemcrescent -> Svandemcrescent
+          Recipe_ElectromancerBackpack_Recipe_Custom -> ElectromancerBackpack
+        """
         s = (name or "").strip()
         if not s:
             return ""
@@ -403,117 +739,575 @@ class WackyBulkIndex:
             pass
         return s
 
+    def _parse_simple_yaml_block(self, text: str) -> list[dict[str, str]]:
+        entries: list[dict[str, str]] = []
+        current: dict[str, str] | None = None
+        current_key: str | None = None
+        current_indent = 0
+        for raw in text.splitlines():
+            if not raw.strip() or raw.lstrip().startswith(('#', '//', ';')):
+                continue
+            indent = len(raw) - len(raw.lstrip(' '))
+            line = raw.strip()
+            if line.startswith('- '):
+                # New list entry
+                if current:
+                    entries.append(current)
+                current = {}
+                current_indent = indent
+                kv = line[2:]
+                if ':' in kv:
+                    k, v = kv.split(':', 1)
+                    current[k.strip()] = v.strip()
+                continue
+            # key: value
+            if ':' in line and not line.startswith('-'):
+                k, v = line.split(':', 1)
+                k, v = k.strip(), v.strip()
+                if current is not None and indent == current_indent:
+                    current[k] = v
+                elif current is not None and indent > current_indent:
+                    # Nested under current key
+                    if current_key is not None:
+                        current.setdefault(current_key, {})[k] = v
+                else:
+                    # New top-level entry
+                    if current:
+                        entries.append(current)
+                    current = {k: v}
+                    current_indent = indent
+                    current_key = k
+        if current:
+            entries.append(current)
+        return entries
+
     def scan(self) -> dict[str, dict]:
-        info = {}
+        """Return mapping: prefab -> rich info from Wacky Bulk YAML.
+
+        Fields:
+          - recipe: list[(item, qty)]
+          - station: str
+          - station_level: int
+          - stats: {armor, damage_total, weight, block, durability, effects}
+          - tier: int
+          - world_level: int | ''
+          - rarity: str
+        """
+        info: dict[str, dict] = {}
         for path in self._iter_yaml():
-            text = read_text_safely(path)
-            pstr = str(path).replace("\\","/")
-            is_recipe = "/Recipes/" in pstr
-            prefab_candidates = set()
-            if is_recipe:
-                m = re.search(r"^\s*name\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE)
-                if m:
-                    prod = self._product_from_recipe_name(m.group(1))
+            try:
+                text = path.read_text(encoding='utf-8', errors='ignore')
+            except Exception:
+                continue
+
+            # Heuristics: try to find prefab blocks; if recipe file, infer product from recipe name
+            pstr = str(path).replace("\\", "/")
+            is_recipe_file = "/Recipes/" in pstr
+            prefab_candidates: set[str] = set()
+            if is_recipe_file:
+                m_rname = re.search(r"^\s*name\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE)
+                if m_rname:
+                    prod = self._product_from_recipe_name(m_rname.group(1))
                     if prod:
                         prefab_candidates.add(prod)
             if not prefab_candidates:
                 for m in re.finditer(r"^\s*(?:-\s*)?PrefabName\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE):
                     prefab_candidates.add(m.group(1))
-                for m in re.finditer(r"^\s*(?:-\s*)?(?:name|InternalName)\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE|re.IGNORECASE):
+                for m in re.finditer(r"^\s*(?:-\s*)?(?:name|InternalName)\s*:\s*([A-Za-z0-9_\-.]+)\s*$", text, re.MULTILINE | re.IGNORECASE):
                     prefab_candidates.add(m.group(1))
+
+            # Parse coarse key-values for station, level, rarity, tier
             station = ""
-            station_level = None
-            tier = None
-            world_level = None
-            def find_num(key):
-                m = re.search(re.escape(key)+r"\s*:\s*([0-9.\-]+)", text, re.IGNORECASE)
-                if not m:
-                    return None
-                try:
-                    return float(m.group(1))
-                except Exception:
-                    return None
+            station_level: int | None = None
+            rarity = ""
+            tier: int | None = None
+            world_level: int | None = None
+            # Common station keys
             m_station = re.search(r"(CraftingStation|Station|WorkBench)\s*:\s*([A-Za-z0-9_\- ]+)", text, re.IGNORECASE)
             if m_station:
                 station = m_station.group(2).strip()
-            for key in ("CraftingStationLevel","StationLevel","RequiredStationLevel","minStationLevel"):
-                v = find_num(key)
-                if v is not None:
-                    station_level = int(v)
-                    break
-            v = find_num("Tier") or find_num("m_toolTier")
-            tier = int(v) if v is not None else tier
-            v = find_num("WorldLevel") or find_num("ConditionWorldLevelMin")
-            world_level = int(v) if v is not None else world_level
-            stats = {}
-            def pick(keys):
-                for k in keys:
-                    vv = find_num(k)
-                    if vv is not None:
-                        return vv
-                return None
-            dmg_total = pick(["TotalDamage","Damage","BaseDamage","total_damage","base_damage","attack_damage"])
-            armor = pick(["armor","armour","defense","defence","protection"])
-            block = pick(["blockpower","block","parry","parrypower","blockvalue"])
+            m_slevel = re.search(r"(CraftingStationLevel|StationLevel|RequiredStationLevel|minStationLevel)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            if m_slevel:
+                try:
+                    station_level = int(m_slevel.group(2))
+                except Exception:
+                    station_level = None
+            m_tier = re.search(r"(m_toolTier|Tier)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            if m_tier:
+                try:
+                    tier = int(m_tier.group(2))
+                except Exception:
+                    tier = None
+            m_wl = re.search(r"(WorldLevel|ConditionWorldLevelMin)\s*:\s*([0-9]+)", text, re.IGNORECASE)
+            if m_wl:
+                try:
+                    world_level = int(m_wl.group(2))
+                except Exception:
+                    world_level = None
+            m_rarity = re.search(r"(EpicLoot|RelicHeim).*?(Rarity|Tier)\s*:\s*([A-Za-z0-9_\-]+)", text, re.IGNORECASE | re.DOTALL)
+            if m_rarity:
+                rarity = m_rarity.group(3)
+
+            # Stats heuristics
+            stats: dict[str, str] = {}
+            def find_num(key_pattern: str) -> str | None:
+                m = re.search(key_pattern + r"\s*:\s*([0-9.\-]+)", text, re.IGNORECASE)
+                return m.group(1) if m else None
+            
+            # Enhanced damage detection with individual types
+            damage_types = {}
+            dmg_total = None
+            
+            # Look for total damage first
+            for key in ["TotalDamage", "Damage", "BaseDamage", "total_damage", "base_damage", "weapon_damage", "attack_damage"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        dmg_total = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Look for individual damage types
+            for key in ["slash", "pierce", "blunt", "fire", "frost", "poison", "lightning", "spirit", "physical", "magic"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        damage_types[key] = float(v)
+                    except Exception:
+                        pass
+            
+            # Sum up damage types if no total found
+            if dmg_total is None and damage_types:
+                dmg_total = sum(damage_types.values())
+                if dmg_total == 0:
+                    dmg_total = None
+            
+            # Enhanced armor detection
+            armor = None
+            for key in ["armor", "armour", "armorvalue", "armourvalue", "defense", "defence", "protection"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        armor = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced block detection
+            block = None
+            for key in ["blockpower", "block", "parry", "block_power", "parrypower", "blockvalue", "parryvalue"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        block = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced weight detection
+            weight = None
+            for key in ["weight", "itemweight", "mass", "carryweight"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        weight = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced durability detection
+            durability = None
+            for key in ["durability", "maxdurability", "max_durability", "uses", "maxuses", "lifetime"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        durability = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced speed detection
+            speed = None
+            for key in ["speed", "attackspeed", "attack_speed", "swingspeed", "swing_speed"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        speed = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced range detection
+            range_val = None
+            for key in ["range", "attackrange", "attack_range", "reach", "distance"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        range_val = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced knockback detection
+            knockback = None
+            for key in ["knockback", "knock_back", "pushback", "push_back", "force"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        knockback = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced backstab detection
+            backstab = None
+            for key in ["backstab", "back_stab", "backstabmultiplier", "back_stab_multiplier"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        backstab = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced parry force detection
+            parry_force = None
+            for key in ["parryforce", "parry_force", "parrybonus", "parry_bonus"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        parry_force = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced movement detection
+            movement = None
+            for key in ["movement", "movementspeed", "movement_speed", "movespeed", "move_speed"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        movement = float(v)
+                        break
+                    except Exception:
+                        pass
+            
+            # Enhanced stamina detection
+            stamina = None
+            for key in ["stamina", "staminause", "stamina_use", "staminaconsumption", "stamina_consumption"]:
+                v = find_num(re.escape(key))
+                if v:
+                    try:
+                        stamina = float(v)
+                        break
+                    except Exception:
+                        pass
+
+            # Build stats dictionary
             if armor is not None:
                 stats["armor"] = str(int(armor) if float(armor).is_integer() else round(armor,1))
             if dmg_total is not None:
                 stats["damage_total"] = str(int(dmg_total) if float(dmg_total).is_integer() else round(dmg_total,1))
             if block is not None:
                 stats["block"] = str(int(block) if float(block).is_integer() else round(block,1))
-            recipe=[]
+            if weight is not None:
+                stats["weight"] = str(round(weight,1))
+            if durability is not None:
+                stats["durability"] = str(int(durability) if float(durability).is_integer() else round(durability,0))
+            if speed is not None:
+                stats["speed"] = str(round(speed,1))
+            if range_val is not None:
+                stats["range"] = str(int(range_val) if float(range_val).is_integer() else round(range_val,1))
+            if knockback is not None:
+                stats["knockback"] = str(int(knockback) if float(knockback).is_integer() else round(knockback,1))
+            if backstab is not None:
+                stats["backstab"] = str(int(backstab) if float(backstab).is_integer() else round(backstab,1))
+            if parry_force is not None:
+                stats["parry_force"] = str(int(parry_force) if float(parry_force).is_integer() else round(parry_force,1))
+            if movement is not None:
+                stats["movement"] = str(round(movement,1))
+            if stamina is not None:
+                stats["stamina"] = str(int(stamina) if float(stamina).is_integer() else round(stamina,1))
+
+            # Recipe parsing
+            recipe = []
             for rm in re.finditer(r"^-\s*(?:Item|Prefab|Name)\s*:\s*([A-Za-z0-9_\-.]+).*?(?:Amount|Qty|Quantity)\s*:\s*([0-9]+)", text, re.IGNORECASE|re.MULTILINE|re.DOTALL):
                 recipe.append((rm.group(1), int(rm.group(2))))
             if not recipe:
-                im=re.search(r"(Resources|Recipe|Requirements)\s*:\s*([^\n]+)", text, re.IGNORECASE)
+                im = re.search(r"(Resources|Recipe|Requirements)\s*:\s*([^\n]+)", text, re.IGNORECASE)
                 if im:
-                    vals=im.group(2)
+                    vals = im.group(2)
                     for part in vals.split(","):
-                        part=part.strip()
+                        part = part.strip()
                         if ":" in part:
-                            mat,qty=[p.strip() for p in part.split(":",1)]
-                            try: recipe.append((mat,int(qty)))
-                            except Exception: pass
+                            mat, qty = [p.strip() for p in part.split(":",1)]
+                            try:
+                                recipe.append((mat,int(qty)))
+                            except Exception:
+                                pass
+
+            # Add to info for each prefab candidate
             for prefab in prefab_candidates or {"(Unknown)"}:
-                e=info.setdefault(prefab,{})
-                if station: e["station"]=station
-                if station_level is not None: e["station_level"]=station_level
-                if tier is not None: e["tier"]=tier
-                if world_level is not None: e["world_level"]=world_level
-                if stats: e.setdefault("stats",{}).update(stats)
-                if recipe: e["recipe"]=recipe
+                e = info.setdefault(prefab, {})
+                if station:
+                    e["station"] = station
+                if station_level is not None:
+                    e["station_level"] = station_level
+                if tier is not None:
+                    e["tier"] = tier
+                if world_level is not None:
+                    e["world_level"] = world_level
+                if rarity:
+                    e["rarity"] = rarity
+                if stats:
+                    e.setdefault("stats", {}).update(stats)
+                if recipe:
+                    e["recipe"] = recipe
+
+        return info
+
+    def load_item_metadata(self) -> dict[str, dict]:
+        """Return mapping: item_name -> { 'localized': str, 'type': str, 'source_mod': str }.
+
+        Pulls from CSV/TXT if available; falls back to empty strings.
+        """
+        meta: dict[str, dict] = {}
+        source = None
+        if self.bulk_root:
+            for ext in ['.csv', '.txt']:
+                for name in ['items', 'metadata', 'index']:
+                    p = self.bulk_root / f"{name}{ext}"
+                    if p.exists():
+                        source = p
+                        break
+                if source:
+                    break
+        if source is None:
+            return meta
+        try:
+            if source.suffix.lower() in ('.csv', '.txt'):
+                with open(source, newline='', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        key = (row.get('Internal Name', '') or row.get('internalname', '') or '').strip()
+                        if not key:
+                            continue
+                        meta[key] = {
+                            'localized': (row.get('Localized Name', '') or '').strip(),
+                            'type': (row.get('Item Type', '') or '').strip(),
+                            'source_mod': (row.get('Source Mod', '') or '').strip(),
+                        }
+        except Exception:
+            pass
+        return meta
+
+    def load_tool_tiers(self, config_root: Path) -> dict[str, int]:
+        """Parse Wacky's Database cache for m_toolTier per item (if present)."""
+        tiers: dict[str, int] = {}
+        cache_dir = config_root / "wackysDatabase" / "Cache"
+        if not cache_dir.exists():
+            return tiers
+        try:
+            for path in cache_dir.glob("*.zz"):
+                try:
+                    text = path.read_text(encoding='utf-8', errors='ignore')
+                except Exception:
+                    continue
+                name = None
+                tier_val = None
+                for raw in text.splitlines():
+                    if name is None and raw.startswith("name:"):
+                        name = raw.split(":", 1)[1].strip()
+                        continue
+                    if tier_val is None and "m_toolTier:" in raw:
+                        try:
+                            tier_val = int(raw.split(":", 1)[1].strip())
+                        except Exception:
+                            pass
+                    if name and tier_val is not None:
+                        break
+                if name and tier_val is not None:
+                    tiers[name] = tier_val
+        except Exception:
+            pass
+        return tiers
+
+    @staticmethod
+    def map_tool_tier_to_world_level(tool_tier: int) -> tuple[int, str]:
+        """Map tool tier to (WL number, biome name), including Deep North and Ashlands.
+
+        Mapping is heuristic and can be adjusted:
+          0→(1, Meadows), 1→(2, Black Forest), 2→(3, Swamp), 3→(4, Mountains),
+          4→(5, Plains), 5→(6, Mistlands), 6→(7, Deep North), 7+→(8, Ashlands)
+        """
+        mapping = {
+            0: (1, "Meadows"),
+            1: (2, "Black Forest"),
+            2: (3, "Swamp"),
+            3: (4, "Mountains"),
+            4: (5, "Plains"),
+            5: (6, "Mistlands"),
+            6: (7, "Deep North"),
+        }
+        if tool_tier in mapping:
+            return mapping[tool_tier]
+        if tool_tier is not None and tool_tier >= 7:
+            return (8, "Ashlands")
+        return (0, "")
+
+    @staticmethod
+    def parse_crafting_costs(value: str) -> str:
+        """Normalize recipe string like 'Iron:5,WitheredBone:2' to 'Iron x5, WitheredBone x2'."""
+        parts = []
+        for tok in (value or "").split(','):
+            tok = tok.strip()
+            if not tok:
+                continue
+            if ':' in tok:
+                a, b = tok.split(':', 1)
+                parts.append(f"{a.strip()} x{b.strip()}")
+            else:
+                parts.append(tok)
+        return ', '.join(parts)
+
+    def scan_configs_for_recipes_and_unlocks(self, config_root: Path) -> dict[str, dict]:
+        """Scan known config files for recipe/unlock/BiS notes by item.
+
+        Returns mapping: item -> {
+          'recipe': str,
+          'station': str,
+          'station_level': str,
+          'unlock': str,
+          'prestige': str,
+          'set': str,
+          'bis': str
+        }
+        """
+        info: dict[str, dict] = {}
+        root = config_root
+        # 1) Therzie.Wizardry.cfg craft lines as example (format rich and consistent)
+        tw = root / "Therzie.Wizardry.cfg"
+        if tw.exists():
+            try:
+                for raw in tw.read_text(encoding='utf-8', errors='ignore').splitlines():
+                    line = raw.strip()
+                    if line.startswith("Crafting Costs (") and "=" in line:
+                        # Crafting Costs (Name) = Item:Q,Item:Q
+                        try:
+                            left, val = line.split('=', 1)
+                            val = val.strip()
+                            # Extract Name inside parentheses for mapping hint
+                            name = left[left.find('(')+1:left.find(')')].strip()
+                            recipe = self.parse_crafting_costs(val)
+                            if name:
+                                d = info.setdefault(name, {})
+                                d['recipe'] = recipe
+                        except Exception:
+                            pass
+                    elif line.startswith("Crafting Station (") and "=" in line:
+                        try:
+                            left, val = line.split('=', 1)
+                            val = val.strip()
+                            name = left[left.find('(')+1:left.find(')')].strip()
+                            if name:
+                                d = info.setdefault(name, {})
+                                d['station'] = val
+                        except Exception:
+                            pass
+                    elif line.startswith("Crafting Station Level (") and "=" in line:
+                        try:
+                            left, val = line.split('=', 1)
+                            val = val.strip()
+                            name = left[left.find('(')+1:left.find(')')].strip()
+                            if name:
+                                d = info.setdefault(name, {})
+                                d['station_level'] = val
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+
+        # 2) Scan other common config patterns
+        for cfg_file in root.glob("*.cfg"):
+            if cfg_file.name in ["Therzie.Wizardry.cfg"]:  # Already processed
+                continue
+            try:
+                for raw in cfg_file.read_text(encoding='utf-8', errors='ignore').splitlines():
+                    line = raw.strip()
+                    if "=" not in line:
+                        continue
+                    # Look for recipe patterns
+                    if any(keyword in line.lower() for keyword in ["recipe", "crafting", "cost"]):
+                        try:
+                            key, val = line.split('=', 1)
+                            key, val = key.strip(), val.strip()
+                            # Try to extract item name from key
+                            if '(' in key and ')' in key:
+                                name = key[key.find('(')+1:key.find(')')].strip()
+                                if name and any(char.isalnum() for char in name):
+                                    d = info.setdefault(name, {})
+                                    if "cost" in key.lower() or "recipe" in key.lower():
+                                        d['recipe'] = self.parse_crafting_costs(val)
+                                    elif "station" in key.lower():
+                                        d['station'] = val
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+
         return info
 
 # ---------- UI ----------
 class RevertPreview(tk.Toplevel):
     def __init__(self, parent, rel_path: str, diff_text: str, meta_old: str, meta_new: str):
         super().__init__(parent)
-        self.title(f"Revert Preview — {rel_path}"); self.geometry("1000x650"); self.resizable(True, True)
-        self.result=None
-        frm=ttk.Frame(self, padding=10); frm.pack(fill=tk.BOTH, expand=True)
+        self.title(f"Revert Preview — {rel_path}")
+        self.geometry("1000x650")
+        self.resizable(True, True)
+        self.result = None
+        frm = ttk.Frame(self, padding=10)
+        frm.pack(fill=tk.BOTH, expand=True)
         ttk.Label(frm, text=rel_path, font=("Consolas", 11, "bold")).pack(anchor="w", pady=(0,6))
-        ttk.Label(frm, text=f"Snapshot: {meta_old}   |   Current: {meta_new}", foreground="#888").pack(anchor="w", pady=(0,8))
-        text=tk.Text(frm, wrap=tk.NONE, bg="#1e1e1e", fg="#eee", insertbackground="#eee")
-        sy=ttk.Scrollbar(frm, orient=tk.VERTICAL, command=text.yview)
-        sx=ttk.Scrollbar(frm, orient=tk.HORIZONTAL, command=text.xview)
-        text.configure(yscrollcommand=sy.set, xscrollcommand=sx.set); text.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
-        sy.pack(side=tk.RIGHT, fill=tk.Y); sx.pack(side=tk.BOTTOM, fill=tk.X)
-        text.tag_configure("add", foreground="#9ece6a"); text.tag_configure("del", foreground="#f7768e"); text.tag_configure("hunk", foreground="#7aa2f7")
+        ttk.Label(frm, text=f"Snapshot: {meta_old}   |   Current: {meta_new}", foreground="#654735").pack(anchor="w", pady=(0,8))
+        text = tk.Text(frm, wrap=tk.NONE, bg="#414535", fg="#b07b53", insertbackground="#b07b53")
+        sy = ttk.Scrollbar(frm, orient=tk.VERTICAL, command=text.yview)
+        sx = ttk.Scrollbar(frm, orient=tk.HORIZONTAL, command=text.xview)
+        text.configure(yscrollcommand=sy.set, xscrollcommand=sx.set)
+        text.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+        sy.pack(side=tk.RIGHT, fill=tk.Y)
+        sx.pack(side=tk.BOTTOM, fill=tk.X)
+        text.tag_configure("add", foreground="#5f633e")
+        text.tag_configure("del", foreground="#654735")
+        text.tag_configure("hunk", foreground="#b07b53")
         for ln in diff_text.splitlines(True):
-            tag=None
-            if ln.startswith("+") and not ln.startswith("+++"): tag="add"
-            elif ln.startswith("-") and not ln.startswith("---"): tag="del"
-            elif ln.startswith("@@"): tag="hunk"
+            tag = None
+            if ln.startswith("+") and not ln.startswith("+++"):
+                tag = "add"
+            elif ln.startswith("-") and not ln.startswith("---"):
+                tag = "del"
+            elif ln.startswith("@@"):
+                tag = "hunk"
             text.insert("end", ln, tag if tag else ())
         text.config(state=tk.DISABLED)
-        opts=ttk.Frame(frm); opts.pack(fill=tk.X, pady=8)
-        self.do_backup=tk.BooleanVar(value=True); ttk.Checkbutton(opts, text="Backup current file before revert", variable=self.do_backup).pack(side=tk.LEFT)
-        btns=ttk.Frame(frm); btns.pack(fill=tk.X)
+        opts = ttk.Frame(frm)
+        opts.pack(fill=tk.X, pady=8)
+        self.do_backup = tk.BooleanVar(value=True)
+        ttk.Checkbutton(opts, text="Backup current file before revert", variable=self.do_backup).pack(side=tk.LEFT)
+        btns = ttk.Frame(frm)
+        btns.pack(fill=tk.X)
         ttk.Button(btns, text="Cancel", command=self._cancel).pack(side=tk.RIGHT, padx=(6,0))
         ttk.Button(btns, text="Revert", style="Accent.TButton", command=self._ok).pack(side=tk.RIGHT)
-        self.transient(parent); self.grab_set(); self.wait_visibility(); self.focus_set()
-    def _ok(self): self.result={"backup": self.do_backup.get()}; self.destroy()
-    def _cancel(self): self.result=None; self.destroy()
+        self.transient(parent)
+        self.grab_set()
+        self.wait_visibility()
+        self.focus_set()
+    def _ok(self):
+        self.result = {"backup": self.do_backup.get()}
+        self.destroy()
+    def _cancel(self):
+        self.result = None
+        self.destroy()
 
 class ValheimConfigSuite(tk.Tk):
     def __init__(self, config_root: Path, vnei_root: Path, wdbulk_root: Path, prefs_file: Path):
@@ -522,13 +1316,13 @@ class ValheimConfigSuite(tk.Tk):
         self.style=ttk.Style()
         try: self.style.theme_use("clam")
         except Exception: pass
-        self.colors={"bg":"#1f1f1f","panel":"#262626","text":"#e8e8e8","muted":"#aaaaaa","accent":"#7aa2f7","accent2":"#9ece6a"}
+        self.colors={"bg":"#152616","panel":"#414535","text":"#b07b53","muted":"#654735","accent":"#5f633e","accent2":"#654735"}
         self.configure(bg=self.colors["bg"])
         base_font=tkfont.Font(family="Consolas" if sys.platform.startswith("win") else "Courier New", size=10)
         for nm in ("TLabel","TButton","Treeview","Treeview.Heading","TEntry","TCombobox"):
             self.style.configure(nm, background=self.colors["panel"], foreground=self.colors["text"], font=base_font)
         self.style.configure("Treeview", fieldbackground=self.colors["panel"])
-        self.style.configure("Accent.TButton", background=self.colors["accent"], foreground="#111")
+        self.style.configure("Accent.TButton", background=self.colors["accent"], foreground="#152616")
         self.style.map("Accent.TButton", background=[("active", self.colors["accent2"])])
 
         self.prefs_file=prefs_file; self.prefs=AppPrefs.load(self.prefs_file)
@@ -552,10 +1346,14 @@ class ValheimConfigSuite(tk.Tk):
         m_file.add_command(label="Export Changes as CSV", command=self._export_changes_csv)
         m_file.add_command(label="Export Items/Recipes as CSV", command=self._export_items_csv)
         m_file.add_separator()
+        m_file.add_command(label="RelicHeim Comparison", command=self._show_relicheim_comparison)
+        m_file.add_command(label="Game-Changing Changes", command=self._show_game_changing_changes)
+        m_file.add_separator()
         m_file.add_command(label="Quit", command=self.destroy)
         menubar.add_cascade(label="File", menu=m_file)
         m_help=tk.Menu(menubar, tearoff=False)
         m_help.add_command(label="Event Log", command=self._open_event_log)
+        m_help.add_command(label="Debug Info", command=self._show_debug_info)
         m_help.add_command(label="About", command=self._about)
         menubar.add_cascade(label="Help", menu=m_help)
         self.config(menu=menubar)
@@ -604,7 +1402,9 @@ class ValheimConfigSuite(tk.Tk):
         x=ttk.Scrollbar(right, orient=tk.HORIZONTAL, command=self.diff_text.xview)
         self.diff_text.configure(yscrollcommand=y.set, xscrollcommand=x.set)
         self.diff_text.pack(fill=tk.BOTH, expand=True); y.pack(side=tk.RIGHT, fill=tk.Y); x.pack(side=tk.BOTTOM, fill=tk.X)
-        self.diff_text.tag_configure("add", foreground="#9ece6a"); self.diff_text.tag_configure("del", foreground="#f7768e"); self.diff_text.tag_configure("hunk", foreground="#7aa2f7")
+        self.diff_text.tag_configure("add", foreground="#5f633e")
+        self.diff_text.tag_configure("del", foreground="#654735")
+        self.diff_text.tag_configure("hunk", foreground="#b07b53")
 
         # Items tab
         self.tab_items=ttk.Frame(nb); nb.add(self.tab_items, text="Items / Recipes")
@@ -710,16 +1510,57 @@ class ValheimConfigSuite(tk.Tk):
                 self.work_q.put(("changes_ready", {"changes": changes, "info": info}))
             elif op == "scan_items":
                 self.work_q.put(("busy", {"msg": "Indexing items & recipes…"}))
-                vnei = self.vnei.load_items_with_stats()
-                wacky = self.wacky.scan()
-                merged = {}
-                keys = set(vnei.keys()) | set(wacky.keys())
-                for k in sorted(keys):
-                    e = {}
-                    e.update(vnei.get(k, {}))
-                    e.update(wacky.get(k, {}))
-                    merged[k] = e
-                self.work_q.put(("items_ready", {"items": merged}))
+                try:
+                    vnei = self.vnei.load_items_with_stats()
+                    vnei_meta = self.vnei.load_item_metadata()
+                    wacky = self.wacky.scan()
+                    wacky_meta = self.wacky.load_item_metadata()
+                    wacky_tiers = self.wacky.load_tool_tiers(Path(self.prefs.config_root) if self.prefs.config_root else Path.cwd())
+                    wacky_configs = self.wacky.scan_configs_for_recipes_and_unlocks(Path(self.prefs.config_root) if self.prefs.config_root else Path.cwd())
+                    
+                    merged = {}
+                    keys = set(vnei.keys()) | set(wacky.keys())
+                    for k in sorted(keys):
+                        e = {}
+                        e.update(vnei.get(k, {}))
+                        e.update(wacky.get(k, {}))
+                        
+                        # Add metadata
+                        vnei_m = vnei_meta.get(k, {})
+                        wacky_m = wacky_meta.get(k, {})
+                        if vnei_m or wacky_m:
+                            e["metadata"] = {**vnei_m, **wacky_m}
+                        
+                        # Add tool tier if available
+                        if k in wacky_tiers:
+                            e["tool_tier"] = wacky_tiers[k]
+                            wl_num, wl_name = self.wacky.map_tool_tier_to_world_level(wacky_tiers[k])
+                            e["world_level"] = wl_num
+                            e["world_level_name"] = wl_name
+                        
+                        # Add config info
+                        if k in wacky_configs:
+                            e.update(wacky_configs[k])
+                        
+                        merged[k] = e
+                    
+                    self.work_q.put(("items_ready", {"items": merged}))
+                except Exception as e:
+                    self.work_q.put(("busy", {"msg": f"Error scanning items: {e}"}))
+                    # Fallback to basic scanning
+                    try:
+                        vnei = self.vnei.load_items_with_stats()
+                        wacky = self.wacky.scan()
+                        merged = {}
+                        keys = set(vnei.keys()) | set(wacky.keys())
+                        for k in sorted(keys):
+                            e = {}
+                            e.update(vnei.get(k, {}))
+                            e.update(wacky.get(k, {}))
+                            merged[k] = e
+                        self.work_q.put(("items_ready", {"items": merged}))
+                    except Exception as e2:
+                        self.work_q.put(("busy", {"msg": f"Failed to scan items: {e2}"}))
         threading.Thread(target=worker, daemon=True).start()
 
     # ---------- Changes Tab ----------
@@ -863,19 +1704,48 @@ class ValheimConfigSuite(tk.Tk):
         item = vals[0]
         d = self._items_data.get(item, {})
         lines = [f"Item: {item}"]
-        for k in ("station", "station_level", "tier", "world_level"):
+        
+        # Basic info
+        for k in ("station", "station_level", "tier", "world_level", "tool_tier"):
             if k in d:
                 lines.append(f"{k.replace('_',' ').title()}: {d[k]}")
+        
+        # World level name if available
+        if "world_level_name" in d:
+            lines.append(f"World Level Name: {d['world_level_name']}")
+        
+        # Stats
         stats = d.get("stats")
         if stats:
             if isinstance(stats, dict):
                 lines.append("Stats: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
             else:
                 lines.append(f"Stats: {stats}")
+        
+        # Metadata
+        metadata = d.get("metadata", {})
+        if metadata:
+            lines.append("Metadata:")
+            for k, v in metadata.items():
+                if v:
+                    lines.append(f"  {k.replace('_',' ').title()}: {v}")
+        
+        # Recipe
         if d.get("recipe"):
             lines.append("Recipe:")
             for mat, qty in d["recipe"]:
                 lines.append(f"  - {mat}: {qty}")
+        
+        # Config info
+        config_keys = ["recipe", "station", "station_level", "unlock", "prestige", "set", "bis"]
+        config_info = []
+        for k in config_keys:
+            if k in d and k != "recipe":  # recipe already shown above
+                config_info.append(f"{k.replace('_',' ').title()}: {d[k]}")
+        if config_info:
+            lines.append("Config Info:")
+            lines.extend(f"  {info}" for info in config_info)
+        
         self.item_detail.config(state=tk.NORMAL)
         self.item_detail.delete("1.0", tk.END)
         self.item_detail.insert("1.0", "\n".join(lines))
@@ -987,8 +1857,97 @@ class ValheimConfigSuite(tk.Tk):
             except Exception:
                 messagebox.showinfo("Event Log", f"Log at: {p}")
 
+    def _show_debug_info(self):
+        """Show debug information to help troubleshoot issues."""
+        try:
+            info_lines = []
+            info_lines.append("=== Debug Information ===")
+            info_lines.append(f"Config Root: {self.prefs.config_root}")
+            info_lines.append(f"VNEI Root: {self.prefs.vnei_root}")
+            info_lines.append(f"Wacky Bulk Root: {self.prefs.wacky_bulk_root}")
+            info_lines.append("")
+            
+            # Check VNEI files
+            info_lines.append("=== VNEI Files ===")
+            vnei_path = Path(self.prefs.vnei_root) if self.prefs.vnei_root else Path.cwd()
+            info_lines.append(f"VNEI Path: {vnei_path}")
+            info_lines.append(f"VNEI Path exists: {vnei_path.exists()}")
+            if vnei_path.exists():
+                for file in ["VNEI.indexed.items.csv", "VNEI.indexed.items.txt", "VNEI.indexed.items.yml"]:
+                    file_path = vnei_path / file
+                    info_lines.append(f"  {file}: {file_path.exists()} ({file_path.stat().st_size if file_path.exists() else 0} bytes)")
+            
+            # Check Wacky files
+            info_lines.append("")
+            info_lines.append("=== Wacky Bulk Files ===")
+            wacky_path = Path(self.prefs.wacky_bulk_root) if self.prefs.wacky_bulk_root else Path.cwd()
+            info_lines.append(f"Wacky Path: {wacky_path}")
+            info_lines.append(f"Wacky Path exists: {wacky_path.exists()}")
+            if wacky_path.exists():
+                yaml_files = list(wacky_path.rglob("*.yml")) + list(wacky_path.rglob("*.yaml"))
+                info_lines.append(f"  YAML files found: {len(yaml_files)}")
+                for subdir in ["Items", "Recipes", "Creatures", "Pickables"]:
+                    sub_path = wacky_path / subdir
+                    if sub_path.exists():
+                        sub_files = list(sub_path.rglob("*.yml")) + list(sub_path.rglob("*.yaml"))
+                        info_lines.append(f"  {subdir}: {len(sub_files)} files")
+            
+            # Check items data
+            info_lines.append("")
+            info_lines.append("=== Items Data ===")
+            if hasattr(self, '_items_data'):
+                info_lines.append(f"Items loaded: {len(self._items_data)}")
+                if self._items_data:
+                    sample_items = list(self._items_data.keys())[:5]
+                    info_lines.append(f"Sample items: {', '.join(sample_items)}")
+            else:
+                info_lines.append("No items data loaded yet")
+            
+            # Show in dialog
+            info_text = "\n".join(info_lines)
+            
+            # Create a dialog to show the info
+            dialog = tk.Toplevel(self)
+            dialog.title("Debug Information")
+            dialog.geometry("600x500")
+            dialog.transient(self)
+            dialog.grab_set()
+            
+            text_widget = tk.Text(dialog, wrap=tk.WORD, font=("Consolas", 9))
+            scrollbar = ttk.Scrollbar(dialog, orient=tk.VERTICAL, command=text_widget.yview)
+            text_widget.configure(yscrollcommand=scrollbar.set)
+            
+            text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            
+            text_widget.insert("1.0", info_text)
+            text_widget.config(state=tk.DISABLED)
+            
+            ttk.Button(dialog, text="Close", command=dialog.destroy).pack(pady=10)
+            
+        except Exception as e:
+            messagebox.showerror("Debug Error", f"Failed to show debug info: {e}")
+
     def _about(self):
         messagebox.showinfo("About", "Valheim Config Suite — v2\nBackups • Revert Preview • Profiles • Bulk Ops")
+
+    def _show_relicheim_comparison(self):
+        """Show RelicHeim comparison dialog."""
+        try:
+            # This would need to be implemented based on config_change_tracker.py
+            # For now, show a placeholder
+            messagebox.showinfo("RelicHeim Comparison", "RelicHeim comparison feature coming soon!")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to show RelicHeim comparison: {e}")
+
+    def _show_game_changing_changes(self):
+        """Show game-changing changes dialog."""
+        try:
+            # This would need to be implemented based on config_change_tracker.py
+            # For now, show a placeholder
+            messagebox.showinfo("Game-Changing Changes", "Game-changing changes feature coming soon!")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to show game-changing changes: {e}")
 
     def _on_close(self):
         try:

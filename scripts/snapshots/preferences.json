@@ -1,0 +1,18 @@
+{
+  "config_root": ".",
+  "vnei_root": ".",
+  "wacky_bulk_root": ".",
+  "ignored_dirs": [
+    "wackydatabase-bulkyml"
+  ],
+  "use_hashing": false,
+  "theme": "dark",
+  "last_window": {
+    "x": 260,
+    "y": 260,
+    "w": 1660,
+    "h": 980
+  },
+  "backups_to_keep": 8,
+  "profiles": {}
+}
