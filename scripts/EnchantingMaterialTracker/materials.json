@@ -1,0 +1,36 @@
+{
+  "tiers": {
+    "Rare": [
+      "RunestoneSpirit",
+      "RunestoneFrost",
+      "RunestoneFire",
+      "RunestonePoison",
+      "RunestoneRare"
+    ],
+    "Epic": [
+      "RunestoneLightning",
+      "RunestoneEarth",
+      "RunestoneWind",
+      "RunestoneWater",
+      "RunestoneEpic"
+    ],
+    "Legendary": [
+      "RunestoneArcane",
+      "RunestoneShadow",
+      "RunestoneHoly",
+      "RunestoneBlood",
+      "RunestoneLegendary"
+    ],
+    "Mythic": [
+      "RunestoneMagic",
+      "RunestoneChaos",
+      "RunestoneOrder",
+      "RunestoneVoid"
+    ]
+  },
+  "aliases": {
+    "ShardMagic": "RunestoneMagic",
+    "DustMagic": "RunestoneMagic",
+    "EssenceMagic": "RunestoneMagic"
+  }
+}

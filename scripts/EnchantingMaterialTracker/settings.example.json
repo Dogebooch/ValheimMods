@@ -1,0 +1,34 @@
+{
+  "active_config_dir": "C:/Games/Valheim/BepInEx/config",
+  "baseline_backup_dir": "C:/Backups/JewelHeim-RelicHeim-5.4.10Backup",
+  "documentation_md": "C:/YourDocs/Enchanting_Materials.md",
+  "db_path": "/mnt/data/EnchantingMaterialTracker/emt.sqlite3",
+  "materials_registry": "/mnt/data/EnchantingMaterialTracker/materials.json",
+  "scan_globs": {
+    "epicloot_chests_cfg": [
+      "**/epicloot*.cfg",
+      "**/*enchanted*chest*.cfg"
+    ],
+    "drop_that_lists_cfg": [
+      "**/drop_that.character_drop_list.*.cfg"
+    ],
+    "drop_that_chars_cfg": [
+      "**/drop_that.character_drop.cfg"
+    ],
+    "world_locations_yml": [
+      "**/More_World_Locations*LootLists*.yml",
+      "**/warpalicious.*.yml"
+    ],
+    "epicloot_json": [
+      "**/EpicLoot/**/*.json",
+      "**/*epicloot*.json"
+    ],
+    "backpacks_cfg": [
+      "**/*backpack*.cfg",
+      "**/*backpack*.yml"
+    ]
+  },
+  "gui": {
+    "enabled": true
+  }
+}

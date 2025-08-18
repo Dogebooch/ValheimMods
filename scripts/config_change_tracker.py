@@ -639,6 +639,9 @@ class ConfigChangeTrackerApp:
         self.custom_summaries: dict[str, str] = {}
         self._load_custom_summaries()
         
+        # Initialize baseline snapshot reference
+        self.baseline_snapshot = None
+        
         # UI State
         self.base_font_size = 10
         self.font = tkfont.Font(family="Consolas" if sys.platform.startswith("win") else "Courier New", size=self.base_font_size)
@@ -988,6 +991,242 @@ class ConfigChangeTrackerApp:
                 child.configure(font=self.font)
             self._apply_font_to_widgets(child)
     
+    def _set_busy(self, busy: bool, message: str = None) -> None:
+        """Set the busy state and update status message."""
+        if busy:
+            self.progress.start()
+            if message:
+                self.status_var.set(message)
+        else:
+            self.progress.stop()
+            if message:
+                self.status_var.set(message)
+    
+    def _set_status(self, message: str) -> None:
+        """Set the status message."""
+        self.status_var.set(message)
+    
+    def _get_relicheim_mapping(self) -> dict:
+        """Get the mapping between current config files and RelicHeim backup files."""
+        return {
+            # EpicMMO System
+            "WackyMole.EpicMMOSystem.cfg": "WackyMole.EpicMMOSystem.cfg",
+            "EpicMMOSystem/": "EpicMMOSystem/",
+            
+            # EpicLoot
+            "randyknapp.mods.epicloot.cfg": "randyknapp.mods.epicloot.cfg",
+            "EpicLoot/": "EpicLoot/",
+            
+            # Drop That
+            "drop_that.cfg": "drop_that.cfg",
+            
+            # Custom Raids
+            "custom_raids.cfg": "custom_raids.cfg",
+            "custom_raids.supplemental/": "custom_raids.supplemental/",
+            
+            # Smoothbrain Mods
+            "org.bepinex.plugins.Smoothbrain-Backpacks.cfg": "org.bepinex.plugins.Smoothbrain-Backpacks.cfg",
+            "org.bepinex.plugins.Smoothbrain-Building.cfg": "org.bepinex.plugins.Smoothbrain-Building.cfg",
+            "org.bepinex.plugins.Smoothbrain-Cooking.cfg": "org.bepinex.plugins.Smoothbrain-Cooking.cfg",
+            "org.bepinex.plugins.Smoothbrain-CreatureLevelAndLootControl.cfg": "org.bepinex.plugins.Smoothbrain-CreatureLevelAndLootControl.cfg",
+            "org.bepinex.plugins.Smoothbrain-DualWield.cfg": "org.bepinex.plugins.Smoothbrain-DualWield.cfg",
+            "org.bepinex.plugins.Smoothbrain-Exploration.cfg": "org.bepinex.plugins.Smoothbrain-Exploration.cfg",
+            "org.bepinex.plugins.Smoothbrain-Farming.cfg": "org.bepinex.plugins.Smoothbrain-Farming.cfg",
+            "org.bepinex.plugins.Smoothbrain-Foraging.cfg": "org.bepinex.plugins.Smoothbrain-Foraging.cfg",
+            "org.bepinex.plugins.Smoothbrain-Groups.cfg": "org.bepinex.plugins.Smoothbrain-Groups.cfg",
+            "org.bepinex.plugins.Smoothbrain-Lumberjacking.cfg": "org.bepinex.plugins.Smoothbrain-Lumberjacking.cfg",
+            "org.bepinex.plugins.Smoothbrain-Mining.cfg": "org.bepinex.plugins.Smoothbrain-Mining.cfg",
+            "org.bepinex.plugins.Smoothbrain-PackHorse.cfg": "org.bepinex.plugins.Smoothbrain-PackHorse.cfg",
+            "org.bepinex.plugins.Smoothbrain-PassivePowers.cfg": "org.bepinex.plugins.Smoothbrain-PassivePowers.cfg",
+            "org.bepinex.plugins.Smoothbrain-Ranching.cfg": "org.bepinex.plugins.Smoothbrain-Ranching.cfg",
+            "org.bepinex.plugins.Smoothbrain-Sailing.cfg": "org.bepinex.plugins.Smoothbrain-Sailing.cfg",
+            "org.bepinex.plugins.Smoothbrain-SailingSpeed.cfg": "org.bepinex.plugins.Smoothbrain-SailingSpeed.cfg",
+            "org.bepinex.plugins.Smoothbrain-ServerCharacters.cfg": "org.bepinex.plugins.Smoothbrain-ServerCharacters.cfg",
+            "org.bepinex.plugins.Smoothbrain-SmartSkills.cfg": "org.bepinex.plugins.Smoothbrain-SmartSkills.cfg",
+            "org.bepinex.plugins.Smoothbrain-TargetPortal.cfg": "org.bepinex.plugins.Smoothbrain-TargetPortal.cfg",
+            "org.bepinex.plugins.Smoothbrain-Tenacity.cfg": "org.bepinex.plugins.Smoothbrain-Tenacity.cfg",
+            
+            # Creature Config
+            "CreatureConfig.cfg": "CreatureConfig.cfg",
+            
+            # Backpacks
+            "Backpacks.cfg": "Backpacks.cfg",
+            
+            # Item Config
+            "ItemConfig.cfg": "ItemConfig.cfg",
+            
+            # Plant Everything
+            "advize.PlantEverything.cfg": "advize.PlantEverything.cfg",
+            
+            # Enchantment System
+            "kg.ValheimEnchantmentSystem.cfg": "kg.ValheimEnchantmentSystem.cfg",
+            "ValheimEnchantmentSystem/": "ValheimEnchantmentSystem/",
+            
+            # Tone Down Twang
+            "WackyMole.Tone_Down_the_Twang.cfg": "WackyMole.Tone_Down_the_Twang.cfg",
+            
+            # Breathe Easy
+            "RandomSteve.BreatheEasy.cfg": "RandomSteve.BreatheEasy.cfg",
+            
+            # Azumatt Mods
+            "Azumatt-AzuAntiCheat.cfg": "Azumatt-AzuAntiCheat.cfg",
+            "Azumatt-AzuClock.cfg": "Azumatt-AzuClock.cfg",
+            "Azumatt-AzuCraftyBoxes.cfg": "Azumatt-AzuCraftyBoxes.cfg",
+            "Azumatt-AzuExtendedPlayerInventory.cfg": "Azumatt-AzuExtendedPlayerInventory.cfg",
+            "Azumatt-AzuWorkbench_Inventory_Repair.cfg": "Azumatt-AzuWorkbench_Inventory_Repair.cfg",
+            "Azumatt-AzuWorkbenchTweaks.cfg": "Azumatt-AzuWorkbenchTweaks.cfg",
+            "Azumatt-CurrencyPocket.cfg": "Azumatt-CurrencyPocket.cfg",
+            "Azumatt-FactionAssigner.cfg": "Azumatt-FactionAssigner.cfg",
+            "Azumatt-MouseTweaks.cfg": "Azumatt-MouseTweaks.cfg",
+            "Azumatt-PetPantry.cfg": "Azumatt-PetPantry.cfg",
+            "Azumatt-SaveCrossbowState.cfg": "Azumatt-SaveCrossbowState.cfg",
+            "Azumatt-TrueInstantLootDrop.cfg": "Azumatt-TrueInstantLootDrop.cfg",
+            
+            # Mushroom Monsters
+            "horemvore.MushroomMonsters.cfg": "horemvore.MushroomMonsters.cfg",
+            
+            # Smart Containers
+            "flueno.SmartContainers.cfg": "flueno.SmartContainers.cfg",
+            
+            # Spawn That
+            "spawn_that.cfg": "spawn_that.cfg",
+            
+            # This Goes Here
+            "Valheim.ThisGoesHere.cfg": "Valheim.ThisGoesHere.cfg",
+            
+            # Shudnal Mods
+            "shudnal.Seasons.cfg": "shudnal.Seasons.cfg",
+            "shudnal.TradersExtended.cfg": "shudnal.TradersExtended.cfg",
+            
+            # Blacks7ar Mods
+            "blacks7ar.CookingAdditions.cfg": "blacks7ar.CookingAdditions.cfg",
+            "blacks7ar.FineWoodBuildPieces.cfg": "blacks7ar.FineWoodBuildPieces.cfg",
+            "blacks7ar.FineWoodFurnitures.cfg": "blacks7ar.FineWoodFurnitures.cfg",
+            "blacks7ar.MagicRevamp.cfg": "blacks7ar.MagicRevamp.cfg",
+            
+            # OdinPlus Mods
+            "odinplus.OdinArchitect.cfg": "odinplus.OdinArchitect.cfg",
+            "odinplus.OdinsKingdom.cfg": "odinplus.OdinsKingdom.cfg",
+            "odinplus.PotionPlus.cfg": "odinplus.PotionPlus.cfg",
+            
+            # MaxSch Mods
+            "com.maxsch.MultiUserChest.cfg": "com.maxsch.MultiUserChest.cfg",
+            "com.maxsch.PressurePlate.cfg": "com.maxsch.PressurePlate.cfg",
+            "com.maxsch.VNEI.cfg": "com.maxsch.VNEI.cfg",
+            
+            # OdinPlus Com
+            "com.odinplus.OdinArchitect.cfg": "com.odinplus.OdinArchitect.cfg",
+            "com.odinplus.OdinsKingdom.cfg": "com.odinplus.OdinsKingdom.cfg",
+            "com.odinplus.PotionPlus.cfg": "com.odinplus.PotionPlus.cfg",
+            
+            # BepInEx
+            "com.bepis.bepinex.configurationmanager.cfg": "com.bepis.bepinex.configurationmanager.cfg",
+            
+            # Warpalicious
+            "warpalicious.Adventure_Map_Pack_1.cfg": "warpalicious.Adventure_Map_Pack_1.cfg",
+            "warpalicious.Ashlands_Pack_1.cfg": "warpalicious.Ashlands_Pack_1.cfg",
+            "warpalicious.Blackforest_Pack_1.cfg": "warpalicious.Blackforest_Pack_1.cfg",
+            "warpalicious.Blackforest_Pack_2.cfg": "warpalicious.Blackforest_Pack_2.cfg",
+            "warpalicious.Forbidden_Catacombs.cfg": "warpalicious.Forbidden_Catacombs.cfg",
+            "warpalicious.Meadows_Pack_1.cfg": "warpalicious.Meadows_Pack_1.cfg",
+            "warpalicious.Meadows_Pack_2.cfg": "warpalicious.Meadows_Pack_2.cfg",
+            "warpalicious.Mistlands_Pack_1.cfg": "warpalicious.Mistlands_Pack_1.cfg",
+            "warpalicious.More_World_Locations_LootLists.yml": "warpalicious.More_World_Locations_LootLists.yml",
+            "warpalicious.More_World_Locations_Locations.yml": "warpalicious.More_World_Locations_Locations.yml",
+            "warpalicious.More_World_Locations_Spawners.yml": "warpalicious.More_World_Locations_Spawners.yml",
+            "warpalicious.More_World_Traders.cfg": "warpalicious.More_World_Traders.cfg",
+            "warpalicious.Mountains_Pack_1.cfg": "warpalicious.Mountains_Pack_1.cfg",
+            "warpalicious.Plains_Pack_1.cfg": "warpalicious.Plains_Pack_1.cfg",
+            "warpalicious.Swamp_Pack_1.cfg": "warpalicious.Swamp_Pack_1.cfg",
+            "warpalicious.Underground_Ruins.cfg": "warpalicious.Underground_Ruins.cfg",
+            
+            # Nex Mods
+            "nex.SpeedyPaths.cfg": "nex.SpeedyPaths.cfg",
+            
+            # Marcopogo
+            "marcopogo.ServerSync.cfg": "marcopogo.ServerSync.cfg",
+            
+            # Marlthon
+            "marlthon.OdinShipPlus.cfg": "marlthon.OdinShipPlus.cfg",
+            
+            # HTD Mods
+            "htd.Hugos_Armory.cfg": "htd.Hugos_Armory.cfg",
+            "htd.More_and_Modified_Player_Cloth_Colliders.cfg": "htd.More_and_Modified_Player_Cloth_Colliders.cfg",
+            "htd.Shapekeys_and_More.cfg": "htd.Shapekeys_and_More.cfg",
+            
+            # GoldenRevolver
+            "goldenrevolver.Quick_Stack_Store_Sort_Trash_Restock.cfg": "goldenrevolver.Quick_Stack_Store_Sort_Trash_Restock.cfg",
+            
+            # Vapok Mods
+            "vapok.AdventureBackpacks.cfg": "vapok.AdventureBackpacks.cfg",
+            
+            # Southsil
+            "southsil.SouthsilArmor.cfg": "southsil.SouthsilArmor.cfg",
+            
+            # Redseiko
+            "redseiko.TrashItems.cfg": "redseiko.TrashItems.cfg",
+            
+            # ZenDragon
+            "ZenDragon.Zen_ModLib.cfg": "ZenDragon.Zen_ModLib.cfg",
+            "ZenDragon.ZenUI.cfg": "ZenDragon.ZenUI.cfg",
+            
+            # Server Commands
+            "server_devcommands.cfg": "server_devcommands.cfg",
+            
+            # Key Bindings
+            "binds.cfg": "binds.cfg",
+            
+            # World Upgrade
+            "upgrade_world.cfg": "upgrade_world.cfg",
+            
+            # Enchantment System Files
+            "EnchantmentStats.cfg": "EnchantmentStats.cfg",
+            "EnchantmentReqs.cfg": "EnchantmentReqs.cfg",
+            "EnchantmentColors.cfg": "EnchantmentColors.cfg",
+            "EnchantmentChances.cfg": "EnchantmentChances.cfg",
+            "ScrollRecipes.cfg": "ScrollRecipes.cfg",
+            
+            # Therzie Mods
+            "Therzie_Armory.cfg": "Therzie_Armory.cfg",
+            "Therzie_Monstrum.cfg": "Therzie_Monstrum.cfg",
+            "Therzie_MonstrumDeepNorth.cfg": "Therzie_MonstrumDeepNorth.cfg",
+            "Therzie_Warfare.cfg": "Therzie_Warfare.cfg",
+            "Therzie_WarfareFireAndIce.cfg": "Therzie_WarfareFireAndIce.cfg",
+            "Therzie_Wizardry.cfg": "Therzie_Wizardry.cfg",
+            
+            # Monstrum Mods
+            "Monstrum_": "Monstrum_",
+            
+            # Jewelcrafting
+            "Jewelcrafting.cfg": "Jewelcrafting.cfg",
+            
+            # System Files
+            "Version.cfg": "Version.cfg",
+            
+            # WackyDatabase
+            "wackyDatabase-BulkYML/": "wackyDatabase-BulkYML/",
+        }
+    
+    def _get_config_files(self, config_root: Path) -> list:
+        """Get all config files from a directory."""
+        files = []
+        for file_path in config_root.rglob("*"):
+            if file_path.is_file() and file_path.suffix in ['.cfg', '.yml', '.yaml', '.json', '.txt']:
+                try:
+                    content = file_path.read_text(encoding='utf-8', errors='replace')
+                    files.append({
+                        'path': file_path,
+                        'content': content
+                    })
+                except Exception:
+                    # Skip files that can't be read
+                    continue
+        return files
+    
+    def get_diff(self, file_path: str, compare_against: str = "current") -> str:
+        """Get diff between current and snapshot version."""
+        return self.snapshot.get_diff(file_path, compare_against)
+    
     def _init_snapshot_and_refresh(self) -> None:
         """Initialize snapshot and refresh changes."""
         def worker():
@@ -1184,7 +1423,10 @@ class ConfigChangeTrackerApp:
             self._set_busy(False)
         except Exception:
             pass
-        self._set_status(f"Found {len(changes)} changed file(s)")
+        try:
+            self._set_status(f"Found {len(changes)} changed file(s)")
+        except Exception:
+            pass
     
     def on_mod_filter_change(self, event=None) -> None:
         """Handle mod filter change."""
@@ -1201,7 +1443,10 @@ class ConfigChangeTrackerApp:
         except Exception:
             pass
         # Update immediately
-        self._set_status(f"View switched to '{self.compare_var.get()}'")
+        try:
+            self._set_status(f"View switched to '{self.compare_var.get()}'")
+        except Exception:
+            pass
         self.refresh_changes()
     
     def on_change_select(self, event=None) -> None:
@@ -1210,8 +1455,10 @@ class ConfigChangeTrackerApp:
         if not selection:
             # Disable action buttons when nothing is selected
             try:
-                self.btn_revert.state(["disabled"])
-                self.btn_accept.state(["disabled"])
+                if hasattr(self, 'btn_revert'):
+                    self.btn_revert.state(["disabled"])
+                if hasattr(self, 'btn_accept'):
+                    self.btn_accept.state(["disabled"])
             except Exception:
                 pass
             return
@@ -1221,8 +1468,10 @@ class ConfigChangeTrackerApp:
         
         # Enable action buttons when selection exists
         try:
-            self.btn_revert.state(["!disabled"])
-            self.btn_accept.state(["!disabled"])
+            if hasattr(self, 'btn_revert'):
+                self.btn_revert.state(["!disabled"])
+            if hasattr(self, 'btn_accept'):
+                self.btn_accept.state(["!disabled"])
         except Exception:
             pass
 
@@ -1248,7 +1497,10 @@ class ConfigChangeTrackerApp:
         """Revert the selected file to the currently selected comparison baseline."""
         selection = self.changes_tree.selection()
         if not selection:
-            self._set_status("No file selected to revert")
+            try:
+                self._set_status("No file selected to revert")
+            except Exception:
+                pass
             return
         file_path = self.changes_tree.item(selection[0])['values'][1]
 
@@ -1279,7 +1531,10 @@ class ConfigChangeTrackerApp:
         """Accept the selected file into the baseline (initial snapshot)."""
         selection = self.changes_tree.selection()
         if not selection:
-            self._set_status("No file selected to accept into baseline")
+            try:
+                self._set_status("No file selected to accept into baseline")
+            except Exception:
+                pass
             return
         file_path = self.changes_tree.item(selection[0])['values'][1]
 
@@ -1323,7 +1578,10 @@ class ConfigChangeTrackerApp:
                 self.diff_text.insert(tk.END, line)
         
         self.diff_text.config(state=tk.DISABLED)
-        self._set_status(f"Viewing diff: {file_path}")
+        try:
+            self._set_status(f"Viewing diff: {file_path}")
+        except Exception:
+            pass
 
     # --- Hidden changes persistence and actions ---
     def _load_hidden_changes(self) -> None:
@@ -1372,7 +1630,10 @@ class ConfigChangeTrackerApp:
             self.changes_tree.delete(selection[0])
         except Exception:
             pass
-        self._set_status(f"Hidden change: {file_path}")
+        try:
+            self._set_status(f"Hidden change: {file_path}")
+        except Exception:
+            pass
 
     def manage_hidden_changes(self) -> None:
         try:
@@ -1414,7 +1675,10 @@ class ConfigChangeTrackerApp:
                     # Remove from listbox
                     for i in reversed(sel):
                         listbox.delete(i)
-                    self._set_status(f"Unhid {len(items)} entr{'y' if len(items)==1 else 'ies'}")
+                    try:
+                        self._set_status(f"Unhid {len(items)} entr{'y' if len(items)==1 else 'ies'}")
+                    except Exception:
+                        pass
                     # Refresh main list asynchronously
                     self.refresh_changes()
 
@@ -1426,7 +1690,10 @@ class ConfigChangeTrackerApp:
                 self.hidden_files.clear()
                 self._save_hidden_changes()
                 listbox.delete(0, tk.END)
-                self._set_status("All hidden entries cleared")
+                try:
+                    self._set_status("All hidden entries cleared")
+                except Exception:
+                    pass
                 self.refresh_changes()
 
             ttk.Button(btns, text="Unhide Selected", style="Action.TButton", command=unhide_selected).pack(side=tk.LEFT, padx=(0,6))
@@ -1435,7 +1702,10 @@ class ConfigChangeTrackerApp:
             # Keyboard delete in manager
             win.bind("<Delete>", lambda e: unhide_selected())
         except Exception as e:
-            self._set_status(f"Error managing hidden entries: {e}")
+            try:
+                self._set_status(f"Error managing hidden entries: {e}")
+            except Exception:
+                pass
 
     # --- Custom summary overrides ---
     def _load_custom_summaries(self) -> None:
@@ -1484,7 +1754,10 @@ class ConfigChangeTrackerApp:
             full_path = self.config_root / file_path
             
             if not full_path.exists():
-                self._set_status(f"File not found: {file_path}")
+                try:
+                    self._set_status(f"File not found: {file_path}")
+                except Exception:
+                    pass
                 return
             
             # Get the workspace root (Valheim_Testing directory)
@@ -1502,7 +1775,10 @@ class ConfigChangeTrackerApp:
                         subprocess.Popen(['code', '-g', f'{full_path}:{line_number}', str(workspace_root)], shell=True)
                     else:
                         subprocess.Popen(['code', str(workspace_root)], shell=True)
-                    self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    try:
+                        self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    except Exception:
+                        pass
                     return
                 except FileNotFoundError:
                     # Fall back to default editor
@@ -1514,7 +1790,10 @@ class ConfigChangeTrackerApp:
                         subprocess.Popen(['code', '-g', f'{full_path}:{line_number}', str(workspace_root)])
                     else:
                         subprocess.Popen(['code', str(workspace_root)])
-                    self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    try:
+                        self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    except Exception:
+                        pass
                     return
                 except FileNotFoundError:
                     subprocess.Popen(['open', str(full_path)])
@@ -1525,7 +1804,10 @@ class ConfigChangeTrackerApp:
                         subprocess.Popen(['code', '-g', f'{full_path}:{line_number}', str(workspace_root)])
                     else:
                         subprocess.Popen(['code', str(workspace_root)])
-                    self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    try:
+                        self._set_status(f"Opened {file_path} in VS Code (workspace: {workspace_root.name})")
+                    except Exception:
+                        pass
                     return
                 except FileNotFoundError:
                     # Try other editors
@@ -1541,13 +1823,22 @@ class ConfigChangeTrackerApp:
                         try:
                             subprocess.Popen(['xdg-open', str(full_path)])
                         except FileNotFoundError:
-                            self._set_status(f"Could not open {file_path} - no suitable editor found")
+                            try:
+                                self._set_status(f"Could not open {file_path} - no suitable editor found")
+                            except Exception:
+                                pass
                             return
             
-            self._set_status(f"Opened {file_path} in default editor")
+            try:
+                self._set_status(f"Opened {file_path} in default editor")
+            except Exception:
+                pass
             
         except Exception as e:
-            self._set_status(f"Error opening {file_path}: {e}")
+            try:
+                self._set_status(f"Error opening {file_path}: {e}")
+            except Exception:
+                pass
 
     def _get_first_change_line(self, file_path: str) -> int | None:
         """Get the line number of the first change in the file for editor navigation."""
@@ -1846,7 +2137,10 @@ class ConfigChangeTrackerApp:
             ttk.Button(btns, text="Clear Override", style="Action.TButton", command=do_clear).pack(side=tk.LEFT, padx=(0,6))
             ttk.Button(btns, text="Cancel", style="Action.TButton", command=win.destroy).pack(side=tk.LEFT)
         except Exception as e:
-            self._set_status(f"Error editing summary: {e}")
+            try:
+                self._set_status(f"Error editing summary: {e}")
+            except Exception:
+                pass
 
     def clear_selected_summary(self, from_summary_tab: bool) -> None:
         tree = self.summary_tree if from_summary_tab else self.changes_tree
@@ -1866,7 +2160,10 @@ class ConfigChangeTrackerApp:
         if file_path in self.custom_summaries:
             self.custom_summaries.pop(file_path, None)
             self._save_custom_summaries()
-            self._set_status(f"Cleared custom summary for {file_path}")
+            try:
+                self._set_status(f"Cleared custom summary for {file_path}")
+            except Exception:
+                pass
             self.refresh_changes()
             self.show_baseline_summary()
 
@@ -1917,7 +2214,10 @@ class ConfigChangeTrackerApp:
             )
             messagebox.showinfo("Help", help_text)
         except Exception as e:
-            self._set_status(f"Error showing help: {e}")
+            try:
+                self._set_status(f"Error showing help: {e}")
+            except Exception:
+                pass
 
     def show_baseline_summary(self) -> None:
         """Populate the embedded All-Time Summary tab and switch to it."""
