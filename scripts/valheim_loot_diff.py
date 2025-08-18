@@ -32,6 +32,8 @@ Extra options:
 import argparse
 import os
 import re
+import csv
+import threading
 from collections import defaultdict, namedtuple
 from typing import Dict, List, Tuple, Optional, Any
 import json
@@ -70,7 +72,8 @@ PALETTE = {
 ITEM_KEYS     = {"item", "prefab", "prefabname", "name"}
 # Include Drop That style keys (SetTemplateWeight, SetDropChance, etc.)
 WEIGHT_KEYS   = {"weight", "setweight", "entryweight", "weightwhenrolled", "settemplateweight"}
-CHANCE_KEYS   = {"chance", "dropchance", "probability", "rollchance", "setdropchance"}
+# Include more Drop-That style chance keys found in configs (ChanceToDrop, SetChanceToDrop)
+CHANCE_KEYS   = {"chance", "dropchance", "probability", "rollchance", "setdropchance", "chancetodrop", "setchancetodrop"}
 SET_KEYS      = {"set", "setname", "droptable", "table", "group", "parent", "pool"}
 COUNT_MIN_KEYS= {"min", "amountmin", "dropmin", "rollsmin", "setdropmin", "setamountmin"}
 COUNT_MAX_KEYS= {"max", "amountmax", "dropmax", "rollsmax", "setdropmax", "setamountmax"}
@@ -591,30 +594,57 @@ class CharacterDrops:
         # list of {"set": setname, "chance": float, "min": int|None, "max": int|None, "oneof": int|None}
         self.table_refs: List[Dict[str, Any]] = []
         # direct items
-        self.direct: List[Dict[str, Any]] = []  # {"item": str, "chance": float, "weight": float}
+        self.direct: List[Dict[str, Any]] = []  # {"item": str, "chance": float, "weight": float, "min": int|None, "max": int|None}
 
 def parse_characters_from_text(text: str, file: str) -> Tuple[Dict[str, CharacterDrops], Dict[str, float]]:
     sections = scan_sections_ini_like(text, file)
     chars: Dict[str, CharacterDrops] = {}
     refs: Dict[str, float] = {}
+
+    NON_CHAR_GROUPS = {"GlobalDrops", "AdjustedForSpawners"}
+
     for sec in sections:
-        if re.match(r"(?i)characterdrop\.", sec.name):
-            # Extract character name: CharacterDrop.<Name> or CharacterDrop.<Name>.<idx>
-            m = re.match(r"(?i)characterdrop\.([^.\]]+)", sec.name)
-            cname = m.group(1) if m else sec.name
-            cd = chars.setdefault(cname, CharacterDrops(cname))
-            fields = sec.fields
-            setname = extract_set(fields)
-            ch = extract_chance(fields)
-            mn, mx = extract_minmax(fields)
-            oneof = find_oneof(fields)
-            item = extract_item_name(fields)
-            weight = extract_weight(fields)
-            if setname:
-                cd.table_refs.append({"set": setname, "chance": ch, "min": mn, "max": mx, "oneof": oneof, "weight": weight})
-                refs[setname] = refs.get(setname, 0.0) + (weight if weight is not None else 1.0)
-            elif item:
-                cd.direct.append({"item": item, "chance": ch, "weight": weight})
+        fields = sec.fields
+
+        # Skip table-only metadata sections
+        if guess_is_table(sec) and not guess_is_entry(sec):
+            continue
+
+        cname: Optional[str] = None
+        m = re.match(r"(?i)^characterdrop\.([^.\]]+)", sec.name)
+        if m:
+            cname = m.group(1)
+        else:
+            m2 = re.match(r"^([A-Za-z0-9_]+)\.(?:[0-9]+).*", sec.name)
+            if m2:
+                group = m2.group(1)
+                if group in NON_CHAR_GROUPS:
+                    cname = "__GLOBAL__"
+                else:
+                    cname = group
+
+        if not cname:
+            continue
+
+        cond_states = fields.get("ConditionCreatureStates") or fields.get("conditioncreaturestates") or ""
+        if cname == "__GLOBAL__" and ("Event" in cond_states or "event" in cond_states.lower()):
+            # Skip event-only globals for per-kill estimates
+            continue
+
+        cd = chars.setdefault(cname, CharacterDrops(cname))
+
+        setname = extract_set(fields)
+        ch = extract_chance(fields)
+        mn, mx = extract_minmax(fields)
+        oneof = find_oneof(fields)
+        item = extract_item_name(fields)
+        weight = extract_weight(fields)
+
+        if setname:
+            cd.table_refs.append({"set": setname, "chance": ch, "min": mn, "max": mx, "oneof": oneof, "weight": weight})
+            refs[setname] = refs.get(setname, 0.0) + (weight if weight is not None else 1.0)
+        elif item:
+            cd.direct.append({"item": item, "chance": ch, "weight": weight, "min": mn, "max": mx})
     return chars, refs
 
 def crawl_characters(root: str, include_paths: List[str]) -> Tuple[Dict[str, CharacterDrops], Dict[str, float]]:
@@ -717,7 +747,6 @@ def compute_global_material_expectation_by_item(
     return totals
 
 def write_csv(path: str, rows: List[Dict[str, str]]):
-    import csv
     if not rows:
         with open(path, "w", encoding="utf-8") as f:
             f.write("")
@@ -743,14 +772,30 @@ def render_html_table(rows: List[Dict[str,str]], title: str) -> str:
 def percent(x: float) -> str:
     return f"{x*100:.2f}%"
 
-def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict[str, LootSet], tier_regex: Dict[str,str]) -> List[Dict[str,str]]:
+def compose_characters_report(
+    char_map: Dict[str, CharacterDrops],
+    set_map: Dict[str, LootSet],
+    tier_regex: Dict[str,str],
+    *,
+    star_multiplier_creature: float = 1.0,
+    star_multiplier_boss: float = 1.0,
+) -> List[Dict[str,str]]:
     rows = []
     # Precompute per-pick tier share for sets
     set_share = {k: summarize_set_by_tier(v, tier_regex) for k, v in set_map.items()}
     set_picks = {k: v.expected_picks() or 1.0 for k, v in set_map.items()}
     # Average success probability per pick (0..1) for each set
     set_success_per_pick = {k: v.expected_items_per_pick() for k, v in set_map.items()}
+
+    # Extract global drops, if present
+    global_cd = char_map.get("__GLOBAL__")
+
+    KNOWN_BOSSES = {"Eikthyr", "gd_king", "Bonemass", "Dragon", "GoblinKing", "SeekerQueen", "Fader",
+                    "BossAsmodeus_TW", "BossSvalt_TW", "BossVrykolathas_TW", "BossStormHerald_TW", "BossGorr_TW"}
+
     for cname, cd in sorted(char_map.items(), key=lambda x: x[0].lower()):
+        if cname == "__GLOBAL__":
+            continue
         tier_counts = defaultdict(float)
         # combine table refs
         for ref in cd.table_refs:
@@ -763,12 +808,44 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
                 mult = chance * picks * success_rate
                 for tier, share in set_share[sname].items():
                     tier_counts[tier] += mult * share
-        # direct items
+        # direct items (respect amount min/max)
         for e in cd.direct:
             t = tier_of(e.get("item"), tier_regex)
             if t:
                 chance = max(min(float(e.get("chance",1.0)), 1.0), 0.0)
-                tier_counts[t] += chance  # treat as one pick of that tier
+                mn = e.get("min"); mx = e.get("max")
+                amt = 1.0
+                if isinstance(mn, int) or isinstance(mx, int):
+                    lo = int(mn) if isinstance(mn, int) else int(mx)
+                    hi = int(mx) if isinstance(mx, int) else int(mn)
+                    if hi < lo:
+                        lo, hi = hi, lo
+                    amt = (lo + hi) / 2.0
+                tier_counts[t] += chance * amt
+
+        # Add global drops (non-event) to every character
+        if global_cd is not None:
+            for e in global_cd.direct:
+                t = tier_of(e.get("item"), tier_regex)
+                if not t:
+                    continue
+                chance = max(min(float(e.get("chance",1.0)), 1.0), 0.0)
+                mn = e.get("min"); mx = e.get("max")
+                amt = 1.0
+                if isinstance(mn, int) or isinstance(mx, int):
+                    lo = int(mn) if isinstance(mn, int) else int(mx)
+                    hi = int(mx) if isinstance(mx, int) else int(mn)
+                    if hi < lo:
+                        lo, hi = hi, lo
+                    amt = (lo + hi) / 2.0
+                tier_counts[t] += chance * amt
+
+        # Apply star-based additional loot multipliers approximations from CLLC
+        is_boss = (cname in KNOWN_BOSSES) or cname.lower().startswith("boss")
+        star_mult = star_multiplier_boss if is_boss else star_multiplier_creature
+        for tier in list(tier_counts.keys()):
+            tier_counts[tier] *= star_mult
+
         if sum(tier_counts.values()) <= 0:
             continue
         row = {"Character": cname}
@@ -776,6 +853,91 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
             row[tier+" E[item/kill]"] = f"{tier_counts[tier]:.4f}"
         rows.append(row)
     return rows
+
+def _parse_percent_list(val: str) -> List[float]:
+    try:
+        parts = [p.strip() for p in val.split(',') if p.strip()]
+        nums = [float(p) for p in parts]
+        return nums
+    except Exception:
+        return []
+
+def _compute_expected_stars_from_distribution(dist_percent: List[float]) -> float:
+    # dist_percent corresponds to [p1, p2, ..., pk] in percent; p0 is remainder
+    total = sum(dist_percent)
+    if total > 100.0:
+        # normalize down
+        dist = [p * (100.0/total) for p in dist_percent]
+        total = 100.0
+    else:
+        dist = dist_percent[:]
+    # expected stars: sum s * p_s
+    exp = 0.0
+    for i, p in enumerate(dist, start=1):
+        exp += i * (p/100.0)
+    return exp
+
+def parse_cllc_star_multipliers(root_dir: str, world_level: int) -> Tuple[float, float]:
+    cfg_path = None
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        for fn in filenames:
+            low = fn.lower()
+            if low.startswith("org.bepinex.plugins.creaturelevelcontrol") and low.endswith(".cfg"):
+                cfg_path = os.path.join(dirpath, fn)
+                break
+        if cfg_path:
+            break
+    if not cfg_path:
+        return 1.0, 1.0
+
+    txt = read_text(cfg_path)
+    lines = txt.splitlines()
+
+    # Defaults
+    creature_extra_chance = 1.0  # 100%
+    boss_extra_chance = 0.5      # 50%
+    use_creature_for_boss = False
+    boss_star_line = ""
+    wl_line = ""
+
+    # Find settings
+    for ln in lines:
+        s = ln.strip()
+        if s.lower().startswith("chance for additional loot per star for creatures"):
+            m = re.search(r"=\s*([0-9.]+)", s)
+            if m:
+                creature_extra_chance = max(min(float(m.group(1))/100.0, 1.0), 0.0)
+        elif s.lower().startswith("chance for additional loot per star for bosses"):
+            m = re.search(r"=\s*([0-9.]+)", s)
+            if m:
+                boss_extra_chance = max(min(float(m.group(1))/100.0, 1.0), 0.0)
+        elif s.lower().startswith("use creature level chances for bosses"):
+            use_creature_for_boss = ("on" in s.lower())
+        elif s.lower().startswith("star chances for bosses"):
+            boss_star_line = s
+        elif s.lower().startswith(f"chances for stars at world level {world_level} "):
+            wl_line = s
+
+    # Creature expected stars from world level distribution
+    exp_stars_creature = 0.0
+    if wl_line:
+        m = re.search(r"=\s*(.+)$", wl_line)
+        if m:
+            lst = _parse_percent_list(m.group(1))
+            exp_stars_creature = _compute_expected_stars_from_distribution(lst)
+
+    # Boss expected stars
+    exp_stars_boss = exp_stars_creature
+    if not use_creature_for_boss and boss_star_line:
+        m2 = re.search(r"=\s*(.+)$", boss_star_line)
+        if m2:
+            lstb = _parse_percent_list(m2.group(1))
+            exp_stars_boss = _compute_expected_stars_from_distribution(lstb)
+
+    # Multipliers: 1 + P(extra per star) * E[stars]
+    mult_creature = 1.0 + creature_extra_chance * exp_stars_creature
+    mult_boss = 1.0 + boss_extra_chance * exp_stars_boss
+    return mult_creature, mult_boss
 
 class LootDiffGUI:
     def __init__(self, master: tk.Tk):
@@ -847,6 +1009,7 @@ class LootDiffGUI:
         self.set_weights = {}
         self.char_map = {}
         self.set_map = {}
+        self.act_sets = {}
         self.base_shares = {}
         self.act_shares = {}
         self.global_base = {}
@@ -947,13 +1110,14 @@ class LootDiffGUI:
             self.status_text.see(tk.END)
             self.include_paths = [] if scan_all else self.get_include_paths()
             self.set_map = crawl_configs(baseline_path, self.include_paths)
+            self.act_sets = crawl_configs(active_path, self.include_paths)
             self.char_map, _ = crawl_characters(baseline_path, self.include_paths)
             self.base_shares = compute_shares(self.set_map, self.tier_regex)
-            self.act_shares = compute_shares(crawl_configs(active_path, self.include_paths), self.tier_regex)
+            self.act_shares = compute_shares(self.act_sets, self.tier_regex)
             self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
-            self.global_act = compute_global_material_expectation(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+            self.global_act = compute_global_material_expectation(self.act_sets, self.tier_regex, self.set_weights)
             self.item_base = compute_global_material_expectation_by_item(self.set_map, self.tier_regex, self.set_weights)
-            self.item_act = compute_global_material_expectation_by_item(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+            self.item_act = compute_global_material_expectation_by_item(self.act_sets, self.tier_regex, self.set_weights)
 
             self.write_reports(out_path, compose_chars)
             self.assert_global_change(assert_tier_change)
@@ -968,13 +1132,14 @@ class LootDiffGUI:
         try:
             self.include_paths = [] if scan_all else self.get_include_paths()
             self.set_map = crawl_configs(baseline_path, self.include_paths)
+            self.act_sets = crawl_configs(active_path, self.include_paths)
             self.char_map, _ = crawl_characters(baseline_path, self.include_paths)
             self.base_shares = compute_shares(self.set_map, self.tier_regex)
-            self.act_shares = compute_shares(crawl_configs(active_path, self.include_paths), self.tier_regex)
+            self.act_shares = compute_shares(self.act_sets, self.tier_regex)
             self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
-            self.global_act = compute_global_material_expectation(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+            self.global_act = compute_global_material_expectation(self.act_sets, self.tier_regex, self.set_weights)
             self.item_base = compute_global_material_expectation_by_item(self.set_map, self.tier_regex, self.set_weights)
-            self.item_act = compute_global_material_expectation_by_item(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+            self.item_act = compute_global_material_expectation_by_item(self.act_sets, self.tier_regex, self.set_weights)
 
             self.write_reports(out_path, compose_chars)
             self.assert_global_change(assert_tier_change)
@@ -1005,8 +1170,11 @@ class LootDiffGUI:
         if compose_chars:
             base_chars_csv = out_path + ".characters.base.csv"
             act_chars_csv = out_path + ".characters.active.csv"
-            self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex))
-            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths)[0], self.set_map, self.tier_regex))
+            # Use CLLC multipliers from active config path
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=5)
+            self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
+            act_char_map, _ = crawl_characters(self.active_path.get(), self.include_paths)
+            self.write_csv_report(act_chars_csv, compose_characters_report(act_char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
             self.status_text.insert(tk.END, "Wrote character reports.\n")
             self.status_text.see(tk.END)
 
@@ -1040,8 +1208,10 @@ class LootDiffGUI:
         if compose_chars:
             base_chars_csv = self.out_path.get() + ".characters.base.csv"
             act_chars_csv = self.out_path.get() + ".characters.active.csv"
-            self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex))
-            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths)[0], self.set_map, self.tier_regex))
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=5)
+            self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
+            act_char_map, _ = crawl_characters(self.active_path.get(), self.include_paths)
+            self.write_csv_report(act_chars_csv, compose_characters_report(act_char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
             parts.append("<h2>Character Composition Reports</h2>")
             parts.append(f"<p>Wrote character reports to {base_chars_csv} and {act_chars_csv}</p>")
 
@@ -1056,7 +1226,7 @@ class LootDiffGUI:
         common = sorted(set(self.base_shares.keys()) & set(self.act_shares.keys()))
         rows = []
         for name in common:
-            b = self.set_map[name]; a = self.act_sets[name] # Use self.act_sets here
+            b = self.set_map[name]; a = self.act_sets[name]
             b_sh = self.base_shares[name]; a_sh = self.act_shares[name]
             row = {
                 "Set": name,
@@ -1173,6 +1343,7 @@ def main():
     ap.add_argument("--gui", action="store_true", help="Launch Tkinter GUI interface")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
     ap.add_argument("--scan-all", action="store_true", help="Ignore default include filters and scan all supported config files under baseline/active")
+    ap.add_argument("--world-level", type=int, default=5, help="Static world level (0-7) used to approximate star multipliers (default: 5)")
     ap.add_argument("--include-path", action="append", default=[
         # Active configurations - Loot Tables & Drop Configurations
         "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg",
@@ -1365,8 +1536,10 @@ def main():
 
     # Optional: character composition
     if args.compose_characters:
-        base_rows = compose_characters_report(base_chars, base_sets, tier_map)
-        act_rows  = compose_characters_report(act_chars, act_sets, tier_map)
+        # Parse star multipliers from active CLLC config using requested world level
+        mult_creature, mult_boss = parse_cllc_star_multipliers(args.active, max(min(args.world_level,7),0))
+        base_rows = compose_characters_report(base_chars, base_sets, tier_map, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss)
+        act_rows  = compose_characters_report(act_chars, act_sets, tier_map, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss)
         write_csv(args.out + ".characters.base.csv", base_rows)
         write_csv(args.out + ".characters.active.csv", act_rows)
         print(f"Wrote: {args.out}.characters.base.csv")
