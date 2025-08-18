@@ -1,0 +1,56 @@
+name: DualScytheBloodthirst_TW
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 4
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: true
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Iron:0:20:True
+- Iron:0:40:True
+- Iron:0:60:True
+- Silver:0:20:True
+- Silver:0:40:True
+- Silver:0:60:True
+- Silver:0:80:True
+- BlackMetal:0:20:True
+- BlackMetal:0:40:True
+- BlackMetal:0:60:True
+- BlackMetal:0:80:True
+- RottenPelt_TW:0:10:True
+- RottenPelt_TW:0:20:True
+- RottenPelt_TW:0:30:True
+- SerpentScale:0:9:True
+- SerpentScale:0:18:True
+- SerpentScale:0:27:True
+- SerpentScale:0:36:True
+- LoxBone_TW:0:5:True
+- LoxBone_TW:0:10:True
+- LoxBone_TW:0:15:True
+- LoxBone_TW:0:20:True
+- Bloodbag:0:10:True
+- Bloodbag:0:20:True
+- Bloodbag:0:30:True
+- FreezeGland:0:9:True
+- FreezeGland:0:18:True
+- FreezeGland:0:27:True
+- FreezeGland:0:36:True
+- GoblinTotem:0:5:True
+- GoblinTotem:0:10:True
+- GoblinTotem:0:15:True
+- GoblinTotem:0:20:True
+- TrophyVrykolathas_TW:0:1:True
+- TrophyVrykolathas_TW:0:1:True
+- TrophyVrykolathas_TW:0:1:True
+- TrophySGolem:0:1:True
+- TrophySGolem:0:1:True
+- TrophySGolem:0:1:True
+- TrophySGolem:0:1:True
+- TrophyGoblinBrute:0:1:True
+- TrophyGoblinBrute:0:1:True
+- TrophyGoblinBrute:0:1:True
+- TrophyGoblinBrute:0:1:True

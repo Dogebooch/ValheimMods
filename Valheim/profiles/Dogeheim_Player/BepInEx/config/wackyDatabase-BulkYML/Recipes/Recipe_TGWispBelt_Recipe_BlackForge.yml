@@ -1,0 +1,15 @@
+name: TGWispBelt_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- TGCatalyst:1:0:True
+- BeltStrength:1:0:True
+- Demister:1:0:True

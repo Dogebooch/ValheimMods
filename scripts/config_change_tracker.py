@@ -2818,7 +2818,7 @@ class ConfigChangeTrackerApp:
                 return
             
             # Get the backup directory path
-            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
+            backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10_Backup" / "config"
             
             # Collect all changed items from the tree
             all_items = []
@@ -3066,7 +3066,7 @@ These are settings that directly affect gameplay, such as:
     def show_relicheim_comparison(self) -> None:
         """Show the RelicHeim comparison dialog and perform the comparison."""
         # Get RelicHeim backup path
-        relicheim_backup = Path("Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10Backup/config")
+        relicheim_backup = Path("Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/config")
         if not relicheim_backup.exists():
             messagebox.showerror("RelicHeim Backup Not Found", 
                                f"RelicHeim backup directory not found at:\n{relicheim_backup}\n\nPlease ensure the RelicHeim backup is available.")
@@ -3507,47 +3507,47 @@ These are settings that directly affect gameplay, such as:
         """Get the mapping between current config files and RelicHeim backup files."""
         return {
             # Direct file mappings (current file -> backup file)
-            "randyknapp.mods.epicloot.cfg": "BACKUP_5.4.10_randyknapp.mods.epicloot.cfg",
-            "org.bepinex.plugins.targetportal.cfg": "BACKUP_5.4.10_org.bepinex.plugins.targetportal.cfg",
-            "org.bepinex.plugins.tenacity.cfg": "BACKUP_5.4.10_org.bepinex.plugins.tenacity.cfg",
-            "org.bepinex.plugins.smartskills.cfg": "BACKUP_5.4.10_org.bepinex.plugins.smartskills.cfg",
-            "org.bepinex.plugins.sailing.cfg": "BACKUP_5.4.10_org.bepinex.plugins.sailing.cfg",
-            "org.bepinex.plugins.sailingspeed.cfg": "BACKUP_5.4.10_org.bepinex.plugins.sailingspeed.cfg",
-            "org.bepinex.plugins.packhorse.cfg": "BACKUP_5.4.10_org.bepinex.plugins.packhorse.cfg",
-            "org.bepinex.plugins.passivepowers.cfg": "BACKUP_5.4.10_org.bepinex.plugins.passivepowers.cfg",
-            "org.bepinex.plugins.foraging.cfg": "BACKUP_5.4.10_org.bepinex.plugins.foraging.cfg",
-            "org.bepinex.plugins.lumberjacking.cfg": "BACKUP_5.4.10_org.bepinex.plugins.lumberjacking.cfg",
-            "org.bepinex.plugins.mining.cfg": "BACKUP_5.4.10_org.bepinex.plugins.mining.cfg",
-            "org.bepinex.plugins.farming.cfg": "BACKUP_5.4.10_org.bepinex.plugins.farming.cfg",
-            "org.bepinex.plugins.conversionsizespeed.cfg": "BACKUP_5.4.10_org.bepinex.plugins.conversionsizespeed.cfg",
-            "org.bepinex.plugins.creaturelevelcontrol.cfg": "BACKUP_5.4.10_org.bepinex.plugins.creaturelevelcontrol.cfg",
-            "org.bepinex.plugins.blacksmithing.cfg": "BACKUP_5.4.10_org.bepinex.plugins.blacksmithing.cfg",
-            "org.bepinex.plugins.building.cfg": "BACKUP_5.4.10_org.bepinex.plugins.building.cfg",
-            "org.bepinex.plugins.backpacks.cfg": "BACKUP_5.4.10_org.bepinex.plugins.backpacks.cfg",
-            "drop_that.cfg": "BACKUP_5.4.10_drop_that.cfg",
-            "kg.ValheimEnchantmentSystem.cfg": "BACKUP_5.4.10_kg.ValheimEnchantmentSystem.cfg",
-            "advize.PlantEverything.cfg": "BACKUP_5.4.10_advize.PlantEverything.cfg",
-            "custom_raids.cfg": "BACKUP_5.4.10_custom_raids.cfg",
-            "WackyMole.EpicMMOSystem.cfg": "BACKUP_5.4.10_WackyMole.EpicMMOSystem.cfg",
-            "WackyMole.Tone_Down_the_Twang.cfg": "BACKUP_5.4.10_WackyMole.Tone_Down_the_Twang.cfg",
-            "RandomSteve.BreatheEasy.cfg": "BACKUP_5.4.10_RandomSteve.BreatheEasy.cfg",
-            "CreatureConfig_Monstrum.yml": "BACKUP_5.4.10_CreatureConfig_Monstrum.yml",
-            "CreatureConfig_Wizardry.yml": "BACKUP_5.4.10_CreatureConfig_Wizardry.yml",
-            "ItemConfig_Base.yml": "BACKUP_5.4.10_ItemConfig_Base.yml",
-            "CreatureConfig_Bosses.yml": "BACKUP_5.4.10_CreatureConfig_Bosses.yml",
-            "CreatureConfig_Creatures.yml": "BACKUP_5.4.10_CreatureConfig_Creatures.yml",
-            "Backpacks.Wizardry.yml": "BACKUP_5.4.10_Backpacks.Wizardry.yml",
-            "CreatureConfig_BiomeIncrease.yml": "BACKUP_5.4.10_CreatureConfig_BiomeIncrease.yml",
-            "Backpacks.MajesticEpicLoot.yml": "BACKUP_5.4.10_Backpacks.MajesticEpicLoot.yml",
-            "Azumatt.FactionAssigner.yml": "BACKUP_5.4.10_Azumatt.FactionAssigner.yml",
-            "Backpacks.Majestic.yml": "BACKUP_5.4.10_Backpacks.Majestic.yml",
-            "Azumatt.AzuCraftyBoxes.yml": "BACKUP_5.4.10_Azumatt.AzuCraftyBoxes.yml",
+            "randyknapp.mods.epicloot.cfg": "randyknapp.mods.epiclootbackup.cfg",
+            "org.bepinex.plugins.targetportal.cfg": "org.bepinex.plugins.targetportalbackup.cfg",
+            "org.bepinex.plugins.tenacity.cfg": "org.bepinex.plugins.tenacitybackup.cfg",
+            "org.bepinex.plugins.smartskills.cfg": "org.bepinex.plugins.smartskillsbackup.cfg",
+            "org.bepinex.plugins.sailing.cfg": "org.bepinex.plugins.sailingbackup.cfg",
+            "org.bepinex.plugins.sailingspeed.cfg": "org.bepinex.plugins.sailingspeedbackup.cfg",
+            "org.bepinex.plugins.packhorse.cfg": "org.bepinex.plugins.packhorsebackup.cfg",
+            "org.bepinex.plugins.passivepowers.cfg": "org.bepinex.plugins.passivepowersbackup.cfg",
+            "org.bepinex.plugins.foraging.cfg": "org.bepinex.plugins.foragingbackup.cfg",
+            "org.bepinex.plugins.lumberjacking.cfg": "org.bepinex.plugins.lumberjackingbackup.cfg",
+            "org.bepinex.plugins.mining.cfg": "org.bepinex.plugins.miningbackup.cfg",
+            "org.bepinex.plugins.farming.cfg": "org.bepinex.plugins.farmingbackup.cfg",
+            "org.bepinex.plugins.conversionsizespeed.cfg": "org.bepinex.pluginsbackup.conversionsizespeed.cfg",
+            "org.bepinex.plugins.creaturelevelcontrol.cfg": "org.bepinex.plugins.creaturelevelcontrolbackup.cfg",
+            "org.bepinex.plugins.blacksmithing.cfg": "org.bepinex.pluginsbackup.blacksmithing.cfg",
+            "org.bepinex.plugins.building.cfg": "org.bepinex.pluginsbackup.building.cfg",
+            "org.bepinex.plugins.backpacks.cfg": "org.bepinex.pluginsbackup.backpacks.cfg",
+            "drop_that.cfg": "drop_thatbackup.cfg",
+            "kg.ValheimEnchantmentSystem.cfg": "kg.ValheimEnchantmentSystembackup.cfg",
+            "advize.PlantEverything.cfg": "advize.PlantEverythingbackup.cfg",
+            "custom_raids.cfg": "custom_raidsbackup.cfg",
+            "WackyMole.EpicMMOSystem.cfg": "WackyMole.EpicMMOSystembackup.cfg",
+            "WackyMole.Tone_Down_the_Twang.cfg": "WackyMole.Tone_Down_the_Twangbackup.cfg",
+            "RandomSteve.BreatheEasy.cfg": "RandomSteve.BreatheEasybackup.cfg",
+            "CreatureConfig_Monstrum.yml": "CreatureConfig_Monstrumbackup.yml",
+            "CreatureConfig_Wizardry.yml": "CreatureConfig_Wizardrybackup.yml",
+            "ItemConfig_Base.yml": "ItemConfig_Basebackup.yml",
+            "CreatureConfig_Bosses.yml": "CreatureConfig_Bossesbackup.yml",
+            "CreatureConfig_Creatures.yml": "CreatureConfig_Creaturesbackup.yml",
+            "Backpacks.Wizardry.yml": "Backpacks.Wizardrybackup.yml",
+            "CreatureConfig_BiomeIncrease.yml": "CreatureConfig_BiomeIncreasebackup.yml",
+            "Backpacks.MajesticEpicLoot.yml": "Backpacks.MajesticEpicLootbackup.yml",
+            "Azumatt.FactionAssigner.yml": "Azumatt.FactionAssignerbackup.yml",
+            "Backpacks.Majestic.yml": "Backpacks.Majesticbackup.yml",
+            "Azumatt.AzuCraftyBoxes.yml": "Azumatt.AzuCraftyBoxesbackup.yml",
             
             # Directory mappings (current dir -> backup dir)
-            "EpicMMOSystem/": "EpicMMOSystem/",
-            "ValheimEnchantmentSystem/": "ValheimEnchantmentSystem/",
-            "wackysDatabase/": "wackysDatabase/",
-            "EpicLoot/": "EpicLoot/",
+            "EpicMMOSystem/": "EpicMMOSystembackup/",
+            "ValheimEnchantmentSystem/": "ValheimEnchantmentSystembackup/",
+            "wackysDatabase/": "wackysDatabase_backup/",
+            "EpicLoot/": "EpicLootbackup/",
             
             # Files with no backup (will be marked as new)
             "custom_raids.raids.cfg": None,
@@ -3636,7 +3636,7 @@ def run_relicheim_comparison_headless(config_root: Path, output_file: Path = Non
         app = ConfigChangeTrackerApp(root, config_root)
         
         # Get the backup directory path
-        backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10Backup" / "config"
+        backup_dir = Path(__file__).resolve().parents[1] / "Valheim_Help_Docs" / "JewelHeim-RelicHeim-5.4.10_Backup" / "config"
         
         if not backup_dir.exists():
             print(f"Error: RelicHeim backup directory not found: {backup_dir}")

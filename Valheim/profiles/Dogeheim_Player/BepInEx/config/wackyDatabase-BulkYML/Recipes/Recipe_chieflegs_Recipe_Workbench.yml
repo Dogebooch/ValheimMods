@@ -1,0 +1,17 @@
+name: chieflegs_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_workbench
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- DeerHide:20:10:True
+- KnifeFlint:2:0:True
+- SurtlingCore:2:0:True
+- TrophySkeleton:2:0:True
+- BoneFragments:0:10:True

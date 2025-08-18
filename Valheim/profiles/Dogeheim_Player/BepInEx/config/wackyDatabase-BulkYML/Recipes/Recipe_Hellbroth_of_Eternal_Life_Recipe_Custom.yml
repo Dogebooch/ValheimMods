@@ -1,0 +1,14 @@
+name: Hellbroth_of_Eternal_Life_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $pp_alchemy_table
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Honey:5:0:True
+- Dandelion:3:0:True

@@ -1,0 +1,14 @@
+name: BoltBone_OdinShip_Recipe_Custom
+clonePrefabName: NO
+craftingStation: Carpenters Table
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 20
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- RoundLog:5:0:True
+- BoneFragments:2:0:True

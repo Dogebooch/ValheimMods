@@ -1,0 +1,14 @@
+name: HoneyGlazedWolf
+clonePrefabName: 
+craftingStation: $piece_cauldron
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: $piece_workbench
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- WolfMeat:1:1:True
+- Honey:2:1:True

@@ -1,0 +1,16 @@
+name: Recipe_BlackForestMageHood_RtD
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- DeerHide:5:2:True
+- TrollHide:5:2:True
+- GreydwarfEye:5:2:True
+- Bronze:2:2:True

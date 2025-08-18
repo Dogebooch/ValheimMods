@@ -1,0 +1,16 @@
+name: kg_EnchantScroll_Weapon_Blessed_B
+clonePrefabName: 
+craftingStation: Scroll Station
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- WolfPelt:5:0:True
+- WolfHairBundle:5:0:True
+- InfusedCrystal_JH:8:0:True
+- kg_EnchantScroll_Weapon_B:1:0:True

@@ -1,0 +1,16 @@
+name: BackpackSwamp_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_workbench
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Bloodbag:10:2:True
+- Root:4:0:True
+- Guck:4:0:True
+- Iron:0:5:True

@@ -1,0 +1,15 @@
+name: Brew_of_Thunderous_Words_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $pp_alchemy_table
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Obsidian:3:0:True
+- GreydwarfEye:6:0:True
+- Cloudberry:2:0:True

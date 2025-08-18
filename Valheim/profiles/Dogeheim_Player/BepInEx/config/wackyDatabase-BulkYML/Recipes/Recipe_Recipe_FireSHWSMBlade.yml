@@ -1,0 +1,16 @@
+name: Recipe_FireSHWSMBlade
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: $piece_blackforge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Arcanium:2:1:True
+- Thunderstorm_Item:10:4:True
+- FlametalNew:10:4:True
+- StaffFireball:1:1:True

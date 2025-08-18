@@ -1,0 +1,56 @@
+name: KnifeViper_TW
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: true
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Bronze:0:11:True
+- Bronze:0:22:True
+- Bronze:0:33:True
+- Iron:0:11:True
+- Iron:0:22:True
+- Iron:0:33:True
+- Iron:0:44:True
+- Silver:0:11:True
+- Silver:0:22:True
+- Silver:0:33:True
+- Silver:0:44:True
+- HardAntler:0:6:True
+- HardAntler:0:12:True
+- HardAntler:0:18:True
+- Root:0:6:True
+- Root:0:12:True
+- Root:0:18:True
+- Root:0:24:True
+- WolfClaw:0:6:True
+- WolfClaw:0:12:True
+- WolfClaw:0:18:True
+- WolfClaw:0:24:True
+- SurtlingCore:0:2:True
+- SurtlingCore:0:4:True
+- SurtlingCore:0:6:True
+- WitheredBone:0:2:True
+- WitheredBone:0:4:True
+- WitheredBone:0:6:True
+- WitheredBone:0:8:True
+- WolfHairBundle:0:2:True
+- WolfHairBundle:0:4:True
+- WolfHairBundle:0:6:True
+- WolfHairBundle:0:8:True
+- TrophyAsmodeus_TW:0:1:True
+- TrophyAsmodeus_TW:0:1:True
+- TrophyAsmodeus_TW:0:1:True
+- TrophyAbomination:0:1:True
+- TrophyAbomination:0:1:True
+- TrophyAbomination:0:1:True
+- TrophyAbomination:0:1:True
+- TrophyFenring:0:1:True
+- TrophyFenring:0:1:True
+- TrophyFenring:0:1:True
+- TrophyFenring:0:1:True

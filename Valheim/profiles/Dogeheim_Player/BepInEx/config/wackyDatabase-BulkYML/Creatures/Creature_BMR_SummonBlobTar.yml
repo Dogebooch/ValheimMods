@@ -1,0 +1,4 @@
+name: BMR_SummonBlobTar
+mob_display_name: $bmr_summonblobtar
+clone_creature: 
+creature_replacer: 

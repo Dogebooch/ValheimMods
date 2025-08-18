@@ -1,0 +1,14 @@
+name: Brew_of_Spiritual_Death_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $pp_alchemy_table
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Chitin:2:0:True
+- Entrails:4:0:True

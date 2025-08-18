@@ -1,0 +1,16 @@
+name: druidchest_Recipe_MageTable
+clonePrefabName: NO
+craftingStation: $piece_magetable
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Iron:30:10:True
+- LoxPelt:40:10:True
+- ScaleHide:30:0:True
+- LinenThread:20:0:True

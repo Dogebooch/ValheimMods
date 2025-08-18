@@ -1,0 +1,15 @@
+name: ss_serpentcape_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- AskHide:6:2:True
+- Eitr:30:0:True
+- TrophySerpent:1:0:True

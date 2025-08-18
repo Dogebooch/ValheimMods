@@ -1,0 +1,14 @@
+name: Odins_Wizard_Hat_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_workbench
+minStationLevel: 5
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- LinenThread:20:10:True
+- SurtlingCore:5:2:True

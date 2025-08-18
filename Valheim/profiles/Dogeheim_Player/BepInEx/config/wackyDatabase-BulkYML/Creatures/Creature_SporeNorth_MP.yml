@@ -1,0 +1,4 @@
+name: SporeNorth_MP
+mob_display_name: $enemy_sporedeepnorth_mp
+clone_creature: 
+creature_replacer: 

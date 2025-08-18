@@ -1,0 +1,16 @@
+name: SilverGreatSwordHTD
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_forge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FineWood:8:0:True
+- Silver:12:8:True
+- LeatherScraps:9:0:True
+- Iron:7:5:True

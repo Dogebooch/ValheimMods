@@ -1,0 +1,14 @@
+name: FishJerky_JH
+clonePrefabName: 
+craftingStation: $piece_cauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 2
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FishRaw:1:1:True
+- Honey:1:1:True

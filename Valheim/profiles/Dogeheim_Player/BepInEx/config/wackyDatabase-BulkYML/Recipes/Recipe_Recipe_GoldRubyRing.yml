@@ -1,0 +1,14 @@
+name: Recipe_GoldRubyRing
+clonePrefabName: NO
+craftingStation: $piece_workbench
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Coins:200:1:True
+- Ruby:1:1:True

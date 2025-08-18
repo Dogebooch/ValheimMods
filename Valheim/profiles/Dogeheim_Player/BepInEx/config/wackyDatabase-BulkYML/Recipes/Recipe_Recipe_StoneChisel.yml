@@ -1,0 +1,14 @@
+name: Recipe_StoneChisel
+clonePrefabName: NO
+craftingStation: $piece_stonecutter
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 10
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FineWood:2:0:True
+- Iron:1:0:True

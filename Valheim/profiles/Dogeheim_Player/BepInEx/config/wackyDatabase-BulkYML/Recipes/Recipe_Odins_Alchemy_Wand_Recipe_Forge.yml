@@ -1,0 +1,15 @@
+name: Odins_Alchemy_Wand_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FineWood:8:4:True
+- Copper:3:1:True
+- SurtlingCore:1:0:True

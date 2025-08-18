@@ -1,0 +1,17 @@
+name: ss_storrlegs_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- stjudelegs:1:0:True
+- bearlegs2:1:0:True
+- ss_koroklegs:1:0:True
+- Eitr:20:10:True
+- FlametalNew:0:15:True

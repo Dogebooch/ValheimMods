@@ -1,0 +1,16 @@
+name: kg_EnchantScroll_Armor_Blessed_D
+clonePrefabName: 
+craftingStation: Scroll Station
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- RazorbackLeather_TW:5:0:True
+- GreydwarfEye:5:0:True
+- InfusedCrystal_JH:6:0:True
+- kg_EnchantScroll_Armor_D:1:0:True

@@ -1,0 +1,12 @@
+name: JVLmock_Pickable_Thistle
+itemPrefab: JVLmock_Thistle
+cloneOfWhatPickable: 
+material: 
+amount: 1
+size: 
+overrideName: ''
+respawnTimer: 240
+spawnOffset: 0.5
+ifHasHealth: 
+hiddenChildWhenPicked: visual
+extraDrops: 

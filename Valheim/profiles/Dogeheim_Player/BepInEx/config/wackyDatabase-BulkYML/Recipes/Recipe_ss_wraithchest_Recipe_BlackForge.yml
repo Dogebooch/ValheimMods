@@ -1,0 +1,16 @@
+name: ss_wraithchest_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FlametalNew:10:5:True
+- BlackMarble:15:10:True
+- JuteRed:15:0:True
+- TrophyGoblinKing:1:0:True

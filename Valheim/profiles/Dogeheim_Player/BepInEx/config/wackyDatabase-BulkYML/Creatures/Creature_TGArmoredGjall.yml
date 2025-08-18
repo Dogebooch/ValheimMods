@@ -1,0 +1,4 @@
+name: TGArmoredGjall
+mob_display_name: $enemy_gjall_tg
+clone_creature: 
+creature_replacer: 

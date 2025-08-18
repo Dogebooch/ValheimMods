@@ -1,0 +1,16 @@
+name: TGCatalyst_Recipe_MageTable
+clonePrefabName: NO
+craftingStation: $piece_magetable
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- TGQueenNeedle:1:0:True
+- TGWhisper_Chain:1:0:True
+- TGGreydwarfElder_Resin:1:0:True
+- TGTrollWarrior_HairBundle:1:0:True

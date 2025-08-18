@@ -1,0 +1,16 @@
+name: BackpackPlains_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- CapeLox:1:0:True
+- Tar:5:0:True
+- BlackMetal:5:5:True
+- LoxPelt:0:2:True

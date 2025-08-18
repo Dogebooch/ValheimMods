@@ -1,0 +1,15 @@
+name: BMR_PaperAncient_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $bmr_spell_table
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 50
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- ElderBark:10:0:True
+- FineWood:10:0:True
+- Guck:5:0:True

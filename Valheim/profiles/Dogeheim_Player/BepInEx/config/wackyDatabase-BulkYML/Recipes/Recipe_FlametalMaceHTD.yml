@@ -1,0 +1,20 @@
+name: FlametalMaceHTD
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_forge
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+- Flametal:10:20:30:40
+- SurtlingCore:10:20:30:40
+- Iron:5:10:15:20
+- LeatherScraps:3:6:9:12
+reqs:
+- Flametal:25:5:True
+- SurtlingCore:25:5:True
+- Iron:20:5:True
+- LeatherScraps:12:0:True

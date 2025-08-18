@@ -1,0 +1,14 @@
+name: Recipe_SQueensJam_RtD
+clonePrefabName: NO
+craftingStation: $piece_cauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Raspberry:3:0:True
+- Honey:5:0:True
