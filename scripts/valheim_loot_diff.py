@@ -1171,7 +1171,7 @@ class LootDiffGUI:
     def log_message(self, message):
         """Add a message to the status text"""
         self.status_text.insert(tk.END, f"{message}\n")
-                    self.status_text.see(tk.END)
+        self.status_text.see(tk.END)
         self.master.update()
 
     def run_diff(self):
@@ -1197,11 +1197,11 @@ class LootDiffGUI:
 
         # Run analysis in a separate thread to keep GUI responsive
         self.refresh_button.config(state="disabled", bg=PALETTE["muted"])
-        self.gui_thread = threading.Thread(target=self.run_analysis_thread, 
-                                         args=(baseline_path, active_path, out_path, compose_chars, 
-                                               scan_all, tier_map_json, set_weight_json, 
-                                               assert_tier_change, world_level))
-            self.gui_thread.start()
+        self.gui_thread = threading.Thread(target=self.run_analysis_thread,
+                                           args=(baseline_path, active_path, out_path, compose_chars,
+                                                 scan_all, tier_map_json, set_weight_json,
+                                                 assert_tier_change, world_level))
+        self.gui_thread.start()
 
     def run_analysis_thread(self, baseline_path, active_path, out_path, compose_chars, 
                           scan_all, tier_map_json, set_weight_json, assert_tier_change, world_level):
