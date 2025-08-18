@@ -72,7 +72,7 @@
 
 		{ "Biome": "Mistlands", 	"TargetID": "CorruptedDvergerMage_TW",     	"RewardGold": 0, "RewardIron": 0, "RewardCoins": 900 },
 		{ "Biome": "Mistlands", 	"TargetID": "CorruptedDvergerMage_TW",     	"RewardGold": 0, "RewardIron": 2, "RewardCoins": 950 },
-		{ "Biome": "Mistlands", 	"TargetID": "CorruptedDvergerMage_TW",     	"RewardGold": 2, "RewardIron": 1, "RewardCoins": 1000 },
+		{ "Biome": "Mistlands", 	"TargetID": "CorruptedDvergerMage_TW",     	"RewardGold": 2, "RewardIron": 1, "RewardCoins": 1000 }
 	  ]
 	}
   ]
