@@ -42,11 +42,12 @@ DEFAULT_TIER_PATTERNS = {
 
 # Keys we look for when parsing entries/tables
 ITEM_KEYS     = {"item", "prefab", "prefabname", "name"}
-WEIGHT_KEYS   = {"weight", "setweight", "entryweight", "weightwhenrolled"}
-CHANCE_KEYS   = {"chance", "dropchance", "probability", "rollchance"}
+# Include Drop That style keys (SetTemplateWeight, SetDropChance, etc.)
+WEIGHT_KEYS   = {"weight", "setweight", "entryweight", "weightwhenrolled", "settemplateweight"}
+CHANCE_KEYS   = {"chance", "dropchance", "probability", "rollchance", "setdropchance"}
 SET_KEYS      = {"set", "setname", "droptable", "table", "group", "parent", "pool"}
-COUNT_MIN_KEYS= {"min", "amountmin", "dropmin", "rollsmin"}
-COUNT_MAX_KEYS= {"max", "amountmax", "dropmax", "rollsmax"}
+COUNT_MIN_KEYS= {"min", "amountmin", "dropmin", "rollsmin", "setdropmin", "setamountmin"}
+COUNT_MAX_KEYS= {"max", "amountmax", "dropmax", "rollsmax", "setdropmax", "setamountmax"}
 COUNT_ONEOF   = {"droponeof", "oneof", "pickone", "pickamount"}
 
 Section = namedtuple("Section", ["name", "fields", "lineno", "file"])
@@ -615,8 +616,9 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
 
 def main():
     ap = argparse.ArgumentParser(description="Diff RelicHeim/EpicLoot material rates between baseline and active configs (v1.1).")
-    ap.add_argument("--baseline", required=False, default="C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/", help="Path to baseline (pristine) config dir (e.g., C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/)")
-    ap.add_argument("--active", required=False, default="C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim/profiles/Dogeheim_Player/BepInEx/config/", help="Path to active repo/config dir")
+    # Default paths are relative to this repository so the script works out-of-the-box
+    ap.add_argument("--baseline", required=False, default="Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/", help="Path to baseline (pristine) config dir")
+    ap.add_argument("--active", required=False, default="Valheim/profiles/Dogeheim_Player/BepInEx/config/", help="Path to active repo/config dir")
     ap.add_argument("--out", required=False, default="./loot_report", help="Output path prefix (without extension)")
     ap.add_argument("--tier-map-json", help="Optional JSON file overriding tier regex mapping")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
