@@ -40,6 +40,9 @@ DEFAULT_TIER_PATTERNS = {
     "Magic":     r"(?:magic|runestonemagic|shardmagic|dustmagic|novus|essencemagic|reagentmagic)",
 }
 
+# Identify enchanting material item types specifically
+ENCHANT_TYPE_PATTERN = re.compile(r"(?:essence|runestone|shard|dust)", re.IGNORECASE)
+
 # Keys we look for when parsing entries/tables
 ITEM_KEYS     = {"item", "prefab", "prefabname", "name"}
 # Include Drop That style keys (SetTemplateWeight, SetDropChance, etc.)
@@ -215,6 +218,51 @@ class LootSet:
         if total <= 0:
             return [(e, 0.0) for e in self.entries]
         return [(self.entries[i], weights[i]/total) for i in range(len(self.entries))]
+
+    def expected_items_per_pick(self) -> float:
+        """
+        Expected number of successful item drops per pick of this table.
+        Assumes one entry is selected per pick, proportionally to weight, and each
+        selected entry then succeeds with its own chance. This returns the average
+        success probability across a pick: sum_i (w_i/sum_j w_j) * chance_i.
+        """
+        total_weight = 0.0
+        weighted_success = 0.0
+        for e in self.entries:
+            w = max(e.get("weight", 0.0), 0.0)
+            c = max(min(e.get("chance", 1.0), 1.0), 0.0)
+            total_weight += w
+            weighted_success += w * c
+        if total_weight <= 0.0:
+            return 0.0
+        return weighted_success / total_weight
+
+    def expected_materials_per_pick_by_tier(self, tier_regex: Dict[str, str]) -> Dict[str, float]:
+        """
+        Expected number of enchanting material items produced per pick, split by tier.
+        Only counts entries whose item name includes essence/runestone/shard/dust.
+        For each entry i: P(select i) * chance_i, where P(select i) = weight_i / sum_j weight_j.
+        """
+        totals_by_tier: Dict[str, float] = {"Magic": 0.0, "Rare": 0.0, "Epic": 0.0, "Legendary": 0.0, "Mythic": 0.0}
+        total_weight = 0.0
+        for e in self.entries:
+            total_weight += max(e.get("weight", 0.0), 0.0)
+        if total_weight <= 0.0:
+            return totals_by_tier
+        for e in self.entries:
+            item = e.get("item")
+            if not item:
+                continue
+            if not ENCHANT_TYPE_PATTERN.search(str(item)):
+                continue
+            tier = e.get("tier") or tier_of(item, tier_regex)
+            if not tier or tier not in totals_by_tier:
+                continue
+            w = max(e.get("weight", 0.0), 0.0)
+            c = max(min(e.get("chance", 1.0), 1.0), 0.0)
+            p_select = 0.0 if total_weight <= 0 else (w / total_weight)
+            totals_by_tier[tier] += p_select * c
+        return totals_by_tier
 
     def expected_picks(self) -> Optional[float]:
         picks = None
@@ -557,6 +605,24 @@ def compute_shares(sets: Dict[str, LootSet], tier_regex: Dict[str,str]) -> Dict[
         out[name] = summarize_set_by_tier(ls, tier_regex)
     return out
 
+def compute_global_material_expectation(sets: Dict[str, LootSet], tier_regex: Dict[str,str], set_weights: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+    """
+    Aggregate expected enchanting material drops by tier across all sets.
+    Each set contributes: (expected_picks for the set) * (expected materials per pick by tier).
+    """
+    totals: Dict[str, float] = {"Magic": 0.0, "Rare": 0.0, "Epic": 0.0, "Legendary": 0.0, "Mythic": 0.0}
+    for name, ls in sets.items():
+        picks = ls.expected_picks() or 1.0
+        if set_weights and name in set_weights:
+            try:
+                picks *= float(set_weights[name])
+            except Exception:
+                pass
+        per_pick = ls.expected_materials_per_pick_by_tier(tier_regex)
+        for t in totals.keys():
+            totals[t] += picks * per_pick.get(t, 0.0)
+    return totals
+
 def write_csv(path: str, rows: List[Dict[str, str]]):
     import csv
     if not rows:
@@ -589,6 +655,8 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
     # Precompute per-pick tier share for sets
     set_share = {k: summarize_set_by_tier(v, tier_regex) for k, v in set_map.items()}
     set_picks = {k: v.expected_picks() or 1.0 for k, v in set_map.items()}
+    # Average success probability per pick (0..1) for each set
+    set_success_per_pick = {k: v.expected_items_per_pick() for k, v in set_map.items()}
     for cname, cd in sorted(char_map.items(), key=lambda x: x[0].lower()):
         tier_counts = defaultdict(float)
         # combine table refs
@@ -596,8 +664,10 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
             sname = ref.get("set")
             if sname in set_share:
                 picks = set_picks.get(sname, 1.0)
+                success_rate = set_success_per_pick.get(sname, 0.0)
                 chance = max(min(float(ref.get("chance",1.0)), 1.0), 0.0)
-                mult = chance * picks
+                # Expected number of successful items produced by this set ref
+                mult = chance * picks * success_rate
                 for tier, share in set_share[sname].items():
                     tier_counts[tier] += mult * share
         # direct items
@@ -621,7 +691,10 @@ def main():
     ap.add_argument("--active", required=False, default="Valheim/profiles/Dogeheim_Player/BepInEx/config/", help="Path to active repo/config dir")
     ap.add_argument("--out", required=False, default="./loot_report", help="Output path prefix (without extension)")
     ap.add_argument("--tier-map-json", help="Optional JSON file overriding tier regex mapping")
+    ap.add_argument("--set-weight-json", help="Optional JSON { setName: weight } to weight/scale set contributions for global aggregation")
+    ap.add_argument("--assert-tier-change", help="Optional assertion of form Tier:+10% or Tier:+0.10 to verify global change vs baseline")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
+    ap.add_argument("--scan-all", action="store_true", help="Ignore default include filters and scan all supported config files under baseline/active")
     ap.add_argument("--include-path", action="append", default=[
         # Active configurations - Loot Tables & Drop Configurations
         "**/_RelicHeimFiles/Drop,Spawn_That/drop_that.drop_table.EpicLootChest.cfg",
@@ -636,10 +709,6 @@ def main():
         "**/EpicLoot/patches/RelicHeimPatches/AdventureData_SecretStash_RelicHeim.json",
         # Active configurations - Backpack Configuration Files
         "**/Backpacks.MajesticEpicLoot.yml",
-        # Active configurations - Item Database Files
-        "**/VNEI-Export/VNEI.indexed.items.yml",
-        "**/VNEI-Export/VNEI.indexed.items.txt",
-        "**/VNEI-Export/VNEI.indexed.items.csv",
         # Active configurations - World Location Pickable Items
         "**/warpalicious.More_World_Locations_PickableItemLists.yml",
         # Canonical RelicHeim files - Backup Loot Tables & Drop Configurations
@@ -666,9 +735,19 @@ def main():
             m = json.load(f)
             for k,v in m.items():
                 tier_map[k] = v
+    set_weights = None
+    if args.set_weight_json:
+        try:
+            with open(args.set_weight_json, "r", encoding="utf-8") as f:
+                w = json.load(f)
+                if isinstance(w, dict):
+                    set_weights = {str(k): float(v) for k, v in w.items()}
+        except Exception:
+            set_weights = None
 
-    base_sets = crawl_configs(args.baseline, args.include_path)
-    act_sets  = crawl_configs(args.active, args.include_path)
+    include_filters = [] if args.scan_all else args.include_path
+    base_sets = crawl_configs(args.baseline, include_filters)
+    act_sets  = crawl_configs(args.active, include_filters)
 
     base_shares = compute_shares(base_sets, tier_map)
     act_shares  = compute_shares(act_sets, tier_map)
@@ -703,6 +782,72 @@ def main():
     parts.append("<p>This report compares per-pick tier shares for sets/tables found in both baseline and active configs. "
                  "Estimated picks per roll are shown when parseable (table chance × expected rolls).</p>")
     parts.append(render_html_table(rows, "Common Sets — Tier Share Diff"))
+    # Global expected enchanting materials by tier
+    base_global = compute_global_material_expectation(base_sets, tier_map, set_weights)
+    act_global  = compute_global_material_expectation(act_sets, tier_map, set_weights)
+    tiers = ["Magic","Rare","Epic","Legendary","Mythic"]
+    global_rows: List[Dict[str, str]] = []
+    for t in tiers:
+        b = base_global.get(t, 0.0)
+        a = act_global.get(t, 0.0)
+        d = a - b
+        pct = (d / b * 100.0) if b > 0 else (100.0 if a > 0 else 0.0)
+        global_rows.append({
+            "Tier": t,
+            "Base E[item]": f"{b:.6f}",
+            "Active E[item]": f"{a:.6f}",
+            "Δ E[item]": f"{d:.6f}",
+            "Δ %": f"{pct:.2f}"
+        })
+    # Totals row
+    total_b = sum(base_global.values())
+    total_a = sum(act_global.values())
+    total_d = total_a - total_b
+    total_pct = (total_d / total_b * 100.0) if total_b > 0 else (100.0 if total_a > 0 else 0.0)
+    global_rows.append({
+        "Tier": "Total",
+        "Base E[item]": f"{total_b:.6f}",
+        "Active E[item]": f"{total_a:.6f}",
+        "Δ E[item]": f"{total_d:.6f}",
+        "Δ %": f"{total_pct:.2f}"
+    })
+    parts.append(render_html_table(global_rows, "Global Expected Enchanting Materials by Tier (per run)"))
+    # Also write CSV for global materials
+    global_csv = args.out + ".materials.global.csv"
+    write_csv(global_csv, global_rows)
+
+    # Optional assertion check for a tier change like Magic:+10% or Magic:+0.10
+    if args.assert_tier_change:
+        m = re.match(r"^([A-Za-z]+):([+\-]?[0-9.]+%?)$", args.assert_tier_change.strip())
+        if m:
+            tier = m.group(1).capitalize()
+            inc = m.group(2)
+            target_ratio = None
+            if inc.endswith('%'):
+                try:
+                    pct = float(inc.strip('%'))/100.0
+                    target_ratio = 1.0 + pct
+                except Exception:
+                    target_ratio = None
+            else:
+                try:
+                    frac = float(inc)
+                    if abs(frac) < 2.0:
+                        target_ratio = 1.0 + frac
+                    else:
+                        # treat absolute factor
+                        target_ratio = frac
+                except Exception:
+                    target_ratio = None
+            if target_ratio is not None and tier in base_global and tier in act_global:
+                b = base_global.get(tier, 0.0)
+                a = act_global.get(tier, 0.0)
+                achieved = (a / b) if b > 0 else (float('inf') if a > 0 else 1.0)
+                print(f"Assert {tier} change: baseline={b:.6f}, active={a:.6f}, ratio={achieved:.4f}, target={target_ratio:.4f}")
+                # Simple tolerance
+                tol = 0.02
+                if not (abs(achieved - target_ratio) <= tol * max(target_ratio, 1.0)):
+                    print("WARNING: Global tier change deviates beyond tolerance.")
     if only_base:
         parts.append("<h2>Sets only in BASELINE</h2><ul>" + "".join(f"<li>{html.escape(s)}</li>" for s in only_base) + "</ul>")
     if only_act:
@@ -713,11 +858,12 @@ def main():
 
     print(f"Wrote: {out_csv}")
     print(f"Wrote: {out_html}")
+    print(f"Wrote: {global_csv}")
 
     # Optional: character composition
     if args.compose_characters:
-        base_chars = crawl_characters(args.baseline, args.include_path)
-        act_chars  = crawl_characters(args.active, args.include_path)
+        base_chars = crawl_characters(args.baseline, include_filters)
+        act_chars  = crawl_characters(args.active, include_filters)
 
         base_rows = compose_characters_report(base_chars, base_sets, tier_map)
         act_rows  = compose_characters_report(act_chars, act_sets, tier_map)
