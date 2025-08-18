@@ -1,0 +1,71 @@
+groups:
+  CustomFood:
+  - HoneyGlazedDeer
+  - HoneyGlazedMeat
+  - HoneyGlazedNeck
+  - HoneyGlazedLox
+  - HoneyGlazedFish
+  - HoneyGlazedWolf
+  - JellyGlazedHare
+  - JellyGlazedSeeker
+  - CookedEntrails
+  - ElkJerky
+  - LoxJerky_JH
+  - SeekerJerky_JH
+  - FishJerky_JH
+  - FishStew_JH
+  - NeckJerky_JH
+  - SerpentJerky_JH
+  - FishNLoxSkewer
+  - FishMeatSkewer
+  - DandelionTea_JH
+  MeadBase:
+  - BarleyWineBase
+  - MeadBaseTamer
+  - MeadBaseSwimmer
+  - MeadBaseLightFoot
+  - MeadBaseStrength
+  - MeadBaseBugRepellent
+  - MeadBaseBzerker
+  - MeadBaseHasty
+  - MeadBaseEitrMinor
+  - MeadBaseFrostResist
+  - MeadBaseHealthMajor
+  - MeadBaseHealthMedium
+  - MeadBaseHealthMinor
+  - MeadBasePoisonResist
+  - MeadBaseStaminaLingering
+  - MeadBaseStaminaMedium
+  - MeadBaseStaminaMinor
+  - MeadBaseTasty
+  - MeadBaseEitrLingering
+  - MeadBaseHealthLingering
+  - MeadBaseLightningResist_TW
+  - MeadBaseLingeringStaminaMinor_TW
+  - MeadBaseLingeringStaminaMedium_TW
+  - MeadBaseEitrBlackForest_TW
+  - MeadBaseEitrMountain_TW
+  MetalsDeepNorth:
+  - RagnoriteBar_TW
+  - TyraniumBar_TW
+  - ThoradusBar_TW
+  - LokvyrBar_TW
+  - RagnoriteOre_TW
+  - TyraniumOre_TW
+  - LokvyrOre_TW
+  ReduceWeight:
+  - Stone
+  - BlackMarble
+  - Flint
+  - Coal
+  - Tar
+  - Obsidian
+  - SulfurStone
+  - Grausten
+  - Chitin
+  - CeramicPlate
+  WizardryScrolls:
+  - ArcaneScroll_DamageBuff_TW
+  - ArcaneScroll_SpeedBuff_TW
+  - ArcaneScroll_JumpBuff_TW
+  - ArcaneScroll_SlowfallBuff_TW

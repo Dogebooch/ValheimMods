@@ -1,0 +1,20 @@
+﻿PrintComment: ThisGoesHere is deleting unwanted files
+DeleteFile:
+- config\CreatureConfig.yml
+- config\ItemConfig.yml
+- config\wackysDatabase\Recipes\_RelicHeimWDB2.0\zOther\Recipe_ResetTrophy.yml
+- config\_RelicHeimFiles\Drop,Spawn_That\drop_that.character_drop.RelicHeim.cfg
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_GB_Castle_Hearth_JH.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_GB_Fire_Pit_JH.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_GB_Oven.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_GB_Oven_JH.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_RDSittingSkeleton.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_RDSkeletonPole.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_SmallerKiln_JH.yml
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_FishTrap.yml
+DeleteFolder:
+- config\wackysDatabase\Items\_RelicHeimWDB2.0\EpicMMO
+- config\wackysDatabase\Recipes\_RelicHeimWDB2.0\EpicMMO
+- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Extensions
+- config\wackysDatabase\Recipes\_RelicHeimWDB2.0\TanningRack
+- config\_RelicHeimFiles\ThisGoesHereMovedFile
