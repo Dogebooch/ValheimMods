@@ -37,12 +37,12 @@
   },
   {
     "material": "RunestoneMagic",
-    "total_base": 4.0,
+    "total_base": 0,
     "total_current": 674.25,
-    "pct_change_total": 16756.25,
+    "pct_change_total": 100.0,
     "sources": {
       "backpack_cfg": {
-        "baseline": 4.0,
+        "baseline": 0.0,
         "current": 8.0,
         "pct_change": 100.0
       },

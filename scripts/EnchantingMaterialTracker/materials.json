@@ -1,36 +1,111 @@
 {
   "tiers": {
+    "Magic": [
+      "RunestoneMagic",
+      "DustMagic",
+      "EssenceMagic",
+      "ReagentMagic",
+      "ShardMagic"
+    ],
     "Rare": [
-      "RunestoneSpirit",
-      "RunestoneFrost",
-      "RunestoneFire",
-      "RunestonePoison",
-      "RunestoneRare"
+      "RunestoneRare",
+      "DustRare",
+      "EssenceRare",
+      "ReagentRare",
+      "ShardRare"
     ],
     "Epic": [
-      "RunestoneLightning",
-      "RunestoneEarth",
-      "RunestoneWind",
-      "RunestoneWater",
-      "RunestoneEpic"
+      "RunestoneEpic",
+      "DustEpic",
+      "EssenceEpic",
+      "ReagentEpic",
+      "ShardEpic"
     ],
     "Legendary": [
-      "RunestoneArcane",
-      "RunestoneShadow",
-      "RunestoneHoly",
-      "RunestoneBlood",
-      "RunestoneLegendary"
+      "RunestoneLegendary",
+      "DustLegendary",
+      "EssenceLegendary",
+      "ReagentLegendary",
+      "ShardLegendary"
     ],
     "Mythic": [
-      "RunestoneMagic",
-      "RunestoneChaos",
-      "RunestoneOrder",
-      "RunestoneVoid"
+      "RunestoneMythic",
+      "DustMythic",
+      "EssenceMythic",
+      "ReagentMythic",
+      "ShardMythic"
+    ],
+    "Novus": [
+      "RunestoneNovus",
+      "DustNovus", 
+      "EssenceNovus",
+      "ReagentNovus",
+      "ShardNovus"
+    ],
+    "Nexus": [
+      "RunestoneNexus",
+      "DustNexus",
+      "EssenceNexus", 
+      "ReagentNexus",
+      "ShardNexus"
+    ],
+    "Zodiac": [
+      "RunestoneZodiac",
+      "DustZodiac",
+      "EssenceZodiac",
+      "ReagentZodiac", 
+      "ShardZodiac"
+    ],
+    "Zeta": [
+      "RunestoneZeta",
+      "DustZeta",
+      "EssenceZeta",
+      "ReagentZeta",
+      "ShardZeta"
     ]
   },
   "aliases": {
     "ShardMagic": "RunestoneMagic",
-    "DustMagic": "RunestoneMagic",
-    "EssenceMagic": "RunestoneMagic"
+    "DustMagic": "RunestoneMagic", 
+    "EssenceMagic": "RunestoneMagic",
+    "ReagentMagic": "RunestoneMagic",
+    "ShardRare": "RunestoneRare",
+    "DustRare": "RunestoneRare",
+    "EssenceRare": "RunestoneRare", 
+    "ReagentRare": "RunestoneRare",
+    "ShardEpic": "RunestoneEpic",
+    "DustEpic": "RunestoneEpic",
+    "EssenceEpic": "RunestoneEpic",
+    "ReagentEpic": "RunestoneEpic",
+    "ShardLegendary": "RunestoneLegendary",
+    "DustLegendary": "RunestoneLegendary",
+    "EssenceLegendary": "RunestoneLegendary",
+    "ReagentLegendary": "RunestoneLegendary",
+    "ShardMythic": "RunestoneMythic",
+    "DustMythic": "RunestoneMythic",
+    "EssenceMythic": "RunestoneMythic",
+    "ReagentMythic": "RunestoneMythic"
+  },
+  "material_types": {
+    "runestones": [
+      "RunestoneMagic", "RunestoneRare", "RunestoneEpic", "RunestoneLegendary", "RunestoneMythic",
+      "RunestoneNovus", "RunestoneNexus", "RunestoneZodiac", "RunestoneZeta"
+    ],
+    "dust": [
+      "DustMagic", "DustRare", "DustEpic", "DustLegendary", "DustMythic",
+      "DustNovus", "DustNexus", "DustZodiac", "DustZeta"
+    ],
+    "essence": [
+      "EssenceMagic", "EssenceRare", "EssenceEpic", "EssenceLegendary", "EssenceMythic",
+      "EssenceNovus", "EssenceNexus", "EssenceZodiac", "EssenceZeta"
+    ],
+    "reagents": [
+      "ReagentMagic", "ReagentRare", "ReagentEpic", "ReagentLegendary", "ReagentMythic",
+      "ReagentNovus", "ReagentNexus", "ReagentZodiac", "ReagentZeta"
+    ],
+    "shards": [
+      "ShardMagic", "ShardRare", "ShardEpic", "ShardLegendary", "ShardMythic",
+      "ShardNovus", "ShardNexus", "ShardZodiac", "ShardZeta"
+    ]
   }
 }
