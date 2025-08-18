@@ -1,5 +1,0 @@
-pyyaml
-watchdog
-jsonschema
-pandas
-reportlab
