@@ -1,645 +1,599 @@
 {
   "TargetFile": "loottables.json",
-  "Author": "CentralizedLootManager",
+  "Author": "Majestic",
   "RequireAll": true,
   "Patches": [
-    {
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "SmallCreatures",
+      "LeveledLoot": [
         {
-          "Object": "SmallCreatures",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 85], [1, 10], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 85], [1, 10], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 85], [1, 10], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 85], [1, 10], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 85], [1, 10], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 85], [1, 10], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "Spawners",
+      "LeveledLoot": [
         {
-          "Object": "Spawners",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                },
-                {
-                  "Item": "NovusMats",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 95], [1, 5], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 95], [1, 5], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 95], [1, 5], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 95], [1, 5], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 95], [1, 5], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 95], [1, 5], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "NovusMats", "Weight": 1 }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "MeadowsElite",
+      "LeveledLoot": [
         {
-          "Object": "MeadowsElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier1Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier1Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier1Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier1Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier1Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier1Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 90], [1, 10], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier1Everything", "Weight": 1, "Rarity": [ 95, 5, 0, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 90], [1, 10], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier1Everything", "Weight": 1, "Rarity": [ 85, 15, 0, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 90], [1, 10], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier1Everything", "Weight": 1, "Rarity": [ 75, 20, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 90], [1, 10], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier1Everything", "Weight": 1, "Rarity": [ 65, 25, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 90], [1, 10], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier1Everything", "Weight": 1, "Rarity": [ 55, 30, 15, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 90], [1, 10], [2, 0], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier1Everything", "Weight": 1, "Rarity": [ 45, 35, 20, 0, 0 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "BlackForestElite",
+      "LeveledLoot": [
         {
-          "Object": "BlackForestElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier2Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier2Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier2Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier2Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier2Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier2Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier2Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier2Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier2Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier2Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier2Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier2Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "SwampElite",
+      "LeveledLoot": [
         {
-          "Object": "SwampElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier3Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier3Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier3Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier3Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier3Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier3Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier3Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier3Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier3Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier3Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier3Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier3Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "MountainElite",
+      "LeveledLoot": [
         {
-          "Object": "MountainElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "OceanElite",
+      "LeveledLoot": [
         {
-          "Object": "OceanElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier4Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier4Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "PlainsElite",
+      "LeveledLoot": [
         {
-          "Object": "PlainsElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier5Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier5Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier5Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier5Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier5Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier5Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier5Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier5Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier5Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier5Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier5Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier5Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+    
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "MistlandsElite",
+      "LeveledLoot": [
         {
-          "Object": "MistlandsElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier6Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier6Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier6Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier6Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier6Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier6Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier6Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier6Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier6Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier6Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier6Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier6Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
+       ]
+	  }
+	 ]
     },
-    {
+	
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "AshlandsElite",
+      "LeveledLoot": [
         {
-          "Object": "AshlandsElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier7Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier7Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier7Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier7Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier7Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier7Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier7Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier7Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier7Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier7Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier7Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier7Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
-    },
-    {
+       ]
+	  }
+	 ]
+	},
+	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
       "Value": [
+	{
+      "Object": "DeepNorthElite",
+      "LeveledLoot": [
         {
-          "Object": "DeepNorthElite",
-          "LeveledLoot": [
-            {
-              "Level": 1,
-              "Drops": [
-                [
-                  0,
-                  85
-                ],
-                [
-                  1,
-                  10
-                ],
-                [
-                  2,
-                  5
-                ],
-                [
-                  3,
-                  0
-                ]
-              ],
-              "Loot": [
-                {
-                  "Item": "Tier8Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier8Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier8Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier8Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier8Everything",
-                  "Weight": 1
-                },
-                {
-                  "Item": "Tier8Everything",
-                  "Weight": 1
-                }
-              ]
-            }
+          "Level": 1,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier8Everything", "Weight": 1, "Rarity": [ 50, 45, 5, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 2,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier8Everything", "Weight": 1, "Rarity": [ 40, 50, 10, 0, 0 ] }
+          ]
+        },
+		{
+          "Level": 3,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier8Everything", "Weight": 1, "Rarity": [ 30, 50, 15, 5, 0 ] }
+          ]
+        },
+		{
+          "Level": 4,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier8Everything", "Weight": 1, "Rarity": [ 20, 45, 20, 15, 0 ] }
+          ]
+        },
+		{
+          "Level": 5,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier8Everything", "Weight": 1, "Rarity": [ 10, 35, 25, 25, 5 ] }
+          ]
+        },
+		{
+          "Level": 6,
+          "Drops": [ [0, 80], [1, 15], [2, 5], [3, 0] ],
+          "Loot": [
+            { "Item": "Tier8Everything", "Weight": 1, "Rarity": [ 0, 25, 35, 30, 10 ] }
           ]
         }
-      ]
-    }
+       ]
+	  }
+	 ]
+	}
   ]
 }

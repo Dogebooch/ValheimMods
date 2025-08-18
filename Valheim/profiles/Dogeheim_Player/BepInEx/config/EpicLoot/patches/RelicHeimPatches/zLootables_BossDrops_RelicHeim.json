@@ -667,7 +667,10 @@
 	  }
 	 ]
     },
-
+	
+//Monstrum Bosses//
+	
+	
 	{
       "Path": "$.LootTables",
       "Action": "AppendAll",
