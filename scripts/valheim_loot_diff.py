@@ -615,8 +615,8 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
 
 def main():
     ap = argparse.ArgumentParser(description="Diff RelicHeim/EpicLoot material rates between baseline and active configs (v1.1).")
-    ap.add_argument("--baseline", required=True, default="C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/", help="Path to baseline (pristine) config dir (e.g., C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/)")
-    ap.add_argument("--active", required=True, default="C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim/profiles/Dogeheim_Player/BepInEx/config/", help="Path to active repo/config dir")
+    ap.add_argument("--baseline", required=False, default="C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/", help="Path to baseline (pristine) config dir (e.g., C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/)")
+    ap.add_argument("--active", required=False, default="C:/Users/drumm/OneDrive/Desktop/Valheim_Testing/Valheim/profiles/Dogeheim_Player/BepInEx/config/", help="Path to active repo/config dir")
     ap.add_argument("--out", required=True, help="Output path prefix (without extension)")
     ap.add_argument("--tier-map-json", help="Optional JSON file overriding tier regex mapping")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
@@ -713,7 +713,7 @@ def main():
     print(f"Wrote: {out_html}")
 
     # Optional: character composition
-    if args.compose-characters:
+    if args.compose_characters:
         base_chars = crawl_characters(args.baseline, args.include_path)
         act_chars  = crawl_characters(args.active, args.include_path)
 
