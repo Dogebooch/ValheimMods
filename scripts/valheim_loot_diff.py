@@ -1139,7 +1139,7 @@ def main():
     ap.add_argument("--out", required=False, default="./loot_report", help="Output path prefix (without extension)")
     ap.add_argument("--tier-map-json", help="Optional JSON file overriding tier regex mapping")
     ap.add_argument("--set-weight-json", help="Optional JSON { setName: weight } to weight/scale set contributions for global aggregation")
-    ap.add_argument("--assert-tier-change", help="Optional assertion of form Tier:+10% or Tier:+0.10 to verify global change vs baseline")
+    ap.add_argument("--assert-tier-change", help="Optional assertion of form Tier:+10%% or Tier:+0.10 to verify global change vs baseline")
     ap.add_argument("--gui", action="store_true", help="Launch Tkinter GUI interface")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
     ap.add_argument("--scan-all", action="store_true", help="Ignore default include filters and scan all supported config files under baseline/active")
@@ -1382,14 +1382,22 @@ def launch_gui():
     weights_path_var = tk.StringVar(value="")
     assert_var = tk.StringVar(value="")
 
-    def browse_dir(var):
+    def browse_directory(var):
         d = filedialog.askdirectory()
         if d:
             var.set(d)
 
-    def browse_file(var):
+    def browse_json_file(var):
         p = filedialog.askopenfilename(filetypes=[["JSON files", "*.json"], ["All files", "*.*"]])
         if p:
+            var.set(p)
+
+    def browse_save_prefix(var):
+        p = filedialog.asksaveasfilename(defaultextension=".csv",
+                                         filetypes=[["CSV files", "*.csv"], ["All files", "*.*"]])
+        if p:
+            if p.lower().endswith(".csv"):
+                p = p[:-4]
             var.set(p)
 
     def run_analysis():
@@ -1436,27 +1444,24 @@ def launch_gui():
     frm = tk.Frame(root, bg=PALETTE["bg_mid"], bd=0, highlightthickness=0)
     frm.pack(fill=tk.X, padx=12, pady=12)
 
-    def row(parent, label, var, browse_dir=True):
-        r = tk.Frame(parent, bg=PALETTE["bg_mid"]) 
+    def row(parent, label, var, browse_fn):
+        r = tk.Frame(parent, bg=PALETTE["bg_mid"])
         tk.Label(r, text=label, fg=PALETTE["paper"], bg=PALETTE["bg_mid"]).pack(side=tk.LEFT, padx=(0,6))
         e = tk.Entry(r, textvariable=var, width=80)
         e.pack(side=tk.LEFT, fill=tk.X, expand=True)
-        if browse_dir:
-            tk.Button(r, text="Browse", command=lambda: browse_dir(var)).pack(side=tk.LEFT, padx=6)
-        else:
-            tk.Button(r, text="Browse", command=lambda: browse_file(var)).pack(side=tk.LEFT, padx=6)
+        tk.Button(r, text="Browse", command=lambda: browse_fn(var)).pack(side=tk.LEFT, padx=6)
         r.pack(fill=tk.X, pady=4)
 
-    row(frm, "Baseline dir:", baseline_var, browse_dir=True)
-    row(frm, "Active dir:", active_var, browse_dir=True)
-    row(frm, "Output prefix:", out_var, browse_dir=False)
+    row(frm, "Baseline dir:", baseline_var, browse_directory)
+    row(frm, "Active dir:", active_var, browse_directory)
+    row(frm, "Output prefix:", out_var, browse_save_prefix)
 
     opts = tk.Frame(frm, bg=PALETTE["bg_mid"]) 
     tk.Checkbutton(opts, text="Scan all files", variable=scan_all_var, fg=PALETTE["paper"], bg=PALETTE["bg_mid"], selectcolor=PALETTE["bg_mid"]).pack(side=tk.LEFT)
     tk.Checkbutton(opts, text="Compose characters", variable=compose_chars_var, fg=PALETTE["paper"], bg=PALETTE["bg_mid"], selectcolor=PALETTE["bg_mid"]).pack(side=tk.LEFT)
     opts.pack(fill=tk.X, pady=4)
 
-    row(frm, "Set weights JSON (optional):", weights_path_var, browse_dir=False)
+    row(frm, "Set weights JSON (optional):", weights_path_var, browse_json_file)
 
     ar = tk.Frame(frm, bg=PALETTE["bg_mid"]) 
     tk.Label(ar, text="Assert tier change (e.g., Magic:+10%):", fg=PALETTE["paper"], bg=PALETTE["bg_mid"]).pack(side=tk.LEFT)
