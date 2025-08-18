@@ -264,6 +264,29 @@ class LootSet:
             totals_by_tier[tier] += p_select * c
         return totals_by_tier
 
+    def expected_materials_per_pick_by_item(self, tier_regex: Dict[str, str]) -> Dict[str, float]:
+        """
+        Expected number of enchanting material items produced per pick, keyed by exact item name.
+        Only counts entries whose item name includes essence/runestone/shard/dust.
+        """
+        totals_by_item: Dict[str, float] = {}
+        total_weight = 0.0
+        for e in self.entries:
+            total_weight += max(e.get("weight", 0.0), 0.0)
+        if total_weight <= 0.0:
+            return totals_by_item
+        for e in self.entries:
+            item = e.get("item")
+            if not item:
+                continue
+            if not ENCHANT_TYPE_PATTERN.search(str(item)):
+                continue
+            w = max(e.get("weight", 0.0), 0.0)
+            c = max(min(e.get("chance", 1.0), 1.0), 0.0)
+            p_select = 0.0 if total_weight <= 0 else (w / total_weight)
+            totals_by_item[item] = totals_by_item.get(item, 0.0) + p_select * c
+        return totals_by_item
+
     def expected_picks(self) -> Optional[float]:
         picks = None
         if self.pick_one_of is not None:
@@ -623,6 +646,24 @@ def compute_global_material_expectation(sets: Dict[str, LootSet], tier_regex: Di
             totals[t] += picks * per_pick.get(t, 0.0)
     return totals
 
+def compute_global_material_expectation_by_item(sets: Dict[str, LootSet], tier_regex: Dict[str,str], set_weights: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+    """
+    Aggregate expected enchanting material drops by exact item across all sets.
+    Each set contributes: (expected_picks for the set [weighted]) * (expected materials per pick by item).
+    """
+    totals: Dict[str, float] = {}
+    for name, ls in sets.items():
+        picks = ls.expected_picks() or 1.0
+        if set_weights and name in set_weights:
+            try:
+                picks *= float(set_weights[name])
+            except Exception:
+                pass
+        per_item = ls.expected_materials_per_pick_by_item(tier_regex)
+        for item, val in per_item.items():
+            totals[item] = totals.get(item, 0.0) + picks * val
+    return totals
+
 def write_csv(path: str, rows: List[Dict[str, str]]):
     import csv
     if not rows:
@@ -871,6 +912,44 @@ def main():
         write_csv(args.out + ".characters.active.csv", act_rows)
         print(f"Wrote: {args.out}.characters.base.csv")
         print(f"Wrote: {args.out}.characters.active.csv")
+
+    # Per-item global report
+    base_items = compute_global_material_expectation_by_item(base_sets, tier_map, set_weights)
+    act_items  = compute_global_material_expectation_by_item(act_sets, tier_map, set_weights)
+    # Build rows grouped by tier then item
+    item_rows: List[Dict[str, str]] = []
+    def item_tier(name: str) -> str:
+        t = tier_of(name, tier_map) or ""
+        return t
+    items_all = sorted(set(base_items.keys()) | set(act_items.keys()), key=lambda s: (item_tier(s), s.lower()))
+    for item in items_all:
+        b = base_items.get(item, 0.0)
+        a = act_items.get(item, 0.0)
+        d = a - b
+        pct = (d / b * 100.0) if b > 0 else (100.0 if a > 0 else 0.0)
+        item_rows.append({
+            "Tier": item_tier(item),
+            "Item": item,
+            "Base E[item]": f"{b:.6f}",
+            "Active E[item]": f"{a:.6f}",
+            "Δ E[item]": f"{d:.6f}",
+            "Δ %": f"{pct:.2f}"
+        })
+    write_csv(args.out + ".materials.items.csv", item_rows)
+    # Add to HTML
+    parts = []
+    with open(out_html, "r", encoding="utf-8") as f:
+        parts = f.read().splitlines()
+    # remove closing tags
+    if parts and parts[-1].strip().lower() == "</html>":
+        parts.pop()
+    if parts and parts[-1].strip().lower() == "</body>":
+        parts.pop()
+    parts.append(render_html_table(item_rows, "Global Expected Enchanting Materials — Per Item"))
+    parts.append("</body></html>")
+    with open(out_html, "w", encoding="utf-8") as f:
+        f.write("\n".join(parts))
+    print(f"Wrote: {args.out}.materials.items.csv")
 
 if __name__ == "__main__":
     main()
