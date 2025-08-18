@@ -132,7 +132,7 @@
       "ItemTypes" : [ "Trophy" ],
       "ItemNames" : ["$item_trophy_fader", "$trophy_bossbrutalis_TW", "$trophy_sythrak_TW", "$trophy_stormherald_TW", "$trophy_gorr_TW"],
       "Products" : [ { "Item": "ShardMythic", "Amount": 2 } ]
-    },
+    }
 	]
 	},
 	
