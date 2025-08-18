@@ -951,6 +951,13 @@ class LootDiffGUI:
 
         # Title
         ttk.Label(self.main_frame, text="Valheim Loot Diff", font=("Helvetica", 24, "bold"), foreground=PALETTE["paper"], background=PALETTE["bg_dark"]).pack(pady=10)
+        ttk.Label(self.main_frame, text="Compare RelicHeim/EpicLoot enchanting material drop rates", font=("Helvetica", 10), foreground=PALETTE["muted"], background=PALETTE["bg_dark"]).pack(pady=2)
+        
+        # Description
+        desc_frame = ttk.Frame(self.main_frame)
+        desc_frame.pack(pady=5, fill="x")
+        ttk.Label(desc_frame, text="Analyzes loot tables, character drops, and CLLC multipliers to estimate enchanting material rates.", 
+                 font=("Helvetica", 9), foreground=PALETTE["muted"], background=PALETTE["bg_dark"], wraplength=600).pack()
 
         # Input paths
         self.baseline_path = ttk.Entry(self.main_frame, width=50)
@@ -969,26 +976,53 @@ class LootDiffGUI:
         self.options_frame = ttk.LabelFrame(self.main_frame, text="Options", padding="5")
         self.options_frame.pack(pady=10, fill="x")
 
+        # Character Analysis Options
+        char_frame = ttk.LabelFrame(self.options_frame, text="Character & Monster Analysis", padding="5")
+        char_frame.pack(pady=5, fill="x")
+
         self.compose_chars = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self.options_frame, text="Compose per-character expected tier counts", variable=self.compose_chars).pack(pady=5)
+        ttk.Checkbutton(char_frame, text="Generate per-character/monster enchanting material reports", variable=self.compose_chars).pack(pady=2)
+        ttk.Label(char_frame, text="  • Includes direct drops, set-based drops, and global drops", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+        ttk.Label(char_frame, text="  • Applies CLLC star-based extra loot multipliers", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+        ttk.Label(char_frame, text="  • Shows E[item/kill] per tier for each monster/boss", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+
+        world_frame = ttk.Frame(char_frame)
+        world_frame.pack(pady=5, fill="x")
+        ttk.Label(world_frame, text="World Level (0-7):", foreground=PALETTE["paper"]).pack(side=tk.LEFT, padx=(0,5))
+        self.world_level = tk.StringVar(value="5")
+        world_spinbox = ttk.Spinbox(world_frame, from_=0, to=7, width=5, textvariable=self.world_level)
+        world_spinbox.pack(side=tk.LEFT)
+        ttk.Label(world_frame, text="  Used for CLLC star distribution and extra loot multipliers", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(side=tk.LEFT, padx=5)
+
+        # General Options
+        gen_frame = ttk.LabelFrame(self.options_frame, text="General Options", padding="5")
+        gen_frame.pack(pady=5, fill="x")
 
         self.scan_all = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self.options_frame, text="Scan all supported config files", variable=self.scan_all).pack(pady=5)
+        ttk.Checkbutton(gen_frame, text="Scan all supported config files", variable=self.scan_all).pack(pady=2)
+        ttk.Label(gen_frame, text="  • Ignores default include filters", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
 
-        self.tier_map_json = ttk.Entry(self.options_frame, width=50)
-        self.tier_map_json.pack(pady=5)
-        ttk.Button(self.options_frame, text="Select Tier Map JSON", command=self.select_tier_map_json).pack(pady=2)
+        # Advanced Options
+        adv_frame = ttk.LabelFrame(self.options_frame, text="Advanced Options", padding="5")
+        adv_frame.pack(pady=5, fill="x")
 
-        self.set_weight_json = ttk.Entry(self.options_frame, width=50)
-        self.set_weight_json.pack(pady=5)
-        ttk.Button(self.options_frame, text="Select Set Weight JSON", command=self.select_set_weight_json).pack(pady=2)
+        self.tier_map_json = ttk.Entry(adv_frame, width=50)
+        self.tier_map_json.pack(pady=2)
+        ttk.Button(adv_frame, text="Select Tier Map JSON", command=self.select_tier_map_json).pack(pady=2)
+        ttk.Label(adv_frame, text="  Override default tier regex patterns", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
 
-        self.assert_tier_change = ttk.Entry(self.options_frame, width=20)
-        self.assert_tier_change.pack(pady=5)
-        ttk.Label(self.options_frame, text="Assert global tier change (e.g., Magic:+10% or Magic:+0.10)").pack(pady=2)
+        self.set_weight_json = ttk.Entry(adv_frame, width=50)
+        self.set_weight_json.pack(pady=2)
+        ttk.Button(adv_frame, text="Select Set Weight JSON", command=self.select_set_weight_json).pack(pady=2)
+        ttk.Label(adv_frame, text="  Weight set contributions for global aggregation", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
+
+        self.assert_tier_change = ttk.Entry(adv_frame, width=20)
+        self.assert_tier_change.pack(pady=2)
+        ttk.Label(adv_frame, text="Assert global tier change (e.g., Magic:+10% or Magic:+0.10)").pack(pady=2)
+        ttk.Label(adv_frame, text="  Verify expected change vs baseline", foreground=PALETTE["muted"], font=("Helvetica", 8)).pack(pady=1)
 
         self.gui_mode = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self.options_frame, text="Run in GUI mode", variable=self.gui_mode).pack(pady=5)
+        ttk.Checkbutton(adv_frame, text="Run in GUI mode", variable=self.gui_mode).pack(pady=2)
 
         # Run button
         self.run_button = ttk.Button(self.main_frame, text="Run Diff", command=self.run_diff)
@@ -1094,6 +1128,13 @@ class LootDiffGUI:
         set_weight_json = self.set_weight_json.get()
         assert_tier_change = self.assert_tier_change.get()
         gui_mode = self.gui_mode.get()
+        
+        # Get world level from spinbox
+        try:
+            world_level = int(self.world_level.get())
+            world_level = max(0, min(7, world_level))  # Clamp to 0-7
+        except ValueError:
+            world_level = 5  # Default if invalid
 
         if not baseline_path:
             messagebox.showerror("Error", "Please select a baseline directory.")
@@ -1170,8 +1211,10 @@ class LootDiffGUI:
         if compose_chars:
             base_chars_csv = out_path + ".characters.base.csv"
             act_chars_csv = out_path + ".characters.active.csv"
-            # Use CLLC multipliers from active config path
-            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=5)
+            # Use CLLC multipliers from active config path with user-selected world level
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=world_level)
+            self.status_text.insert(tk.END, f"Using world level {world_level}: creature multiplier={mult_creature:.2f}, boss multiplier={mult_boss:.2f}\n")
+            self.status_text.see(tk.END)
             self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
             act_char_map, _ = crawl_characters(self.active_path.get(), self.include_paths)
             self.write_csv_report(act_chars_csv, compose_characters_report(act_char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
@@ -1208,7 +1251,13 @@ class LootDiffGUI:
         if compose_chars:
             base_chars_csv = self.out_path.get() + ".characters.base.csv"
             act_chars_csv = self.out_path.get() + ".characters.active.csv"
-            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=5)
+            # Use world level from GUI spinbox
+            try:
+                wl = int(self.world_level.get())
+                wl = max(0, min(7, wl))
+            except ValueError:
+                wl = 5
+            mult_creature, mult_boss = parse_cllc_star_multipliers(self.active_path.get(), world_level=wl)
             self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))
             act_char_map, _ = crawl_characters(self.active_path.get(), self.include_paths)
             self.write_csv_report(act_chars_csv, compose_characters_report(act_char_map, self.set_map, self.tier_regex, star_multiplier_creature=mult_creature, star_multiplier_boss=mult_boss))

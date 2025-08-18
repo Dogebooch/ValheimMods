@@ -1,5 +1,15 @@
 # Valheim Enchanting Materials Guide
 
+### **Magic Tier (Nexus) Materials**
+The most basic enchanting materials, used for fundamental enchantments.
+
+| Material | Type | Description |
+|----------|------|-------------|
+| **EssenceMagic** | Essence | Magic essence material for enchanting |
+| **RunestoneMagic** | Runestone | Magic runestone material for enchanting |
+| **ShardMagic** | Shard | Magic shard material for enchanting |
+| **DustMagic** | Dust | Magic dust material for enchanting |
+
 ### **Rare Tier (Nexus) Materials**
 The most common enchanting materials, used for basic enchantments.
 
