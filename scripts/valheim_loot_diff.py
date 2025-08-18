@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
-valheim_loot_diff.py v1.1 — Compare baseline vs active Valheim loot material rates (RelicHeim/EpicLoot tiers).
+valheim_loot_diff.py v1.2 — Compare baseline vs active Valheim loot material rates (RelicHeim/EpicLoot tiers).
+
+What's new in v1.2 (relative to v1.1):
+- Added GUI mode: --gui launches Tkinter interface
+- Combined CLI and GUI into single script for easier maintenance
 
 What's new in v1.1 (relative to v1.0):
 - Added tier synonyms: "Essence", "Reagent".
@@ -10,12 +14,19 @@ What's new in v1.1 (relative to v1.0):
 - Optional YAML (PyYAML) parsing for pickable item lists (e.g., warpalicious More_World_Locations *.yml).
 - Optional per-character composition: --compose-characters produces a character-level expected tier report by combining CharacterDrop entries with referenced DropTables.
 
-Usage (unchanged for set diff):
+Usage (CLI mode):
     python valheim_loot_diff.py --baseline ./baseline_cfg --active ./ValheimMods/config --out ./loot_report
 
+Usage (GUI mode):
+    python valheim_loot_diff.py --gui
+
 Extra options:
-    --compose-characters        -> emit loot_report.characters.csv (best-effort per-kill tier expectation)
-    --include-path path         -> repeatable; if provided, only include files under these paths (globs ok)
+    --gui                     -> launch Tkinter GUI interface
+    --compose-characters      -> emit loot_report.characters.csv (best-effort per-kill tier expectation)
+    --include-path path       -> repeatable; if provided, only include files under these paths (globs ok)
+    --scan-all                -> ignore default include filters and scan all supported config files
+    --set-weight-json file    -> JSON { setName: weight } to weight set contributions for global aggregation
+    --assert-tier-change expr -> assertion like "Magic:+10%" to verify global change vs baseline
 """
 
 import argparse
@@ -26,6 +37,8 @@ from typing import Dict, List, Tuple, Optional, Any
 import json
 import html
 from fnmatch import fnmatch
+import tkinter as tk
+from tkinter import ttk, filedialog, messagebox
 
 # -------------------------------
 # Heuristics / helpers
@@ -42,6 +55,16 @@ DEFAULT_TIER_PATTERNS = {
 
 # Identify enchanting material item types specifically
 ENCHANT_TYPE_PATTERN = re.compile(r"(?:essence|runestone|shard|dust)", re.IGNORECASE)
+
+# GUI Color palette
+PALETTE = {
+    "bg_dark": "#260B01",
+    "bg_mid": "#64563C", 
+    "accent": "#8D5B2F",
+    "muted": "#939789",
+    "paper": "#DBD5CA",
+    "sand": "#CBB89C",
+}
 
 # Keys we look for when parsing entries/tables
 ITEM_KEYS     = {"item", "prefab", "prefabname", "name"}
@@ -725,8 +748,391 @@ def compose_characters_report(char_map: Dict[str, CharacterDrops], set_map: Dict
         rows.append(row)
     return rows
 
+class LootDiffGUI:
+    def __init__(self, master: tk.Tk):
+        self.master = master
+        master.title("Valheim Loot Diff")
+        master.configure(bg=PALETTE["bg_dark"])
+
+        # Main frame
+        self.main_frame = ttk.Frame(master, padding="10")
+        self.main_frame.pack(expand=True, fill="both", padx=10, pady=10)
+
+        # Title
+        ttk.Label(self.main_frame, text="Valheim Loot Diff", font=("Helvetica", 24, "bold"), foreground=PALETTE["paper"], background=PALETTE["bg_dark"]).pack(pady=10)
+
+        # Input paths
+        self.baseline_path = ttk.Entry(self.main_frame, width=50)
+        self.baseline_path.pack(pady=5)
+        ttk.Button(self.main_frame, text="Select Baseline", command=self.select_baseline).pack(pady=2)
+
+        self.active_path = ttk.Entry(self.main_frame, width=50)
+        self.active_path.pack(pady=5)
+        ttk.Button(self.main_frame, text="Select Active", command=self.select_active).pack(pady=2)
+
+        self.out_path = ttk.Entry(self.main_frame, width=50)
+        self.out_path.pack(pady=5)
+        ttk.Button(self.main_frame, text="Select Output", command=self.select_output).pack(pady=2)
+
+        # Options
+        self.options_frame = ttk.LabelFrame(self.main_frame, text="Options", padding="5")
+        self.options_frame.pack(pady=10, fill="x")
+
+        self.compose_chars = tk.BooleanVar(value=False)
+        ttk.Checkbutton(self.options_frame, text="Compose per-character expected tier counts", variable=self.compose_chars).pack(pady=5)
+
+        self.scan_all = tk.BooleanVar(value=False)
+        ttk.Checkbutton(self.options_frame, text="Scan all supported config files", variable=self.scan_all).pack(pady=5)
+
+        self.tier_map_json = ttk.Entry(self.options_frame, width=50)
+        self.tier_map_json.pack(pady=5)
+        ttk.Button(self.options_frame, text="Select Tier Map JSON", command=self.select_tier_map_json).pack(pady=2)
+
+        self.set_weight_json = ttk.Entry(self.options_frame, width=50)
+        self.set_weight_json.pack(pady=5)
+        ttk.Button(self.options_frame, text="Select Set Weight JSON", command=self.select_set_weight_json).pack(pady=2)
+
+        self.assert_tier_change = ttk.Entry(self.options_frame, width=20)
+        self.assert_tier_change.pack(pady=5)
+        ttk.Label(self.options_frame, text="Assert global tier change (e.g., Magic:+10% or Magic:+0.10)").pack(pady=2)
+
+        self.gui_mode = tk.BooleanVar(value=False)
+        ttk.Checkbutton(self.options_frame, text="Run in GUI mode", variable=self.gui_mode).pack(pady=5)
+
+        # Run button
+        self.run_button = ttk.Button(self.main_frame, text="Run Diff", command=self.run_diff)
+        self.run_button.pack(pady=20)
+
+        # Status/Output area
+        self.status_text = tk.Text(self.main_frame, state="disabled", bg=PALETTE["paper"], fg=PALETTE["bg_dark"])
+        self.status_text.pack(pady=10, expand=True, fill="both")
+
+        # GUI-specific attributes
+        self.baseline_dir = ""
+        self.active_dir = ""
+        self.out_dir = ""
+        self.tier_map_file = ""
+        self.set_weight_file = ""
+        self.include_paths = []
+        self.tier_regex = DEFAULT_TIER_PATTERNS.copy()
+        self.set_weights = {}
+        self.char_map = {}
+        self.set_map = {}
+        self.base_shares = {}
+        self.act_shares = {}
+        self.global_base = {}
+        self.global_act = {}
+        self.item_base = {}
+        self.item_act = {}
+
+    def select_baseline(self):
+        path = filedialog.askdirectory()
+        if path:
+            self.baseline_path.delete(0, tk.END)
+            self.baseline_path.insert(0, path)
+            self.baseline_dir = path
+
+    def select_active(self):
+        path = filedialog.askdirectory()
+        if path:
+            self.active_path.delete(0, tk.END)
+            self.active_path.insert(0, path)
+            self.active_dir = path
+
+    def select_output(self):
+        path = filedialog.asksaveasfilename(defaultextension=".html", filetypes=[("HTML files", "*.html"), ("All files", "*.*")])
+        if path:
+            self.out_path.delete(0, tk.END)
+            self.out_path.insert(0, path)
+            self.out_dir = os.path.dirname(path)
+
+    def select_tier_map_json(self):
+        path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
+        if path:
+            self.tier_map_json.delete(0, tk.END)
+            self.tier_map_json.insert(0, path)
+            self.tier_map_file = path
+            self.load_tier_map()
+
+    def select_set_weight_json(self):
+        path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
+        if path:
+            self.set_weight_json.delete(0, tk.END)
+            self.set_weight_json.insert(0, path)
+            self.set_weight_file = path
+            self.load_set_weights()
+
+    def load_tier_map(self):
+        if self.tier_map_file:
+            try:
+                with open(self.tier_map_file, "r", encoding="utf-8") as f:
+                    m = json.load(f)
+                    for k,v in m.items():
+                        self.tier_regex[k] = v
+                    self.status_text.insert(tk.END, f"Loaded tier map from {self.tier_map_file}\n")
+                    self.status_text.see(tk.END)
+            except Exception as e:
+                self.status_text.insert(tk.END, f"Error loading tier map from {self.tier_map_file}: {e}\n")
+                self.status_text.see(tk.END)
+
+    def load_set_weights(self):
+        if self.set_weight_file:
+            try:
+                with open(self.set_weight_file, "r", encoding="utf-8") as f:
+                    w = json.load(f)
+                    if isinstance(w, dict):
+                        self.set_weights = {str(k): float(v) for k, v in w.items()}
+                    self.status_text.insert(tk.END, f"Loaded set weights from {self.set_weight_file}\n")
+                    self.status_text.see(tk.END)
+            except Exception as e:
+                self.status_text.insert(tk.END, f"Error loading set weights from {self.set_weight_file}: {e}\n")
+                self.status_text.see(tk.END)
+
+    def run_diff(self):
+        self.status_text.delete(1.0, tk.END)
+        self.status_text.insert(tk.END, "Running Valheim Loot Diff...\n")
+        self.status_text.see(tk.END)
+
+        baseline_path = self.baseline_path.get()
+        active_path = self.active_path.get()
+        out_path = self.out_path.get()
+        compose_chars = self.compose_chars.get()
+        scan_all = self.scan_all.get()
+        tier_map_json = self.tier_map_json.get()
+        set_weight_json = self.set_weight_json.get()
+        assert_tier_change = self.assert_tier_change.get()
+        gui_mode = self.gui_mode.get()
+
+        if not baseline_path:
+            messagebox.showerror("Error", "Please select a baseline directory.")
+            return
+        if not active_path:
+            messagebox.showerror("Error", "Please select an active directory.")
+            return
+        if not out_path:
+            messagebox.showerror("Error", "Please select an output path.")
+            return
+
+        if not gui_mode:
+            self.status_text.insert(tk.END, "Running in CLI mode...\n")
+            self.status_text.see(tk.END)
+            self.include_paths = [] if scan_all else self.get_include_paths()
+            self.set_map = crawl_configs(baseline_path, self.include_paths)
+            self.char_map = crawl_characters(baseline_path, self.include_paths)
+            self.base_shares = compute_shares(self.set_map, self.tier_regex)
+            self.act_shares = compute_shares(crawl_configs(active_path, self.include_paths), self.tier_regex)
+            self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
+            self.global_act = compute_global_material_expectation(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+            self.item_base = compute_global_material_expectation_by_item(self.set_map, self.tier_regex, self.set_weights)
+            self.item_act = compute_global_material_expectation_by_item(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+
+            self.write_reports(out_path, compose_chars)
+            self.assert_global_change(assert_tier_change)
+        else:
+            self.status_text.insert(tk.END, "Running in GUI mode...\n")
+            self.status_text.see(tk.END)
+            self.gui_thread = threading.Thread(target=self.run_diff_gui_thread, args=(baseline_path, active_path, out_path, compose_chars, scan_all, tier_map_json, set_weight_json, assert_tier_change, gui_mode))
+            self.gui_thread.start()
+
+    def run_diff_gui_thread(self, baseline_path, active_path, out_path, compose_chars, scan_all, tier_map_json, set_weight_json, assert_tier_change, gui_mode):
+        self.master.withdraw() # Hide main window
+        try:
+            self.include_paths = [] if scan_all else self.get_include_paths()
+            self.set_map = crawl_configs(baseline_path, self.include_paths)
+            self.char_map = crawl_characters(baseline_path, self.include_paths)
+            self.base_shares = compute_shares(self.set_map, self.tier_regex)
+            self.act_shares = compute_shares(crawl_configs(active_path, self.include_paths), self.tier_regex)
+            self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
+            self.global_act = compute_global_material_expectation(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+            self.item_base = compute_global_material_expectation_by_item(self.set_map, self.tier_regex, self.set_weights)
+            self.item_act = compute_global_material_expectation_by_item(crawl_configs(active_path, self.include_paths), self.tier_regex, self.set_weights)
+
+            self.write_reports(out_path, compose_chars)
+            self.assert_global_change(assert_tier_change)
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred during the diff process: {e}")
+        finally:
+            self.master.deiconify() # Show main window
+
+    def get_include_paths(self) -> List[str]:
+        paths = []
+        for p in self.include_paths:
+            if p:
+                paths.append(p)
+        return paths
+
+    def write_reports(self, out_path: str, compose_chars: bool):
+        self.status_text.insert(tk.END, "Writing reports...\n")
+        self.status_text.see(tk.END)
+
+        out_csv = out_path + ".csv"
+        out_html = out_path + ".html"
+        self.write_csv_report(out_csv, self.get_common_sets_rows())
+        self.write_html_report(out_html, compose_chars)
+
+        global_csv = out_path + ".materials.global.csv"
+        self.write_csv_report(global_csv, self.get_global_material_rows())
+
+        if compose_chars:
+            base_chars_csv = out_path + ".characters.base.csv"
+            act_chars_csv = out_path + ".characters.active.csv"
+            self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex))
+            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths), self.set_map, self.tier_regex))
+            self.status_text.insert(tk.END, "Wrote character reports.\n")
+            self.status_text.see(tk.END)
+
+        item_csv = out_path + ".materials.items.csv"
+        self.write_csv_report(item_csv, self.get_item_material_rows())
+
+    def write_csv_report(self, path: str, rows: List[Dict[str, str]]):
+        if not rows:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write("")
+            return
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+            w.writeheader()
+            for r in rows:
+                w.writerow(r)
+
+    def write_html_report(self, path: str, compose_chars: bool):
+        parts = []
+        parts.append("<html><head><meta charset='utf-8'><title>Valheim Loot Diff</title></head><body>")
+        parts.append("<h1>Valheim Loot Diff — Material Tier Shares (per pick)</h1>")
+        parts.append("<p>This report compares per-pick tier shares for sets/tables found in both baseline and active configs. "
+                     "Estimated picks per roll are shown when parseable (table chance × expected rolls).</p>")
+        parts.append(render_html_table(self.get_common_sets_rows(), "Common Sets — Tier Share Diff"))
+        # Global expected enchanting materials by tier
+        parts.append(render_html_table(self.get_global_material_rows(), "Global Expected Enchanting Materials by Tier (per run)"))
+        # Also write CSV for global materials
+        global_csv = self.out_path.get() + ".materials.global.csv"
+        self.write_csv_report(global_csv, self.get_global_material_rows())
+
+        if compose_chars:
+            base_chars_csv = self.out_path.get() + ".characters.base.csv"
+            act_chars_csv = self.out_path.get() + ".characters.active.csv"
+            self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex))
+            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths), self.set_map, self.tier_regex))
+            parts.append("<h2>Character Composition Reports</h2>")
+            parts.append(f"<p>Wrote character reports to {base_chars_csv} and {act_chars_csv}</p>")
+
+        parts.append(render_html_table(self.get_item_material_rows(), "Global Expected Enchanting Materials — Per Item"))
+        parts.append("</body></html>")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("\n".join(parts))
+        self.status_text.insert(tk.END, f"Wrote HTML report to {path}\n")
+        self.status_text.see(tk.END)
+
+    def get_common_sets_rows(self) -> List[Dict[str, str]]:
+        common = sorted(set(self.base_shares.keys()) & set(self.act_shares.keys()))
+        rows = []
+        for name in common:
+            b = self.set_map[name]; a = self.act_sets[name] # Use self.act_sets here
+            b_sh = self.base_shares[name]; a_sh = self.act_shares[name]
+            row = {
+                "Set": name,
+                "Base Picks (est)": f"{b.expected_picks():.2f}" if b.expected_picks() is not None else "",
+                "Active Picks (est)": f"{a.expected_picks():.2f}" if a.expected_picks() is not None else "",
+            }
+            for tier in ["Magic","Rare","Epic","Legendary","Mythic"]:
+                row[f"Base {tier}"]   = percent(b_sh.get(tier, 0.0))
+                row[f"Active {tier}"] = percent(a_sh.get(tier, 0.0))
+                delta = a_sh.get(tier, 0.0) - b_sh.get(tier, 0.0)
+                row[f"Δ {tier} (pp)"] = f"{delta*100:.2f}"
+            rows.append(row)
+        return rows
+
+    def get_global_material_rows(self) -> List[Dict[str, str]]:
+        tiers = ["Magic","Rare","Epic","Legendary","Mythic"]
+        global_rows: List[Dict[str, str]] = []
+        for t in tiers:
+            b = self.global_base.get(t, 0.0)
+            a = self.global_act.get(t, 0.0)
+            d = a - b
+            pct = (d / b * 100.0) if b > 0 else (100.0 if a > 0 else 0.0)
+            global_rows.append({
+                "Tier": t,
+                "Base E[item]": f"{b:.6f}",
+                "Active E[item]": f"{a:.6f}",
+                "Δ E[item]": f"{d:.6f}",
+                "Δ %": f"{pct:.2f}"
+            })
+        # Totals row
+        total_b = sum(self.global_base.values())
+        total_a = sum(self.global_act.values())
+        total_d = total_a - total_b
+        total_pct = (total_d / total_b * 100.0) if total_b > 0 else (100.0 if total_a > 0 else 0.0)
+        global_rows.append({
+            "Tier": "Total",
+            "Base E[item]": f"{total_b:.6f}",
+            "Active E[item]": f"{total_a:.6f}",
+            "Δ E[item]": f"{total_d:.6f}",
+            "Δ %": f"{total_pct:.2f}"
+        })
+        return global_rows
+
+    def get_item_material_rows(self) -> List[Dict[str, str]]:
+        # Build rows grouped by tier then item
+        item_rows: List[Dict[str, str]] = []
+        def item_tier(name: str) -> str:
+            t = tier_of(name, self.tier_regex) or ""
+            return t
+        items_all = sorted(set(self.item_base.keys()) | set(self.item_act.keys()), key=lambda s: (item_tier(s), s.lower()))
+        for item in items_all:
+            b = self.item_base.get(item, 0.0)
+            a = self.item_act.get(item, 0.0)
+            d = a - b
+            pct = (d / b * 100.0) if b > 0 else (100.0 if a > 0 else 0.0)
+            item_rows.append({
+                "Tier": item_tier(item),
+                "Item": item,
+                "Base E[item]": f"{b:.6f}",
+                "Active E[item]": f"{a:.6f}",
+                "Δ E[item]": f"{d:.6f}",
+                "Δ %": f"{pct:.2f}"
+            })
+        return item_rows
+
+    def assert_global_change(self, expr: str):
+        if not expr:
+            return
+        m = re.match(r"^([A-Za-z]+):([+\-]?[0-9.]+%?)$", expr.strip())
+        if m:
+            tier = m.group(1).capitalize()
+            inc = m.group(2)
+            target_ratio = None
+            if inc.endswith('%'):
+                try:
+                    pct = float(inc.strip('%'))/100.0
+                    target_ratio = 1.0 + pct
+                except Exception:
+                    target_ratio = None
+            else:
+                try:
+                    frac = float(inc)
+                    if abs(frac) < 2.0:
+                        target_ratio = 1.0 + frac
+                    else:
+                        # treat absolute factor
+                        target_ratio = frac
+                except Exception:
+                    target_ratio = None
+            if target_ratio is not None and tier in self.global_base and tier in self.global_act:
+                b = self.global_base.get(tier, 0.0)
+                a = self.global_act.get(tier, 0.0)
+                achieved = (a / b) if b > 0 else (float('inf') if a > 0 else 1.0)
+                print(f"Assert {tier} change: baseline={b:.6f}, active={a:.6f}, ratio={achieved:.4f}, target={target_ratio:.4f}")
+                # Simple tolerance
+                tol = 0.02
+                if not (abs(achieved - target_ratio) <= tol * max(target_ratio, 1.0)):
+                    messagebox.showwarning("Warning", f"Global tier change deviates beyond tolerance for {tier}.")
+            else:
+                messagebox.showwarning("Warning", f"Tier '{tier}' not found in global reports or not parseable.")
+        else:
+            messagebox.showwarning("Warning", f"Assertion '{expr}' is not in the correct format (e.g., Magic:+10% or Magic:+0.10).")
+
 def main():
-    ap = argparse.ArgumentParser(description="Diff RelicHeim/EpicLoot material rates between baseline and active configs (v1.1).")
+    ap = argparse.ArgumentParser(description="Diff RelicHeim/EpicLoot material rates between baseline and active configs (v1.2).")
     # Default paths are relative to this repository so the script works out-of-the-box
     ap.add_argument("--baseline", required=False, default="Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/", help="Path to baseline (pristine) config dir")
     ap.add_argument("--active", required=False, default="Valheim/profiles/Dogeheim_Player/BepInEx/config/", help="Path to active repo/config dir")
@@ -734,6 +1140,7 @@ def main():
     ap.add_argument("--tier-map-json", help="Optional JSON file overriding tier regex mapping")
     ap.add_argument("--set-weight-json", help="Optional JSON { setName: weight } to weight/scale set contributions for global aggregation")
     ap.add_argument("--assert-tier-change", help="Optional assertion of form Tier:+10% or Tier:+0.10 to verify global change vs baseline")
+    ap.add_argument("--gui", action="store_true", help="Launch Tkinter GUI interface")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
     ap.add_argument("--scan-all", action="store_true", help="Ignore default include filters and scan all supported config files under baseline/active")
     ap.add_argument("--include-path", action="append", default=[
@@ -770,6 +1177,11 @@ def main():
     ], help="Restrict parsing to these paths/globs (repeatable)")
     args = ap.parse_args()
 
+    if args.gui:
+        launch_gui()
+        return
+
+    # CLI mode - existing logic
     tier_map = DEFAULT_TIER_PATTERNS.copy()
     if args.tier_map_json:
         with open(args.tier_map_json, "r", encoding="utf-8") as f:
@@ -889,6 +1301,8 @@ def main():
                 tol = 0.02
                 if not (abs(achieved - target_ratio) <= tol * max(target_ratio, 1.0)):
                     print("WARNING: Global tier change deviates beyond tolerance.")
+            else:
+                print(f"WARNING: Assertion '{args.assert_tier_change}' is not in the correct format (e.g., Magic:+10% or Magic:+0.10).")
     if only_base:
         parts.append("<h2>Sets only in BASELINE</h2><ul>" + "".join(f"<li>{html.escape(s)}</li>" for s in only_base) + "</ul>")
     if only_act:
@@ -950,6 +1364,107 @@ def main():
     with open(out_html, "w", encoding="utf-8") as f:
         f.write("\n".join(parts))
     print(f"Wrote: {args.out}.materials.items.csv")
+
+
+def launch_gui():
+    """Launch the Tkinter GUI interface"""
+    root = tk.Tk()
+    root.title("Valheim Loot Diff — Enchanting Materials")
+    root.configure(bg=PALETTE["bg_dark"])
+    root.geometry("1200x800")
+
+    # State variables
+    baseline_var = tk.StringVar(value=os.path.normpath("Valheim_Help_Docs/JewelHeim-RelicHeim-5.4.10_Backup/"))
+    active_var = tk.StringVar(value=os.path.normpath("Valheim/profiles/Dogeheim_Player/BepInEx/config/"))
+    out_var = tk.StringVar(value="./loot_report")
+    scan_all_var = tk.BooleanVar(value=False)
+    compose_chars_var = tk.BooleanVar(value=False)
+    weights_path_var = tk.StringVar(value="")
+    assert_var = tk.StringVar(value="")
+
+    def browse_dir(var):
+        d = filedialog.askdirectory()
+        if d:
+            var.set(d)
+
+    def browse_file(var):
+        p = filedialog.askopenfilename(filetypes=[["JSON files", "*.json"], ["All files", "*.*"]])
+        if p:
+            var.set(p)
+
+    def run_analysis():
+        try:
+            # Validate paths
+            baseline = baseline_var.get().strip()
+            active = active_var.get().strip()
+            out_path = out_var.get().strip()
+            
+            if not os.path.isdir(baseline):
+                messagebox.showerror("Error", f"Baseline directory does not exist:\n{baseline}")
+                return
+            if not os.path.isdir(active):
+                messagebox.showerror("Error", f"Active directory does not exist:\n{active}")
+                return
+
+            # Build command line args
+            cmd_args = [
+                "--baseline", baseline,
+                "--active", active,
+                "--out", out_path
+            ]
+            
+            if scan_all_var.get():
+                cmd_args.append("--scan-all")
+            if compose_chars_var.get():
+                cmd_args.append("--compose-characters")
+            if weights_path_var.get().strip():
+                cmd_args.extend(["--set-weight-json", weights_path_var.get().strip()])
+            if assert_var.get().strip():
+                cmd_args.extend(["--assert-tier-change", assert_var.get().strip()])
+
+            # Run the analysis
+            import sys
+            sys.argv = [sys.argv[0]] + cmd_args
+            main()
+            
+            messagebox.showinfo("Success", f"Analysis complete!\nOutput written to:\n{out_path}.csv\n{out_path}.html\n{out_path}.materials.global.csv\n{out_path}.materials.items.csv")
+            
+        except Exception as ex:
+            messagebox.showerror("Error", str(ex))
+
+    # Build GUI
+    frm = tk.Frame(root, bg=PALETTE["bg_mid"], bd=0, highlightthickness=0)
+    frm.pack(fill=tk.X, padx=12, pady=12)
+
+    def row(parent, label, var, browse_dir=True):
+        r = tk.Frame(parent, bg=PALETTE["bg_mid"]) 
+        tk.Label(r, text=label, fg=PALETTE["paper"], bg=PALETTE["bg_mid"]).pack(side=tk.LEFT, padx=(0,6))
+        e = tk.Entry(r, textvariable=var, width=80)
+        e.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        if browse_dir:
+            tk.Button(r, text="Browse", command=lambda: browse_dir(var)).pack(side=tk.LEFT, padx=6)
+        else:
+            tk.Button(r, text="Browse", command=lambda: browse_file(var)).pack(side=tk.LEFT, padx=6)
+        r.pack(fill=tk.X, pady=4)
+
+    row(frm, "Baseline dir:", baseline_var, browse_dir=True)
+    row(frm, "Active dir:", active_var, browse_dir=True)
+    row(frm, "Output prefix:", out_var, browse_dir=False)
+
+    opts = tk.Frame(frm, bg=PALETTE["bg_mid"]) 
+    tk.Checkbutton(opts, text="Scan all files", variable=scan_all_var, fg=PALETTE["paper"], bg=PALETTE["bg_mid"], selectcolor=PALETTE["bg_mid"]).pack(side=tk.LEFT)
+    tk.Checkbutton(opts, text="Compose characters", variable=compose_chars_var, fg=PALETTE["paper"], bg=PALETTE["bg_mid"], selectcolor=PALETTE["bg_mid"]).pack(side=tk.LEFT)
+    opts.pack(fill=tk.X, pady=4)
+
+    row(frm, "Set weights JSON (optional):", weights_path_var, browse_dir=False)
+
+    ar = tk.Frame(frm, bg=PALETTE["bg_mid"]) 
+    tk.Label(ar, text="Assert tier change (e.g., Magic:+10%):", fg=PALETTE["paper"], bg=PALETTE["bg_mid"]).pack(side=tk.LEFT)
+    tk.Entry(ar, textvariable=assert_var, width=20).pack(side=tk.LEFT, padx=6)
+    tk.Button(ar, text="Run Analysis", command=run_analysis, bg=PALETTE["accent"], fg="white", activebackground=PALETTE["accent"]).pack(side=tk.RIGHT)
+    ar.pack(fill=tk.X, pady=(6,0))
+
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
