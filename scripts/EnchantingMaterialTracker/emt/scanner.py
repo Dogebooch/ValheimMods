@@ -23,6 +23,8 @@ def map_files(root: str, scan_globs: dict) -> Iterator[Tuple[str, str]]:
             stype = "world_locations_yml"
         elif "epicloot_json" in key:
             stype = "epicloot_json"
+        elif "relicheim_loot" in key:
+            stype = "relicheim_loot"
         elif "backpacks" in key:
             stype = "backpack_cfg"
         else:

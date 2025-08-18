@@ -23,6 +23,10 @@
       "**/EpicLoot/**/*.json",
       "**/*epicloot*.json"
     ],
+    "relicheim_loot": [
+      "**/EpicLoot/patches/RelicHeimPatches/*.json",
+      "**/EpicLootbackup/patches/RelicHeimPatches/*.json"
+    ],
     "backpacks_cfg": [
       "**/*backpack*.cfg",
       "**/*backpack*.yml"
