@@ -593,9 +593,10 @@ class CharacterDrops:
         # direct items
         self.direct: List[Dict[str, Any]] = []  # {"item": str, "chance": float, "weight": float}
 
-def parse_characters_from_text(text: str, file: str) -> Dict[str, CharacterDrops]:
+def parse_characters_from_text(text: str, file: str) -> Tuple[Dict[str, CharacterDrops], Dict[str, float]]:
     sections = scan_sections_ini_like(text, file)
     chars: Dict[str, CharacterDrops] = {}
+    refs: Dict[str, float] = {}
     for sec in sections:
         if re.match(r"(?i)characterdrop\.", sec.name):
             # Extract character name: CharacterDrop.<Name> or CharacterDrop.<Name>.<idx>
@@ -611,12 +612,14 @@ def parse_characters_from_text(text: str, file: str) -> Dict[str, CharacterDrops
             weight = extract_weight(fields)
             if setname:
                 cd.table_refs.append({"set": setname, "chance": ch, "min": mn, "max": mx, "oneof": oneof, "weight": weight})
+                refs[setname] = refs.get(setname, 0.0) + (weight if weight is not None else 1.0)
             elif item:
                 cd.direct.append({"item": item, "chance": ch, "weight": weight})
-    return chars
+    return chars, refs
 
-def crawl_characters(root: str, include_paths: List[str]) -> Dict[str, CharacterDrops]:
+def crawl_characters(root: str, include_paths: List[str]) -> Tuple[Dict[str, CharacterDrops], Dict[str, float]]:
     out: Dict[str, CharacterDrops] = {}
+    refs: Dict[str, float] = {}
     for dirpath, dirnames, filenames in os.walk(root):
         if "VNEI-Export" in dirpath:
             continue
@@ -634,12 +637,14 @@ def crawl_characters(root: str, include_paths: List[str]) -> Dict[str, Character
                 txt = read_text(p)
             except Exception:
                 continue
-            chars = parse_characters_from_text(txt, p)
+            chars, set_refs = parse_characters_from_text(txt, p)
             for k, v in chars.items():
                 dst = out.setdefault(k, CharacterDrops(k))
                 dst.table_refs.extend(v.table_refs)
                 dst.direct.extend(v.direct)
-    return out
+            for k, v in set_refs.items():
+                refs[k] = refs.get(k, 0.0) + v
+    return out, refs
 
 # -------------------------------
 # Diff & reporting
@@ -651,10 +656,17 @@ def compute_shares(sets: Dict[str, LootSet], tier_regex: Dict[str,str]) -> Dict[
         out[name] = summarize_set_by_tier(ls, tier_regex)
     return out
 
-def compute_global_material_expectation(sets: Dict[str, LootSet], tier_regex: Dict[str,str], set_weights: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+def compute_global_material_expectation(
+    sets: Dict[str, LootSet],
+    tier_regex: Dict[str, str],
+    set_weights: Optional[Dict[str, float]] = None,
+    character_weights: Optional[Dict[str, float]] = None,
+) -> Dict[str, float]:
     """
     Aggregate expected enchanting material drops by tier across all sets.
     Each set contributes: (expected_picks for the set) * (expected materials per pick by tier).
+    If ``character_weights`` is provided, each set's contribution is multiplied by the
+    number of times it is referenced by characters (or their spawn weights).
     """
     totals: Dict[str, float] = {"Magic": 0.0, "Rare": 0.0, "Epic": 0.0, "Legendary": 0.0, "Mythic": 0.0}
     for name, ls in sets.items():
@@ -664,15 +676,27 @@ def compute_global_material_expectation(sets: Dict[str, LootSet], tier_regex: Di
                 picks *= float(set_weights[name])
             except Exception:
                 pass
+        elif character_weights and name in character_weights:
+            try:
+                picks *= float(character_weights[name])
+            except Exception:
+                pass
         per_pick = ls.expected_materials_per_pick_by_tier(tier_regex)
         for t in totals.keys():
             totals[t] += picks * per_pick.get(t, 0.0)
     return totals
 
-def compute_global_material_expectation_by_item(sets: Dict[str, LootSet], tier_regex: Dict[str,str], set_weights: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+def compute_global_material_expectation_by_item(
+    sets: Dict[str, LootSet],
+    tier_regex: Dict[str, str],
+    set_weights: Optional[Dict[str, float]] = None,
+    character_weights: Optional[Dict[str, float]] = None,
+) -> Dict[str, float]:
     """
     Aggregate expected enchanting material drops by exact item across all sets.
     Each set contributes: (expected_picks for the set [weighted]) * (expected materials per pick by item).
+    If ``character_weights`` is provided, each set's contribution is multiplied by the
+    number of times it is referenced by characters (or their spawn weights).
     """
     totals: Dict[str, float] = {}
     for name, ls in sets.items():
@@ -680,6 +704,11 @@ def compute_global_material_expectation_by_item(sets: Dict[str, LootSet], tier_r
         if set_weights and name in set_weights:
             try:
                 picks *= float(set_weights[name])
+            except Exception:
+                pass
+        elif character_weights and name in character_weights:
+            try:
+                picks *= float(character_weights[name])
             except Exception:
                 pass
         per_item = ls.expected_materials_per_pick_by_item(tier_regex)
@@ -918,7 +947,7 @@ class LootDiffGUI:
             self.status_text.see(tk.END)
             self.include_paths = [] if scan_all else self.get_include_paths()
             self.set_map = crawl_configs(baseline_path, self.include_paths)
-            self.char_map = crawl_characters(baseline_path, self.include_paths)
+            self.char_map, _ = crawl_characters(baseline_path, self.include_paths)
             self.base_shares = compute_shares(self.set_map, self.tier_regex)
             self.act_shares = compute_shares(crawl_configs(active_path, self.include_paths), self.tier_regex)
             self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
@@ -939,7 +968,7 @@ class LootDiffGUI:
         try:
             self.include_paths = [] if scan_all else self.get_include_paths()
             self.set_map = crawl_configs(baseline_path, self.include_paths)
-            self.char_map = crawl_characters(baseline_path, self.include_paths)
+            self.char_map, _ = crawl_characters(baseline_path, self.include_paths)
             self.base_shares = compute_shares(self.set_map, self.tier_regex)
             self.act_shares = compute_shares(crawl_configs(active_path, self.include_paths), self.tier_regex)
             self.global_base = compute_global_material_expectation(self.set_map, self.tier_regex, self.set_weights)
@@ -977,7 +1006,7 @@ class LootDiffGUI:
             base_chars_csv = out_path + ".characters.base.csv"
             act_chars_csv = out_path + ".characters.active.csv"
             self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex))
-            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths), self.set_map, self.tier_regex))
+            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths)[0], self.set_map, self.tier_regex))
             self.status_text.insert(tk.END, "Wrote character reports.\n")
             self.status_text.see(tk.END)
 
@@ -1012,7 +1041,7 @@ class LootDiffGUI:
             base_chars_csv = self.out_path.get() + ".characters.base.csv"
             act_chars_csv = self.out_path.get() + ".characters.active.csv"
             self.write_csv_report(base_chars_csv, compose_characters_report(self.char_map, self.set_map, self.tier_regex))
-            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths), self.set_map, self.tier_regex))
+            self.write_csv_report(act_chars_csv, compose_characters_report(crawl_characters(self.active_path.get(), self.include_paths)[0], self.set_map, self.tier_regex))
             parts.append("<h2>Character Composition Reports</h2>")
             parts.append(f"<p>Wrote character reports to {base_chars_csv} and {act_chars_csv}</p>")
 
@@ -1139,6 +1168,7 @@ def main():
     ap.add_argument("--out", required=False, default="./loot_report", help="Output path prefix (without extension)")
     ap.add_argument("--tier-map-json", help="Optional JSON file overriding tier regex mapping")
     ap.add_argument("--set-weight-json", help="Optional JSON { setName: weight } to weight/scale set contributions for global aggregation")
+    ap.add_argument("--use-character-weights", action="store_true", help="Weight sets by character drop references instead of manual weights")
     ap.add_argument("--assert-tier-change", help="Optional assertion of form Tier:+10%% or Tier:+0.10 to verify global change vs baseline")
     ap.add_argument("--gui", action="store_true", help="Launch Tkinter GUI interface")
     ap.add_argument("--compose-characters", action="store_true", help="Compose per-character expected tier counts and emit a report")
@@ -1202,6 +1232,14 @@ def main():
     base_sets = crawl_configs(args.baseline, include_filters)
     act_sets  = crawl_configs(args.active, include_filters)
 
+    base_chars: Dict[str, CharacterDrops] = {}
+    act_chars: Dict[str, CharacterDrops] = {}
+    base_char_weights: Dict[str, float] = {}
+    act_char_weights: Dict[str, float] = {}
+    if args.use_character_weights or args.compose_characters:
+        base_chars, base_char_weights = crawl_characters(args.baseline, include_filters)
+        act_chars, act_char_weights = crawl_characters(args.active, include_filters)
+
     base_shares = compute_shares(base_sets, tier_map)
     act_shares  = compute_shares(act_sets, tier_map)
 
@@ -1236,8 +1274,18 @@ def main():
                  "Estimated picks per roll are shown when parseable (table chance × expected rolls).</p>")
     parts.append(render_html_table(rows, "Common Sets — Tier Share Diff"))
     # Global expected enchanting materials by tier
-    base_global = compute_global_material_expectation(base_sets, tier_map, set_weights)
-    act_global  = compute_global_material_expectation(act_sets, tier_map, set_weights)
+    base_global = compute_global_material_expectation(
+        base_sets,
+        tier_map,
+        None if args.use_character_weights else set_weights,
+        base_char_weights if args.use_character_weights else None,
+    )
+    act_global  = compute_global_material_expectation(
+        act_sets,
+        tier_map,
+        None if args.use_character_weights else set_weights,
+        act_char_weights if args.use_character_weights else None,
+    )
     tiers = ["Magic","Rare","Epic","Legendary","Mythic"]
     global_rows: List[Dict[str, str]] = []
     for t in tiers:
@@ -1317,9 +1365,6 @@ def main():
 
     # Optional: character composition
     if args.compose_characters:
-        base_chars = crawl_characters(args.baseline, include_filters)
-        act_chars  = crawl_characters(args.active, include_filters)
-
         base_rows = compose_characters_report(base_chars, base_sets, tier_map)
         act_rows  = compose_characters_report(act_chars, act_sets, tier_map)
         write_csv(args.out + ".characters.base.csv", base_rows)
@@ -1328,8 +1373,18 @@ def main():
         print(f"Wrote: {args.out}.characters.active.csv")
 
     # Per-item global report
-    base_items = compute_global_material_expectation_by_item(base_sets, tier_map, set_weights)
-    act_items  = compute_global_material_expectation_by_item(act_sets, tier_map, set_weights)
+    base_items = compute_global_material_expectation_by_item(
+        base_sets,
+        tier_map,
+        None if args.use_character_weights else set_weights,
+        base_char_weights if args.use_character_weights else None,
+    )
+    act_items  = compute_global_material_expectation_by_item(
+        act_sets,
+        tier_map,
+        None if args.use_character_weights else set_weights,
+        act_char_weights if args.use_character_weights else None,
+    )
     # Build rows grouped by tier then item
     item_rows: List[Dict[str, str]] = []
     def item_tier(name: str) -> str:
