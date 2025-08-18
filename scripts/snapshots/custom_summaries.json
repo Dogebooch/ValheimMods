@@ -1,1 +1,6 @@
-{}
+{
+  "drop_that.character_drop.elite_additions.cfg": "Incorrectly added .cfg file instead of patch, delted this and changed it to a patch",
+  "_RelicHeimFiles\\Drop,Spawn_That\\zz_Doug\\drop_that.character_drop.Doug.cfg": "This was the new patch from incorrectly made elite.cfg additions",
+  "drop_that.character_drop.cfg": "Moved this to a patch under zzDoug",
+  "_RelicHeimFiles\\Drop,Spawn_That\\zz_Doug\\drop_that.character_drop.elite_additions.Doug.cfg": "This was that new patch for zzDoug"
+}
