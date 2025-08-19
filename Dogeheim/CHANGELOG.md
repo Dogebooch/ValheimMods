@@ -36,7 +36,7 @@
   - Removed: TreasureChest_swamp.SetDropMin (was 2)
   - Removed: TreasureChest_swamp.SetDropOnlyOnce (was True)
 
-#### org
+#### Creature Level Control Configuration
 
 **Configuration Changes** in `org.bepinex.plugins.creaturelevelcontrol.cfg`:
   - Changed: 3 - Loot.Chance for additional loot per star for bosses from 60 to 50
@@ -44,11 +44,10 @@
   - Changed: 3 - Loot.Drop multiplier for passive creatures (like Seagulls and Crows) from 2 to 1
   - Changed: 4 - Bosses.Boss size increase per star (percentage) from 7 to 5
 
-#### randyknapp
+#### EpicLoot Configuration
 
 **Configuration Changes** in `randyknapp.mods.epicloot.cfg`:
   - Changed: Balance.Items To Materials Drop Ratio from 0.8 to 0
-
 
 ---
 

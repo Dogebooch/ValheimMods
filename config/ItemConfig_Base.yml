@@ -104,3 +104,166 @@ groups:
   - TyraniumOre_TW
   - LokvyrOre_TW
 #
+all:
+    floating: yes
+    pickup: yes
+
+NeckTailGrilled:
+    floating: no
+SeekerAspic:
+    floating: no
+HoneyGlazedNeck:
+    floating: no
+
+Stackable:
+    stack: 200
+
+WizardryScrolls:
+    stack: 10
+
+DragonEgg:
+    stack: 3
+    weight: 100
+
+SurtrDrakeEgg_TW:
+    teleportable: yes
+    weight: 100
+
+CryptKey:
+    stack: 10
+
+MeadBase:
+    stack: 100
+
+mmo_mead_minor:
+    stack: 100
+
+mmo_mead_med:
+    stack: 100
+
+mmo_mead_greater:
+    stack: 100
+
+Food:
+    stack: 200
+    loss: no
+
+CustomFood:
+    stack: 200
+    loss: no
+
+Food Backpack:
+    loss: no
+
+CookingAdditionsSoups:
+    stack: 200
+    loss: no
+
+CookingAdditionsPreparedFoods:
+    stack: 200
+    loss: no
+
+CookingAdditionsSaltedMeats:
+    stack: 200
+    loss: no
+
+CookingAdditionsIngredients:
+    stack: 100
+    loss: no
+
+CookingAdditionsCoatedEggs:
+    stack: 50
+    loss: no
+
+metal:
+    teleportable: no
+    stack: 100
+    Weight: 10
+
+ore:
+    teleportable: no
+    stack: 100
+    Weight: 10
+
+MetalsDeepNorth:
+    teleportable: no
+    stack: 200
+    Weight: 10
+
+ReduceWeight:
+    stack: 200
+    Weight: 1
+
+trophy:
+    stack: 100
+    Weight: 2
+
+boss trophy:
+    stack: 100
+    Weight: 2
+
+Coins:
+    stack: 9999
+
+valuable:
+    stack: 100
+    weight: 0.05
+
+Wood:
+  stack: 200
+  weight: 1
+
+FineWood:
+    stack: 200
+    weight: 1
+
+RoundLog:
+    stack: 200
+    weight: 1
+
+ElderBark:
+    stack: 200
+    weight: 1
+
+YggdrasilWood:
+    stack: 200
+    weight: 1
+
+Blackwood:
+    stack: 200
+    weight: 1
+
+BorealWood_TW:
+    stack: 200
+    weight: 1
+
+BorealPineWood_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodBlackForest_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodSwamp_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodMountain_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodPlains_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodMistlands_TW:
+    stack: 200
+    weight: 1
+
+silver ore:
+  weight: 10
+  stack: 50
+
+ooze:
+  pickup: no
