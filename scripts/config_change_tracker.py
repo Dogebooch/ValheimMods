@@ -660,13 +660,23 @@ class ConfigChangeTrackerApp:
             "border": "#5d4e37",  # darker brown
         }
         
+        print("Starting UI build...")
         self._build_ui()
+        print("UI build completed, starting initialization...")
         self._init_snapshot_and_refresh()
+        print("Initialization started")
     
     def _build_ui(self) -> None:
+        print("Building UI...")
         self.root.title("Config Change Tracker")
         self.root.geometry("1600x900")
         self.root.configure(bg=self.colors["bg"])
+        
+        # Ensure window is visible and on top
+        self.root.lift()
+        self.root.attributes('-topmost', True)
+        self.root.attributes('-topmost', False)
+        print("UI built successfully")
         
         # Configure styles
         self.style = ttk.Style()
@@ -952,6 +962,7 @@ class ConfigChangeTrackerApp:
         # Attach tooltips
         Tooltip(self.btn_refresh, "Scan the config folder and list files that differ from the selected reference.")
         Tooltip(self.compare_combo, "Choose whether to compare against the last Session Snapshot or the all-time Baseline.")
+        print("Tooltips attached, UI build complete")
     
     def zoom_in(self) -> None:
         """Increase zoom level."""
@@ -1256,9 +1267,13 @@ class ConfigChangeTrackerApp:
                     self.snapshot_info_var.set(f"Baseline set: {ini}    |    Last session snapshot: {cur}")
 
                 # Auto-scan for changes and open All-Time Summary by default
-                self.compare_var.set("Since Baseline (All-Time)")
-                self.on_compare_change()
-                self.show_baseline_summary()
+                try:
+                    self.compare_var.set("Since Baseline (All-Time)")
+                    self.on_compare_change()
+                    # Delay the baseline summary to ensure UI is ready
+                    self.root.after(1000, self.show_baseline_summary)
+                except Exception as e:
+                    print(f"Error in auto-scan setup: {e}")
                 
                 self.root.after(0, update_and_scan)
             except Exception as e:
@@ -4064,7 +4079,7 @@ def locate_config_root() -> Path:
     """Locate the config directory."""
     # Default to the known path
     workspace = Path(__file__).resolve().parents[1]
-    candidate = workspace / "Valheim" / "profiles" / "Dogeheim_Player" / "BepInEx" / "config"
+    candidate = workspace / "config"
     return candidate
 
 
@@ -4154,10 +4169,31 @@ Examples:
             return 1
     
     # Run GUI mode (default)
-    root = tk.Tk()
-    app = ConfigChangeTrackerApp(root, config_root)
-    root.mainloop()
-    return 0
+    print(f"Starting GUI mode with config root: {config_root}")
+    try:
+        root = tk.Tk()
+        print("Tkinter root created successfully")
+        app = ConfigChangeTrackerApp(root, config_root)
+        print("ConfigChangeTrackerApp initialized successfully")
+        print("Window should now be visible...")
+        print("Press Ctrl+C to exit if window is not visible")
+        
+        # Add a simple test to ensure window stays open
+        def test_window():
+            try:
+                messagebox.showinfo("Test", "If you can see this, the GUI is working!")
+            except Exception as e:
+                print(f"Error showing test message: {e}")
+        
+        root.after(2000, test_window)  # Show test message after 2 seconds
+        root.mainloop()
+        print("Mainloop completed")
+        return 0
+    except Exception as e:
+        print(f"Error in GUI mode: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
 
 
 if __name__ == "__main__":

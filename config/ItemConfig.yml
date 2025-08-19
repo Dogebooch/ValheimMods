@@ -22,10 +22,122 @@
 
 groups:
   Huge Wood Gain:
-    - Wood
-    - Fine Wood
-    - Core Wood
-    - Ancient Bark
+  - Wood
+  - Fine Wood
+  - Core Wood
+  - Ancient Bark
+  MeadBase:
+  - BarleyWineBase
+  - MeadBaseTamer
+  - MeadBaseSwimmer
+  - MeadBaseLightFoot
+  - MeadBaseStrength
+  - MeadBaseBugRepellent
+  - MeadBaseBzerker
+  - MeadBaseHasty
+  - MeadBaseEitrMinor
+  - MeadBaseFrostResist
+  - MeadBaseHealthMajor
+  - MeadBaseHealthMedium
+  - MeadBaseHealthMinor
+  - MeadBasePoisonResist
+  - MeadBaseStaminaLingering
+  - MeadBaseStaminaMedium
+  - MeadBaseStaminaMinor
+  - MeadBaseTasty
+  - MeadBaseEitrLingering
+  - MeadBaseHealthLingering
+  - MeadBaseLightningResist_TW
+  - MeadBaseLingeringStaminaMinor_TW
+  - MeadBaseLingeringStaminaMedium_TW
+  - MeadBaseEitrBlackForest_TW
+  - MeadBaseEitrMountain_TW
+  CustomFood:
+  - HoneyGlazedDeer
+  - HoneyGlazedMeat
+  - HoneyGlazedNeck
+  - HoneyGlazedLox
+  - HoneyGlazedFish
+  - HoneyGlazedWolf
+  - JellyGlazedHare
+  - JellyGlazedSeeker
+  - CookedEntrails
+  - ElkJerky
+  - LoxJerky_JH
+  - SeekerJerky_JH
+  - FishJerky_JH
+  - FishStew_JH
+  - NeckJerky_JH
+  - SerpentJerky_JH
+  - FishNLoxSkewer
+  - FishMeatSkewer
+  - DandelionTea_JH
+  CookingAdditionsSoups:
+  - BCA_ChickenSoup
+  - BCA_FishSoup
+  - BCA_MeatSoup
+  - BCA_TomatoSoup
+  - BCA_VeggieSoup
+  CookingAdditionsPreparedFoods:
+  - BCA_BoiledEgg
+  - BCA_SpicyMeatPlatter
+  - BCA_SpicyMeatSupreme
+  - BCA_SpicySerpentMeat
+  - BCA_SweetNSpicyFish
+  CookingAdditionsSaltedMeats:
+  - BCA_Undryed_AsksvinMeat
+  - BCA_Undryed_BugMeat
+  - BCA_Undryed_ChickenMeat
+  - BCA_Undryed_DeerMeat
+  - BCA_Undryed_Fish
+  - BCA_Undryed_HareMeat
+  - BCA_Undryed_RawMeat
+  - BCA_Undryed_WolfMeat
+  CookingAdditionsIngredients:
+  - BCA_ChiliPepperSeeds
+  - BCA_TomatoSeeds
+  - BCA_Salt
+  CookingAdditionsCoatedEggs:
+  - BCA_Coated_AsksvinEgg
+  - BCA_Coated_ChickenEgg
+  - BCA_Coated_VoltureEgg
+  ReduceWeight:
+  - Stone
+  - BlackMarble
+  - Flint
+  - Coal
+  - Tar
+  - Obsidian
+  - SulfurStone
+  - Grausten
+  - Chitin
+  - CeramicPlate
+  WizardryScrolls:
+  - ArcaneScroll_DamageBuff_TW
+  - ArcaneScroll_SpeedBuff_TW
+  - ArcaneScroll_JumpBuff_TW
+  - ArcaneScroll_SlowfallBuff_TW
+  MetalsDeepNorth:
+  - RagnoriteBar_TW
+  - TyraniumBar_TW
+  - ThoradusBar_TW
+  - LokvyrBar_TW
+  - RagnoriteOre_TW
+  - TyraniumOre_TW
+  - LokvyrOre_TW
+
+# Global/default item behaviors
+all:
+    floating: yes
+    pickup: yes
+
+# Specific item behavior overrides
+NeckTailGrilled:
+    floating: no
+SeekerAspic:
+    floating: no
+HoneyGlazedNeck:
+    floating: no
 
 # Stackable items configuration
 Stackable:
@@ -37,6 +149,7 @@ WizardryScrolls:
 DragonEgg:
     stack: 3
     weight: 100
+    teleportable: yes
 
 SurtrDrakeEgg_TW:
     teleportable: yes
@@ -69,6 +182,21 @@ Food Backpack:
     loss: no
 
 # food stacks to 200 and doesn't be removed from inventory on death
+CookingAdditionsSoups:
+    stack: 200
+    loss: no
+CookingAdditionsPreparedFoods:
+    stack: 200
+    loss: no
+CookingAdditionsSaltedMeats:
+    stack: 200
+    loss: no
+CookingAdditionsIngredients:
+    stack: 100
+    loss: no
+CookingAdditionsCoatedEggs:
+    stack: 50
+    loss: no
 metal:
     teleportable: no
     stack: 100
@@ -159,24 +287,12 @@ EnchantedWoodMistlands_TW:
     stack: 200
     weight: 1
 
-# This will make dragon eggs teleportable.
-dragon egg:
-  teleportable: yes
-  
 # This will make silver ore lighter and increase the stack size.
 silver ore:
   weight: 10
   stack: 50
   
-# This will make you keep your food in the inventory, if you happen to die.
-food:
-  loss: no
-  
 # This will stop your character from picking up Ooze automatically.
 ooze:
   pickup: no
   
-# This will make metal float in water and teleportable.
-metal:
-  floating: yes
-  teleportable: yes

@@ -1,4 +1,9 @@
 groups:
+  Huge Wood Gain:
+  - Wood
+  - Fine Wood
+  - Core Wood
+  - Ancient Bark
   MeadBase:
   - BarleyWineBase
   - MeadBaseTamer
@@ -45,6 +50,35 @@ groups:
   - FishNLoxSkewer
   - FishMeatSkewer
   - DandelionTea_JH
+  CookingAdditionsSoups:
+  - BCA_ChickenSoup
+  - BCA_FishSoup
+  - BCA_MeatSoup
+  - BCA_TomatoSoup
+  - BCA_VeggieSoup
+  CookingAdditionsPreparedFoods:
+  - BCA_BoiledEgg
+  - BCA_SpicyMeatPlatter
+  - BCA_SpicyMeatSupreme
+  - BCA_SpicySerpentMeat
+  - BCA_SweetNSpicyFish
+  CookingAdditionsSaltedMeats:
+  - BCA_Undryed_AsksvinMeat
+  - BCA_Undryed_BugMeat
+  - BCA_Undryed_ChickenMeat
+  - BCA_Undryed_DeerMeat
+  - BCA_Undryed_Fish
+  - BCA_Undryed_HareMeat
+  - BCA_Undryed_RawMeat
+  - BCA_Undryed_WolfMeat
+  CookingAdditionsIngredients:
+  - BCA_ChiliPepperSeeds
+  - BCA_TomatoSeeds
+  - BCA_Salt
+  CookingAdditionsCoatedEggs:
+  - BCA_Coated_AsksvinEgg
+  - BCA_Coated_ChickenEgg
+  - BCA_Coated_VoltureEgg
   ReduceWeight:
   - Stone
   - BlackMarble
@@ -70,113 +104,3 @@ groups:
   - TyraniumOre_TW
   - LokvyrOre_TW
 #
-all:
-    floating: yes
-    pickup: yes
-# stuff floats in water; everything is pickable
-NeckTailGrilled:
-    floating: no
-SeekerAspic:
-    floating: no
-HoneyGlazedNeck:
-    floating: no
-# NeckTailGrilled doesnt float till its fixed due to floating in air very high.
-Stackable:
-    stack: 200
-WizardryScrolls:
-    stack: 10
-DragonEgg:
-    stack: 3
-    weight: 100
-SurtrDrakeEgg_TW:
-    teleportable: yes
-    weight: 100
-CryptKey:
-    stack: 10
-MeadBase:
-    stack: 100
-mmo_mead_minor:
-    stack: 100
-mmo_mead_med:
-    stack: 100
-mmo_mead_greater:
-    stack: 100
-Food:
-    stack: 200
-    loss: no
-CustomFood:
-    stack: 200
-    loss: no
-Food Backpack:
-    loss: no
-# food stacks to 200 and doesn't be removed from inventory on death
-metal:
-    teleportable: no
-    stack: 100
-    Weight: 10
-ore:
-    teleportable: no
-    stack: 100
-    Weight: 10
-MetalsDeepNorth:
-    teleportable: no
-    stack: 200
-    Weight: 10
-# ores and metals are not teleportable, stack to 100 and metals weight only 10
-ReduceWeight:
-    stack: 200
-    Weight: 1
-# stones stack to 100 and weight only 1
-trophy:
-    stack: 100
-    Weight: 2
-boss trophy:
-    stack: 100
-    Weight: 2
-# trophys stack up to 100 and weight only 2
-Coins:
-    stack: 9999
-valuable:
-    stack: 100
-    weight: 0.05
-# make coins, valuables lighter
-Wood:
-  stack: 200
-  weight: 1
-FineWood:
-    stack: 200
-    weight: 1
-RoundLog:
-    stack: 200
-    weight: 1
-ElderBark:
-    stack: 200
-    weight: 1
-YggdrasilWood:
-    stack: 200
-    weight: 1
-Blackwood:
-    stack: 200
-    weight: 1
-BorealWood_TW:
-    stack: 200
-    weight: 1
-BorealPineWood_TW:
-    stack: 200
-    weight: 1
-EnchantedWoodBlackForest_TW:
-    stack: 200
-    weight: 1
-EnchantedWoodSwamp_TW:
-    stack: 200
-    weight: 1
-EnchantedWoodMountain_TW:
-    stack: 200
-    weight: 1
-EnchantedWoodPlains_TW:
-    stack: 200
-    weight: 1
-EnchantedWoodMistlands_TW:
-    stack: 200
-    weight: 1
-# All Wood types stack to 100 and weight half

@@ -1,7 +1,0 @@
-﻿PrintComment: ThisGoesHere is deleting unwanted files
-DeleteFile:
-- config\CreatureConfig.yml
-- config\ItemConfig.yml
-- config\wackysDatabase\Pieces\_RelicHeimWDB2.0\Piece_Armory_TW.yml
-DeleteFolder:
-- config\_RelicHeimFiles\ThisGoesHereMovedFile

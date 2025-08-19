@@ -12,6 +12,7 @@ A comprehensive Valheim modpack featuring MMO progression, enhanced combat/magic
 - [Key Features](#key-features)
 - [Mod Categories](#mod-categories)
 - [Configuration](#configuration)
+- [Recent Changes](#recent-changes)
 - [Troubleshooting](#troubleshooting)
 - [Support](#support)
 
@@ -142,19 +143,50 @@ Dogeheim transforms Valheim into an expansive MMO-style experience with over 100
 
 ## ⚙️ Configuration
 
+### Current Active Configuration Environment
+
+The modpack is configured for **balanced multiplayer gameplay** with the following key settings:
+
+#### 🎮 MMO Progression Settings
+- **Maximum Level**: 120 (increased from default 100)
+- **Experience Rate**: 1.15x (15% bonus experience)
+- **Group Experience**: 0.9x (90% of normal XP in groups)
+- **Experience Loss on Death**: 1-4% (reduced from 5-25%)
+- **Free Points per Level**: 4 (reduced from 5 for balance)
+- **Level Experience**: 300 base + 4.8% increase per level
+
+#### ⚔️ Combat & Loot Balance
+- **Creature Level Control**: Very Hard difficulty
+- **Boss Loot per Star**: 50% chance (reduced from 60%)
+- **Creature Loot per Star**: 100% chance (increased from 50%)
+- **Passive Creature Drops**: 1x multiplier (reduced from 2x)
+- **Boss Size Increase**: 5% per star (reduced from 7%)
+
+#### 🏆 Boss Drop Improvements
+- **Boss Trophies**: One per player (ensures all players get rewards)
+- **Boss Range**: 100 units for multi-player drops
+- **Crypt Keys & Wishbones**: One per player near boss
+
+#### 🎲 EpicLoot Configuration
+- **Item Drop Limits**: Player must know recipe (prevents overpowered early drops)
+- **Bounty Gating**: Boss kills unlock next biome bounties
+- **Freebuild Gating**: Current biome pieces unlocked by boss kills
+- **Materials Drop Ratio**: 0 (items only, no material conversion)
+
+#### 🌍 World & Exploration
+- **Multiplayer Scaling**: 40% HP, 4% damage per additional player
+- **Player Range**: 70 units for experience sharing
+- **Visual Indicators**: On for all creatures and bosses
+
 ### Important Configuration Files
 The modpack includes pre-configured settings for optimal gameplay. Key configuration files:
 
 - `WackyMole.EpicMMOSystem.cfg` - MMO progression settings
+- `org.bepinex.plugins.creaturelevelcontrol.cfg` - Creature and loot balance
+- `randyknapp.mods.epicloot.cfg` - EpicLoot enchantment system
 - `Therzie.*.cfg` - Combat and magic system configurations
 - `warpalicious.*.cfg` - World expansion settings
 - `org.bepinex.plugins.*.cfg` - Quality of life mod settings
-
-### Recommended Settings
-- **Experience Multiplier**: 1.0 (default for balanced progression)
-- **Loot Drop Rates**: Enhanced but not excessive
-- **Creature Levels**: Balanced for challenging but fair gameplay
-- **Building Restrictions**: Relaxed for creative freedom
 
 ### Customization
 You can modify any configuration file in `BepInEx/config/` to adjust:
@@ -162,6 +194,30 @@ You can modify any configuration file in `BepInEx/config/` to adjust:
 - Loot drop rates and item availability
 - Creature difficulty and spawn rates
 - Building and crafting requirements
+
+## 📝 Recent Changes
+
+### Latest Configuration Updates (Session 2025-08-18)
+
+#### 🏆 Boss Drop Improvements
+- **One Per Player Drops**: All boss drops now ensure each player gets rewards
+- **Affected Bosses**: Bonemass, Dragon, Asmodeus, Gorr, Storm Herald, Svalt, Vrykolathas
+- **Gold Trophy Drops**: Also set to one per player for fair distribution
+
+#### ⚖️ Loot Balance Adjustments
+- **Creature Loot**: Increased from 50% to 100% chance per star level
+- **Boss Loot**: Reduced from 60% to 50% chance per star level
+- **Passive Creatures**: Reduced drop multiplier from 2x to 1x
+- **Boss Size**: Reduced size increase from 7% to 5% per star
+
+#### 🎲 EpicLoot Refinements
+- **Materials Conversion**: Disabled (items drop as items, not materials)
+- **Wizardry Drops**: Increased Corrupted Dverger Mage drop chance to 100%
+
+#### 🗑️ Cleanup
+- **Swamp Chests**: Removed redundant treasure chest configuration
+
+*For detailed change tracking, see [CHANGELOG.md](CHANGELOG.md)*
 
 ## 🔧 Troubleshooting
 
