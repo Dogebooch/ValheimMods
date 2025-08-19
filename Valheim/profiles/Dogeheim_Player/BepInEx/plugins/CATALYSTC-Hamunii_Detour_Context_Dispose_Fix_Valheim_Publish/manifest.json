@@ -1,9 +1,0 @@
-{
-  "name": "Hamunii_Detour_Context_Dispose_Fix_Valheim_Publish",
-  "description": "A BepInEx patcher to fix MonoMod.RuntimeDetour's DetourContext.Dispose not working. By Hamunii.",
-  "version_number": "1.0.3",
-  "dependencies": [
-  ],
-  "website_url": "https://github.com/Hamunii/DetourContext.Dispose_Fix",
-  "FullName": "Hamunii-DetourContext_Dispose_Fix_Valheim_Publish"
-}

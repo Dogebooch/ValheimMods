@@ -1,9 +1,0 @@
-{
-    "name": "More_and_Modified_Player_Cloth_Colliders",
-    "version_number": "3.1.0",
-    "website_url": "https://www.nexusmods.com/valheim/mods/1699",
-    "description": "This Utility Tweaks the existing Cloth Colliders of the player, and adds more so that the Head, Arms, Lower Legs, and Feet can now interact with capes and cloaks. With much needed tweaks there are now two sets of colliders, 1 for capes, and 1 for armor.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.1700"
-    ]
-}

@@ -1,9 +1,0 @@
-{
-    "name": "Backpacks",
-    "version_number": "1.3.6",
-    "website_url": "https://github.com/blaxxun-boop/Backpacks",
-    "description": "Adds a very nice backpack and Build Your Own Backpack™!",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2202"
-    ]
-}

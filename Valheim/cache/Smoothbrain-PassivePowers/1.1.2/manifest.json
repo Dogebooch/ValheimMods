@@ -1,9 +1,0 @@
-{
-    "name": "PassivePowers",
-    "version_number": "1.1.2",
-    "website_url": "https://github.com/blaxxun-boop/PassivePowers",
-    "description": "Makes the boss powers weaker, but passive. Optionally, they can still be activated for a short burst of power.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2202"
-    ]
-}

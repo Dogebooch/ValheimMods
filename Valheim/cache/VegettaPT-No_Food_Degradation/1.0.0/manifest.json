@@ -1,9 +1,0 @@
-{
-  "name": "No_Food_Degradation",
-  "description": "Removes food degradation. Food will always give you full health, full stamina and full eitr.",
-  "version_number": "1.0.0",
-  "website_url": "https://www.nexusmods.com/valheim/mods/2294",
-  "dependencies": [
-    "denikson-BepInExPack_Valheim-5.4.1901"
-  ]
-}

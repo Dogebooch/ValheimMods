@@ -1,7 +1,0 @@
-{
-    "name": "Gungnir",
-    "version_number": "1.7.5",
-    "website_url": "https://github.com/zambony/Gungnir",
-    "description": "A console enhancement mod that adds new commands and quality of life features.",
-    "dependencies": []
-}

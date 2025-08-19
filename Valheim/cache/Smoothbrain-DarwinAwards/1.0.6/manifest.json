@@ -1,9 +1,0 @@
-{
-    "name": "DarwinAwards",
-    "version_number": "1.0.6",
-    "website_url": "https://github.com/blaxxun-boop/DarwinAwards",
-    "description": "Adds a death feed to your server.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2200"
-    ]
-}

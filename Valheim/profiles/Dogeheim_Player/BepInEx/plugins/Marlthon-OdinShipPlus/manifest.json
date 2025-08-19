@@ -1,9 +1,0 @@
-{
-    "name": "OdinShipPlus",
-    "version_number": "0.6.7",
-    "website_url": "https://discord.gg/mZNHDwxTgp",
-    "description": "Add to your game the most beautiful and functional boats, in all there are 14 boats in the cargo, speed, fishing and war categories. (Donor version of OdinShip)",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2202"
-    ]
-}

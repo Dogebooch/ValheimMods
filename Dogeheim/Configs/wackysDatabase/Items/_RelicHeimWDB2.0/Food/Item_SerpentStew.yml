@@ -17,8 +17,8 @@ Armor:
   armor: 10
   armorPerLevel: 1
 FoodStats:
-  m_foodHealth: 69
-  m_foodStamina: 30
+  m_foodHealth: 73
+  m_foodStamina: 26
   m_foodRegen: 4
   m_foodBurnTime: 1800
   m_FoodEitr: 0

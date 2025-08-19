@@ -1,9 +1,0 @@
-{
-    "name": "Cooking",
-    "version_number": "1.2.1",
-    "website_url": "https://github.com/blaxxun-boop/Cooking",
-    "description": "Adds a skill that increases health, stamina, eitr and HP regeneration for cooked food.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2202"
-    ]
-}

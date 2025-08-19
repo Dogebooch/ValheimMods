@@ -1,9 +1,0 @@
-{
-    "name": "AntiCensorship",
-    "version_number": "1.0.2",
-    "website_url": "https://github.com/blaxxun-boop/AntiCensorship",
-    "description": "Removes the censorship in the game. Also speeds up the loading of the server list by a lot.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.1901"
-    ]
-}

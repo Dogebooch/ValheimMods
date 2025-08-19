@@ -1,9 +1,0 @@
-{
-    "name": "ConfigWatcher",
-    "version_number": "1.0.1",
-    "website_url": "https://github.com/blaxxun-boop/ConfigWatcher",
-    "description": "Reloads cfg files, if they are changed, so you don't have to restart the game / server.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.1500"
-    ]
-}

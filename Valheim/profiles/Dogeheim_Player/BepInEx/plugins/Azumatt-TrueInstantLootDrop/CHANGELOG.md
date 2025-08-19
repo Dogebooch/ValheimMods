@@ -1,5 +1,0 @@
-| `Version` | `Update Notes`                                                                                                                                                                 |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0.2     | - Fix compatibility with some other mods that rely on the SpawnLoot method to run (like Epic Loot). Thank you to Blaxxun for suggestions on what to change to accomplish that. |
-| 1.0.1     | - Ability to remove death smoke/poof                                                                                                                                           |
-| 1.0.0     | - Initial Release                                                                                                                                                              |

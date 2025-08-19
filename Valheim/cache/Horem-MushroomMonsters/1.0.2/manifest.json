@@ -1,9 +1,0 @@
-{
-    "name": "MushroomMonsters",
-    "version_number": "1.0.2",
-    "website_url": "https://discord.gg/6fXvuHMHW7",
-    "description": "Adds two Boss monster's and a variety of monster Mushroom's and Spore's",
-    "dependencies": [ 
-		"ValheimModding-Jotunn-2.7.6"
-		]
-}

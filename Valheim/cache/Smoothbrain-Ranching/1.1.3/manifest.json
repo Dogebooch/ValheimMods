@@ -1,9 +1,0 @@
-{
-    "name": "Ranching",
-    "version_number": "1.1.3",
-    "website_url": "https://github.com/blaxxun-boop/Ranching",
-    "description": "Adds a skill that makes taming animals faster and increases item yield of tamed creatures.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2200"
-    ]
-}

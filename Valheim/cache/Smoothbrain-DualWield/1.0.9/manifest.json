@@ -1,9 +1,0 @@
-{
-    "name": "DualWield",
-    "version_number": "1.0.9",
-    "website_url": "https://github.com/blaxxun-boop/DualWield",
-    "description": "Twice the weapons, twice the fun.",
-    "dependencies": [
-        "denikson-BepInExPack_Valheim-5.4.2200"
-    ]
-}
