@@ -17,14 +17,14 @@ UndergroundRuinsPickables1:
     stackMin: 1
     stackMax: 3
   - item: DustMagic
-    stackMin: 2
-    stackMax: 5
+    stackMin: 3
+    stackMax: 6
   - item: RunestoneMagic
-    stackMin: 1
-    stackMax: 3
+    stackMin: 2
+    stackMax: 4
   - item: EssenceMagic
     stackMin: 1
-    stackMax: 2
+    stackMax: 3
   - item: BoneFragments
     stackMin: 2
     stackMax: 6
@@ -52,17 +52,17 @@ CatacombPickables1:
     stackMin: 1
     stackMax: 4
   - item: DustMagic
-    stackMin: 2
-    stackMax: 5
+    stackMin: 3
+    stackMax: 6
   - item: RunestoneMagic
-    stackMin: 1
-    stackMax: 3
+    stackMin: 2
+    stackMax: 4
   - item: EssenceMagic
     stackMin: 1
-    stackMax: 2
-  - item: DustRare
-    stackMin: 1
     stackMax: 3
+  - item: DustRare
+    stackMin: 2
+    stackMax: 4
   - item: BoneFragments
     stackMin: 3
     stackMax: 8

@@ -1,30 +1,42 @@
 CatacombLoot1:
 - item: DustMagic
+  stackMax: 10
+  stackMin: 5
+  weight: 6.0
+- item: RunestoneMagic
   stackMax: 8
   stackMin: 4
-  weight: 3.0
-- item: RunestoneMagic
-  stackMax: 6
-  stackMin: 3
-  weight: 2.5
+  weight: 5.0
 - item: EssenceMagic
-  stackMax: 5
-  stackMin: 2
-  weight: 2.0
-- item: ShardMagic
   stackMax: 6
   stackMin: 3
-  weight: 2.0
+  weight: 4.0
+- item: ShardMagic
+  stackMax: 8
+  stackMin: 4
+  weight: 4.0
 - item: DustRare
+  stackMax: 6
+  stackMin: 3
+  weight: 3.5
+- item: RunestoneRare
   stackMax: 5
   stackMin: 2
-  weight: 2.0
-- item: RunestoneRare
+  weight: 3.0
+- item: EssenceRare
   stackMax: 4
   stackMin: 1
-  weight: 1.5
-- item: EssenceRare
+  weight: 2.5
+ - item: DustEpic
   stackMax: 3
+  stackMin: 1
+  weight: 1.8
+ - item: RunestoneEpic
+  stackMax: 2
+  stackMin: 1
+  weight: 1.4
+ - item: EssenceEpic
+  stackMax: 2
   stackMin: 1
   weight: 1.2
 - item: Amber
@@ -88,45 +100,45 @@ CatacombLoot1:
 
 UndergroundRuinsLoot1:
 - item: DustMagic
+  stackMax: 12
+  stackMin: 6
+  weight: 6.0
+- item: RunestoneMagic
   stackMax: 10
   stackMin: 5
-  weight: 3.0
-- item: RunestoneMagic
+  weight: 5.0
+- item: EssenceMagic
   stackMax: 8
   stackMin: 4
-  weight: 2.5
-- item: EssenceMagic
-  stackMax: 6
-  stackMin: 3
-  weight: 2.0
+  weight: 4.0
 - item: ShardMagic
-  stackMax: 7
-  stackMin: 4
-  weight: 2.0
+  stackMax: 9
+  stackMin: 5
+  weight: 4.0
 - item: DustRare
+  stackMax: 7
+  stackMin: 3
+  weight: 3.5
+- item: RunestoneRare
   stackMax: 6
   stackMin: 3
-  weight: 2.2
-- item: RunestoneRare
+  weight: 3.0
+- item: EssenceRare
   stackMax: 5
   stackMin: 2
-  weight: 1.8
-- item: EssenceRare
-  stackMax: 4
-  stackMin: 2
-  weight: 1.6
+  weight: 2.5
 - item: DustEpic
-  stackMax: 3
+  stackMax: 4
   stackMin: 1
-  weight: 1.2
+  weight: 2.0
 - item: RunestoneEpic
   stackMax: 3
   stackMin: 1
-  weight: 1.0
+  weight: 1.6
 - item: EssenceEpic
   stackMax: 2
   stackMin: 1
-  weight: 0.8
+  weight: 1.2
 - item: Amber
   stackMax: 6
   stackMin: 2
