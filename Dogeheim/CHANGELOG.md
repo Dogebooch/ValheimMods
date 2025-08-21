@@ -1,5 +1,36 @@
 # Dogeheim Modpack Changelog
 
+## Version 1.3.6 - Increased Wool Spawn Rates
+
+### Changed
+- **Increased Sheep_TW spawn rates by 30-50%** for better wool availability:
+  - SpawnMaxMultiplier: 1 → 1.5 (50% increase in max spawned sheep)
+  - GroupSizeMaxMultiplier: 1.5 → 2 (33% increase in group size)
+  - SpawnFrequencyMultiplier: 1.5 → 2 (33% increase in spawn frequency)
+- Sheep_TW drops WoolScraps_TW, providing more crafting materials for Therzie.Wizardry items
+
+## Version 1.3.5 - Workbench Alignment
+
+### Changed
+- Set Wizard Table (`$piece_wizardtable_TW`) as the crafting and repair station for:
+  - `StaffVulkarion_TW` (Vulkarion's Rage)
+  - `StaffStorm_TW` (Stormcaller)
+  - `StaffSkrymir_TW` (Skrymir's Chill)
+  - `StaffMistlands_TW` (Tempest Staff)
+  - `StaffBlackforest_TW` (Evergrowth Staff)
+  - `BMR_WoodenStaff` (Wood Staff)
+  - `HelmetPointyHat` (Pointy Hat)
+  - `BMR_SorcerersHat` (Shadowleaf Vanguard Hat)
+  - `BMR_SorcerersTrousers` (Shadowleaf Vanguard Trousers)
+  - `BMR_SorcerersTunic` (Shadowleaf Vanguard Tunic)
+  - `ScholarFireStaff`
+- Standardized recipe file placement:
+  - Staff-related recipes under `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/StaffBurst/`
+  - Vanilla/armor recipes under `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaItems/`
+- Moved glazing recipes to the Cauldron (`$piece_cauldron`):
+  - `HoneyGlazedMeat`
+  - `HoneyGlazedDeer`
+
 ## Version 1.3.4 - Custom Seasonal Music
 
 *Added custom seasonal music tracks with unique configurations for each season.*

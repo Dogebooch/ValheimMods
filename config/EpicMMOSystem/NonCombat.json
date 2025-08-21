@@ -355,74 +355,74 @@
   },
   {
     "name": "Fish1",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish2",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish3",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish4_cave",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 40,
     "level": 1
   },
   {
     "name": "Fish5",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish6",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish7",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish8",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish9",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish10",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish11",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
     "name": "Fish12",
-    "minExp": 10,
-    "maxExp": 20,
+    "minExp": 20,
+    "maxExp": 35,
     "level": 1
   },
   {
