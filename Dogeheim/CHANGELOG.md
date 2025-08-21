@@ -2,6 +2,27 @@
 
 ---
 
+## Version 1.3.8 - Better Cartography & Hugo's Armory Integration
+
+*Added enhanced map sharing functionality and improved exploration skill balance.*
+
+#### Better Cartography Table Integration
+- **Added Better Cartography Table mod** for enhanced group map sharing:
+  - `config/nbusseneau.BetterCartographyTable.cfg`:
+    - `Map exploration sharing mode`: Public (automatic map sharing)
+    - `Pin sharing mode`: Public (custom pins shared between group members)
+    - `Modifier key`: LeftShift (for interacting with shared pins)
+- **Reduced exploration skill experience gain** to compensate:
+  - `config/org.bepinex.plugins.exploration.cfg`:
+    - `Skill Experience Gain Factor`: 0.48 → 0.35 (-27% reduction), was definitely finding exploration skill to be blown out of proportion
+
+#### Hugo's Armory Drop Configuration Issue
+- **Identified missing drop configurations** for Hugo's Armory items
+- **Issue**: Hugo's Armory items are not configured in any drop tables
+- **Status**: Requires drop table configuration to enable loot drops
+
+---
+
 ## Version 1.3.7 - Monster Difficulty Balance & Spawn Optimization Update
 
 *Balanced monster difficulty scaling and optimized creature spawn rates for improved gameplay experience.*
@@ -22,9 +43,29 @@
   - `Chance for additional loot per star`: 50% → 65% (+30% better rewards)
 - **Reduced creature affix spawn rates** for more balanced special effects:
   - `Aggressive effect`: 20% → 10% (-50% reduction)
+  - `Curious effect`: 5% → 2% (-60% reduction - reduces mining harassment)
   - `Quick effect`: 10% → 7% (-30% reduction)
   - `Regenerating effect`: 10% → 7% (-30% reduction)
-  - Other affixes unchanged (Curious: 5%, Splitting: 5%, Armored: 1%)
+  - Other affixes unchanged (Splitting: 5%, Armored: 1%)
+- **Increased elemental infusion variety**:
+  - `Fire infusion`: 7% → 9% (+29% increase)
+  - `Frost infusion`: 7% → 9% (+29% increase)
+  - `Poison infusion`: 4% → 6% (+50% increase)
+  - `Lightning infusion`: 3% → 5% (+67% increase)
+- **Enhanced boss loot rewards**:
+  - `Chance for additional loot per star for bosses`: 60% → 70% (+17% increase)
+
+#### EpicLoot Item Drop Optimization
+- **Improved item-to-materials ratio** for better gear acquisition:
+  - `config/randyknapp.mods.epicloot.cfg`:
+    - `Items To Materials Drop Ratio`: 0.8 → 0.6 (-25% materials, +25% items)
+
+#### Creature Sector System Rebalancing
+- **Adjusted creature sector progression** for extended biome exploration:
+  - `config/org.bepinex.plugins.creaturelevelcontrol.cfg`:
+    - `Kills required for bonus levels`: 10, 35, 100 → 50, 150, 300 (5x more generous)
+    - `Sector reset timer`: 30 minutes → 45 minutes (50% longer recovery)
+- **Benefits**: Takes 5x longer for areas to become difficult, but areas recover to normal difficulty relatively quickly. Perfect balance for extended exploration without permanent difficulty spikes.
 
 #### Swamp Biome Spawn Optimization
 - **Reduced swamp creature spawn density by 50%** to address overcrowding:
