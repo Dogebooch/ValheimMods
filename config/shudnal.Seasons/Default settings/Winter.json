@@ -1,6 +1,6 @@
 {
   "daysInSeason": 10,
-  "nightLength": 45,
+  "nightLength": 27,
   "torchAsFiresource": true,
   "torchDurabilityDrain": 0.1,
   "plantsGrowthMultiplier": 0.0,

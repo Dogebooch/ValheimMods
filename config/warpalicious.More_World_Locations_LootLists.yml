@@ -2,87 +2,103 @@ CatacombLoot1:
 - item: DustMagic
   stackMax: 8
   stackMin: 4
-  weight: 3.0
+  weight: 6.0
 - item: RunestoneMagic
   stackMax: 6
   stackMin: 3
-  weight: 2.5
+  weight: 5.0
 - item: EssenceMagic
   stackMax: 5
   stackMin: 2
-  weight: 2.0
+  weight: 4.0
 - item: ShardMagic
   stackMax: 6
   stackMin: 3
-  weight: 2.0
+  weight: 4.0
 - item: DustRare
   stackMax: 5
   stackMin: 2
-  weight: 2.0
+  weight: 3.0
 - item: RunestoneRare
   stackMax: 4
   stackMin: 1
-  weight: 1.5
+  weight: 2.2
 - item: EssenceRare
   stackMax: 3
   stackMin: 1
-  weight: 1.2
+  weight: 2.0
+- item: DustEpic
+  stackMax: 2
+  stackMin: 1
+  weight: 1.0
+- item: RunestoneEpic
+  stackMax: 2
+  stackMin: 1
+  weight: 0.9
+- item: EssenceEpic
+  stackMax: 1
+  stackMin: 1
+  weight: 0.8
+- item: ShardEpic
+  stackMax: 2
+  stackMin: 1
+  weight: 0.9
 - item: Amber
   stackMax: 7
   stackMin: 3
-  weight: 2.0
+  weight: 0.8
 - item: Ruby
   stackMax: 5
   stackMin: 2
-  weight: 1.8
+  weight: 0.7
 - item: Coins
   stackMax: 40
   stackMin: 20
-  weight: 2.2
+  weight: 1.0
 - item: BoneFragments
   stackMax: 8
   stackMin: 3
-  weight: 1.5
+  weight: 0.5
 - item: LeatherScraps
   stackMax: 6
   stackMin: 2
-  weight: 1.2
+  weight: 0.4
 - item: Flint
   stackMax: 10
   stackMin: 5
-  weight: 1.5
+  weight: 0.4
 - item: Feathers
   stackMax: 15
   stackMin: 6
-  weight: 1.5
+  weight: 0.4
 - item: Resin
   stackMax: 12
   stackMin: 4
-  weight: 1.0
+  weight: 0.2
 - item: Wood
   stackMax: 25
   stackMin: 10
-  weight: 1.0
+  weight: 0.2
 - item: Stone
   stackMax: 20
   stackMin: 8
-  weight: 1.2
+  weight: 0.2
 - item: Coal
   stackMax: 10
   stackMin: 4
-  weight: 1.0
+  weight: 0.4
 - item: Coins
   stackMax: 50
   stackMin: 10
-  weight: 0.6
+  weight: 0.3
 - item: Amber
   stackMax: 1
   stackMin: 1
-  weight: 0.2
+  weight: 0.05
 - item: AmberPearl
   stackMax: 1
   stackMin: 1
-  weight: 0.08
+  weight: 0.02
 
  
 
@@ -90,98 +106,98 @@ UndergroundRuinsLoot1:
 - item: DustMagic
   stackMax: 10
   stackMin: 5
-  weight: 3.0
+  weight: 6.5
 - item: RunestoneMagic
   stackMax: 8
   stackMin: 4
-  weight: 2.5
+  weight: 5.5
 - item: EssenceMagic
   stackMax: 6
   stackMin: 3
-  weight: 2.0
+  weight: 4.5
 - item: ShardMagic
   stackMax: 7
   stackMin: 4
-  weight: 2.0
+  weight: 4.5
 - item: DustRare
   stackMax: 6
   stackMin: 3
-  weight: 2.2
+  weight: 3.2
 - item: RunestoneRare
   stackMax: 5
   stackMin: 2
-  weight: 1.8
+  weight: 2.6
 - item: EssenceRare
   stackMax: 4
   stackMin: 2
-  weight: 1.6
+  weight: 2.4
 - item: DustEpic
   stackMax: 3
   stackMin: 1
-  weight: 1.2
+  weight: 2.0
 - item: RunestoneEpic
   stackMax: 3
   stackMin: 1
-  weight: 1.0
+  weight: 1.7
 - item: EssenceEpic
   stackMax: 2
   stackMin: 1
-  weight: 0.8
+  weight: 1.5
 - item: Amber
   stackMax: 6
   stackMin: 2
-  weight: 1.8
+  weight: 0.8
 - item: Ruby
   stackMax: 4
   stackMin: 1
-  weight: 1.5
+  weight: 0.7
 - item: Coins
   stackMax: 35
   stackMin: 15
-  weight: 2.0
+  weight: 1.0
 - item: BoneFragments
   stackMax: 10
   stackMin: 4
-  weight: 1.5
+  weight: 0.5
 - item: LeatherScraps
   stackMax: 8
   stackMin: 3
-  weight: 1.2
+  weight: 0.4
 - item: Flint
   stackMax: 12
   stackMin: 6
-  weight: 1.5
+  weight: 0.4
 - item: Feathers
   stackMax: 18
   stackMin: 7
-  weight: 1.5
+  weight: 0.4
 - item: Resin
   stackMax: 15
   stackMin: 5
-  weight: 1.0
+  weight: 0.2
 - item: Wood
   stackMax: 30
   stackMin: 12
-  weight: 1.0
+  weight: 0.2
 - item: Stone
   stackMax: 25
   stackMin: 10
-  weight: 1.2
+  weight: 0.2
 - item: Coal
   stackMax: 12
   stackMin: 5
-  weight: 1.0
+  weight: 0.4
 - item: Coins
   stackMax: 50
   stackMin: 10
-  weight: 0.8
+  weight: 0.3
 - item: Amber
   stackMax: 1
   stackMin: 1
-  weight: 0.3
+  weight: 0.05
 - item: AmberPearl
   stackMax: 1
   stackMin: 1
-  weight: 0.1
+  weight: 0.02
 
 version: '2.0'

@@ -5,11 +5,7 @@
 [![Mods](https://img.shields.io/badge/Mods-100+-orange.svg)](https://valheim.thunderstore.io/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Ready-blue.svg)](https://www.valheimgame.com/)
 
-**Transform Valheim into an epic MMO adventure** with Dogeheim - a carefully curated modpack featuring over 100 mods that enhance every aspect of your Viking journey. Experience level-based progression, powerful magic systems, expanded worlds, and seamless multiplayer gameplay.
-
-## 🎯 Why Choose Dogeheim?
-
-**Dogeheim isn't just another modpack** - it's a complete transformation of Valheim that maintains the game's core spirit while adding the depth and progression systems you've always wanted. Whether you're a solo adventurer or leading a Viking clan, Dogeheim provides the perfect balance of challenge, progression, and fun.
+**Transform Valheim into an epic MMO adventure** with Dogeheim - a carefully curated modpack featuring over 100 mods that enhance every aspect of your Viking journey. Dogeheim is designed to provide a **rich and immersive MMO experience** while preserving the core gameplay that made Valheim a hit. With Dogeheim, you can explore new biomes, master advanced combat techniques, and build magnificent structures like never before.
 
 ### ✨ What Makes Dogeheim Special:
 - **🎮 True MMO Progression** - Level up to 120 with skill trees and experience points
@@ -162,6 +158,8 @@ Dogeheim comes **pre-configured for the perfect gaming experience** with careful
 *See [CHANGELOG.md](CHANGELOG.md) for detailed change tracking*
 
 ## 🔧 Performance & Compatibility
+
+### Note: Dogeheim is a very large modpack, and may take some time to load, especially on first launch. Ensure your system meets the requirements for optimal performance.
 
 ### System Requirements
 - **RAM**: 8GB minimum, 16GB recommended

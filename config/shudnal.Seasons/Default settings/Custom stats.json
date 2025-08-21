@@ -83,7 +83,7 @@
     },
     "m_skillLevels": {
       "WoodCutting": 15.0,
-      "Fishing": 15.0,
+      "Fishing": 12.0,
       "Pickaxes": 15.0
     },
     "m_modifyAttackSkills": {},

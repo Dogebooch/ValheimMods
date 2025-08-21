@@ -1,9 +1,9 @@
 name: FlintDevastator_JH
 clonePrefabName: FlintDevastator_JH
-craftingStation: $piece_workbench
+craftingStation: $piece_wizardtable_TW
 minStationLevel: 2
 maxStationLevelCap: 
-repairStation: $piece_workbench
+repairStation: $piece_wizardtable_TW
 amount: 1
 disabled: false
 disabledUpgrade: false

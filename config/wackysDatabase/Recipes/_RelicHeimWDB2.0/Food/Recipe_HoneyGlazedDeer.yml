@@ -1,9 +1,9 @@
 name: HoneyGlazedDeer
 clonePrefabName: HoneyGlazedDeer
-craftingStation: ''
+craftingStation: $piece_cauldron
 minStationLevel: 1
 maxStationLevelCap: 
-repairStation: $piece_workbench
+repairStation: $piece_cauldron
 amount: 1
 disabled: false
 requireOnlyOneIngredient: false
