@@ -5,128 +5,65 @@
 [![Mods](https://img.shields.io/badge/Mods-100+-orange.svg)](https://valheim.thunderstore.io/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Ready-blue.svg)](https://www.valheimgame.com/)
 
-**Transform Valheim into an epic MMO adventure** with Dogeheim - a carefully curated modpack featuring over 100 mods that enhance every aspect of your Viking journey. Dogeheim is designed to provide a **rich and immersive MMO experience** while preserving the core gameplay that made Valheim a hit. With Dogeheim, you can explore new biomes, master advanced combat techniques, and build magnificent structures like never before.
+## 🚀 Ready for the Ultimate Viking Challenge?
 
-### ✨ What Makes Dogeheim Special:
-- **🎮 True MMO Progression** - Level up to 120 with skill trees and experience points
-- **⚔️ Epic Combat & Magic** - Master new weapons, spells, and combat mechanics
-- **🌍 Vast World Expansion** - Explore new biomes, dungeons, and hidden locations
-- **🛠️ Quality of Life** - Enhanced inventory, automation, and convenience features
-- **🏗️ Advanced Building** - Create magnificent structures with expanded building options
-- **⚖️ Perfectly Balanced** - Carefully tuned for both solo and multiplayer gameplay
+**Transform your Valheim experience into an epic MMO adventure** with Dogeheim - a meticulously crafted modpack featuring over 100 mods that revolutionize every aspect of your Viking journey either alone or with friends. Whether you're a seasoned warrior or a fresh recruit, Dogeheim offers an unparalleled gaming experience that will test your skills and reward your dedication.
 
-## 🚀 Quick Start
+### ⚠️ What to Expect
 
-### One-Click Installation (Recommended)
-1. Install [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager)
-2. Search for "Dogeheim" in the mod browser
-3. Click "Install with Dependencies"
-4. Launch and enjoy!
+**Dogeheim is designed to be very hard** with increased monster XP, skill caps, and stamina requirements. This is not your typical Valheim experience - expect a **prolonged gametime** with strategic grinding, boss repetition, and intense combat encounters. This modpack is **actively in development** with consistent tweaks and improvements - please be patient as we perfect your ultimate Viking adventure. Multiplayer compatible, currently tweaked for 2-3 players, but is fairly balanced with 4.
 
-### Manual Installation
-1. Install [BepInEx 5.4.2332](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/)
-2. Download all dependencies from the manifest
-3. Extract to your `BepInEx/plugins` folder
-4. Launch Valheim
+---
 
-## ⭐ Core Features
+## 🎮 Why Choose Dogeheim?
 
-### 🎮 MMO Progression System
-Experience true character development with:
-- **Level-based progression** up to level 120
-- **Skill trees** for specialized character builds
-- **Experience sharing** in groups and parties
-- **Item requirements** based on skill levels
-- **Reduced death penalties** for less frustrating gameplay
+### 🌟 True MMO Progression
+- **Level up to 120** with deep skill trees and character specialization
+- **Experience sharing** in groups and parties for cooperative gameplay
+- **Item requirements** based on skill levels for meaningful progression
+- **Reduced death penalties** to keep the adventure flowing
 
-### ⚔️ Enhanced Combat & Magic
-Master new combat systems with:
-- **Therzie Warfare** - Advanced combat mechanics and weapon mastery
-- **Therzie Wizardry** - Powerful magic system with spells and mana
-- **Therzie Monstrum** - Challenging new creatures and boss encounters
-- **Therzie Armory** - Expanded weapon and armor options
-- **EpicLoot** - Enchantment system for legendary gear
-- **RelicHeim** - Mythical items and artifacts
+### ⚔️ Epic Combat & Magic Systems
+- **Therzie Warfare** - Master advanced combat mechanics and weapon techniques
+- **Therzie Wizardry** - Unleash powerful spells and harness magical energy
+- **Therzie Monstrum** - Face challenging new creatures and legendary bosses
+- **EpicLoot** - Discover and enchant legendary gear with unique properties
+- **RelicHeim** - Unearth mythical artifacts and powerful relics
 
-### 🌍 Expanded World Content
-Discover new adventures with:
-- **Warpalicious Biome Packs** - Enhanced versions of all biomes
+### 🌍 Vast World Expansion
+- **Enhanced biomes** with Warpalicious Biome Packs
 - **Underground Ruins** and **Forbidden Catacombs** to explore
-- **Seasons** - Dynamic weather and seasonal changes
-- **Biome Lords Quest** - New quest system with unique rewards
-- **Mushroom Monsters** - Additional creature variety
+- **Dynamic seasons** that change your world and gameplay
+- **Biome Lords Quest** system with unique rewards and challenges
+- **Mushroom Monsters** and additional creature variety
 
-### 🛠️ Quality of Life Improvements
-Enjoy a smoother gaming experience with:
-- **Extended inventory** and **adventure backpacks**
-- **Quick stack, store, sort** and **trash functionality**
-- **Multi-user chests** for shared storage
-- **Automatic fuel management** and **plant everything system**
-- **Target portals** for fast travel
-- **Speedy paths** for faster movement
+### 🛠️ Quality of Life Enhancements
+- **Extended inventory** and **adventure backpacks** for longer expeditions
+- **Smart inventory management** with quick stack, store, and sort
+- **Multi-user chests** for seamless cooperative storage
+- **Target portals** and **speedy paths** for efficient travel
+- **Automated systems** for fuel management and farming
 
 ### 🏗️ Advanced Building & Crafting
-Create magnificent structures with:
-- **OdinArchitect** - Advanced building tools and planning
-- **Fine Wood Pieces** - Additional building materials and furniture
-- **PlanBuild** - Blueprint system for complex constructions
+- **OdinArchitect** - Create magnificent structures with advanced building tools
+- **Fine Wood Pieces** - Expand your building options with beautiful materials
+- **PlanBuild** - Design complex constructions with blueprint system
 - **Enhanced crafting** with blacksmithing, cooking, and potion systems
 
-## 📦 Complete Mod List
+---
 
-### Core Framework
-- BepInEx Pack (5.4.2332) - Modding framework
-- Jotunn (2.26.0) - Mod development library
-- Configuration Manager - Easy settings management
+## ⚙️ Perfectly Balanced Configuration
 
-### MMO & Progression
-- WackyEpicMMOSystem (1.9.44) - Core MMO progression
-- WackysDatabase (2.4.56) - Item and creature database
-- SmartSkills (1.0.2) - Skill-based character development
-- Groups (1.2.9) - Party system with shared experience
+Dogeheim comes **pre-configured for the ultimate gaming experience**:
 
-### Combat & Magic
-- Therzie Warfare (1.8.9) - Advanced combat mechanics
-- Therzie Wizardry (1.1.8) - Magic system and spells
-- Therzie Monstrum (1.5.1) - New creatures and bosses
-- Therzie Armory (1.3.1) - Expanded equipment options
-- EpicLoot (0.11.4) - Enchantment and loot system
-- RelicHeim (5.4.10) - Legendary items and artifacts
-
-### World Expansion
-- Warpalicious Biome Packs - Enhanced biomes and locations
-- Seasons (1.6.6) - Dynamic weather system
-- Biome Lords Quest (3.2.0) - New quest content
-- Mushroom Monsters (1.0.2) - Additional creatures
-- Custom Raids (1.8.0) - Enhanced raid system
-
-### Quality of Life
-- Backpacks (1.3.6) - Additional storage options
-- Extended Inventory (1.4.9) - Larger inventory space
-- Quick Stack (1.4.13) - Inventory management
-- Target Portal (1.2.0) - Fast travel system
-- SpeedyPaths (1.0.8) - Movement improvements
-
-### Building & Crafting
-- OdinArchitect (1.5.3) - Advanced building tools
-- Fine Wood Pieces (1.1.7) - Additional building materials
-- PlanBuild (0.18.2) - Blueprint system
-- Blacksmithing (1.3.2) - Enhanced crafting
-- Cooking Additions (1.2.7) - Expanded cooking system
-
-## ⚙️ Optimized Configuration
-
-Dogeheim comes **pre-configured for the perfect gaming experience** with carefully balanced settings:
-
-### 🎮 MMO Progression (Optimized for Fun)
-- **Maximum Level**: 120 (extended progression)
-- **Experience Rate**: 1.15x (15% bonus for faster progression)
+### 🎯 MMO Progression (Optimized for Challenge)
+- **Maximum Level**: 120 (extended progression path)
+- **Experience Rate**: 1.15x (15% bonus for faster advancement)
 - **Group Experience**: 0.9x (fair sharing in multiplayer)
-- **Death Penalty**: 1-4% (reduced frustration)
-- **Skill Points**: 4 per level (balanced progression)
+- **Death Penalty**: 1-4% (reduced frustration, maintained challenge)
+- **Skill Points**: 4 per level (balanced character development)
 
-### ⚔️ Combat Balance (Challenging but Fair)
-- **Difficulty**: Very Hard (for experienced players)
+### ⚔️ Combat Balance (Very Hard Difficulty)
 - **Creature Loot**: 100% chance per star (rewarding exploration)
 - **Boss Loot**: 50% chance per star (balanced progression)
 - **Boss Scaling**: 5% size increase per star (manageable challenge)
@@ -136,77 +73,73 @@ Dogeheim comes **pre-configured for the perfect gaming experience** with careful
 - **Experience Sharing**: 70 unit range (encourages teamwork)
 - **Multiplayer Scaling**: 40% HP, 4% damage per player (balanced challenge)
 
-### 🎲 EpicLoot Integration
-- **Item Gating**: Recipe-based drops (prevents overpowered early items)
-- **Bounty System**: Boss-kill progression (structured advancement)
-- **Materials**: Items drop as items (no unwanted conversions)
+---
 
-## 📝 Recent Updates
+## 🚀 Get Started in Minutes
 
-### Latest Improvements (Session 2025-08-18_13-23-39)
+### One-Click Installation (Recommended)
+1. Install [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager)
+2. Search for "Dogeheim" in the mod browser
+3. Click "Install with Dependencies"
+4. Launch and begin your epic adventure!
 
-#### 🏆 Enhanced Multiplayer Experience
-- **Fair Boss Rewards**: All boss drops now ensure each player gets their share
-- **Improved Loot Balance**: Better creature vs boss loot distribution
-- **Optimized Scaling**: Reduced boss size increases for better gameplay
+### Manual Installation
+1. Install [BepInEx 5.4.2332](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/)
+2. Download all dependencies from the manifest
+3. Extract to your `BepInEx/plugins` folder
+4. Launch Valheim and experience the transformation
 
-#### ⚖️ Refined Gameplay Balance
-- **Creature Loot**: Increased to 100% chance per star level
-- **Boss Loot**: Balanced at 50% chance per star level
-- **Passive Creatures**: Normalized drop rates for better economy
+---
 
-*See [CHANGELOG.md](CHANGELOG.md) for detailed change tracking*
+## 🔧 System Requirements & Performance
 
-## 🔧 Performance & Compatibility
-
-### Note: Dogeheim is a very large modpack, and may take some time to load, especially on first launch. Ensure your system meets the requirements for optimal performance.
-
-### System Requirements
+### Minimum Requirements
 - **RAM**: 8GB minimum, 16GB recommended
 - **Graphics**: Medium to High settings
 - **Storage**: 10GB free space
 - **Network**: Stable connection for multiplayer
 
 ### Performance Tips
-- Start with Medium graphics settings
+- Start with Medium graphics settings for optimal performance
 - Disable resource-intensive mods if needed
-- Ensure all players use the same mod versions
+- Ensure all players use the same mod versions for multiplayer
 
-### Known Compatibility
+### Compatibility
 - ✅ Fully compatible with latest Valheim version
 - ✅ Optimized for multiplayer servers
 - ✅ Works with most popular Valheim mods
 - ⚠️ May conflict with other major modpacks
 
-## 🆘 Support & Community
+---
 
-### Getting Help
-1. Check the [Troubleshooting](#troubleshooting) section below
-2. Review mod-specific documentation
-3. Join the [Thunderstore Discord](https://discord.gg/thunderstore)
-4. Report issues with specific details
+## 🐛 Known Issues & Support
 
-### Troubleshooting
+### Current Bugs
+- **GUI Overlap**: Haldor's GUI overlaps in the Black Forest
 
-#### Common Issues
-- **Game won't start**: Ensure BepInEx is properly installed and all dependencies are present
-- **Mods not loading**: Check that all mod files are in the correct `BepInEx/plugins` folder
-- **Multiplayer issues**: Verify all players have identical mod versions and configurations
+### Need Help?
+- **Game won't start**: Ensure BepInEx is properly installed with all dependencies
+- **Mods not loading**: Verify all mod files are in the correct `BepInEx/plugins` folder
+- **Multiplayer issues**: Confirm all players have identical mod versions and configurations
 - **Performance problems**: Try reducing graphics settings or disabling resource-intensive mods
 
-#### Installation Problems
-- **Thunderstore installation fails**: Try manual installation method
-- **Missing dependencies**: Download all required mods listed in the manifest
-- **Version conflicts**: Ensure you're using the exact versions specified
+### 💬 Connect With Us
+- **Discord**: dogebooch
+- **Steam**: Friend Code 895642613
+- **Email**: drummerfr3ak@gmail.com
+
+**Have ideas for improvements or found a bug?** We'd love to hear from you! If you're familiar with Valheim modding and would like to help with the project, please reach out. I have future ideas to change a lot of content and expand/optimize the gameplay. I am currently making a wiki for this mod configuration.
 
 ### Useful Resources
 - [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager)
 - [BepInEx Documentation](https://docs.bepinex.dev/)
 - [Valheim Official Discord](https://discord.gg/valheim)
 
-## 📄 License & Credits
+---
 
-This modpack is a collection of mods created by various talented authors. Each mod retains its original license. Please respect individual mod authors' rights and licensing terms.
+## 📄 Credits & Acknowledgments
+
+This modpack is a collection of incredible mods created by talented authors. Each mod retains its original license.
 
 ### Special Thanks
 - **WackyMole** - MMO system and progression
@@ -220,6 +153,8 @@ And all other mod authors whose incredible work makes Dogeheim possible.
 
 ---
 
-**Ready to embark on your epic Viking adventure?** Install Dogeheim today and experience Valheim like never before!
+## 🎯 Ready to Begin Your Epic Journey?
 
-*Note: This modpack is designed for multiplayer compatibility. For the best experience, ensure all players use the same mod versions.*
+**Dogeheim awaits, warrior.** Are you ready to face the ultimate challenge? Install Dogeheim today and experience Valheim like never before - where every battle matters, every level earned feels significant, and every victory is truly epic.
+
+*For the best experience, ensure all players use the same mod versions in multiplayer.*

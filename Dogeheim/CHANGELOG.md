@@ -1,28 +1,12 @@
 # Dogeheim Modpack Changelog
 
-## Version 1.3.7 - Fishing Skill Progression Tuning
+---
 
-### Changed
-- Fishing skill XP rewards increased to better match effort and success:
-  - `config/kam1goroshi.BetterFishing.cfg`:
-    - `Hook_Exp_Multiplier`: 3.0 → 4.0 (more XP while reeling a hooked fish)
-    - `Steps_For_Catch`: 5 → 12 (much larger XP bonus on a successful catch)
-    - `Bonus_Per_Fish_Level`: 0.6 → 0.8 (higher bonus for star-level fish)
-- No change to empty-reel XP; empty reels remain the low baseline.
-- Seasonal bonuses remain intact (e.g., Fall `Fishing` raise multiplier via `shudnal.Seasons`).
+## Version 1.3.5 - Skill Tweaks, Gameplay & Progression Update
 
-## Version 1.3.6 - Increased Wool Spawn Rates
+*Major update combining workbench alignment, skill progression tuning, wool spawn improvements, fishing enhancements, and custom seasonal music.*
 
-### Changed
-- **Increased Sheep_TW spawn rates by 30-50%** for better wool availability:
-  - SpawnMaxMultiplier: 1 → 1.5 (50% increase in max spawned sheep)
-  - GroupSizeMaxMultiplier: 1.5 → 2 (33% increase in group size)
-  - SpawnFrequencyMultiplier: 1.5 → 2 (33% increase in spawn frequency)
-- Sheep_TW drops WoolScraps_TW, providing more crafting materials for Therzie.Wizardry items
-
-## Version 1.3.5 - Workbench Alignment
-
-### Changed
+#### Workbench Alignment
 - Set Wizard Table (`$piece_wizardtable_TW`) as the crafting and repair station for:
   - `StaffVulkarion_TW` (Vulkarion's Rage)
   - `StaffStorm_TW` (Stormcaller)
@@ -42,14 +26,48 @@
   - `HoneyGlazedMeat`
   - `HoneyGlazedDeer`
 
+#### EpicMMO System - Experience Rate Adjustment
+- **Increased global experience gain rate** for smoother progression:
+  - `config/WackyMole.EpicMMOSystem.cfg`:
+    - `RateExp`: 1.15 → 1.18 (+2.6% XP gain)
+- Maintains balanced progression while reducing grind in mid-late game biomes
+
+#### Smoothbrain Skills - Death Experience Loss Removal
+- **Removed death experience loss** from utility skills to reduce frustration:
+  - `config/org.bepinex.plugins.tenacity.cfg`:
+    - `Skill loss`: 6 → 0 (no XP loss on death)
+  - `config/org.bepinex.plugins.packhorse.cfg`:
+    - `Skill loss`: 3 → 0 (no XP loss on death)
+  - `config/org.bepinex.plugins.farming.cfg`:
+    - `Skill Experience Loss`: 1 → 0 (no XP loss on death)
+- **Adjusted Tenacity skill balance**:
+  - `config/org.bepinex.plugins.tenacity.cfg`:
+    - `Skill gain factor`: 0.5 → 0.3 (slower XP gain)
+    - `Skill effect factor`: 0.7 → 1.2 (stronger effect)
+- Reduces frustration from losing utility skill progress while maintaining balanced progression
+
+#### Fishing Skill Progression Tuning
+- **Fishing skill XP rewards increased** to better match effort and success:
+  - `config/kam1goroshi.BetterFishing.cfg`:
+    - `Hook_Exp_Multiplier`: 3.0 → 4.0 (more XP while reeling a hooked fish)
+    - `Steps_For_Catch`: 5 → 12 (much larger XP bonus on a successful catch)
+    - `Bonus_Per_Fish_Level`: 0.6 → 0.8 (higher bonus for star-level fish)
+- No change to empty-reel XP; empty reels remain the low baseline
+- Seasonal bonuses remain intact (e.g., Fall `Fishing` raise multiplier via `shudnal.Seasons`)
+
+#### Increased Wool Spawn Rates
+- **Increased Sheep_TW spawn rates by 30-50%** for better wool availability:
+  - SpawnMaxMultiplier: 1 → 1.5 (50% increase in max spawned sheep)
+  - GroupSizeMaxMultiplier: 1.5 → 2 (33% increase in group size)
+  - SpawnFrequencyMultiplier: 1.5 → 2 (33% increase in spawn frequency)
+- Sheep_TW drops WoolScraps_TW, providing more crafting materials for Therzie.Wizardry items
+
+---
+
 ## Version 1.3.4 - Custom Seasonal Music
 
-*Added custom seasonal music tracks with unique configurations for each season.*
-
-### New Features
-
 #### Seasons Mod - Custom Music
-- **Added custom music tracks for all four seasons**:
+- **Added custom music tracks for all four seasons - Currently not working, still trying to debug and figure it out**:
   - **Spring**: 16MB track with 0.9 volume, 4.0s fade-in, non-looping
   - **Summer**: 2.8MB track with 1.0 volume, 3.0s fade-in, non-looping with resume
   - **Fall**: 12MB track with 1.0 volume, 5.0s fade-in, looping
