@@ -1,6 +1,6 @@
 # Dogeheim - The Ultimate Valheim MMO Experience
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/thunderstore-io)
+[![Version](https://img.shields.io/badge/version-1.3.9-blue.svg)](https://github.com/thunderstore-io)
 [![Valheim](https://img.shields.io/badge/Valheim-Compatible-green.svg)](https://www.valheimgame.com/)
 [![Mods](https://img.shields.io/badge/Mods-100+-orange.svg)](https://valheim.thunderstore.io/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Ready-blue.svg)](https://www.valheimgame.com/)
@@ -29,6 +29,7 @@
 - **Therzie Monstrum** - Face challenging new creatures and legendary bosses
 - **EpicLoot** - Discover and enchant legendary gear with unique properties
 - **RelicHeim** - Unearth mythical artifacts and powerful relics
+- **Custom Raids** - Experience lore-accurate two-phase raid events tied to boss progression
 
 ### 🌍 Vast World Expansion
 - **Enhanced biomes** with Warpalicious Biome Packs
@@ -36,6 +37,7 @@
 - **Dynamic seasons** that change your world and gameplay
 - **Biome Lords Quest** system with unique rewards and challenges
 - **Mushroom Monsters** and additional creature variety
+- **Cross-biome loot distribution** for enhanced exploration rewards
 
 ### 🛠️ Quality of Life Enhancements
 - **Extended inventory** and **adventure backpacks** for longer expeditions
@@ -43,6 +45,7 @@
 - **Multi-user chests** for seamless cooperative storage
 - **Target portals** and **speedy paths** for efficient travel
 - **Automated systems** for fuel management and farming
+- **Enhanced cartography** with shared maps and pins for group exploration
 
 ### 🏗️ Advanced Building & Crafting
 - **OdinArchitect** - Create magnificent structures with advanced building tools
@@ -67,11 +70,13 @@ Dogeheim comes **pre-configured for the ultimate gaming experience**:
 - **Creature Loot**: 100% chance per star (rewarding exploration)
 - **Boss Loot**: 50% chance per star (balanced progression)
 - **Boss Scaling**: 5% size increase per star (manageable challenge)
+- **Custom Raids**: Progressive difficulty tied to boss progression with balanced spawn rates
 
 ### 🏆 Multiplayer Optimizations
 - **Boss Drops**: One per player (ensures everyone gets rewards)
 - **Experience Sharing**: 70 unit range (encourages teamwork)
 - **Multiplayer Scaling**: 40% HP, 4% damage per player (balanced challenge)
+- **Shared Cartography**: Enhanced map and pin sharing for coordinated exploration
 
 ---
 

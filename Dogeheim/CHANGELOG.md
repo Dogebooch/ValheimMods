@@ -2,6 +2,46 @@
 
 ---
 
+## Version 1.3.9 - Custom Raids & Enhanced Loot Systems *(Testing)*
+
+*Added lore-accurate custom raids and expanded loot distribution across biomes for improved exploration rewards.*
+
+#### Custom Raids - Doug's Lore Raids
+- **Added comprehensive custom raid system** with four two-phase events:
+  - `config/_RelicHeimFiles/Raids/custom_raids.supplemental.DougsLoreRaids.cfg`:
+    - **Elder Rite**: Black Forest ritual with Greydwarf shamans and elites
+    - **Bog Uprising**: Swamp uprising with Draugr, blobs, and wraiths
+    - **Hunt of Moder**: Mountain hunt with wolves, Ulv, and dragon hatchlings
+    - **Warband of Yagluth**: Plains warband with goblins, shamans, and deathsquitos
+- **Progressive difficulty scaling** tied to boss progression:
+  - Requires defeating previous bosses to unlock new raid types
+  - Two-phase events with escalating intensity
+  - Balanced spawn rates (95% chance per interval) for manageable frequency
+- **Lore-accurate theming** with appropriate biomes, environments, and creature combinations
+
+#### Enhanced Cartography Table Integration
+- **Improved Better Cartography Table configuration**:
+  - `config/nbusseneau.BetterCartographyTable.cfg`:
+    - Enhanced map sharing functionality for group exploration
+    - Public pin sharing for coordinated exploration
+    - Optimized modifier key settings for seamless interaction
+
+#### Missing Items & Drop Table Expansions
+- **Added missing items to drop tables** across multiple biomes:
+  - **Cross-biome loot distribution** for improved exploration rewards
+  - **Low-chance rare items** from different biomes in various drop tables
+  - **Enhanced boss loot tables** with additional material variety
+- **Expanded chest loot tables** for better treasure hunting rewards
+- **Improved creature drop configurations** for more diverse loot distribution
+
+#### Drop Table Optimization
+- **Enhanced loot variety** across all biomes:
+  - Cross-biome material distribution for better crafting progression
+  - Rare item chances in appropriate creature/chest drop tables
+  - Balanced drop rates to maintain progression without overwhelming players
+
+---
+
 ## Version 1.3.8 - Better Cartography & Hugo's Armory Integration
 
 *Added enhanced map sharing functionality and improved exploration skill balance.*

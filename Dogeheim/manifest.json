@@ -1,6 +1,6 @@
 {
     "name": "Dogeheim",
-    "version_number": "1.3.8",
+    "version_number": "1.3.9",
     "website_url": "",
     "description": "Comprehensive Valheim modpack featuring MMO progression, enhanced combat/magic systems, expanded biomes, quality-of-life improvements, and extensive building/crafting options.",
     "dependencies": [
@@ -101,4 +101,4 @@
         "nbusseneau-Better_Cartography_Table-0.8.1",
         "JewelHeim-RelicHeim-5.4.12"
     ]
-        }
+}
