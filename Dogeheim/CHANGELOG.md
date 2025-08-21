@@ -2,6 +2,47 @@
 
 ---
 
+## Version 1.3.7 - Monster Difficulty Balance & Spawn Optimization Update
+
+*Balanced monster difficulty scaling and optimized creature spawn rates for improved gameplay experience.*
+
+#### Monster Difficulty Rebalancing
+- **Reduced creature size scaling** for better visual clarity:
+  - `config/org.bepinex.plugins.creaturelevelcontrol.cfg`:
+    - `Creature size increase per star`: 14% → 12% (-14% size reduction)
+- **Optimized star spawn chances** to reduce overwhelming encounters:
+  - **Star spawn rates reduced by 30%** across all world levels:
+    - 1-Star: 20% → 14%
+    - 2-Star: 15% → 10.5%
+    - 3-Star: 10% → 7%
+    - 4-Star: 3% → 2.1%
+    - 5-Star: 2% → 1.4%
+  - **Total starred creatures**: 50% → 35% (more manageable encounters)
+- **Increased loot rewards** to compensate for fewer starred creatures:
+  - `Chance for additional loot per star`: 50% → 65% (+30% better rewards)
+- **Reduced creature affix spawn rates** for more balanced special effects:
+  - `Aggressive effect`: 20% → 10% (-50% reduction)
+  - `Quick effect`: 10% → 7% (-30% reduction)
+  - `Regenerating effect`: 10% → 7% (-30% reduction)
+  - Other affixes unchanged (Curious: 5%, Splitting: 5%, Armored: 1%)
+
+#### Swamp Biome Spawn Optimization
+- **Reduced swamp creature spawn density by 50%** to address overcrowding:
+  - `config/spawn_that.simple.cfg`:
+    - `Blob`: All spawn multipliers reduced to 0.5x
+    - `BlobElite`: All spawn multipliers reduced to 0.5x
+    - `Draugr`: All spawn multipliers reduced to 0.5x
+    - `Draugr_Ranged`: All spawn multipliers reduced to 0.5x
+    - `Draugr_Elite`: All spawn multipliers reduced to 0.5x
+    - `Leech`: All spawn multipliers reduced to 0.5x
+    - `Surtling`: All spawn multipliers reduced to 0.5x
+    - `Wraith`: All spawn multipliers reduced to 0.5x
+    - `Abomination`: All spawn multipliers reduced to 0.5x
+
+**Impact**: More balanced combat encounters with fewer but more rewarding starred creatures. Swamp biome is now less overwhelming while maintaining challenge. Same total loot rewards but concentrated in fewer, more meaningful encounters.
+
+---
+
 ## Version 1.3.5 - Skill Tweaks, Gameplay & Progression Update
 
 *Major update combining workbench alignment, skill progression tuning, wool spawn improvements, fishing enhancements, and custom seasonal music.*

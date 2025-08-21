@@ -1,0 +1,361 @@
+[
+  {
+    "prefab": "Tar",
+    "stack": 1,
+    "price": 6,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "BlackMetalScrap",
+    "stack": 1,
+    "price": 12,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Needle",
+    "stack": 1,
+    "price": 6,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "Cloudberry",
+    "stack": 1,
+    "price": 2,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Feathers",
+    "stack": 1,
+    "price": 6,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "LoxPelt",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "LinenThread",
+    "stack": 1,
+    "price": 18,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "LoxMeat",
+    "stack": 1,
+    "price": 8,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "CookedLoxMeat",
+    "stack": 1,
+    "price": 12,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "SerpentMeat",
+    "stack": 1,
+    "price": 15,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "SerpentScale",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "SerpentMeatCooked",
+    "stack": 1,
+    "price": 20,
+    "requiredGlobalKey": "defeated_serpent"
+  },
+  {
+    "prefab": "FlameMetal",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_fader"
+  },
+  {
+    "prefab": "FlametalNew",
+    "stack": 1,
+    "price": 120,
+    "requiredGlobalKey": "defeated_fader"
+  },
+  {
+    "prefab": "FlametalOre",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_fader"
+  },
+  {
+    "prefab": "Eitr",
+    "stack": 1,
+    "price": 40,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Softtissue",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Carapace",
+    "stack": 1,
+    "price": 35,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Mandible",
+    "stack": 1,
+    "price": 45,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "YggdrasilWood",
+    "stack": 1,
+    "price": 20,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "ScaleHide",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "JuteRed",
+    "stack": 1,
+    "price": 15,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "JuteBlue",
+    "stack": 1,
+    "price": 15,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Coins",
+    "stack": 1,
+    "price": 1
+  },
+  {
+    "prefab": "Amber",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Ruby",
+    "stack": 1,
+    "price": 120,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "AmberPearl",
+    "stack": 1,
+    "price": 180,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "BlackCore",
+    "stack": 1,
+    "price": 250,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "Crystal",
+    "stack": 1,
+    "price": 30,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Obsidian",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "SurtlingCore",
+    "stack": 1,
+    "price": 40,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "TrophyBlob",
+    "stack": 1,
+    "price": 40,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "TrophyAbomination",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "TrophyLeech",
+    "stack": 1,
+    "price": 30,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "TrophyDraugrElite",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "TrophyWolf",
+    "stack": 1,
+    "price": 70,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyFenring",
+    "stack": 1,
+    "price": 120,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyStoneGolem",
+    "stack": 1,
+    "price": 150,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyUlv",
+    "stack": 1,
+    "price": 90,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyGoblin",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TrophyGoblinBrute",
+    "stack": 1,
+    "price": 120,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TrophyGoblinShaman",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TrophyLox",
+    "stack": 1,
+    "price": 140,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TrophyDeathsquito",
+    "stack": 1,
+    "price": 110,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TrophyGrowth",
+    "stack": 1,
+    "price": 90,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "TrophySeeker",
+    "stack": 1,
+    "price": 180,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TrophySeekerBrute",
+    "stack": 1,
+    "price": 250,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TrophySeekerSoldier",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TrophyTick",
+    "stack": 1,
+    "price": 220,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TrophyGjall",
+    "stack": 1,
+    "price": 300,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "TrophyHare",
+    "stack": 1,
+    "price": 160,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "GoldRuby",
+    "stack": 1,
+    "price": 300,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "GoldNecklace",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "SilverNecklace",
+    "stack": 1,
+    "price": 150,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Goblet",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "GoblinTotem",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "BeltStrength",
+    "stack": 1,
+    "price": 8000,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "Wishbone",
+    "stack": 1,
+    "price": 1500,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Dvergrkeys",
+    "stack": 1,
+    "price": 350,
+    "requiredGlobalKey": "defeated_queen"
+  },
+  {
+    "prefab": "DragonEgg",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_dragon"
+  }
+] 
