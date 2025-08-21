@@ -1,5 +1,16 @@
 # Dogeheim Modpack Changelog
 
+## Version 1.3.7 - Fishing Skill Progression Tuning
+
+### Changed
+- Fishing skill XP rewards increased to better match effort and success:
+  - `config/kam1goroshi.BetterFishing.cfg`:
+    - `Hook_Exp_Multiplier`: 3.0 → 4.0 (more XP while reeling a hooked fish)
+    - `Steps_For_Catch`: 5 → 12 (much larger XP bonus on a successful catch)
+    - `Bonus_Per_Fish_Level`: 0.6 → 0.8 (higher bonus for star-level fish)
+- No change to empty-reel XP; empty reels remain the low baseline.
+- Seasonal bonuses remain intact (e.g., Fall `Fishing` raise multiplier via `shudnal.Seasons`).
+
 ## Version 1.3.6 - Increased Wool Spawn Rates
 
 ### Changed
