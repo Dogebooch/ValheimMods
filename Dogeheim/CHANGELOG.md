@@ -2,6 +2,83 @@
 
 ---
 
+## Version 1.4.3 - Passive Creature Spawn Balancing *(Testing)*
+
+*Adjusted passive creature spawning rates to improve world balance and reduce resource competition.*
+
+#### Fish Spawning Adjustments
+- **Restored fish spawning to base RelicHeim values** for better fishing gameplay:
+  - `config/spawn_that.simple.cfg`:
+    - **Fish1, Fish2, Fish3**: All multipliers restored to 1.0 (from 0.8/0.7)
+    - **SpawnMaxMultiplier**: 0.8 → 1.0 (+25% max fish spawns)
+    - **GroupSizeMinMultiplier**: 0.8 → 1.0 (+25% min group size)
+    - **GroupSizeMaxMultiplier**: 0.8 → 1.0 (+25% max group size)
+    - **SpawnFrequencyMultiplier**: 0.7 → 1.0 (+43% spawn frequency)
+- Improves fishing experience by restoring natural fish density while maintaining balance
+
+#### Passive Creature Spawn Analysis
+- **Deer and Boar**: Maintained at base RelicHeim values (1.0 multipliers)
+- **Neck**: Reduced to 0.8 multipliers for better resource balance
+- **Crow, FireFlies, Seagal**: Maintained at base values for natural world feel
+- **All other passive creatures**: Using base RelicHeim spawn rates
+
+#### Spawn Configuration Documentation
+- **No global spawn reductions found** - all adjustments are creature-specific
+- **Fish spawning was previously reduced** but has been restored to improve fishing gameplay
+- **Passive creature balance** maintains natural world density while preventing resource oversaturation
+
+---
+
+## Version 1.4.2 - Comprehensive Skill Experience Rebalancing *(Testing)*
+
+*Major skill experience rebalancing to address progression disparities and improve gameplay balance across all skill types.*
+
+#### Sneak Skill Experience Boost
+- **Increased sneak skill bonus experience** for better stealth gameplay rewards:
+  - `config/org.bepinex.plugins.smartskills.cfg`:
+    - `Sneak bonus experience`: 10 → 13 (+30% bonus XP for sneak attacks)
+- Encourages more strategic stealth gameplay and rewards successful sneak attacks
+
+#### Enchantment Skill Experience Boost
+- **Significantly increased enchantment skill experience gain** to address lagging progression:
+  - `config/ValheimEnchantmentSystem/kg.ValheimEnchantmentSystem.cfg`:
+    - `Skill gain factor`: 0.55 → 0.8 (+45% XP gain)
+- Addresses the difficulty of progressing enchantment skill with limited access to enchantment opportunities
+
+#### Crossbow Skill Experience Boost
+- **Increased crossbow skill experience gain** for better ranged combat progression:
+  - `config/Therzie.Warfare.cfg`:
+    - `skill_99738506 Skill gain factor`: 0.6 → 0.78 (+30% XP gain)
+- Improves progression for crossbow users and ranged combat specialists
+
+#### Tenacity Skill Rebalancing
+- **Reduced tenacity skill experience gain** but increased effectiveness:
+  - `config/org.bepinex.plugins.tenacity.cfg`:
+    - `Skill gain factor`: 0.3 → 0.2 (-33% XP gain, slower progression)
+    - `Skill effect factor`: 1.2 → 1.35 (+15% effectiveness at higher levels)
+- Creates a more meaningful progression curve with stronger rewards at higher skill levels
+
+#### Blacksmithing Skill Experience Adjustment
+- **Slightly reduced blacksmithing skill experience gain** to balance common skill usage:
+  - `config/org.bepinex.plugins.blacksmithing.cfg`:
+    - `Skill Experience Gain Factor`: 0.7 → 0.6 (-14% XP gain)
+- Maintains balanced progression for frequently used crafting skill
+
+#### Fishing Skill Experience Enhancements
+- **Significantly increased fishing skill rewards** for successful catches:
+  - `config/kam1goroshi.BetterFishing.cfg`:
+    - `Hook_Exp_Multiplier`: 4.0 → 5.0 (+25% XP while reeling)
+    - `Steps_For_Catch`: 12 → 16 (+33% XP bonus on successful catch)
+    - `Bonus_Per_Fish_Level`: 0.8 → 1.0 (+25% bonus for star-level fish)
+- Rewards successful fishing more generously while maintaining the challenge
+
+#### Missing Skill Configurations
+- **Note**: Jump, run, blocking, and alchemy skills were not found in the current configuration files
+- These skills may be handled by different mods or may not have separate configuration options
+- Further investigation may be needed to locate these skill configurations if they exist
+
+---
+
 ## Version 1.4.1 - Skill Experience Balance & Taming Optimization *(Testing)*
 
 *Adjusted skill experience gains and taming mechanics for better progression balance and reduced frustration.*
