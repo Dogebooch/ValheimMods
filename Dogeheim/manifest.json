@@ -1,6 +1,6 @@
 {
     "name": "Dogeheim",
-    "version_number": "1.3.9",
+    "version_number": "1.4.1",
     "website_url": "",
     "description": "Comprehensive Valheim modpack featuring MMO progression, enhanced combat/magic systems, expanded biomes, quality-of-life improvements, and extensive building/crafting options.",
     "dependencies": [
@@ -19,6 +19,7 @@
         "Therzie-WarfareFireAndIce-2.0.8",
         "Therzie-Monstrum-1.5.1",
         "Therzie-MonstrumDeepNorth-2.0.6",
+        "nbusseneau-Better_Cartography_Table-0.8.1",
         "Therzie-Armory-1.3.1",
         "Smoothbrain-Tenacity-1.0.3",
         "Smoothbrain-TargetPortal-1.2.0",
@@ -98,7 +99,7 @@
         "cjayride-CraftingFilter-1.1.0",
         "KGvalheim-SortCraft-1.1.1",
         "Kam1goroshi-BetterFishing-1.2.3",
-        "nbusseneau-Better_Cartography_Table-0.8.1",
-        "JewelHeim-RelicHeim-5.4.12"
+        "JewelHeim-RelicHeim-5.4.12",
+        "Roses-SmarterContainers-1.7.0"
     ]
 }

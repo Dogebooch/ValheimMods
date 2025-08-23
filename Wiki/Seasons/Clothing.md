@@ -1,2 +1,0 @@
--> You will overheat in summer if you wear too hot of clothing.
--> Snow does not damage buildings in the winter

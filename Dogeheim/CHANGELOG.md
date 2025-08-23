@@ -2,6 +2,60 @@
 
 ---
 
+## Version 1.4.1 - Skill Experience Balance & Taming Optimization *(Testing)*
+
+*Adjusted skill experience gains and taming mechanics for better progression balance and reduced frustration.*
+
+#### Swimming Skill Experience Boost
+- **Increased swimming skill experience gain** to better match moderate usage patterns:
+  - `config/org.bepinex.plugins.smartskills.cfg`:
+    - `Swimming experience bonus`: 100% → 150% (+50% XP gain)
+- Addresses the skill level disparity where swimming lags behind other skills in mid-game progression
+
+#### Ranching Skill Experience & Taming Speed Improvements
+- **Significantly increased ranching skill experience gain** for low-usage skill progression:
+  - `config/org.bepinex.plugins.ranching.cfg`:
+    - `Skill Experience Gain Factor`: 0.6 → 1.2 (+100% XP gain)
+- **Improved taming speed** to reduce frustration with long taming times:
+  - `config/org.bepinex.plugins.ranching.cfg`:
+    - `Taming Factor`: 2.0 → 3.0 (+50% faster taming)
+- Addresses the difficulty of progressing ranching skill with limited animal access
+
+#### Cooking Skill Experience Adjustment
+- **Slightly reduced cooking skill experience gain** to balance common skill usage:
+  - `config/org.bepinex.plugins.cooking.cfg`:
+    - `Skill Experience Gain Factor`: 0.6 → 0.5 (-17% XP gain)
+- Maintains balanced progression for frequently used cooking skill
+
+---
+
+## Version 1.4.0 - Fine Wood Furniture & Smart Containers *(Testing)*
+
+*Added fine wood furniture building pieces and smart container functionality for enhanced building and storage options.*
+
+#### Fine Wood Build Pieces Integration
+- **Added FineWoodBuildPieces mod** for expanded furniture and building options:
+  - Enhanced fine wood furniture crafting recipes
+  - Additional decorative building pieces
+  - Improved aesthetic options for base building
+- **Mod**: `blacks7ar-FineWoodBuildPieces-1.1.7`
+
+#### Smart Containers System
+- **Added SmarterContainers mod** for improved storage management:
+  - Enhanced container functionality and organization
+  - Better inventory management features
+  - Improved storage capacity and sorting options
+- **Mod**: `Roses-SmarterContainers-1.7.0`
+
+#### Food Barrel Recipe Rebalancing
+- **Reapplied food barrel crafting cost increases** for better game balance:
+  - Increased crafting costs from 10 to 15 items for most barrels
+  - OdinsSeedBag increased from 5 to 8 DeerHide
+  - Maintains balance while allowing for increased storage capacity
+- **Configuration**: `config/gravebear.odinsfoodbarrels.cfg`
+
+---
+
 ## Version 1.3.9 - Custom Raids & Enhanced Loot Systems *(Testing)*
 
 *Added lore-accurate custom raids and expanded loot distribution across biomes for improved exploration rewards.*
