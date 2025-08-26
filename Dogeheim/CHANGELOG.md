@@ -2,6 +2,136 @@
 
 ---
 
+## Version 1.4.7 - Trader Menu Overlap Fix *(Testing)*
+
+*Fixed overlapping trader menus caused by TradersExtended GUI positioning conflicts.*
+
+#### Trader Interface Fix
+- **Fixed overlapping trader menus**: Resolved visual conflict where two trader interfaces would overlap
+  - **Root cause**: TradersExtended mod was using fixed GUI positioning `{"x":200.0,"y":150.0}` that conflicted with base game trader interface
+  - **Solution**: Reset GUI position to default `{"x":0.0,"y":0.0}` to allow natural positioning
+  - **Files updated**: 
+    - `config/shudnal.TradersExtended.cfg`
+    - `Dogeheim/Configs/shudnal.TradersExtended.cfg`
+- **Impact**: Trader menus now display properly without visual overlap or positioning conflicts
+
+#### TradersExtended Configuration Review
+- **Comprehensive review completed** of all TradersExtended settings for potential conflicts
+- **Confirmed optimal settings** for compatibility with other UI mods
+- **No additional conflicts found** in current configuration
+
+#### Divine Armaments Drop Rate Rebalancing
+- **Significantly reduced divine armament drop rates** to maintain proper game balance and progression:
+  - **Ultimate divine weapons** (Odin's Spear, Svandëm's Bow, Divine Chest): **0.8-1.0% → 0.2%** (5x rarer)
+  - **Fire divine gear** (Shawesome Fire Helm/Chest, Fire Swords): **1.0% → 0.3%** (3x rarer)
+  - **Frost divine gear** (Shawesome Frost Helm/Chest/Legs): **1.0% → 0.3%** (3x rarer)
+  - **Divine capes** (Fire God Surtur Cape, Frost God Jotnar Cape): **0.8-1.0% → 0.2%** (5x rarer)
+- **Added level-gated safety restrictions** to prevent early-game acquisition:
+  - **Fader drops**: Require minimum level 3 creatures + player kills only
+  - **Deep North/Ashlands drops**: Require minimum level 4 creatures + player kills only
+- **Root cause addressed**: Previous 1-4% drop rates were causing game-breaking early acquisition
+- **Impact**: Divine armaments now properly rare (1 in 300-500 kills) and limited to appropriate end-game content
+- **Files updated**:
+  - `config/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.additional_missing_items.Doug.cfg`
+  - `config/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.missing_items.Doug.cfg`
+  - `Dogeheim/Configs/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.additional_missing_items.Doug.cfg`
+  - `Dogeheim/Configs/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.missing_items.Doug.cfg`
+
+---
+
+## Version 1.4.6 - Staff of the Artificer Drop Rebalancing *(Testing)*
+
+*Moved Staff of the Artificer from early-game Abomination to late-game Fader enemies for better loot progression and game balance.*
+
+#### Staff of the Artificer Drop Changes
+- **Removed from Abomination**: Disabled Staff of the Artificer drops from Swamp biome Abominations
+  - **Previous**: 4% drop chance from early-game enemies
+  - **Issue**: Players getting end-game weapons too early in progression
+- **Added to Fader**: Staff of the Artificer now drops from Ashlands Fader enemies
+  - **New drop chance**: 1% (reduced from 4% for rarity)
+  - **Better progression**: Players encounter Faders when they have access to required materials
+  - **Appropriate difficulty**: Fader enemies match the item's power level and crafting requirements
+
+#### Loot Progression Improvements
+- **Material access**: Players will have Arcanium, HasRefiner_Item, and FlametalNew when they reach Ashlands
+- **Skill requirements**: Blacksmithing level 80 requirement aligns with late-game progression
+- **Thematic fit**: High-tier magical weapon from Shawesomes_Divine_Armaments mod suits end-game enemies
+- **Rarity balance**: 1% drop chance makes it a valuable and rare find
+
+#### Configuration Files Updated
+- `config/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.additional_missing_items.Doug.cfg`
+- `Dogeheim/Configs/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.additional_missing_items.Doug.cfg`
+
+---
+
+## Version 1.4.5 - Greydwarf Spawn Rate Rebalancing *(Testing)*
+
+*Reverted greydwarf nest spawn rates to base RelicHeim values for improved game balance and stability.*
+
+#### Greydwarf Nest Spawner Adjustments
+- **Restored greydwarf nest spawn rates to base RelicHeim configuration**:
+  - `config/_RelicHeimFiles/Drop,Spawn_That/spawn_that.spawnarea_spawners.PilesNests.cfg`:
+    - **SpawnInterval**: 25 → 15 seconds (faster spawning, base RelicHeim value)
+    - **ConditionMaxCloseCreatures**: 4 → 2 (standard creature limits)
+    - **SpawnWeight**: 8 → 5 (standard spawn chance for regular greydwarfs)
+- **Applied to both main config and Dogeheim directory** for consistency
+- **Impact**: More frequent but balanced greydwarf spawning at nests, matching original RelicHeim experience
+
+#### Spawn Configuration Rationale
+- **Faster spawn intervals**: 15-second intervals provide more consistent combat encounters
+- **Standard creature limits**: Maximum 2 greydwarfs near nests prevents overwhelming players
+- **Balanced spawn weights**: Regular greydwarfs (5) spawn more often than elites (1) and shamans (1)
+- **Maintains challenge**: Keeps Black Forest engaging without being overwhelming
+
+---
+
+## Version 1.4.4 - Black Forest Stability & Debugging Improvements *(Testing)*
+
+*Fixed critical Black Forest freezing issues and enhanced debugging capabilities for better troubleshooting.*
+
+#### Black Forest Raid Stability Fixes
+- **Disabled problematic Doug's Lore Raids** that were causing Black Forest freezing:
+  - `config/_RelicHeimFiles/Raids/custom_raids.supplemental.DougsLoreRaids.cfg`:
+    - **Elder_Rite_P1_JH**: Disabled (was causing chained raid conflicts)
+    - **Elder_Rite_P2_JH**: Disabled (chained raid with environment conflicts)
+- **Root cause identified**: Chained raids with forced environment changes (`DeepForest Mist` → `ThunderStorm`) and high spawn rates (95% per interval) were overwhelming the game's systems
+- **Impact**: Should resolve freezing and crashing issues specifically in Black Forest biome
+
+#### Enhanced BepInEx Logging Configuration
+- **Enabled comprehensive logging** for better debugging and error tracking:
+  - `config/BepInEx.cfg`:
+    - **Console Log Levels**: Added `Info` level for detailed console output
+    - **Disk Log Levels**: Added `Message, Info` levels for comprehensive log files
+    - **Unity Log Listening**: Enabled to catch Unity-specific errors
+- **Benefits**: Better visibility into mod conflicts, performance issues, and error tracking
+
+#### Doug's Lore Raids Analysis & Improvements
+- **Identified and fixed critical issues** in remaining Doug's Lore raids:
+  - **Removed chained raid system**: Eliminated `OnStopStartRaid` to prevent cascading effects
+  - **Reduced spawn rates**: All raids reduced from 95% to 65% spawn chance per interval for better balance
+  - **Removed forced environments**: Eliminated `ForceEnvironment` settings to prevent conflicts with other mods
+  - **Made all raids independent**: Each raid now operates independently without chaining
+- **Specific improvements made**:
+  - **Bog Uprising raids**: Removed chaining and forced environments, reduced spawn rates
+  - **Hunt of Moder raids**: Removed chaining and forced environments, reduced spawn rates  
+  - **Warband of Yagluth raids**: Removed chaining and forced environments, reduced spawn rates
+  - **Black Forest raids**: Remain disabled due to previous stability issues
+
+#### EpicMMO System Balancing & Quality of Life Improvements
+- **Attribute Maximums**: Reduced from 100 to 75 points for all attributes (Strength, Dexterity, Intelligence, Endurance, Vigour, Specializing)
+- **Enhanced Bonus Points**: Extended bonus point system to level 120 with improved progression:
+  - Levels 5-90: Enhanced bonus points (e.g., level 15: +3, level 20: +4, level 60: +5)
+  - Levels 95-120: New bonus points (level 95: +4, level 100: +5, level 120: +7)
+- **Improved Drop System**: Enabled drops from non-player kills (`RemoveAllDrops From NonPlayer Kills = false`)
+- **Mob Level Display**: Removed mob level UI string for cleaner interface
+- **Better Balance**: Attribute caps prevent overpowered characters while maintaining progression
+
+#### Backup Configuration Created
+- **Automatic backup** of modified configuration files created in `config/backup_before_debug/`
+- **Safe rollback**: Original configurations preserved for easy restoration if needed
+
+---
+
 ## Version 1.4.3 - Passive Creature Spawn Balancing *(Testing)*
 
 *Adjusted passive creature spawning rates to improve world balance and reduce resource competition.*
