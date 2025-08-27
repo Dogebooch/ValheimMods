@@ -1,0 +1,92 @@
+//  "ArmorHelmetBoarHTD"
+//  "ArmorChestBoarHTD"
+//  "ArmorLegsBoarHTD"
+//  "ArmorShoulderBoarHTD"
+//  "WoodSwordHTD"
+//  "WoodPolearmHTD"
+//  "BronzeCrowbillHTD"
+//  "SilverGreatSwordHTD"
+//  "BronzeGreatSwordHTD"
+//  "IronGreatSwordHTD"
+//  "BronzeBattleaxeHTD"
+//  "SilverBattleaxeHTD"
+//  "FlametalMaceHTD"
+//  "FlametalAxeHTD"
+//  "FlametalGreatAxeHTD"
+//  "BlackMetalGreatSwordHTD"
+//  "ObsidianGreatSwordHTD"
+//  "FlametalGreatSwordHTD"
+//  "IronHeavyGreatSwordHTD"
+//  "BlackMetalBattleaxeHTD"
+//  "DragonSlayerSwordHTD"
+//  "BoneGreatSwordHTD"
+//  "CoreMaceHTD"
+//  "CoreMaceGreenHTD"
+//  "CoreMaceBlueHTD"
+//  "CoreMacePurpleHTD"
+//  "CoreAxeHTD"
+//  "CoreAxeGreenHTD"
+//  "CoreAxeBlueHTD"
+//  "CoreAxePurpleHTD"
+//  "CoreGreatAxeHTD"
+//  "CoreGreatAxeGreenHTD"
+//  "CoreGreatAxeBlueHTD"
+//  "CoreGreatAxePurpleHTD"
+//  "LeatherFistsHTD"
+//  "BronzeFistsHTD"
+//  "IronFistsHTD"
+//  "DeerFistsHTD"
+//  "SilverFistsHTD"
+//  "BlackMetalFistsHTD"
+//  "BronzeHammerHTD"
+//  "SilverGreatMaceHTD"
+//  "FlametalGreatMaceHTD"
+//  "BoneGreatMaceHTD"
+//  "CoreGreatMaceHTD"
+//  "CoreGreatMaceGreenHTD"
+//  "CoreGreatMaceBlueHTD"
+//  "CoreGreatMacePurpleHTD"
+
+{
+	"TargetFile": "adventuredata.json",
+	"Author": "AllTheHeims",
+	"RequireAll": true, 
+	"Patches": 
+		[
+			{
+				"Path": "$.Gamble.GambleCosts", 
+				"Action": "AppendAll",
+				"Value": 
+					[
+						{ "Item": "ArmorHelmetBoarHTD",         "CoinsCost": 250  },
+						{ "Item": "ArmorChestBoarHTD",         "CoinsCost": 250  },
+						{ "Item": "ArmorLegsBoarHTD",         "CoinsCost": 250  },
+						{ "Item": "ArmorShoulderBoarHTD",         "CoinsCost": 250  },
+						
+						{ "Item": "BoneGreatMaceHTD",     "CoinsCost": 250  },
+						{ "Item": "BoneGreatSwordHTD",     "CoinsCost": 250  },
+						
+						{ "Item": "BronzeBattleaxeHTD",     "CoinsCost": 1000  },
+						{ "Item": "BronzeCrowbillHTD",     "CoinsCost": 1000  },
+						{ "Item": "BronzeFistsHTD",     "CoinsCost": 1000  },
+						{ "Item": "BronzeGreatSwordHTD",     "CoinsCost": 1000  },
+						{ "Item": "BronzeHammerHTD",     "CoinsCost": 1000  },
+						
+						{ "Item": "IronFistsHTD",     "CoinsCost": 1500  },
+						{ "Item": "IronGreatSwordHTD",     "CoinsCost": 1500  },
+						{ "Item": "IronHeavyGreatSwordHTD",     "CoinsCost": 1500  },
+						
+						{ "Item": "DragonSlayerSwordHTD",     "CoinsCost": 2000  },
+						{ "Item": "ObsidianGreatSwordHTD",     "CoinsCost": 2000  },
+						{ "Item": "SilverBattleaxeHTD",     "CoinsCost": 2000  },
+						{ "Item": "SilverFistsHTD",     "CoinsCost": 2000  },
+						{ "Item": "SilverGreatMaceHTD",     "CoinsCost": 2000  },
+						{ "Item": "SilverGreatSwordHTD",     "CoinsCost": 2000  },
+						
+						{ "Item": "BlackMetalBattleaxeHTD",     "CoinsCost": 2500  },
+						{ "Item": "BlackMetalFistsHTD",     "CoinsCost": 2500  },
+						{ "Item": "BlackMetalGreatSwordHTD",     "CoinsCost": 2500  }
+					]  
+			}
+		]
+}

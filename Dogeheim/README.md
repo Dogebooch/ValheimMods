@@ -1,6 +1,6 @@
 # Dogeheim - The Ultimate Valheim MMO Experience
 
-[![Version](https://img.shields.io/badge/version-1.3.9-blue.svg)](https://github.com/thunderstore-io)
+[![Version](https://img.shields.io/badge/version-1.4.7-blue.svg)](https://github.com/thunderstore-io)
 [![Valheim](https://img.shields.io/badge/Valheim-Compatible-green.svg)](https://www.valheimgame.com/)
 [![Mods](https://img.shields.io/badge/Mods-100+-orange.svg)](https://valheim.thunderstore.io/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Ready-blue.svg)](https://www.valheimgame.com/)
@@ -27,9 +27,11 @@
 - **Therzie Warfare** - Master advanced combat mechanics and weapon techniques
 - **Therzie Wizardry** - Unleash powerful spells and harness magical energy
 - **Therzie Monstrum** - Face challenging new creatures and legendary bosses
+- **Therzie Armory** - Access to expanded weapon and armor options
 - **EpicLoot** - Discover and enchant legendary gear with unique properties
 - **RelicHeim** - Unearth mythical artifacts and powerful relics
 - **Custom Raids** - Experience lore-accurate two-phase raid events tied to boss progression
+- **Magic Revamp** - Enhanced magical combat and spellcasting systems
 
 ### 🌍 Vast World Expansion
 - **Enhanced biomes** with Warpalicious Biome Packs
@@ -38,6 +40,7 @@
 - **Biome Lords Quest** system with unique rewards and challenges
 - **Mushroom Monsters** and additional creature variety
 - **Cross-biome loot distribution** for enhanced exploration rewards
+- **More World Locations** and **World Traders** for expanded exploration
 
 ### 🛠️ Quality of Life Enhancements
 - **Extended inventory** and **adventure backpacks** for longer expeditions
@@ -46,12 +49,22 @@
 - **Target portals** and **speedy paths** for efficient travel
 - **Automated systems** for fuel management and farming
 - **Enhanced cartography** with shared maps and pins for group exploration
+- **Smart containers** for improved storage management
+- **Better UI** for enhanced user experience
 
 ### 🏗️ Advanced Building & Crafting
 - **OdinArchitect** - Create magnificent structures with advanced building tools
 - **Fine Wood Pieces** - Expand your building options with beautiful materials
 - **PlanBuild** - Design complex constructions with blueprint system
 - **Enhanced crafting** with blacksmithing, cooking, and potion systems
+- **Cooking Additions** - Expanded culinary options and recipes
+- **Food Barrels** - Advanced food storage and preservation
+
+### 🎣 Enhanced Activities
+- **Better Fishing** - Improved fishing mechanics and rewards
+- **Seasons** - Dynamic seasonal changes affecting gameplay
+- **Plant Everything** - Expanded farming and cultivation options
+- **Ranching** - Advanced animal husbandry and taming systems
 
 ---
 
@@ -61,22 +74,32 @@ Dogeheim comes **pre-configured for the ultimate gaming experience**:
 
 ### 🎯 MMO Progression (Optimized for Challenge)
 - **Maximum Level**: 120 (extended progression path)
-- **Experience Rate**: 1.15x (15% bonus for faster advancement)
+- **Experience Rate**: 1.2x (20% bonus for faster advancement)
 - **Group Experience**: 0.9x (fair sharing in multiplayer)
-- **Death Penalty**: 1-4% (reduced frustration, maintained challenge)
-- **Skill Points**: 4 per level (balanced character development)
+- **Death Penalty**: 1-15% (reduced frustration, maintained challenge)
+- **Skill Points**: 3 per level + bonus points (balanced character development)
+- **Attribute Maximums**: 75 points per attribute (preventing overpowered characters)
 
 ### ⚔️ Combat Balance (Very Hard Difficulty)
 - **Creature Loot**: 100% chance per star (rewarding exploration)
 - **Boss Loot**: 50% chance per star (balanced progression)
 - **Boss Scaling**: 5% size increase per star (manageable challenge)
 - **Custom Raids**: Progressive difficulty tied to boss progression with balanced spawn rates
+- **Monster Difficulty**: Very Hard setting with optimized star spawn rates
+- **Multiplayer Scaling**: 40% HP, 4% damage per player (balanced challenge)
 
 ### 🏆 Multiplayer Optimizations
 - **Boss Drops**: One per player (ensures everyone gets rewards)
 - **Experience Sharing**: 70 unit range (encourages teamwork)
-- **Multiplayer Scaling**: 40% HP, 4% damage per player (balanced challenge)
 - **Shared Cartography**: Enhanced map and pin sharing for coordinated exploration
+- **Group System**: Integrated party mechanics for cooperative play
+
+### 🎮 Skill System Enhancements
+- **Enhanced Skill Progression**: Optimized experience gains across all skills
+- **Fishing Rewards**: Increased XP for successful catches and star-level fish
+- **Ranching Improvements**: Faster taming and better skill progression
+- **Utility Skills**: Reduced death penalties for non-combat skills
+- **Enchantment System**: Improved progression for magical crafting
 
 ---
 
@@ -120,7 +143,13 @@ Dogeheim comes **pre-configured for the ultimate gaming experience**:
 ## 🐛 Known Issues & Support
 
 ### Current Bugs
-- **GUI Overlap**: Haldor's GUI overlaps in the Black Forest
+- **GUI Overlap**: Haldor's GUI overlaps in the Black Forest *(Fixed in v1.4.7)*
+- **Black Forest Stability**: Previous freezing issues resolved through raid system optimization
+
+### Recent Fixes (v1.4.7)
+- **Trader Menu Overlap**: Resolved visual conflicts with TradersExtended GUI positioning
+- **Divine Armament Balance**: Significantly reduced drop rates to prevent early-game acquisition
+- **Staff of the Artificer**: Moved from early-game Abomination to late-game Fader enemies
 
 ### Need Help?
 - **Game won't start**: Ensure BepInEx is properly installed with all dependencies
@@ -153,6 +182,8 @@ This modpack is a collection of incredible mods created by talented authors. Eac
 - **Smoothbrain** - Quality of life improvements
 - **Azumatt** - Inventory and convenience features
 - **OdinPlus** - Building and crafting enhancements
+- **blacks7ar** - Magic revamp and fine wood pieces
+- **JewelHeim** - RelicHeim content and systems
 
 And all other mod authors whose incredible work makes Dogeheim possible.
 

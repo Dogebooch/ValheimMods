@@ -1,0 +1,43 @@
+{
+	"TargetFile": "adventuredata.json",
+	"Author": "AllTheHeims",
+	"RequireAll": true, 
+	"Patches": 
+		[
+			{
+				"Path": "$.Gamble.GambleCosts", 
+				"Action": "AppendAll",
+				"Value": 
+					[
+						{ "Item": "BBP_BoneBow",         		"CoinsCost": 100  },
+						
+						{ "Item": "BBP_Crossbow_Flint",     	"CoinsCost": 100  },
+						
+						{ "Item": "BBP_Crossbow_Bronze",        "CoinsCost": 1000  },
+
+						{ "Item": "BBP_Crossbow_Iron",        	"CoinsCost": 1500  },
+
+						{ "Item": "BBP_Crossbow_Silver",        "CoinsCost": 2000  },
+						
+						{ "Item": "BBP_SilverBow",     			"CoinsCost": 2000  },
+						
+						{ "Item": "BBP_BlackMetalBow",     		"CoinsCost": 3000  },
+						
+						{ "Item": "BBP_Crossbow_BlackMetal",    "CoinsCost": 2500  },
+						
+						{ "Item": "BBP_ElvenBow", 				"CoinsCost": 3000  },
+						
+						{ "Item": "BBP_SeekerBow", 				"CoinsCost": 3500  }
+					]  
+			}
+		]
+}
+
+
+
+
+
+
+
+
+

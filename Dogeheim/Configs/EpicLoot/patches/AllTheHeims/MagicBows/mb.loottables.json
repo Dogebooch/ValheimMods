@@ -1,0 +1,33 @@
+{
+	"TargetFile": "loottables.json",
+	"Author": "AllTheHeims",
+	"RequireAll": true, 
+	"Patches": 
+		[
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier6Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BMB_FieryBow",     		"Weight": 1, "Rarity": [20, 35, 27, 13, 5] },
+					{ "Item": "BMB_FrozenBow",     		"Weight": 1, "Rarity": [20, 35, 27, 13, 5] },
+					{ "Item": "BMB_LightningBow",     	"Weight": 1, "Rarity": [20, 35, 27, 13, 5] },
+					{ "Item": "BMB_SpiritBow",     		"Weight": 1, "Rarity": [20, 35, 27, 13, 5] },
+					{ "Item": "BMB_ToxicBow",     		"Weight": 1, "Rarity": [20, 35, 27, 13, 5] }
+				]	
+			},
+
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier7Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BMB_Crossbow_Fiery",     "Weight": 1, "Rarity": [10, 30, 32, 20, 8] },
+					{ "Item": "BMB_Crossbow_Frost",     "Weight": 1, "Rarity": [10, 30, 32, 20, 8] },
+					{ "Item": "BMB_Crossbow_Lightning", "Weight": 1, "Rarity": [10, 30, 32, 20, 8] },
+					{ "Item": "BMB_Crossbow_Spirit",    "Weight": 1, "Rarity": [10, 30, 32, 20, 8] },
+					{ "Item": "BMB_Crossbow_Toxic",     "Weight": 1, "Rarity": [10, 30, 32, 20, 8] }
+				]
+			}
+		]
+}

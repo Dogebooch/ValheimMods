@@ -1,0 +1,59 @@
+{
+	"TargetFile": "loottables.json",
+	"Author": "AllTheHeims",
+	"RequireAll": true, 
+	"Patches": 
+	[
+		{
+			"Path": "$.ItemSets[?(@.Name == 'Tier3Weapons')].Loot", 
+			"Action": "AppendAll",
+			"Value": 
+			[
+				{ "Item": "BBH_BlackForest_Bow",     		"Weight": 1, "Rarity": [67, 18, 8, 5, 0] }
+			]	
+		},
+		{
+			"Path": "$.ItemSets[?(@.Name == 'Tier4Weapons')].Loot", 
+			"Action": "AppendAll",
+			"Value": 
+			[
+				{ "Item": "BBH_Surtling_Bow",     			"Weight": 1, "Rarity": [55, 22, 13, 7, 1] }
+			]	
+		},
+		{
+			"Path": "$.ItemSets[?(@.Name == 'Tier7Weapons')].Loot", 
+			"Action": "AppendAll",
+			"Value": 
+			[
+				{ "Item": "BBH_Seeker_Bow",     			"Weight": 1, "Rarity": [10, 30, 32, 20, 8] }
+			]	
+		},
+
+		{
+			"Path": "$.ItemSets[?(@.Name == 'Tier2Armor')].Loot", 
+			"Action": "AppendAll",
+			"Value": 
+			[
+				{ "Item": "BBH_BlackForest_Quiver",     	"Weight": 1, "Rarity": [75, 18, 5, 2, 0]	 }
+			]	
+		},
+		{
+			"Path": "$.ItemSets[?(@.Name == 'Tier5Armor')].Loot", 
+			"Action": "AppendAll",
+			"Value": 
+			[
+				{ "Item": "BBH_PlainsLox_Quiver",     		"Weight": 1, "Rarity": [35, 35, 20, 8, 2] }
+			]	
+		},
+		{
+			"Path": "$.ItemSets[?(@.Name == 'Tier7Armor')].Loot", 
+			"Action": "AppendAll",
+			"Value": 
+			[
+				{ "Item": "BBH_Seeker_Quiver",     			"Weight": 1, "Rarity": [5, 30, 40, 20, 10] },
+				{ "Item": "BBH_OdinPlus_Quiver",     		"Weight": 1, "Rarity": [2, 20, 45, 25, 11] }
+
+			]	
+		}
+	]
+}

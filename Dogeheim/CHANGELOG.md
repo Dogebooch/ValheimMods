@@ -2,6 +2,203 @@
 
 ---
 
+## Version 1.5.0 - EpicLoot Integration & Bow Combat Enhancement *(Testing)*
+
+*Comprehensive EpicLoot integration with AllTheHeims patches for enhanced bow combat, armor variety, and balanced loot distribution.*
+
+#### Bow Velocity & Accuracy Balance Adjustments
+- **Reduced global velocity multiplier** from 4 to 3 for better projectile balance:
+  - **Previous setting**: `Velocity Multiplier = 4` (excessive projectile speed)
+  - **New setting**: `Velocity Multiplier = 3` (recommended balance)
+  - **Impact**: More realistic arrow trajectories and improved skill requirement
+  - **Benefit**: Better combat balance while maintaining effectiveness
+  - **Files updated**: `config/blacks7ar.BowPlugin.cfg`
+
+- **Implemented skill-based bow draw speed scaling** for balanced progression:
+  - **Previous settings**: `Draw Speed = 1`, `Bow Draw Speed Factor = 0.6` (too fast, minimal skill impact)
+  - **New settings**: `Draw Speed = 2.2`, `Bow Draw Speed Factor = 1.2` (balanced skill progression)
+  - **Impact**: Creates meaningful skill progression from 2.5s (skill 0) to 1.36s (skill 100) for bows
+  - **Benefit**: New archers face appropriate challenge while skilled archers are significantly rewarded
+  - **Crossbow mechanics**: Maintained `Maximum Draw Time = 0` for instant fire with separate reload scaling
+  - **Files updated**: `config/blacks7ar.BowPlugin.cfg`
+
+- **Comprehensive crossbow velocity rebalancing** for proper progression:
+  - **BlackMetal Crossbow**: 200 → 60 → 200 (end-game power level, restored to maximum)
+  - **Silver Crossbow**: 200 → 55 → 175 (high-tier performance, enhanced)
+  - **Iron Crossbow**: 200 → 50 → 150 (mid-game progression, improved)
+  - **Bronze Crossbow**: 200 → 40 (early-game balance)
+  - **Flint Crossbow**: 200 → 30 (starter weapon)
+  - **Impact**: Creates proper velocity progression from early to end-game with enhanced mid/late-game performance
+  - **Benefit**: Crossbows now feel distinct from bows with improved projectile speed for mid and late-game variants
+  - **Files updated**: `config/blacks7ar.BowPlugin.cfg`
+
+- **Magic crossbow velocity standardization** for elemental variants:
+  - **All Magic Crossbows**: 200 → 45 (Fiery, Frozen, Lightning, Spirit, Toxic)
+  - **Impact**: Consistent performance across all magical crossbow variants
+  - **Benefit**: Magic crossbows maintain their special effects while having balanced projectile speed
+  - **Files updated**: `config/blacks7ar.MagicBows.cfg`
+
+- **Maintained existing bow velocities** for proper weapon differentiation:
+  - **Regular bows**: 35-80 velocity range (faster projectiles, less accurate)
+  - **Crossbows**: 30-200 velocity range (slower projectiles, more accurate, with enhanced mid/late-game performance)
+  - **Magic bows**: 45-70 velocity range (enhanced performance)
+  - **Impact**: Clear distinction between weapon types and progression tiers
+  - **Benefit**: Players must choose between speed (bows) and accuracy (crossbows)
+  - **Files updated**: `config/blacks7ar.BowPlugin.cfg`
+
+#### EpicLoot AllTheHeims Patches Integration
+- **Added comprehensive EpicLoot patches** for enhanced mod integration and loot variety:
+  - **BowPlugin Integration**: Added 9 bow variants to EpicLoot gambling and loot tables
+    - **Items**: Bone Bow, Crossbows (Flint, Bronze, Iron, Silver, Black Metal), Silver Bow, Black Metal Bow, Elven Bow, Seeker Bow
+    - **Tiers**: Distributed across weapon tiers 1-7 with appropriate rarity distributions
+    - **Gambling Costs**: 100-3,500 coins based on item power level (properly tier-balanced)
+  - **MagicBows Integration**: Added 10 magical bow variants to EpicLoot systems
+    - **Items**: Fiery, Frozen, Lightning, Spirit, Toxic variants of bows and crossbows
+    - **Tiers**: Placed in weapon tiers 6-7 for end-game progression
+    - **Gambling Costs**: 5,964-8,920 coins for high-tier magical weapons
+  - **SouthsilArmor Integration**: Added 80+ armor pieces to EpicLoot gambling and loot tables
+    - **Items**: Comprehensive armor collection including neck, chief, troll, bronze, swamp, bear, wolf, and high-tier armors
+    - **Tiers**: Distributed across all armor tiers with appropriate power scaling
+    - **Gambling Costs**: 256-15,998 coins based on armor tier and rarity
+  - **HugosArmory Integration**: Added 20+ weapons to EpicLoot systems
+    - **Items**: Boar armor, bone weapons, bronze/iron/silver/black metal weapons, great swords, battleaxes, fists, hammers, maces
+    - **Tiers**: Placed in weapon tiers 1-5 and armor tier 1
+    - **Gambling Costs**: 250-1,500 coins for balanced progression
+  - **BowsBeforeHoes Integration**: Added 7 items (4 quivers, 3 bows) to EpicLoot
+    - **Items**: Black Forest, Seeker, Plains Lox, Odin Plus quivers and bows
+    - **Tiers**: Bows in weapon tiers 3,4,7; quivers in armor tiers 2,5,7
+    - **Gambling Costs**: 1,232-13,113 coins for specialized equipment
+  - **AdventureBackpacks Integration**: Added 9 backpacks to EpicLoot systems
+    - **Items**: Biome-specific backpacks (Meadows, Black Forest, Swamp, Mountains, Plains, Mistlands) plus special variants
+    - **Tiers**: Distributed across armor tiers 1-6 for progressive access
+    - **Gambling Costs**: 649-6,618 coins for storage convenience
+  - **Files updated**: `config/EpicLoot/patches/AllTheHeims/`
+
+#### EpicLoot Material Drop Ratio Rebalancing
+- **Changed EpicLoot material drop ratio** from 60% materials to 50/50 balance:
+  - **Previous setting**: `Items To Materials Drop Ratio = 0.6` (60% materials, 40% items)
+  - **New setting**: `Items To Materials Drop Ratio = 0.5` (50% materials, 50% items)
+  - **Impact**: More balanced loot distribution between magic items and crafting materials
+  - **Benefit**: Players get more magic items while still maintaining material availability for enchanting
+  - **Files updated**: `config/randyknapp.mods.epicloot.cfg`
+
+#### Bow Combat Enhancement
+- **Significantly enhanced bow combat variety** through EpicLoot integration:
+  - **Base bows**: 9 variants from BowPlugin mod now available as magic items
+  - **Magical bows**: 10 elemental variants from MagicBows mod with special effects
+  - **Specialized bows**: 3 unique bows from BowsBeforeHoes mod for specific playstyles
+  - **Quiver variety**: 4 quiver types providing different bonuses and storage options
+  - **Progressive access**: Bows distributed across all weapon tiers for natural progression
+  - **Enchantment compatibility**: All bows can receive EpicLoot enchantments for further customization
+- **Combat diversity**: Players now have access to 22+ different bow variants with unique properties
+- **Gambling system**: All bows available through EpicLoot's gambling system for targeted acquisition
+
+- **Balanced sneak attack multiplier** for improved stealth gameplay:
+  - **Previous setting**: `Sneak Attack Multiplier = 1` (no bonus damage)
+  - **New setting**: `Sneak Attack Multiplier = 1.3` (30% bonus damage)
+  - **Impact**: Provides meaningful but balanced damage bonus for stealth archery
+  - **Benefit**: Encourages tactical gameplay while maintaining combat balance
+  - **Files updated**: `config/blacks7ar.BowPlugin.cfg`
+
+#### Quiver Crafting Station Centralization
+- **Centralized all quiver crafting to Fletching Table** for improved thematic consistency:
+  - **Black Forest Quiver**: Changed from `Workbench` to `FletchingTable`
+  - **Lox Quiver**: Changed from `Forge` to `FletchingTable`
+  - **OdinPlus Quiver**: Changed from `BlackForge` to `FletchingTable`
+  - **Seeker Quiver**: Changed from `BlackForge` to `FletchingTable`
+  - **Impact**: All quivers now crafted at the dedicated archery crafting station
+  - **Benefit**: Logical progression and centralized archery equipment crafting
+  - **Files updated**: `config/Azumatt.BowsBeforeHoes.cfg`
+- **Added quiver recipes to Wackys database** for proper integration:
+  - **Black Forest Quiver**: Level 2 FletchingTable, requires HardAntler + DeerHide
+  - **Lox Quiver**: Level 2 FletchingTable, requires FineWood + SerpentScale + LoxPelt
+  - **OdinPlus Quiver**: Level 1 FletchingTable, requires Thunderstone + YggdrasilWood + FlametalNew
+  - **Seeker Quiver**: Level 1 FletchingTable, requires YggdrasilWood + Carapace + Mandible
+  - **Impact**: Quivers now properly integrated into Wackys database with correct crafting requirements
+  - **Benefit**: Consistent crafting system and proper progression integration
+  - **Files updated**: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/BowsBeforeHoes/`
+
+- **Optimized critical hit chance** for balanced bow combat progression:
+  - **Previous setting**: `Critical Chance = 7` (too low for EpicMMO integration)
+  - **New setting**: `Critical Chance = 12` (balanced with EpicMMO progression)
+  - **Impact**: Creates meaningful progression path where EpicMMO Specializing skill (max 16% crit) exceeds base bow crit chance
+  - **Benefit**: Players start with 12% bow crit chance and can invest in Specializing to reach 16%+ total critical chance
+  - **EpicMMO Integration**: Aligns with Specializing skill tree (1% base + 0.2% per point, max 75 points = 16% total)
+  - **Gameplay Balance**: 12% = 1 in 8.3 shots, frequent enough to feel rewarding but not overwhelming
+  - **Files updated**: `config/blacks7ar.BowPlugin.cfg`
+
+#### EpicLoot Configuration Optimization
+- **Maintained existing EpicLoot settings** for optimal balance:
+  - **Set Item Drop Chance**: 35% (increased from default 15%)
+  - **Global Drop Rate Modifier**: 1.0 (standard drop rates)
+  - **Bounty limits**: 6 bounties per player (increased from default 5)
+  - **Item gating**: PlayerMustKnowRecipe (prevents overpowered early-game items)
+- **Enhanced loot variety**: All mod items now properly integrated into EpicLoot's magic item system
+- **Balanced progression**: Items placed in appropriate tiers based on power level and material requirements
+
+#### EpicLoot Patch Balance Corrections
+- **Fixed HugosArmory rarity distributions** to match RelicHeim standards:
+  - **Tier 1**: Changed from `[38, 50, 8, 4]` to `[92, 4, 2, 1, 0]` (proper Magic/Rare/Epic/Legendary/Mythic distribution)
+  - **Tier 2**: Changed from `[38, 50, 8, 4]` to `[80, 11, 5, 3, 0]` (standard RelicHeim progression)
+  - **Tier 3**: Changed from `[38, 50, 8, 4]` to `[67, 18, 8, 5, 0]` (balanced mid-game distribution)
+  - **Tier 4**: Changed from `[5, 35, 50, 20]` to `[55, 22, 13, 7, 1]` (proper Silver-tier distribution)
+  - **Tier 5**: Changed from `[0, 15, 60, 25]` to `[32, 32, 27, 8, 1]` (balanced Black Metal distribution)
+- **Standardized gambling costs** across all AllTheHeims patches to match RelicHeim's tier-based pricing:
+  - **Tier 1**: 250 coins (Leather/Deer items)
+  - **Tier 2**: 1000 coins (Troll items)
+  - **Tier 3**: 1500 coins (Bronze items)
+  - **Tier 4**: 2000 coins (Iron items)
+  - **Tier 5**: 2500 coins (Silver/Wolf items)
+  - **Tier 6**: 3000 coins (Black Metal items)
+  - **Tier 7**: 3500 coins (High-end items)
+  - **Tier 8**: 4000 coins (Ultimate items)
+- **Corrected pricing inconsistencies** in BowPlugin, HugosArmory, and SouthsilArmor patches
+- **Maintained proper tier placement** for all items based on material requirements and power level
+- **Adjusted item weights** to prevent loot table overcrowding:
+  - **BowPlugin items**: Reduced weights from 1.0 to 0.5 to balance with existing RelicHeim bows
+  - **HugosArmory items**: Reduced weights from 1.0 to 0.5 to prevent weapon proliferation
+  - **Impact**: Maintains variety while preventing specific item types from becoming too common
+- **Balanced integration**: All patches now work harmoniously with RelicHeim's existing loot tables
+
+#### Patch File Locations
+- **Main RelicHeim patches**: `config/EpicLoot/patches/RelicHeimPatches/` (29 patch files)
+- **AllTheHeims patches**: `config/EpicLoot/patches/AllTheHeims/` (6 mod directories)
+  - BowPlugin, MagicBows, SouthsilArmor, HugosArmory, BowsBeforeHoes, AdventureBackpacks
+- **Configuration files**: All patches automatically applied through EpicLoot's patching system
+
+---
+
+## Version 1.4.9 - AzuAreaRepair Integration *(Testing)*
+
+*Added AzuAreaRepair mod to enhance area repair functionalities and improve building maintenance convenience.*
+
+#### AzuAreaRepair Mod Addition
+- **Added AzuAreaRepair package** to the modpack dependencies for enhanced building repair capabilities
+  - **Mod author**: Azumatt
+  - **Version**: 1.1.6
+  - **Purpose**: Provides area repair functionality to repair multiple building pieces simultaneously
+  - **Benefit**: Significantly improves building maintenance efficiency, especially for large structures
+- **Manifest updated**: Added to dependencies list in `manifest.json`
+- **Version bumped**: Updated to version 1.4.9 to reflect new dependency addition
+
+---
+
+## Version 1.4.8 - AzuCrafty Boxes Range Enhancement *(Testing)*
+
+*Increased AzuCrafty Boxes container range for improved convenience and reduced need to move between storage containers.*
+
+#### AzuCrafty Boxes Range Improvement
+- **Increased container range from 20 to 50 units** for better convenience:
+  - **Previous range**: 20 units (limited reach for nearby containers)
+  - **New range**: 50 units (significantly improved access to distant containers)
+  - **Benefit**: Players can now pull items from containers across larger areas without moving
+  - **Use case**: Particularly useful in large bases with multiple storage areas
+- **Files updated**:
+  - `config/Azumatt.AzuCraftyBoxes.cfg`
+  - `Dogeheim/Configs/Azumatt.AzuCraftyBoxes.cfg`
+
+---
+
 ## Version 1.4.7 - Trader Menu Overlap Fix *(Testing)*
 
 *Fixed overlapping trader menus caused by TradersExtended GUI positioning conflicts.*

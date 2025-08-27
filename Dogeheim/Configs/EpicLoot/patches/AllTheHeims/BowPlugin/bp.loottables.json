@@ -1,0 +1,61 @@
+{
+	"TargetFile": "loottables.json",
+	"Author": "AllTheHeims",
+	"RequireAll": true, 
+	"Patches": 
+		[
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier1Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BBP_BoneBow",     			"Weight": 0.5, "Rarity": [92, 4, 2, 1, 0] },
+					{ "Item": "BBP_Crossbow_Flint",     	"Weight": 0.5, "Rarity": [92, 4, 2, 1, 0] }
+				]	
+			},
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier2Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BBP_Crossbow_Bronze",     	"Weight": 0.5, "Rarity": [80, 11, 5, 3, 0] }
+				]	
+			},
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier4Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BBP_Crossbow_Iron",     		"Weight": 0.5, "Rarity": [55, 22, 13, 7, 1] },
+					{ "Item": "BBP_Crossbow_Silver",     	"Weight": 0.5, "Rarity": [55, 22, 13, 7, 1] },
+					{ "Item": "BBP_SilverBow",     			"Weight": 0.5, "Rarity": [55, 22, 13, 7, 1] }
+				]	
+			},
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier5Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BBP_Crossbow_BlackMetal", 	"Weight": 0.5, "Rarity": [32, 32, 27, 8, 1] }
+				]	
+			},
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier6Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BBP_BlackMetalBow",     		"Weight": 0.5, "Rarity": [20, 35, 27, 13, 5] },
+					{ "Item": "BBP_ElvenBow",     			"Weight": 0.5, "Rarity": [20, 35, 27, 13, 5] }
+				]	
+			},
+			{
+				"Path": "$.ItemSets[?(@.Name == 'Tier7Weapons')].Loot", 
+				"Action": "AppendAll",
+				"Value": 
+				[
+					{ "Item": "BBP_SeekerBow",     			"Weight": 0.5, "Rarity": [10, 30, 32, 20, 8] }
+				]	
+			} 
+
+		]
+}

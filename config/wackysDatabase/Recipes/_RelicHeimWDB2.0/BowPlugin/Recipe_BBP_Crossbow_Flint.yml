@@ -1,0 +1,20 @@
+name: BBP_Crossbow_Flint
+clonePrefabName: 
+craftingStation: FletcherTable_TW
+minStationLevel: 1
+maxStationLevelCap: 5
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+- Flint:10:2
+- Flint:20:3
+- Flint:30:4
+- Flint:40:5
+reqs:
+- Flint:20:10:True
+- LeatherScraps:5:5:True
+- Resin:5:5:True
+- Wood:10:10:True

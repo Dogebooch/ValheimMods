@@ -1,0 +1,26 @@
+{
+	"TargetFile": "adventuredata.json",
+	"Author": "AllTheHeims",
+	"RequireAll": true, 
+	"Patches": 
+		[
+			{
+				"Path": "$.Gamble.GambleCosts", 
+				"Action": "AppendAll",
+				"Value": 
+					[
+						{ "Item": "BMB_FieryBow",         	"CoinsCost": 5964  },
+						{ "Item": "BMB_FrozenBow",        	"CoinsCost": 5964  },
+						{ "Item": "BMB_LightningBow",     	"CoinsCost": 5964  },
+						{ "Item": "BMB_SpiritBow",        	"CoinsCost": 5964  },
+						{ "Item": "BMB_ToxicBow",         	"CoinsCost": 5964  },
+						
+						{ "Item": "BMB_Crossbow_Fiery",     "CoinsCost": 8920  },
+						{ "Item": "BMB_Crossbow_Frost",     "CoinsCost": 8920  },
+						{ "Item": "BMB_Crossbow_Lightning", "CoinsCost": 8920  },
+						{ "Item": "BMB_Crossbow_Spirit",    "CoinsCost": 8920  },
+						{ "Item": "BMB_Crossbow_Toxic",     "CoinsCost": 8920  }
+					]  
+			}
+		]
+}

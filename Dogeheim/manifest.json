@@ -1,6 +1,6 @@
 {
     "name": "Dogeheim",
-    "version_number": "1.4.7",
+    "version_number": "1.5.0",
     "website_url": "",
     "description": "Comprehensive Valheim modpack featuring MMO progression, enhanced combat/magic systems, expanded biomes, quality-of-life improvements, and extensive building/crafting options.",
     "dependencies": [
@@ -100,6 +100,7 @@
         "KGvalheim-SortCraft-1.1.1",
         "Kam1goroshi-BetterFishing-1.2.3",
         "JewelHeim-RelicHeim-5.4.12",
-        "Roses-SmarterContainers-1.7.0"
+        "Roses-SmarterContainers-1.7.0",
+        "Azumatt-AzuAreaRepair-1.1.6"
     ]
 }
