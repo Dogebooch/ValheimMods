@@ -2,9 +2,9 @@
 
 ---
 
-## Version 1.5.7 - Missing Arrow Recipe Implementation *(Testing)*
+## Version 1.5.7 - Missing Arrow Recipe Implementation & Raid Configuration Adjustment *(Testing)*
 
-*Created WackyDatabase recipe files for all missing vanilla arrow types that were not appearing in the Fletcher Table, ensuring complete arrow crafting availability.*
+*Created WackyDatabase recipe files for all missing vanilla arrow types that were not appearing in the Fletcher Table, ensuring complete arrow crafting availability. Adjusted raid configurations to restore RelicHeim-style raid frequency. Fixed additional missing recipes with incorrect prefab names. Added vanilla trader support for Amber trading at reduced prices.*
 
 #### Missing Arrow Recipes Added
 - **Frost Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
@@ -21,6 +21,10 @@
   - Materials: 4 Needle, 2 Feathers
 - **Wood Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 1)
   - Materials: 8 Wood
+- **Pickaxe Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 1)
+  - Materials: 8 ElderBark, 1 Resin, 1 SurtlingCore, 2 Feathers
+- **Bone Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 1)
+  - Materials: 8 Wood, 4 BoneFragments, 2 Feathers
 
 #### Technical Implementation
 - **Recipe Files Created**: 7 new WackyDatabase recipe files in `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/`
@@ -37,6 +41,23 @@
 - `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowPoison.yml`
 - `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowNeedle.yml`
 - `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowWood.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowPickaxe.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowBone.yml`
+- `config/shudnal.TradersExtended.MWL_Haldor_Trader.buy.json`
+- `config/shudnal.TradersExtended.MWL_Hildir_Trader.buy.json`
+
+#### Configuration Changes
+- **BowPlugin Iron Crossbow**: Disabled duplicate Iron Crossbow from BowPlugin mod to prevent confusion with RelicHeim's CrossbowIron_TW
+- **BowPlugin Silver Crossbow**: Disabled duplicate Silver Crossbow from BowPlugin mod to prevent confusion with RelicHeim's crossbow progression
+- **BowPlugin Fletcher Table Integration**: Updated all active bow and crossbow items to use FletcherTable_TW crafting station for consistency with RelicHeim's bow progression system
+
+#### Raid Configuration Adjustments
+- **Restored RelicHeim raid frequency**: Changed `EventCheckInterval` from 90 to 60 minutes
+- **Increased raid chance**: Changed `EventTriggerChance` from 20% to 35%
+- **Maintained DougsLoreRaids**: Kept existing enabled raids (Bog_Uprising, Hunt_of_Moder, Warband_of_Yagluth)
+- **Disabled multi-phase raids**: Elder_Rite raids remain disabled to avoid progression mechanics complexity
+- **Balanced dangerous enemies**: Reduced spawn rates and increased spawn distances for Wraiths, Hatchlings, and Deathsquitos
+- **Files updated**: `config/custom_raids.cfg`, `Dogeheim/Configs/custom_raids.cfg`, and DougsLoreRaids files
 
 #### Impact
 - **Complete arrow availability**: All vanilla arrow types now craftable at Fletcher Table
@@ -44,6 +65,10 @@
 - **Thematic consistency**: All archery equipment and ammunition centralized
 - **Enhanced gameplay**: Players can now access full arrow progression system
 - **Material balance**: Recipes follow vanilla Valheim material requirements
+- **Restored raid intensity**: Raids now occur more frequently (60-minute intervals vs 90-minute)
+- **Balanced raid chance**: 35% trigger chance provides moderate challenge without being overwhelming
+- **Enhanced lore raids**: DougsLoreRaids provide additional thematic raid content for different biomes
+- **Balanced difficulty**: Dangerous enemies (Wraiths, Hatchlings, Deathsquitos) now spawn less frequently and from greater distances
 
 ---
 

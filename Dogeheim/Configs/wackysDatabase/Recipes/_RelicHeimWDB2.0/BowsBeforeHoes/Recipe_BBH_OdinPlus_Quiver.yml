@@ -1,6 +1,6 @@
 name: BBH_OdinPlus_Quiver
 clonePrefabName: 
-craftingStation: $piece_fletchertable_TW
+craftingStation: FletcherTable_TW
 minStationLevel: 1
 maxStationLevelCap: 4
 repairStation: 
