@@ -24,6 +24,17 @@
     amount: 1
   Items:
   - StaffMistlands_TW
+# Ashlands Armor
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - HelmetSpellslinger_Surtr_TW
+  - ArmorSpellSlingerChest_Surtr_TW
+  - ArmorSpellslingerLegs_Surtr_TW
 # Plains Armor
 - enchant_prefab:
     prefab: kg_EnchantScroll_Armor_A
@@ -76,6 +87,15 @@
     amount: 1
   Items:
   - StaffMountain_TW
+# Mountain Extra Weapons
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_B
+    amount: 1
+  Items:
+  - StaffGolem_TW
 # Swamp Armor
 - enchant_prefab:
     prefab: kg_EnchantScroll_Armor_C
@@ -102,6 +122,15 @@
     amount: 1
   Items:
   - StaffSwamp_TW
+# Swamp Extra Weapons
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_C
+    amount: 1
+  Items:
+  - StaffSurtling_TW
 # BF Armor
 - enchant_prefab:
     prefab: kg_EnchantScroll_Armor_D

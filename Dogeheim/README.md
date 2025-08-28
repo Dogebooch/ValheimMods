@@ -145,6 +145,7 @@ Dogeheim comes **pre-configured for the ultimate gaming experience**:
 ### Current Bugs
 - **GUI Overlap**: Haldor's GUI overlaps in the Black Forest *(Fixed in v1.4.7)*
 - **Black Forest Stability**: Previous freezing issues resolved through raid system optimization
+- **Bow draw blocked with quiver-only arrows**: If all arrows are inside the BBH quiver and none are in your main inventory, some bow logic may not detect ammo and refuse to draw. Workaround: keep at least one arrow stack in main inventory; select the desired arrows via the quiver bar (LeftShift+1–3 by default).
 
 ### Recent Fixes (v1.4.7)
 - **Trader Menu Overlap**: Resolved visual conflicts with TradersExtended GUI positioning

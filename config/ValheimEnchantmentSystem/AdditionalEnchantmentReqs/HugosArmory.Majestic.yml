@@ -1,0 +1,77 @@
+# Hugo's Armory - tiered by material keywords
+
+# Weapons - F/D/C/B/A/S
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_F
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_F
+    amount: 1
+  Items:
+  - WoodSwordHTD
+  - WoodPolearmHTD
+  - LeatherFistsHTD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_D
+    amount: 1
+  Items:
+  - BronzeCrowbillHTD
+  - BronzeFistsHTD
+  - BronzeGreatSwordHTD
+  - BronzeBattleaxeHTD
+  - BronzeHammerHTD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_C
+    amount: 1
+  Items:
+  - IronFistsHTD
+  - IronGreatSwordHTD
+  - IronHeavyGreatSwordHTD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_B
+    amount: 1
+  Items:
+  - SilverFistsHTD
+  - SilverGreatSwordHTD
+  - SilverBattleaxeHTD
+  - SilverGreatMaceHTD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_A
+    amount: 1
+  Items:
+  - BlackMetalFistsHTD
+  - BlackMetalBattleaxeHTD
+  - BlackMetalGreatSwordHTD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_S
+    amount: 1
+  Items:
+  - ObsidianGreatSwordHTD
+  - FlametalAxeHTD
+  - FlametalMaceHTD
+  - FlametalGreatSwordHTD
+  - FlametalGreatAxeHTD
+  - FlametalGreatMaceHTD
+  - DragonSlayerSwordHTD
+
+

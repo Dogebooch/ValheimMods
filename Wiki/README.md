@@ -57,6 +57,11 @@ To add new guides or update existing ones:
 2. Update this README with links to new content
 3. Follow the existing formatting style
 
+## ⚠️ Known Issues
+
+### Mod Conflicts
+- **Farming Skill Gate vs Plant Everything**: Despite having a skill gate for the Farming skill that should restrict planting to specific biomes, the Plant Everything mod overrides this restriction and allows planting in all biomes. This creates a conflict where the intended biome-based planting restrictions are bypassed.
+
 ## 🎯 Getting Started
 
 If you're new to this modpack:

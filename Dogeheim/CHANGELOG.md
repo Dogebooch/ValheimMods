@@ -1,6 +1,235 @@
 # Dogeheim Modpack Changelog
 
+## Version 1.5.8 - Global Bow Balance, Quiver Tuning & Enchanting Integration *(Testing)*
+
+*Reduced stacked projectile speed effects and standardized bow handling across mods; converted quivers to utility pieces with minimal armor; enabled VES scroll enchanting for MagicBows, Bow of Frey, and Wizardry items.*
+
+#### Bow Velocity/Draw-Time Normalization
+- **Global stacking reduction**:
+  - BowPlugin: `Velocity Multiplier = 2` (was 3) in both main and Dogeheim configs
+  - Files updated: `config/blacks7ar.BowPlugin.cfg`, `Dogeheim/Configs/blacks7ar.BowPlugin.cfg`
+- **BowsBeforeHoes (bows)**:
+  - Black Forest, Seeker, Surtling bows set to `Velocity = 55`, `Maximum Draw Time = 2.6`
+  - Files updated: `config/Azumatt.BowsBeforeHoes.cfg`, `Dogeheim/Configs/Azumatt.BowsBeforeHoes.cfg`
+- **MagicBows (bows)**:
+  - Fiery, Frozen, Lightning, Spirit, Toxic bows set to `Velocity = 55`, `Maximum Draw Time = 2.4`
+  - File updated: `config/blacks7ar.MagicBows.cfg`
+- **Crossbows**: unchanged (retain distinct feel via higher projectile speed/instant draw)
+
+#### Quiver Armor Tuning
+- All quivers (Black Forest, Lox, OdinPlus, Seeker): `Armor = 1`, `Armor per Level = 0`
+- Files updated: `config/Azumatt.BowsBeforeHoes.cfg`, `Dogeheim/Configs/Azumatt.BowsBeforeHoes.cfg`
+
+#### Impact
+- **Consistent trajectories**: Less variance between mods; reduced early overperformance from stacked velocity
+- **Progression preserved**: Power now tracks bow tier, upgrades, bow skill, and arrow choice more than raw projectile speed
+- **Quivers**: Serve as utility without adding significant armor
+
+#### Valheim Enchantment System Updates
+- **Bow of Frey**:
+  - Added `rh_bowoffrey` to S-tier weapon scrolls (1) and blessed S (1)
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/ragehatred.BowOfFrey.Majestic.yml`
+
+- **Wizardry**:
+  - Added Ashlands Spellslinger armor to S-tier armor scrolls:
+    - `HelmetSpellslinger_Surtr_TW`, `ArmorSpellSlingerChest_Surtr_TW`, `ArmorSpellslingerLegs_Surtr_TW`
+  - Added missing staffs with biome-appropriate tiers:
+    - `StaffSurtling_TW` → C-tier weapon scrolls (Swamp)
+    - `StaffGolem_TW` → B-tier weapon scrolls (Mountain)
+  - File updated: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Therzie,Wizardry.Majestic.yml`
+
+- **MagicBows**:
+  - Added all five elemental bows and crossbows to S-tier weapon scrolls (1) and blessed S (1):
+    - Bows: `BMB_FieryBow`, `BMB_FrozenBow`, `BMB_LightningBow`, `BMB_SpiritBow`, `BMB_ToxicBow`
+    - Crossbows: `BMB_Crossbow_Fiery`, `BMB_Crossbow_Frozen`, `BMB_Crossbow_Lightning`, `BMB_Crossbow_Spirit`, `BMB_Crossbow_Toxic`
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.MagicBows.Majestic.yml`
+
+- **ForsakenJVL (RtD)**:
+  - Weapons:
+    - Meadows: `MeadowsAirWand_RtD`, `MeadowsAirStaff_RtD` → F-tier
+    - Black Forest: `BlackForestLightningWand_RtD`, `BlackForestFireStaff_RtD`, `BlackForestLightStaff_RtD` → D-tier
+    - Swamp: `SwampPoisonWand_RtD`, `SwampEarthStaff_RtD` → C-tier
+    - Mountain: `MountainIceWand_RtD`, `MountainIceStaff_RtD` → B-tier
+    - Plains: `PlainsVoidWand_RtD`, `PlainsVoidStaff_RtD` → A-tier
+    - Mistlands/Ashlands/Deep North: `MistlandsElementWand_RtD`, `MistlandsQuakeStaff_RtD`, `AshLandsFireWand_RtD`, `AshLandsStaff1_RtD`, `AshLandsStaff2_RtD`, `AshLandsStaff3_RtD`, `DeepNorthArcaneWand_RtD`, `DeepNorthStaff1_RtD`, `DeepNorthStaff2_RtD`, `DeepNorthStaff3_RtD` → S-tier
+    - Healing Staffs: T1→D, T2→C, T3→B, T4→A
+  - Mage Armor: Black Forest (D), Swamp (C), Mountain (B), Plains (A), Mistlands/Ashlands/Deep North (S) sets (Hood/Chest/Legs + Capes)
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Digitalroot.ForsakenJVL.Majestic.yml`
+
+- **Warfare**:
+  - Weapons: Added missing Swamp item `SledgeBonemass_TW` → C-tier weapon scrolls
+  - Armor coverage:
+    - Iron (C): Hunter, Rogue, Vigorous
+    - Silver (B): Hunter, Rogue, Vigorous, Warrior
+    - Black Metal (A): Hunter, Rogue, Vigorous, Warrior, Vidar, Fenrir
+    - Carapace/Flametal (S): Hunter, Rogue, Vigorous, Warrior, Vidar, Fenrir, Bold, Legion
+    - Leather (F): Leather set
+  - File updated: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Therzie.Warfare.Majestic.yml`
+
+- **Warfare Fire & Ice**:
+  - Confirmed comprehensive S-tier coverage for Njord/Surtr weapons, shields, bows/crossbows, staffs, capes, and high-end armors
+  - File verified: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Therzie.WarfareFI.Majestic.yml`
+
+- **BowsBeforeHoes**:
+  - Bows (Weapons): `BBH_BlackForest_Bow` → D-tier; `BBH_Seeker_Bow`, `BBH_Surtling_Bow` → S-tier
+  - Quivers (Armor): `BBH_BlackForest_Quiver` → D-tier; `BBH_PlainsLox_Quiver` → A-tier; `BBH_Seeker_Quiver`, `BBH_OdinPlus_Quiver` → S-tier
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Azumatt.BowsBeforeHoes.Majestic.yml`
+
+#### Enchanting Impact
+- Bow of Frey, Wizardry, MagicBows, ForsakenJVL, BowsBeforeHoes, Warfare, and Warfare FI gear are now compatible with S–F enchantment scrolls
+- Tiering matches RelicHeim progression across F/D/C/B/A/S with biome/material alignment
+- Seamless with existing RelicHeim configuration; no load-order changes
+
+#### Crafting Station Alignment (Fletcher Table)
+- Updated recipes to craft at Fletcher Table (`FletcherTable_TW`):
+  - Finewood Bow (`BowFineWood`)
+  - Flinthead Arrow (`ArrowFlint`)
+  - Torch Arrow (`TorchArrow`)
+  - Antler Bolts (`BoltAntler_TW`)
+  - Flint Bolt (`BBP_Bolt_Flint`)
+
+#### Crafting Station Alignment (Wizard Table)
+- Updated the crafting/repair station to Wizard Table (`$piece_wizardtable_TW`) for:
+  - RtDMagic staffs/wands:
+    - `MountainIceStaff_RtD`, `MountainIceWand_RtD`
+    - `SwampEarthStaff_RtD`, `SwampPoisonWand_RtD`
+  - RtDMagic additional mage apparel:
+    - `BlackForestMageHood_RtD`, `BlackForestMageLegs_RtD`
+    - `SwampMageChest_RtD`, `SwampMageHood_RtD`, `SwampMageLegs_RtD`
+
+  - RtDMagic Mage apparel:
+    - `BlackForestMageChest_RtD` (Forest Garment)
+    - `MountainMageCape_RtD` (Frostfell Wrap)
+    - `MountainMageChest_RtD` (Frostfell Tunic)
+    - `MountainMageHood_RtD` (Frostfell Hood)
+    - `MountainMageLegs_RtD` (Frostfell Legs)
+    - `SwampMageCape_RtD` (Blood Drape)
+  - EpicLoot jewelry and Sages Vault crowns:
+    - `SilverRing`
+    - `SageCrownGold01/02/03`, `SageCrownSilver01/02/03`, `SageCrownObsidian01/02/03`
+
+  - Fire Staff (`BlackForestFireStaff_RtD`)
+  - Light Staff (`BlackForestLightStaff_RtD`)
+  - Crystal Wand (`BMR_CrystalWand`)
+  - Crystal Staff (`BMR_CrystalStaff`)
+  - Eir Staff T1 (`HealingStaff_T1_RtD`)
+  - Eir Staff T2 (`HealingStaff_T2_RtD`)
+  - Eir Staff T3 (`HealingStaff_T3_RtD`)
+  - Air Staff (`MeadowsAirStaff_RtD`)
+  - Air Wand (`MeadowsAirWand_RtD`)
+  - Lightning Staff (`StaffLightning`)
+  - Scholar Fire Staff (`ScholarFireStaff`)
+
+*Added README Known Issue and changelog note for quiver-related bow draw blocking and its workaround.*
+
+- Documentation:
+  - Known issue: Bow draw can be blocked when using a quiver with no arrows in the main inventory.
+  - Workaround: Keep at least one arrow stack in main inventory; quiver selection still applies via the quiver bar.
+
+#### Crafting Station Requirement (Forge Level)
+- OdinArchitect: Odin's Hammer (`odin_hammer`) now requires Forge level 5
+
 ---
+
+## Version 1.5.15 - Enchanting Integration: BowPlugin *(Testing)*
+
+*Enabled VES scroll enchanting for BowPlugin bows and crossbows with tier-appropriate placement.*
+
+#### Valheim Enchantment System Updates
+- **Crossbows (Weapons)**:
+  - `BBP_Crossbow_Flint` → F-tier
+  - `BBP_Crossbow_Bronze` → D-tier
+  - `BBP_Crossbow_Iron` → C-tier
+  - `BBP_Crossbow_Silver` → B-tier
+  - `BBP_Crossbow_BlackMetal` → A-tier
+- **Bows (Weapons)**:
+  - `BBP_BoneBow` → D-tier
+  - `BBP_SilverBow`, `BBP_BlackMetalBow` → A-tier
+  - `BBP_ElvenBow`, `BBP_SeekerBow` → S-tier
+- File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.BowPlugin.Majestic.yml`
+
+#### Impact
+- BowPlugin items now support S–F scroll enchanting in line with RelicHeim tiers
+- No load-order changes required; clean AdditionalEnchantmentReqs integration
+
+---
+
+## Version 1.5.16 - Enchanting Integration: RtD Magic (confirm), Southsil Armor, Sages Vault *(Testing)*
+
+*Added VES scroll enchanting support for Southsil Armor (tiered by material keywords) and Sages Vault items; RtD Magic was already covered in ForsakenJVL file.*
+
+#### Valheim Enchantment System Updates
+- **Southsil Armor** (highest material keyword used per set):
+  - F tier: Neck set
+  - D tier: Chief/Troll/Skog/Bronze/Ancient sets + Boar cape
+  - C tier: Swamp/Iron/Ancient Iron sets
+  - B tier: Wolf/Silver/Frost sets
+  - A tier: Loxhunt/Samurai/Valk/Warlord sets + Serpent cape
+  - S tier: Carapace/Ash endgame sets + Storr cape
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/SouthsilArmor.Majestic.yml`
+
+- **Sages Vault**:
+  - Armor: Robes/Tunics/Pants/Hoods → C tier; Crowns → B tier
+  - Shields: SageBook01–04 → B tier
+  - Weapons: Sage staffs + ScholarFireStaff → A tier; NeedleBlade/DeathBlade → B tier
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/SagesVault.Majestic.yml`
+
+- **RtD Magic**:
+  - Already integrated under `Digitalroot.ForsakenJVL.Majestic.yml` (no change)
+
+#### Impact
+- Southsil Armor and Sages Vault are now enchantable with balanced tiers consistent with RelicHeim progression
+- No load-order changes; seamless AdditionalEnchantmentReqs integration
+
+---
+
+## Version 1.5.17 - Enchanting Integration: MagicRevamp, Hugo's Armory, Shawesome Divine Armaments *(Testing)*
+
+*Enabled VES scroll enchanting for BMR (MagicRevamp), Hugo's Armory, and Shawesome's Divine Armaments.*
+
+#### Valheim Enchantment System Updates
+- **MagicRevamp (BMR_)**:
+  - Weapons: Wood→F; Ember/Root→D; Ancient/Crystal/Cursed→C; Elven→A; Flametal→S
+  - Armor: Tattered→F; Sorcerer→D; Warlock→C; Polar Wolf→B; Crimson→A; Seeker→S
+  - Capes: Tattered→D; Warlock→C; Polar Wolf→B; Sorcerer/Crimson→A; Seeker→S
+  - Spellbook (utility) → B tier
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.MagicRevamp.Majestic.yml`
+
+- **Hugo's Armory**:
+  - Weapons tiered by material: Wood/Leather→F; Bronze→D; Iron→C; Silver→B; BlackMetal→A; Obsidian/Flametal→S
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/HugosArmory.Majestic.yml`
+
+- **Shawesome Divine Armaments**:
+  - Armor/capes: Mythrill/9b/EOM/ShawFire/ShawFrost→A; Dhakharian/SVandemDraco/Paladin/Slayer→S
+  - Weapons: Divine sledge and DragonSlayer → S
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Shawesome.DivineArmaments.Majestic.yml`
+
+#### Impact
+- These mods' items are now enchantable with balanced tiers aligned to RelicHeim progression
+- Seamless AdditionalEnchantmentReqs integration; no load-order changes
+
+---
+
+## Version 1.5.18 - Enchanting Integration: Biome Lords Quests + Armory *(Testing)*
+
+*Added VES scroll enchanting for Biome Lords Quests equippables; Armory already covered.*
+
+#### Valheim Enchantment System Updates
+- **Biome Lords Quests**:
+  - Armor: `HelmetDvergerWishboneTG`, `TGCapeFlameFeather` → S-tier
+  - Weapons: `TGStaff_LightningWolf`, `TGWhisper_chainattack` → S-tier
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/BiomeLordsQuests.Majestic.yml`
+
+- **Armory**:
+  - Confirmed comprehensive tier coverage in `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Therzie.Armory.Majestic.yml`
+
+#### Impact
+- BLQ items now enchantable; Armory remains fully supported
+- Seamless integration; no load-order changes
+
+---
+
+
 
 ## Version 1.5.7 - Missing Arrow Recipe Implementation & Raid Configuration Adjustment *(Testing)*
 
