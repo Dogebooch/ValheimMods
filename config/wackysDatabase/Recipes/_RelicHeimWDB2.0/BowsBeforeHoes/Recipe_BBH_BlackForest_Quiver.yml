@@ -1,6 +1,6 @@
 name: BBH_BlackForest_Quiver
 clonePrefabName: 
-craftingStation: $piece_fletchertable_TW
+craftingStation: FletcherTable_TW
 minStationLevel: 2
 maxStationLevelCap: 5
 repairStation: 

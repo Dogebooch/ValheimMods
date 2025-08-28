@@ -2,6 +2,51 @@
 
 ---
 
+## Version 1.5.7 - Missing Arrow Recipe Implementation *(Testing)*
+
+*Created WackyDatabase recipe files for all missing vanilla arrow types that were not appearing in the Fletcher Table, ensuring complete arrow crafting availability.*
+
+#### Missing Arrow Recipes Added
+- **Frost Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
+  - Materials: 8 Wood, 4 Obsidian, 2 Feathers, 1 FreezeGland
+- **Iron Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
+  - Materials: 8 Wood, 1 Iron, 2 Feathers
+- **Obsidian Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
+  - Materials: 8 Wood, 4 Obsidian, 2 Feathers
+- **Silver Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
+  - Materials: 8 Wood, 1 Silver, 2 Feathers
+- **Poison Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
+  - Materials: 8 Wood, 4 Obsidian, 2 Feathers, 2 Ooze
+- **Needle Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 2)
+  - Materials: 4 Needle, 2 Feathers
+- **Wood Arrows**: New WackyDatabase recipe at FletcherTable_TW (Level 1)
+  - Materials: 8 Wood
+
+#### Technical Implementation
+- **Recipe Files Created**: 7 new WackyDatabase recipe files in `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/`
+- **Crafting Station**: All recipes use `FletcherTable_TW` (corrected from `$piece_fletchertable_TW`)
+- **Batch Production**: All recipes craft 20 arrows per batch
+- **Progression Tiers**: Wood Arrows (Level 1) → All others (Level 2)
+- **Material Requirements**: Based on vanilla Valheim recipes from Items.md data
+
+#### Files Created
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowFrost.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowIron.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowObsidian.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowSilver.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowPoison.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowNeedle.yml`
+- `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/VanillaRecipes/Recipe_ArrowWood.yml`
+
+#### Impact
+- **Complete arrow availability**: All vanilla arrow types now craftable at Fletcher Table
+- **Progressive crafting**: Wood → Flint → Iron/Obsidian/Silver → Frost/Poison/Needle
+- **Thematic consistency**: All archery equipment and ammunition centralized
+- **Enhanced gameplay**: Players can now access full arrow progression system
+- **Material balance**: Recipes follow vanilla Valheim material requirements
+
+---
+
 ## Version 1.5.6 - Fletcher Table Ammunition Centralization *(Testing)*
 
 *Centralized all ammunition crafting to the Fletcher Table for improved thematic consistency and better crafting organization.*
