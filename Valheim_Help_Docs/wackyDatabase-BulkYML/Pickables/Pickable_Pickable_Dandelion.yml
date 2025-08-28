@@ -1,0 +1,12 @@
+name: Pickable_Dandelion
+itemPrefab: Dandelion
+cloneOfWhatPickable: 
+material: 
+amount: 1
+size: 
+overrideName: ''
+respawnTimer: 100
+spawnOffset: 0.5
+ifHasHealth: 
+hiddenChildWhenPicked: visual
+extraDrops: 

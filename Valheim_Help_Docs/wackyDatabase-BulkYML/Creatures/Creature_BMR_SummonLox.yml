@@ -1,0 +1,4 @@
+name: BMR_SummonLox
+mob_display_name: $bmr_summonlox
+clone_creature: 
+creature_replacer: 

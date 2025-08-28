@@ -1,0 +1,16 @@
+name: BMR_FlametalStaff
+clonePrefabName: BMR_FlametalStaff
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FlametalNew:8:4:True
+- Ruby:4:2:True
+- FineWood:16:8:True
+- RoundLog:4:2:True

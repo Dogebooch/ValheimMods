@@ -1,0 +1,4 @@
+name: Abomination(Clone)
+mob_display_name: $enemy_abomination
+clone_creature: 
+creature_replacer: 

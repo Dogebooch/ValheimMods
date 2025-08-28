@@ -1,0 +1,4 @@
+name: TGLightningWolf
+mob_display_name: $friendly_lightningwolf
+clone_creature: 
+creature_replacer: 

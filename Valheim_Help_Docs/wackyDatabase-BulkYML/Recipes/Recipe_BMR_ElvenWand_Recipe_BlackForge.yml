@@ -1,0 +1,16 @@
+name: BMR_ElvenWand_Recipe_BlackForge
+clonePrefabName: NO
+craftingStation: $piece_blackforge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Eitr:40:0:True
+- Iron:54:27:True
+- Mandible:20:10:True
+- Silver:10:5:True

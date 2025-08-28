@@ -2,6 +2,194 @@
 
 ---
 
+## Version 1.5.6 - Fletcher Table Ammunition Centralization *(Testing)*
+
+*Centralized all ammunition crafting to the Fletcher Table for improved thematic consistency and better crafting organization.*
+
+#### Ammunition Moved to Fletcher Table
+- **Antler Bolt**: Now crafted at FletcherTable_TW (Workbench → Fletcher Table)
+- **Fire Arrow**: New WackyDatabase recipe at FletcherTable_TW (vanilla item)
+- **Flinthead Arrow**: New WackyDatabase recipe at FletcherTable_TW (vanilla item)
+- **Flint Bolt**: Now crafted at FletcherTable_TW (Workbench → Fletcher Table)
+- **Torch Arrow**: Now crafted at FletcherTable_TW (Workbench → Fletcher Table)
+- **Bronze Bolt**: Fixed configuration conflict, now properly uses FletcherTable_TW
+
+#### Technical Implementation
+- **Vanilla Items**: Created WackyDatabase recipe files for Fire Arrow and Flinthead Arrow
+  - `Recipe_ArrowFire_Recipe_FletcherTable.yml`: 8 Wood, 8 Resin, 2 Feathers (Level 2)
+  - `Recipe_ArrowFlint_Recipe_FletcherTable.yml`: 8 Wood, 2 Flint, 2 Feathers (Level 1)
+- **Modded Items**: Updated existing mod configuration files to use Custom crafting station
+- **Crafting Station**: All ammunition now uses `$piece_fletchertable_TW` reference
+- **Configuration Conflict Resolution**: Fixed Bronze Bolt conflict between Warfare and BowPlugin mods
+
+#### Files Modified
+- `Dogeheim/Configs/Therzie.Warfare.cfg` - Antler Bolt crafting station
+- `Dogeheim/Configs/blacks7ar.BowPlugin.cfg` - Flint Bolt and Bronze Bolt crafting stations
+- `Dogeheim/Configs/Azumatt.BowsBeforeHoes.cfg` - Torch Arrow crafting station
+- `config/Therzie.Warfare.cfg` - Antler Bolt crafting station
+- `config/blacks7ar.BowPlugin.cfg` - Flint Bolt and Bronze Bolt crafting stations
+- `config/Azumatt.BowsBeforeHoes.cfg` - Torch Arrow crafting station
+- `Valheim_Help_Docs/wackyDatabase-BulkYML/Recipes/Recipe_ArrowFire_Recipe_FletcherTable.yml` (new)
+- `Valheim_Help_Docs/wackyDatabase-BulkYML/Recipes/Recipe_ArrowFlint_Recipe_FletcherTable.yml` (new)
+
+#### Impact
+- **Centralized crafting**: All ammunition now crafted at Fletcher Table
+- **Thematic consistency**: Archery equipment and ammunition in one location
+- **Improved organization**: Better crafting station distribution
+- **Enhanced gameplay**: Streamlined ammunition production workflow
+
+---
+
+## Version 1.5.5 - Quiver Crafting Station Fix *(Testing)*
+
+*Fixed quiver recipes that were incorrectly configured with wrong crafting station internal names, preventing Black Forest and Lox quivers from appearing in the Fletching Table.*
+
+#### Quiver Recipe Fixes
+- **Black Forest Quiver**: Fixed crafting station from `FletcherTable_TW` to `$piece_fletchertable_TW`
+- **Lox Quiver**: Fixed crafting station from `FletcherTable_TW` to `$piece_fletchertable_TW`
+- **OdinPlus Quiver**: Fixed crafting station from `FletcherTable_TW` to `$piece_fletchertable_TW`
+- **Seeker Quiver**: Fixed crafting station from `FletcherTable_TW` to `$piece_fletchertable_TW`
+
+#### Technical Details
+- **Internal name correction**: All quiver recipes now use proper Fletching Table internal name
+- **Consistent configuration**: Updated both main config and Dogeheim config directories
+- **Recipe validation**: Ensured all quivers appear in Fletching Table with correct requirements
+- **Crafting station levels**: Maintained appropriate progression (Level 1-2 requirements)
+
+#### Impact
+- **Complete quiver availability**: All 4 quivers now properly appear in Fletching Table
+- **Progressive crafting**: Black Forest (Level 2) → Lox (Level 2) → OdinPlus/Seeker (Level 1)
+- **Thematic consistency**: All archery equipment centralized at Fletching Table
+- **Enhanced gameplay**: Players can now access full quiver progression system
+
+---
+
+## Version 1.5.4 - EpicMMO Balance Evaluation & Integration Fixes *(Testing)*
+
+*Evaluated EpicMMO scaling parameters for 400% monster HP environment and performed integration fixes. User maintained original 0.3 scaling values for late-game power progression.*
+
+#### Integration Fixes
+- **VanillaShip_Integration.json**: Created with correct RelicHeim patch formatting
+- **Smart Containers Configuration**: Maintained existing functionality
+  - Magic materials already included in valuables group
+  - Fuzzy grouping enabled for better item organization
+
+#### Technical Improvements
+- **Format consistency**: All patch files follow RelicHeim standards
+- **Item validation**: Verified all referenced items exist in wackysDatabase
+- **Configuration integrity**: Ensured proper YAML/JSON formatting throughout
+- **Mod integration**: Enhanced compatibility between EpicLoot, OdinShipPlus, and Smart Containers
+
+#### Impact
+- **Preserved late-game power**: Original scaling maintained for powerful progression feel
+- **Improved mod integration**: Seamless crafting station consolidation
+- **Enhanced QoL**: Better item organization and sorting
+- **Maintained challenge**: 400% monster HP still provides appropriate difficulty curve
+
+---
+
+## Version 1.5.3 - AllTheHeims EpicLoot Integration *(Testing)*
+
+*Seamlessly integrated AllTheHeims mod items into EpicLoot drop system while maintaining RelicHeim's custom rarity names and functionality.*
+
+#### AllTheHeims Items Added to EpicLoot
+- **Adventure Backpacks**: 9 tier-appropriate backpacks (Meadows → Mistlands)
+  - BackpackMeadows, BackpackBlackForest, BackpackSwamp, BackpackMountains
+  - BackpackPlains, BackpackMistlands, CapeIronBackpack, BackpackNecromancy, CapeSilverBackpack
+- **BowPlugin Weapons**: 9 crossbows and bows across all progression tiers
+  - BBP_BoneBow, BBP_Crossbow_Flint, BBP_Crossbow_Bronze, BBP_Crossbow_Iron
+  - BBP_Crossbow_Silver, BBP_SilverBow, BBP_BlackMetalBow, BBP_Crossbow_BlackMetal
+  - BBP_ElvenBow, BBP_SeekerBow
+- **SouthsilArmor Sets**: 15 armor pieces (Bronze → Carapace progression)
+- **HugosArmory Weapons**: 10 battleaxes and greatswords across all tiers
+
+#### EpicLoot Integration Features
+- **Proper rarity distributions**: Balanced across Novus/Nexus/Zodiac/Zeta/Relic tiers
+- **Haldor gamble system**: All items available with tier-appropriate coin costs (100-9860 coins)
+- **Treasure drop integration**: Items spawn in appropriate biome treasure chests
+- **RelicHeim compatibility**: Maintains custom rarity names and colors
+
+#### Technical Implementation
+- **3 new patch files**: `AllTheHeims_RelicHeim_Integration.json`, `AllTheHeims_AdventureData_RelicHeim.json`, `AllTheHeims_Extended_RelicHeim.json`
+- **Localization fixes**: Restored "Convert Items" text and corrected menu descriptions
+- **Priority system**: Proper loading order with Priority values (1000-1600)
+- **Clean structure**: Removed conflicting AllTheHeims patches, empty directories
+
+#### Bug Fixes
+- **Fixed rarity display**: Restored Novus/Nexus/Zodiac/Zeta/Relic names instead of Magic/Rare/Epic/Legendary
+- **Fixed menu text**: "Convert Items" instead of "Convert Shards"
+- **Fixed augment description**: Corrected token requirement text
+- **Fixed rarity colors**: Restored RelicHeim's custom color scheme
+
+---
+
+## Version 1.5.2 - Magic Items Crafting Station Fixes *(Testing)*
+
+*Fixed magic items that were incorrectly configured to use workbench/forge instead of appropriate magic crafting stations for thematic consistency.*
+
+#### Magic Weapons & Staffs - Wizard Table Fixes
+- **BMR Crystal Staff**: Fixed from workbench to wizard table
+- **BMR Crystal Wand**: Fixed from workbench to wizard table  
+- **BMR Cursed Wand**: Fixed from workbench to wizard table
+- **BMR Ember Staff**: Fixed from forge to wizard table
+- **BMR Flametal Staff**: Fixed from black forge to wizard table
+- **BMR Elven Wand**: Fixed from black forge to wizard table
+- **BMR Elven Staff**: Fixed from black forge to wizard table
+- **BMR Ancient Staff**: Fixed from forge to wizard table
+- **BMR Ancient Wand**: Fixed from black forge to wizard table
+
+#### Magic Armor - Arcane Anvil Fixes
+- **BMR Crimson Armor Set**: Fixed from workbench to arcane anvil
+  - Crimson Chest, Hood, Legs, Cape
+- **BMR Polar Wolf Armor Set**: Fixed from workbench to arcane anvil
+  - Polar Wolf Chest, Hood, Legs, Cape
+- **BMR Seeker Cape**: Fixed from workbench to arcane anvil
+
+#### Technical Details
+- **Crafting stations updated**: All magic items now use appropriate stations
+  - **Weapons/Staffs**: `$piece_wizardtable_TW` (Wizard Table)
+  - **Magic Armor**: `$piece_arcaneanvil_TW` (Arcane Anvil)
+- **Repair stations updated**: Items can now be repaired at their crafting stations
+- **Requirements preserved**: All original crafting materials and station levels maintained
+- **Individual patch files**: Each item has its own patch file for easy maintenance
+
+#### Impact
+- **Thematic consistency**: Magic items now crafted where they logically belong
+- **Improved gameplay**: Clear separation between regular crafting and magic crafting
+- **Better progression**: Magic items require appropriate infrastructure investment
+- **Enhanced immersion**: Players must build wizard tables and arcane anvils for magic items
+
+---
+
+## Version 1.5.1 - Missing Dependencies & Jotunn Update *(Testing)*
+
+*Added missing bow-related dependencies and updated Jotunn to latest version for improved compatibility and expanded bow combat options.*
+
+#### Missing Dependencies Added
+- **Added 5 missing bow-related mods** to complete the modpack dependency list:
+  - `blacks7ar-BowPlugin-1.8.2`: Core bow mechanics and enhancements
+  - `Azumatt-BowsBeforeHoes-1.3.11`: Additional bow variants and quivers
+  - `blacks7ar-MagicBows-1.1.5`: Magical bow variants with elemental effects
+  - `Digitalroot-ForsakenJVL-2.0.40`: Additional content and features
+  - `OdinPlus-BowOfFrey-1.0.6`: Specialized bow equipment
+- **Manifest updated**: All dependencies now properly listed in `manifest.json`
+- **Version bumped**: Updated to version 1.5.1 to reflect dependency additions
+
+#### Jotunn Framework Update
+- **Updated ValheimModding-Jotunn** from version 2.26.0 to 2.26.1:
+  - **Previous version**: 2.26.0
+  - **New version**: 2.26.1
+  - **Benefit**: Latest framework version with improved stability and compatibility
+  - **Impact**: Better mod integration and reduced potential conflicts
+
+#### Dependency Verification
+- **Comprehensive dependency check completed** against provided list
+- **All 95 dependencies** now properly included in manifest
+- **No missing dependencies** identified in current configuration
+- **Version consistency**: All dependencies match specified versions
+
+---
+
 ## Version 1.5.0 - EpicLoot Integration & Bow Combat Enhancement *(Testing)*
 
 *Comprehensive EpicLoot integration with AllTheHeims patches for enhanced bow combat, armor variety, and balanced loot distribution.*
@@ -710,7 +898,6 @@
 
 **Configuration Changes** in `randyknapp.mods.epicloot.cfg`:
   - Changed: Balance.Items To Materials Drop Ratio from 0.8 to 0
-
 
 ---
 

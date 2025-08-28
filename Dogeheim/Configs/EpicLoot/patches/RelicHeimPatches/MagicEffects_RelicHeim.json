@@ -39,8 +39,8 @@
         "Magic":		{ "MinValue" : 2,	"MaxValue" : 4,		"Increment" : 0.5 },
         "Rare":			{ "MinValue" : 3,	"MaxValue" : 6,		"Increment" : 0.5 },
         "Epic":			{ "MinValue" : 4,	"MaxValue" : 8,		"Increment" : 0.5 },
-        "Legendary":	{ "MinValue" : 5,	"MaxValue" : 10,	"Increment" : 0.5 },
-        "Mythic":		{ "MinValue" : 6,	"MaxValue" : 12,	"Increment" : 0.5 }
+        "Legendary":	{ "MinValue" : 5,	"MaxValue" : 9,	"Increment" : 0.5 },
+        "Mythic":		{ "MinValue" : 6,	"MaxValue" : 10,	"Increment" : 0.5 }
        }
     },		
 	
@@ -71,8 +71,8 @@
         "Magic":		{ "MinValue" : 2,	"MaxValue" : 4,		"Increment" : 0.5 },
         "Rare":			{ "MinValue" : 3,	"MaxValue" : 6,		"Increment" : 0.5 },
         "Epic":			{ "MinValue" : 4,	"MaxValue" : 8,		"Increment" : 0.5 },
-        "Legendary":	{ "MinValue" : 5,	"MaxValue" : 10,	"Increment" : 0.5 },
-        "Mythic":		{ "MinValue" : 6,	"MaxValue" : 12,	"Increment" : 0.5 }
+        "Legendary":	{ "MinValue" : 5,	"MaxValue" : 9,	"Increment" : 0.5 },
+        "Mythic":		{ "MinValue" : 6,	"MaxValue" : 10,	"Increment" : 0.5 }
        }
     },
 	
@@ -1151,8 +1151,8 @@
         "Magic":		{ "MinValue" : 1,	"MaxValue" : 2,  "Increment" : 1 },
         "Rare":			{ "MinValue" : 2,	"MaxValue" : 4,  "Increment" : 0.8 },
         "Epic":			{ "MinValue" : 3,	"MaxValue" : 6,  "Increment" : 0.6 },
-        "Legendary":	{ "MinValue" : 4,	"MaxValue" : 8,  "Increment" : 0.4 },
-        "Mythic":		{ "MinValue" : 5,	"MaxValue" : 10, "Increment" : 0.2 }
+        "Legendary":	{ "MinValue" : 4,	"MaxValue" : 7,  "Increment" : 0.4 },
+        "Mythic":		{ "MinValue" : 5,	"MaxValue" : 8, "Increment" : 0.2 }
        }
     },
 	{

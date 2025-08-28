@@ -1,0 +1,17 @@
+name: BMR_EmberWand_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Ruby:1:0:True
+- Bronze:2:1:True
+- Wood:6:3:True
+- FineWood:2:0:True
+- RoundLog:0:1:True

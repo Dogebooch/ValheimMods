@@ -1,0 +1,4 @@
+name: TGQueenDeathsquito
+mob_display_name: $enemy_queendeathsquitotg
+clone_creature: 
+creature_replacer: 

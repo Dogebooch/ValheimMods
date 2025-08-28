@@ -1,6 +1,6 @@
 name: BBH_Lox_Quiver
 clonePrefabName: 
-craftingStation: FletcherTable_TW
+craftingStation: $piece_fletchertable_TW
 minStationLevel: 2
 maxStationLevelCap: 5
 repairStation: 

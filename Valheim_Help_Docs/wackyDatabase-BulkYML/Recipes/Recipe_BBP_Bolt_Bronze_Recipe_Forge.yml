@@ -1,0 +1,16 @@
+name: BBP_Bolt_Bronze_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 20
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Bronze:5:0:True
+- Resin:8:0:True
+- RoundLog:10:0:True
+- Feathers:5:0:True
