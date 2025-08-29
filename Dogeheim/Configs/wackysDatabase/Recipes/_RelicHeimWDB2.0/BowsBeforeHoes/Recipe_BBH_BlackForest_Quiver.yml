@@ -1,0 +1,17 @@
+name: BBH_BlackForest_Quiver
+clonePrefabName: 
+craftingStation: FletcherTable_TW
+minStationLevel: 2
+maxStationLevelCap: 5
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+- RoundLog:2:3
+- RoundLog:4:4
+- RoundLog:6:5
+reqs:
+- HardAntler:1:1:True
+- DeerHide:3:3:True

@@ -1,0 +1,16 @@
+name: BMR_CrystalStaff
+clonePrefabName: BMR_CrystalStaff
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Crystal:16:0:True
+- Silver:42:21:True
+- WolfFang:6:3:True
+- FreezeGland:12:6:True

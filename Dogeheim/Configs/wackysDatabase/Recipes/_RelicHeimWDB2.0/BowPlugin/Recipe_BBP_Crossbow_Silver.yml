@@ -1,0 +1,17 @@
+name: BBP_Crossbow_Silver
+clonePrefabName: 
+craftingStation: FletcherTable_TW
+minStationLevel: 4
+maxStationLevelCap: 5
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+- Silver:10:5
+reqs:
+- Silver:15:15:True
+- LeatherScraps:12:12:True
+- Resin:12:12:True
+- Wood:25:25:True

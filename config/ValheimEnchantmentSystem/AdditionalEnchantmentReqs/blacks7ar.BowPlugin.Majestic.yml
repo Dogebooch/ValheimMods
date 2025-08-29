@@ -26,7 +26,7 @@
     prefab: kg_EnchantScroll_Weapon_Blessed_C
     amount: 1
   Items:
-  - BBP_Crossbow_Iron
+  
 
 - enchant_prefab:
     prefab: kg_EnchantScroll_Weapon_B
@@ -35,7 +35,7 @@
     prefab: kg_EnchantScroll_Weapon_Blessed_B
     amount: 1
   Items:
-  - BBP_Crossbow_Silver
+  
 
 - enchant_prefab:
     prefab: kg_EnchantScroll_Weapon_A

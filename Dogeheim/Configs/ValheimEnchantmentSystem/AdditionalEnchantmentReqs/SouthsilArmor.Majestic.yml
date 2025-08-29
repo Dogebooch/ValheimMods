@@ -1,0 +1,110 @@
+# Southsil Armor (tiered by highest material keyword)
+
+# F - Early/Neck
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_F
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_F
+    amount: 1
+  Items:
+  - neckhelm
+  - neckchest
+  - necklegs
+
+# D - BlackForest/Bronze/Troll/Chief/Skog
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_D
+    amount: 1
+  Items:
+  - chiefhelmboar
+  - chiefhelmdeer
+  - chieflegs
+  - chiefchest
+  - trollhelm
+  - trolllegs
+  - trollchest
+  - skoghelm
+  - skoglegs
+  - skogchest
+  - ss_cape_boar
+  - heavybronzehelm
+  - heavybronzelegs
+  - heavybronzechest
+  - ancienthelm
+  - ancientlegs
+  - ancientchest
+
+# C - Swamp/Iron/AncientIron
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_C
+    amount: 1
+  Items:
+  - swamphelm
+  - swamplegs
+  - swampchest
+  - ancientironhelm
+  - ancientironlegs
+  - ancientironchest
+
+# B - Mountain/Silver/Wolf/Frost
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - heavywolfhelm
+  - heavywolflegs
+  - heavywolfchest
+  - obswolfhelm
+  - obswolflegs
+  - obswolfchest
+  - frostmagehelm
+  - frostmagelegs
+  - frostmagechest
+
+# A - Plains/BlackMetal/Loxhunt/Advanced sets
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_A
+    amount: 1
+  Items:
+  - loxhunthelm
+  - loxhuntlegs
+  - loxhuntchest
+  - samuraihelm
+  - samurailegs
+  - samuraichest
+  - valkhelm
+  - valklegs
+  - valkchest
+  - warlordhelm
+  - warlordlegs
+  - warlordchest
+  - ss_serpentcape
+
+# S - Carapace/Ash/Endgame
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - heavycarhelm
+  - heavycarlegs
+  - heavycarchest
+  - ss_ashcape
+  - ss_storrcape
+
+

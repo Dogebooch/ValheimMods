@@ -49,6 +49,10 @@ Detailed information about specific items:
 - **Inventory Management**: Quick stacking, sorting, favoriting, trash system
 - **Magic Systems**: Enchanting, spell crafting, magical items
 - **Combat**: Monster weaknesses, damage types, resistances
+- **Loot System**: EpicLoot drops, gambling, and drop-only items
+
+### Drop Table Mechanics
+**Recipe-Based Unlocking**: Items become available in drop tables once you've unlocked their corresponding recipes by acquiring at least one of each material required for crafting that item. This happens regardless of whether crafting is enabled or disabled. Once a recipe is unlocked, the item can appear in drop tables even if crafting is disabled.
 
 ## 📝 Contributing
 

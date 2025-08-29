@@ -68,8 +68,6 @@
 			"Path": "$.ItemSets[?(@.Name == 'Tier4Weapons')].Loot",
 			"Action": "AppendAll",
 			"Value": [
-				{ "Item": "BBP_Crossbow_Iron", "Weight": 0.5, "Rarity": [55, 22, 13, 7, 1] },
-				{ "Item": "BBP_Crossbow_Silver", "Weight": 0.5, "Rarity": [55, 22, 13, 7, 1] },
 				{ "Item": "BBP_SilverBow", "Weight": 0.5, "Rarity": [55, 22, 13, 7, 1] }
 			]
 		},

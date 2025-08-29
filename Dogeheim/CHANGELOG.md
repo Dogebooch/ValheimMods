@@ -1,6 +1,147 @@
 # Dogeheim Modpack Changelog
 
-## Version 1.5.8 - Global Bow Balance, Quiver Tuning & Enchanting Integration *(Testing)*
+## Version 1.6.0 - Drop-Only Item System *(Testing)*
+
+*Converting select high-tier items to drop-only rewards, removing crafting recipes to enhance progression and loot discovery.*
+
+#### BowPlugin Items
+- **BBP Crossbows (Iron/Silver)**: Removed duplicates in favor of RelicHeim/Warfare
+  - Base mod disabled: `config/blacks7ar.BowPlugin.cfg` → `[Iron Crossbow]` and `[Silver Crossbow]` set to `Crafting Station = Disabled`
+  - Recipes disabled: `Recipe_BBP_Crossbow_Iron.yml`, `Recipe_BBP_Crossbow_Silver.yml` set to `disabled: true`
+  - Loot/Gambling removed: EpicLoot entries deleted from integration and adventure data patches
+  - Enchant lists cleaned: Removed from `blacks7ar.BowPlugin.Majestic.yml`
+  - Kept: RelicHeim/Warfare `CrossbowIron_TW` and `CrossbowSilver_TW` (crafting blocked via `Detalhes.ItemRequiresSkillLevel.yml`)
+
+- **BBP_ElvenBow**: Converted to drop-only item
+  - Disabled crafting via BowPlugin configuration (`Crafting Station = Disabled`)
+  - Disabled WackyDB recipe (`Recipe_BBP_ElvenBow.yml` set to `disabled: true`)
+  - Created WackyDB item definition with proper stats (72 Pierce + 60 Lightning damage)
+  - Added as 5% drop from Dragon (Moder) with thematic tooltip
+  - File created: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_BBP_ElvenBow.yml`
+  - Drop config: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg`
+
+- **BBP_SeekerBow**: Converted to drop-only item
+  - Disabled crafting via BowPlugin configuration (`Crafting Station = Disabled`)
+  - Disabled WackyDB recipe (`Recipe_BBP_SeekerBow.yml` set to `disabled: true`)
+  - Created WackyDB item definition with proper stats (72 Pierce + 60 Fire damage)
+  - Added as 5% drop from Queen with thematic tooltip
+  - File created: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_BBP_SeekerBow.yml`
+
+#### Therzie Warfare Items
+- **BladeYagluth_TW**: Converted to drop-only item
+  - Created WackyDB item definition with A-tier stats (95 Slash + 75 Fire damage)
+  - Disabled WackyDB recipe (`Recipe_BladeYagluth_TW.yml` set to `disabled: true`)
+  - Reduced drop rate from 10% to 5% from Yagluth with thematic tooltip
+  - Files created: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_BladeYagluth_TW.yml`, `Recipe_BladeYagluth_TW.yml`
+
+- **DualAxeDemonic_TW**: Converted to drop-only item
+  - Created WackyDB item definition with D-tier stats (50 Slash + 20 Chop + 25 Spirit damage)
+  - Disabled WackyDB recipe (`Recipe_DualAxeDemonic_TW.yml` set to `disabled: true`)
+  - Reduced drop rate from 10% to 5% from Svalt with thematic tooltip
+  - Files created: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_DualAxeDemonic_TW.yml`, `Recipe_DualAxeDemonic_TW.yml`
+
+- **ScytheVampiric_TW**: Converted to drop-only item
+  - Disabled WackyDB recipe (`Recipe_ScytheVampiric_TW.yml` set to `disabled: true`)
+  - Reduced drop rate from 10% to 5% from Vrykolathas with thematic tooltip
+  - Uses existing WackyDB item definition (C-tier Swamp weapon)
+
+- **DualScytheBloodthirst_TW**: Converted to drop-only item
+  - Disabled WackyDB recipe (`Recipe_DualScytheBloodthirst_TW.yml` set to `disabled: true`)
+  - Reduced drop rate from 10% to 5% from Vrykolathas with thematic tooltip
+  - Uses existing WackyDB item definition (C-tier Swamp weapon)
+
+- **LanceDvergr_TW**: Converted to drop-only item
+  - Created WackyDB item definition with S-tier stats (110 Pierce + 40 Spirit damage)
+  - Disabled WackyDB recipe (`Recipe_LanceDvergr_TW.yml` set to `disabled: true`)
+  - Added as 5% drop from Queen with thematic tooltip
+  - Files created: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_LanceDvergr_TW.yml`, `Recipe_LanceDvergr_TW.yml`
+
+- **WarpikeFlametal_TW**: Converted to drop-only item
+  - Created WackyDB item definition with S-tier stats (120 Pierce + 90 Fire damage)
+  - Disabled WackyDB recipe (`Recipe_WarpikeFlametal_TW.yml` set to `disabled: true`)
+  - Added as 5% drop from Fader with thematic tooltip
+  - Files created: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_WarpikeFlametal_TW.yml`, `Recipe_WarpikeFlametal_TW.yml`
+
+- **GreatbowDvergr_TW**: Converted to drop-only item
+  - Disabled WackyDB recipe (`Recipe_GreatbowDvergr_TW.yml` set to `disabled: true`)
+  - Added as 5% drop from Queen with thematic tooltip
+  - Uses existing WackyDB item definition (S-tier Mistlands weapon)
+  - File created: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Weapons_Bows/Recipe_GreatbowDvergr_TW.yml`
+
+#### Fire & Ice Expansion Staffs
+- **StaffVulkarion_TW**: Converted to drop-only item
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_StaffVulkarion_TW.yml` set to `disabled: true`)
+  - Added as 5% drop from Surtr with thematic tooltip
+
+- **StaffSkrymir_TW**: Converted to drop-only item
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_StaffSkrymir_TW.yml` set to `disabled: true`)
+  - Added as 5% drop from Jotunn with thematic tooltip
+
+- **StaffStorm_TW**: Converted to drop-only item
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_StaffStorm_TW.yml` set to `disabled: true`)
+  - Added as 5% drop from Sea Serpent with thematic tooltip
+  - Drop config: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg`
+
+#### RtD Staffs (Drop-Only)
+- **MistlandsQuake_StaffRtD**: Converted to drop-only
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_MistlandsQuake_StaffRtD.yml` set to `disabled: true`)
+  - Added as 5% drop from Storm Herald with co-op 2 items
+  - Files created: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/ForsakenJVL/Recipe_MistlandsQuake_StaffRtD.yml`
+
+- **AshlandsStaff3_RtD**: Converted to drop-only
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_AshlandsStaff3_RtD.yml` set to `disabled: true`)
+  - Added as 5% drop from Fader with co-op 2 items
+  - Files created: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/ForsakenJVL/Recipe_AshlandsStaff3_RtD.yml`
+
+- **DeepNorthStaff3_RtD**: Converted to drop-only
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_DeepNorthStaff3_RtD.yml` set to `disabled: true`)
+  - Added as 5% drop from Jotunn with co-op 2 items
+  - Files created: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/ForsakenJVL/Recipe_DeepNorthStaff3_RtD.yml`
+
+- **PlainsVoidstaff_RtD**: Converted to drop-only
+  - No WackyDB item override (uses mod default stats)
+  - Disabled WackyDB recipe (`Recipe_PlainsVoidstaff_RtD.yml` set to `disabled: true`)
+  - Added as 5% drop from Yagluth with co-op 2 items
+  - Files created: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/ForsakenJVL/Recipe_PlainsVoidstaff_RtD.yml`
+
+#### MagicBows (Drop-Only)
+- **BMB_LightningBow**: Converted to drop-only
+  - Disabled WackyDB recipe (`Recipe_BMB_LightningBow.yml` set to `disabled: true`)
+  - Added as 3% drop from Storm Herald with co-op 2 items
+  - Drops remain thematic with storm content (boss + serpent synergy)
+
+- **BMB_SpiritBow**: Converted to drop-only
+  - Disabled WackyDB recipe (`Recipe_BMB_SpiritBow.yml` set to `disabled: true`)
+  - Added as 1% drop from Wraiths (single item) for rare ambient encounters
+
+#### Documentation
+- **Drop-Only Items Wiki**: Updated comprehensive guide documenting all boss-specific drops
+  - New boss-specific drop section with co-op optimizations
+  - Complete drop rates and item descriptions for all 17 boss weapons
+  - Strategic tips for boss farming and progression
+  - File updated: `Wiki/Items/Drop_Only_Items.md`
+
+#### Drop Table Adjustments
+- **Co-op Optimization**: All boss specialty drops increased from 1 to 2 items (17 items adjusted)
+  - Ensures both players get rewards from rare boss-specific drops
+  - Affects: CrossbowEikthyr_TW, SledgeStagbreaker_TW, BattlehammerElder_TW, WarpikeElder_TW, SledgeBonemass_TW, GreatbowModer_TW, BBP_ElvenBow, BladeYagluth_TW, FistQueen_TW, BBP_SeekerBow, KnifeViper_TW, DualAxeDemonic_TW, ScytheVampiric_TW, DualScytheBloodthirst_TW, DualHammerStormstrike_TW, StaffStorm_TW, BattleaxeDragon_TW, ClaymoreJotunn_TW
+- **Drop Rate Rebalancing**: Multiple boss weapons reduced from 10% to 5% drop rates
+  - BladeYagluth_TW, DualAxeDemonic_TW, ScytheVampiric_TW adjusted for consistency with new drop-only system
+- **GreatbowModer_TW**: Reduced drop rate from 10% to 5% (rebalanced with BBP_ElvenBow addition)
+  - Added thematic tooltip indicating drop-only status
+  - Total Dragon bow drop rate remains 10% (5% + 5%)
+- **FistQueen_TW**: Reduced drop rate from 10% to 5% (rebalanced with BBP_SeekerBow addition)
+  - Total Queen weapon drop rate remains 10% (5% + 5%)
+
+---
+
+## Version 1.5.11 - Global Bow Balance, Quiver Tuning & Enchanting Integration *(Testing)*
 
 *Reduced stacked projectile speed effects and standardized bow handling across mods; converted quivers to utility pieces with minimal armor; enabled VES scroll enchanting for MagicBows, Bow of Frey, and Wizardry items.*
 
@@ -75,8 +216,40 @@
   - Quivers (Armor): `BBH_BlackForest_Quiver` → D-tier; `BBH_PlainsLox_Quiver` → A-tier; `BBH_Seeker_Quiver`, `BBH_OdinPlus_Quiver` → S-tier
   - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Azumatt.BowsBeforeHoes.Majestic.yml`
 
+- **BowPlugin**:
+  - Crossbows (Weapons): Flint→F, Bronze→D, Iron→C, Silver→B, BlackMetal→A
+  - Bows (Weapons): Bone→D, Silver/BlackMetal→A, Elven/Seeker→S
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.BowPlugin.Majestic.yml`
+
+- **Southsil Armor** (highest material keyword used per set):
+  - F: Neck | D: Chief/Troll/Skog/Bronze/Ancient (+ Boar cape) | C: Swamp/Iron/Ancient Iron | B: Wolf/Silver/Frost | A: Loxhunt/Samurai/Valk/Warlord (+ Serpent cape) | S: Carapace/Ash (+ Storr cape)
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/SouthsilArmor.Majestic.yml`
+
+- **Sages Vault**:
+  - Armor: Robes/Tunics/Pants/Hoods → C; Crowns → B. Shields: SageBook01–04 → B. Weapons: Sage staffs + ScholarFireStaff → A; NeedleBlade/DeathBlade → B
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/SagesVault.Majestic.yml`
+
+- **MagicRevamp (BMR_)**:
+  - Weapons: Wood→F; Ember/Root→D; Ancient/Crystal/Cursed→C; Elven→A; Flametal→S. Armor/Capes tiered per set progression; Spellbook (utility) → B
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.MagicRevamp.Majestic.yml`
+
+- **Hugo's Armory**:
+  - Weapons tiered by material: Wood/Leather→F; Bronze→D; Iron→C; Silver→B; BlackMetal→A; Obsidian/Flametal→S
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/HugosArmory.Majestic.yml`
+
+- **Shawesome Divine Armaments**:
+  - Armor/capes: Mythrill/9b/EOM/ShawFire/ShawFrost→A; Dhakharian/SVandemDraco/Paladin/Slayer→S. Weapons: Divine sledge and DragonSlayer → S
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Shawesome.DivineArmaments.Majestic.yml`
+
+- **Biome Lords Quests**:
+  - Armor: `HelmetDvergerWishboneTG`, `TGCapeFlameFeather` → S. Weapons: `TGStaff_LightningWolf`, `TGWhisper_chainattack` → S
+  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/BiomeLordsQuests.Majestic.yml`
+
+- **Armory**:
+  - Confirmed comprehensive tier coverage in `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Therzie.Armory.Majestic.yml`
+
 #### Enchanting Impact
-- Bow of Frey, Wizardry, MagicBows, ForsakenJVL, BowsBeforeHoes, Warfare, and Warfare FI gear are now compatible with S–F enchantment scrolls
+- Bow of Frey, Wizardry, MagicBows, ForsakenJVL, BowsBeforeHoes, BowPlugin, Warfare, Warfare FI, Southsil Armor, Sages Vault, MagicRevamp (BMR_), Hugo's Armory, Shawesome Divine Armaments, and Biome Lords Quests gear are now compatible with S–F enchantment scrolls
 - Tiering matches RelicHeim progression across F/D/C/B/A/S with biome/material alignment
 - Seamless with existing RelicHeim configuration; no load-order changes
 
@@ -130,107 +303,6 @@
 - OdinArchitect: Odin's Hammer (`odin_hammer`) now requires Forge level 5
 
 ---
-
-## Version 1.5.15 - Enchanting Integration: BowPlugin *(Testing)*
-
-*Enabled VES scroll enchanting for BowPlugin bows and crossbows with tier-appropriate placement.*
-
-#### Valheim Enchantment System Updates
-- **Crossbows (Weapons)**:
-  - `BBP_Crossbow_Flint` → F-tier
-  - `BBP_Crossbow_Bronze` → D-tier
-  - `BBP_Crossbow_Iron` → C-tier
-  - `BBP_Crossbow_Silver` → B-tier
-  - `BBP_Crossbow_BlackMetal` → A-tier
-- **Bows (Weapons)**:
-  - `BBP_BoneBow` → D-tier
-  - `BBP_SilverBow`, `BBP_BlackMetalBow` → A-tier
-  - `BBP_ElvenBow`, `BBP_SeekerBow` → S-tier
-- File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.BowPlugin.Majestic.yml`
-
-#### Impact
-- BowPlugin items now support S–F scroll enchanting in line with RelicHeim tiers
-- No load-order changes required; clean AdditionalEnchantmentReqs integration
-
----
-
-## Version 1.5.16 - Enchanting Integration: RtD Magic (confirm), Southsil Armor, Sages Vault *(Testing)*
-
-*Added VES scroll enchanting support for Southsil Armor (tiered by material keywords) and Sages Vault items; RtD Magic was already covered in ForsakenJVL file.*
-
-#### Valheim Enchantment System Updates
-- **Southsil Armor** (highest material keyword used per set):
-  - F tier: Neck set
-  - D tier: Chief/Troll/Skog/Bronze/Ancient sets + Boar cape
-  - C tier: Swamp/Iron/Ancient Iron sets
-  - B tier: Wolf/Silver/Frost sets
-  - A tier: Loxhunt/Samurai/Valk/Warlord sets + Serpent cape
-  - S tier: Carapace/Ash endgame sets + Storr cape
-  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/SouthsilArmor.Majestic.yml`
-
-- **Sages Vault**:
-  - Armor: Robes/Tunics/Pants/Hoods → C tier; Crowns → B tier
-  - Shields: SageBook01–04 → B tier
-  - Weapons: Sage staffs + ScholarFireStaff → A tier; NeedleBlade/DeathBlade → B tier
-  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/SagesVault.Majestic.yml`
-
-- **RtD Magic**:
-  - Already integrated under `Digitalroot.ForsakenJVL.Majestic.yml` (no change)
-
-#### Impact
-- Southsil Armor and Sages Vault are now enchantable with balanced tiers consistent with RelicHeim progression
-- No load-order changes; seamless AdditionalEnchantmentReqs integration
-
----
-
-## Version 1.5.17 - Enchanting Integration: MagicRevamp, Hugo's Armory, Shawesome Divine Armaments *(Testing)*
-
-*Enabled VES scroll enchanting for BMR (MagicRevamp), Hugo's Armory, and Shawesome's Divine Armaments.*
-
-#### Valheim Enchantment System Updates
-- **MagicRevamp (BMR_)**:
-  - Weapons: Wood→F; Ember/Root→D; Ancient/Crystal/Cursed→C; Elven→A; Flametal→S
-  - Armor: Tattered→F; Sorcerer→D; Warlock→C; Polar Wolf→B; Crimson→A; Seeker→S
-  - Capes: Tattered→D; Warlock→C; Polar Wolf→B; Sorcerer/Crimson→A; Seeker→S
-  - Spellbook (utility) → B tier
-  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/blacks7ar.MagicRevamp.Majestic.yml`
-
-- **Hugo's Armory**:
-  - Weapons tiered by material: Wood/Leather→F; Bronze→D; Iron→C; Silver→B; BlackMetal→A; Obsidian/Flametal→S
-  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/HugosArmory.Majestic.yml`
-
-- **Shawesome Divine Armaments**:
-  - Armor/capes: Mythrill/9b/EOM/ShawFire/ShawFrost→A; Dhakharian/SVandemDraco/Paladin/Slayer→S
-  - Weapons: Divine sledge and DragonSlayer → S
-  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Shawesome.DivineArmaments.Majestic.yml`
-
-#### Impact
-- These mods' items are now enchantable with balanced tiers aligned to RelicHeim progression
-- Seamless AdditionalEnchantmentReqs integration; no load-order changes
-
----
-
-## Version 1.5.18 - Enchanting Integration: Biome Lords Quests + Armory *(Testing)*
-
-*Added VES scroll enchanting for Biome Lords Quests equippables; Armory already covered.*
-
-#### Valheim Enchantment System Updates
-- **Biome Lords Quests**:
-  - Armor: `HelmetDvergerWishboneTG`, `TGCapeFlameFeather` → S-tier
-  - Weapons: `TGStaff_LightningWolf`, `TGWhisper_chainattack` → S-tier
-  - File created: `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/BiomeLordsQuests.Majestic.yml`
-
-- **Armory**:
-  - Confirmed comprehensive tier coverage in `config/ValheimEnchantmentSystem/AdditionalEnchantmentReqs/Therzie.Armory.Majestic.yml`
-
-#### Impact
-- BLQ items now enchantable; Armory remains fully supported
-- Seamless integration; no load-order changes
-
----
-
-
-
 ## Version 1.5.7 - Missing Arrow Recipe Implementation & Raid Configuration Adjustment *(Testing)*
 
 *Created WackyDatabase recipe files for all missing vanilla arrow types that were not appearing in the Fletcher Table, ensuring complete arrow crafting availability. Adjusted raid configurations to restore RelicHeim-style raid frequency. Fixed additional missing recipes with incorrect prefab names. Added vanilla trader support for Amber trading at reduced prices.*

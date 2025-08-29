@@ -1,0 +1,16 @@
+﻿PrintComment: ThisGoesHere is moving edited files
+MoveFile:
+- From: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Item_AxeDvergr_TW.yml
+  To: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Therzie\Item_AxeDvergr_TW.yml
+  
+- From: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Item_AxeFlametal_TW.yml
+  To: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Therzie\Item_AxeFlametal_TW.yml
+  
+- From: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Item_CrossbowWood_TW.yml
+  To: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Therzie\Item_CrossbowWood_TW.yml
+  
+- From: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Item_AxeSilver_TW.yml
+  To: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Therzie\Item_AxeSilver_TW.yml
+  
+- From: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Therzie\Item_BlackMetal_JH.yml
+  To: config\wackysDatabase\Items\_RelicHeimWDB2.0\zOther\Item_BlackMetal_JH.yml

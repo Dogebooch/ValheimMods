@@ -11,22 +11,131 @@ In this heavily modded Valheim setup, certain vanilla and modded items have been
 
 **Important Note**: EpicLoot is configured with `Item Drop Limits = BossKillUnlocksCurrentBiomeItems`, which means **items will drop in their appropriate biome once that biome's boss is killed**. This ensures proper progression where Mountains-tier items drop in Mountains, Plains-tier items in Plains, etc.
 
+### How Drop Tables Work
+**Recipe Unlocking**: Items become available in drop tables once you've unlocked their corresponding recipes by acquiring at least one of each material required for crafting that item. This happens regardless of whether crafting is enabled or disabled. For example, to unlock the Finewood Bow recipe, you must collect Fine Wood, Core Wood, and Deer Hide. Once the recipe is unlocked, the item can appear in drop tables even if crafting is disabled.
+
 ## How to Obtain Drop-Only Items
 
-### 1. **EpicLoot Drops**
+### 1. **Boss-Specific Drops** ⭐ *NEW*
+- **Guaranteed boss weapons**: Each boss has signature weapons with fixed drop rates
+- **Co-op optimized**: All boss drops give 2 items for multiplayer groups
+- **Exclusive items**: These cannot be crafted or obtained through other means
+- **Thematic rewards**: Boss weapons match the boss's power and theme
+
+### 2. **EpicLoot Drops**
 - **Monster drops**: Kill enemies in appropriate biomes
 - **Treasure chests**: Search for treasure in dungeons and crypts
 - **Boss drops**: Defeat bosses for rare loot chances
 - **Raid events**: Participate in monster raids
 
-### 2. **EpicLoot Gambling**
+### 3. **EpicLoot Gambling**
 - **Gambling system**: Use coins at the gambling interface
 - **Tier-based costs**: Higher tier items cost more coins
 - **Targeted acquisition**: Gamble for specific items you need
 
-### 3. **EpicLoot Bounties**
+### 4. **EpicLoot Bounties**
 - **Bounty system**: Complete bounty quests for rewards
 - **Rare item chances**: Bounties may reward drop-only items
+
+## Boss-Specific Drop-Only Items ⭐ *NEW*
+
+These exclusive weapons can **ONLY** be obtained by defeating their respective bosses. They cannot be crafted, gambled, or found through any other means.
+
+### **Eikthyr** ⚡
+*Meadows Boss*
+
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **CrossbowEikthyr_TW** | Crossbow | 10% | 2 | *"Lightning-charged crossbow infused with Eikthyr's power"* |
+| **SledgeStagbreaker_TW** | Sledge | 10% | 2 | *"Massive sledgehammer echoing Eikthyr's thunderous might"* |
+
+### **The Elder** 🌲
+*Black Forest Boss*
+
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **BattlehammerElder_TW** | Battlehammer | 10% | 2 | *"Ancient hammer carved from the Elder's heartwood"* |
+| **WarpikeElder_TW** | Warpike | 10% | 2 | *"Thorned spear blessed by the forest's guardian"* |
+
+### **Bonemass** 💀
+*Swamp Boss*
+
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **SledgeBonemass_TW** | Sledge | 10% | 2 | *"Bone-crushing sledge infused with toxic essence"* |
+
+### **Moder (Dragon)** 🐉❄️
+*Mountain Boss*
+
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **GreatbowModer_TW** | Greatbow | 5% | 2 | ❄️ *"Breath of the Ice Mother - carved from Moder's frozen essence"* |
+| **BBP_ElvenBow** | Bow | 5% | 2 | ⚡ *"Forged by Lightning - legendary weapon of the storm-touched"* |
+
+**Total Bow Drop Rate: 10%** *(5% + 5%)*
+
+### **Yagluth** 🔥
+*Plains Boss*
+
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **BladeYagluth_TW** | Blade | 5% | 2 | 🔥 *"Yagluth's Infernal Wrath - wreathed in eternal flames"* |
+
+### **The Queen** 👑
+*Mistlands Boss*
+
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **FistQueen_TW** | Fist Weapon | 5% | 2 | *"Royal fist weapons channeling the Queen's authority"* |
+| **BBP_SeekerBow** | Bow | 5% | 2 | *"Forged in Seeker Flames - tempered in the fires of the deep"* |
+| **LanceDvergr_TW** | Lance | 5% | 2 | *"Depths of Dvergr Mastery - ceremonial lance of the deep craftsmen"* |
+| **GreatbowDvergr_TW** | Greatbow | 5% | 2 | *"Dvergr Siege Engine - massive greatbow of the deep craftsmen"* |
+
+**Total Weapon Drop Rate: 20%** *(5% + 5% + 5% + 5%)*
+
+### **Modded Bosses** 🗡️
+
+#### **Asmodeus**
+| Item | Drop Rate | Amount |
+|------|-----------|---------|
+| **KnifeViper_TW** | 10% | 2 |
+
+#### **Svalt**
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **DualAxeDemonic_TW** | Dual Axes | 5% | 2 | ⚡ *"Svalt's Demonic Fury - twin axes forged in darkness"* |
+
+#### **Vrykolathas**
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **ScytheVampiric_TW** | Scythe | 5% | 2 | *"Vrykolathas' Bloodthirst - feeds on life essence"* |
+| **DualScytheBloodthirst_TW** | Dual Scythes | 5% | 2 | *"Twin Reapers of Torment - thirsts for endless slaughter"* |
+
+#### **Storm Herald**
+| Item | Drop Rate | Amount |
+|------|-----------|---------|
+| **DualHammerStormstrike_TW** | 10% | 2 |
+| **StaffStorm_TW** | 10% | 2 |
+
+#### **Fader**
+| Item | Type | Drop Rate | Amount | Description |
+|------|------|-----------|---------|-------------|
+| **WarpikeFlametal_TW** | Warpike | 5% | 2 | *"Ashlands Molten Spear - forged in eternal flames"* |
+
+#### **Gorr**
+| Item | Drop Rate | Amount |
+|------|-----------|---------|
+| **BattleaxeDragon_TW** | 10% | 2 |
+| **ClaymoreJotunn_TW** | 10% | 2 |
+
+### **Boss Drop Strategy Tips**
+- **Co-op Perfect**: All drops give 2 items, ideal for duo play
+- **No Crafting**: These items are 100% exclusive to boss kills
+- **Thematic Tooltips**: Each weapon includes lore about its drop source
+- **Progressive Power**: Boss weapons scale with biome difficulty
+- **Farming Viable**: Respawn bosses to farm for drops
+
+---
 
 ## Vanilla Items (Drop-Only)
 
