@@ -119,6 +119,13 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 - BWA_DraconicDagger — Hatchling — 1% — 1 item
 - BWA_DraconicScythe — Hatchling — 1% — 1 item
 
+### Giant & Obsidian Relics (WeaponAdditions)
+- BWA_GiantAxe — Jotunn — 2% — 2 items
+- BWA_GiantCleaver — Jotunn — 2% — 2 items
+- BWA_giantMace — Jotunn — 2% — 2 items
+- BWA_ObsidianGreatsword — Stone Golem — 0.2% — 1 item
+- BWA_ObsidianBuckler — Stone Golem — 0.2% — 1 item
+
 ### Flametal Weapons (WeaponAdditions)
 - BWA_FlametalGreatsword — Fader — 2% — 2 items
 - BWA_FlametalHammer — Fader — 2% — 2 items
