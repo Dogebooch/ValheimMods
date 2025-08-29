@@ -93,6 +93,40 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 
 **Total Weapon Drop Rate: 20%** *(5% + 5% + 5% + 5%)*
 
+### Southsil Armor Sets (Drop-Only)
+
+- Gold-name convention: Items colored `<color=#D4AF37>name</color>` are exclusive drop-only rewards.
+- Tooltips clearly state source and chance.
+
+#### Samurai (Plains)
+- samurai helm — GoblinBrute — 0.8% — 1 item
+- samuraichest — Lox — 0.6% — 1 item
+- samurailegs — Lox — 0.6% — 1 item
+
+#### Valk (Ashlands)
+- valkhelm — FallenValkyrie — 1% — 1 item
+- valkchest — FallenValkyrie — 1% — 1 item
+- valklegs — FallenValkyrie — 1% — 1 item
+
+#### Warlord (Plains Boss & Elites)
+- warlordhelm — Yagluth — 0.8% — 1 item; Goblin Shaman — 0.2% — 1 item
+- warlordchest — Yagluth — 0.8% — 1 item; Goblin Shaman — 0.2% — 1 item
+- warlord legs — Yagluth — 0.8% — 1 item; Goblin Shaman — 0.2% — 1 item
+
+### Draconic Weapons (WeaponAdditions)
+- BWA_DraconicGreatSword — Dragon — 2% — 2 items
+- BWA_DraconicSword — Dragon — 2% — 2 items
+- BWA_DraconicDagger — Hatchling — 1% — 1 item
+- BWA_DraconicScythe — Hatchling — 1% — 1 item
+
+### Flametal Weapons (WeaponAdditions)
+- BWA_FlametalGreatsword — Fader — 2% — 2 items
+- BWA_FlametalHammer — Fader — 2% — 2 items
+- BWA_FlametalPolearm — Fader — 2% — 2 items
+- BWA_FlametalDagger — Goblin — 0.8% — 1 item
+- BWA_FlametalAxe — Goblin Brute — 0.8% — 1 item
+- BWA_FlametalScythe — Morgen — 1% — 1 item
+
 ### **Modded Bosses** 🗡️
 
 #### **Asmodeus**

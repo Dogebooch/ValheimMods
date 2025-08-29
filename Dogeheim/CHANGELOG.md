@@ -120,6 +120,44 @@
   - Disabled WackyDB recipe (`Recipe_BMB_SpiritBow.yml` set to `disabled: true`)
   - Added as 1% drop from Wraiths (single item) for rare ambient encounters
 
+#### Draconic Weapons (WeaponAdditions) - Drop-Only & Enchantable
+- Enchanting: Added to A-tier weapon scrolls (`Therzie.Warfare.Majestic.yml`)
+- Crafting disabled in `blacks7ar.WeaponAdditions.cfg`
+- Drops:
+  - Dragon → `BWA_DraconicGreatSword` 2% (2 items), `BWA_DraconicSword` 2% (2 items)
+  - Hatchling → `BWA_DraconicDagger` 1% (1 item), `BWA_DraconicScythe` 1% (1 item)
+- WDB: Minimal overrides for gold names + clear drop-only tooltips
+
+#### Flametal Weapons (WeaponAdditions) - Drop-Only & Enchantable
+- Crafting disabled in `blacks7ar.WeaponAdditions.cfg`; A-tier enchantment coverage added
+- Drops:
+  - Fader → `BWA_FlametalGreatsword`, `BWA_FlametalHammer`, `BWA_FlametalPolearm` at 2% (2 items each)
+  - Goblin → `BWA_FlametalDagger` 0.8% (1 item)
+  - Goblin Brute → `BWA_FlametalAxe` 0.8% (1 item)
+  - Morgen → `BWA_FlametalScythe` 1% (1 item)
+- WDB: Minimal overrides for gold names + clear drop-only tooltips
+
+#### Southsil Armor Sets (Drop-Only)
+- **Samurai Set** (samurai helm, samuraichest, samurailegs)
+  - No WackyDB stat overrides; gold names + drop-only tooltips added
+  - Disabled WackyDB recipes: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/SouthsilArmor/Recipe_samurai_*.yml`
+  - Drops (Plains elites):
+    - GoblinBrute → samurai helm: 0.8% (1 item)
+    - Lox → samuraichest: 0.6% (1 item)
+    - Lox → samurailegs: 0.6% (1 item)
+
+- **Valk Set** (valkhelm, valkchest, valklegs)
+  - No WackyDB stat overrides; gold names + drop-only tooltips added
+  - Disabled WackyDB recipes: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/SouthsilArmor/Recipe_valk*.yml`
+  - Drops (Ashlands mini-boss): FallenValkyrie → each piece 1% (1 item)
+
+- **Warlord Set** (warlordhelm, warlordchest, warlord legs)
+  - No WackyDB stat overrides; gold names + drop-only tooltips added
+  - Disabled WackyDB recipes: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/SouthsilArmor/Recipe_warlord*.yml`
+  - Drops:
+    - Yagluth (GoblinKing) → each piece 0.8% (1 item)
+    - Goblin Shaman → each piece 0.2% (1 item)
+
 #### Documentation
 - **Drop-Only Items Wiki**: Updated comprehensive guide documenting all boss-specific drops
   - New boss-specific drop section with co-op optimizations
