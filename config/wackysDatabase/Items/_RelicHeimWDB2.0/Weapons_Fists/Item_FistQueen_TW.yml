@@ -1,6 +1,6 @@
 name: FistQueen_TW
 m_weight: 2.5
-m_name: <color=#D4AF37>$fist_queen_TW</color>
+m_name: "<color=#D4AF37>$fist_queen_TW</color>"
 m_description: $fist_queen_description_TW
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 6
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: \n<color=#9932cc>Sovereign's Might</color>\n<color=#888888>Royal fist weapons forged from the Queen's will.\nCannot be crafted — only torn from the sovereign's grasp.\n<i>(5% drop chance from Queen)</i></color>
+AppendToolTip: "\n<color=#9932cc>Sovereign's Might</color>\n<color=#888888>Royal fist weapons forged from the Queen's will.\nCannot be crafted — only torn from the sovereign's grasp.\n<i>(5% drop chance from Queen)</i></color>"
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:
@@ -242,17 +242,6 @@ GEffectsPLUS:
   Hold_Start_Effects: []
   Trigger_Effect:
   - name: fx_swing_camshake
-    m_enabled: true
-    m_variant: -1
-    m_attach: false
-    m_follow: false
-    m_inheritParentRotation: false
-    m_inheritParentScale: false
-    m_multiplyParentVisualScale: false
-    m_randomRotation: false
-    m_scale: false
-    m_childTransform: ''
-  - name: sfx_metal_hit
     m_enabled: true
     m_variant: -1
     m_attach: false

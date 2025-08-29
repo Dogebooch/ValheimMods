@@ -8,8 +8,7 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs:
-- Bronze:10:3
+upgrade_reqs: []`n- Bronze:10:3
 - Bronze:20:4
 - Bronze:30:5
 reqs:
@@ -17,3 +16,4 @@ reqs:
 - LeatherScraps:8:8:True
 - Resin:8:8:True
 - Wood:15:15:True
+

@@ -5275,7 +5275,7 @@
 - PrefabName: DualAxeDemonic_TW
   Requirements:
     - Skill: Blacksmithing
-      Level: 25
+      Level: 999
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false

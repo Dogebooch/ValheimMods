@@ -8,8 +8,7 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs:
-- YggdrasilWood:20:2
+upgrade_reqs: []`n- YggdrasilWood:20:2
 - YggdrasilWood:20:3
 - YggdrasilWood:20:4
 reqs:
@@ -17,3 +16,4 @@ reqs:
 - WolfPelt:5:5:True
 - Ruby:3:3:True
 - AmberPearl:3:3:True
+

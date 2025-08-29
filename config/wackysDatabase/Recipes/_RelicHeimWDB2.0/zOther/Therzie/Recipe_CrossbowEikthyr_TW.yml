@@ -8,8 +8,7 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs:
-- RoundLog:15:2
+upgrade_reqs: []`n- RoundLog:15:2
 - RoundLog:30:3
 - RoundLog:45:4
 - Bronze:15:5
@@ -58,3 +57,4 @@ reqs:
 - HardAntler:16:8:True
 - DeerHide:16:8:True
 - TrophyEikthyr:1:1:True
+

@@ -8,8 +8,7 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs:
-- Bronze:11:2
+upgrade_reqs: []`n- Bronze:11:2
 - Bronze:22:3
 - Bronze:33:4
 - Iron:11:5
@@ -58,3 +57,4 @@ reqs:
 - HardAntler:12:6:True
 - SurtlingCore:4:2:True
 - TrophyAsmodeus_TW:1:1:True
+

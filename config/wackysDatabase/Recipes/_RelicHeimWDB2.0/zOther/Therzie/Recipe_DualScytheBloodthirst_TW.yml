@@ -8,8 +8,7 @@ amount: 1
 disabled: true
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs:
-- Iron:20:2
+upgrade_reqs: []`n- Iron:20:2
 - Iron:40:3
 - Iron:60:4
 - Silver:20:5
@@ -58,3 +57,4 @@ reqs:
 - RottenPelt_TW:20:10:True
 - Bloodbag:20:10:True
 - TrophyVrykolathas_TW:1:1:True
+

@@ -1,4 +1,4 @@
 name: BWA_FlametalScythe
-m_name: <color=#D4AF37>BWA_FlametalScythe</color>
-AppendToolTip: \n<color=#696969>Ashlands Relic</color>\n<color=#888888>Cannot be crafted — reaped from night-terrors.\n<i>(1% drop chance from Morgen)</i></color>
+m_name: "<color=#D4AF37>BWA_FlametalScythe</color>"
+AppendToolTip: "\n<color=#696969>Ashlands Relic</color>\n<color=#888888>Cannot be crafted — reaped from night-terrors.\n<i>(1% drop chance from Morgen)</i></color>"
 
