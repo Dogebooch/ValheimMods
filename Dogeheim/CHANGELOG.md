@@ -1,5 +1,10 @@
 # Dogeheim Modpack Changelog
 
+## Version 1.6.1 - Drop-Only Item System *(Testing)*
+*I forgot to add the item mod to the manifest in the last update, oops!*
+
+- Fixed: Draconic Dagger / Scythe / Sword were still craftable. Set `Crafting Station = Disabled` in `blacks7ar.WeaponAdditions.cfg` for all three.
+
 ## Version 1.6.0 - Drop-Only Item System *(Testing)*
 
 *Converting select high-tier items to drop-only rewards, removing crafting recipes to enhance progression and loot discovery.*
@@ -132,10 +137,17 @@
 - Crafting disabled in `blacks7ar.WeaponAdditions.cfg`; A-tier enchantment coverage added
 - Drops:
   - Fader → `BWA_FlametalGreatsword`, `BWA_FlametalHammer`, `BWA_FlametalPolearm` at 2% (2 items each)
+  - Fader → `BWA_FlametalGreatAxe`, `BWA_FlametalSword` at 2% (2 items each)
   - Goblin → `BWA_FlametalDagger` 0.8% (1 item)
   - Goblin Brute → `BWA_FlametalAxe` 0.8% (1 item)
   - Morgen → `BWA_FlametalScythe` 1% (1 item)
 - WDB: Minimal overrides for gold names + clear drop-only tooltips
+
+#### Giant / Obsidian (WeaponAdditions) - Enchantable & Drop-Only
+- Enchanting: Added to A-tier scrolls (weapons) and Armor A-tier (Obsidian Buckler)
+- Drops (already configured):
+  - Jotunn → `BWA_GiantAxe`, `BWA_GiantCleaver`, `BWA_giantMace` at 2% (2 items each)
+  - Stone Golem → `BWA_ObsidianGreatsword`, `BWA_ObsidianBuckler` at 0.2% (1 item)
 
 #### Southsil Armor Sets (Drop-Only)
 - **Samurai Set** (samurai helm, samuraichest, samurailegs)

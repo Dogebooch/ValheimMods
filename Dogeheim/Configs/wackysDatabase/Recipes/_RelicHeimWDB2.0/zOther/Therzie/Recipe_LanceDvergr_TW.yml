@@ -1,0 +1,12 @@
+name: LanceDvergr_TW
+clonePrefabName: 
+craftingStation: $piece_forge
+minStationLevel: 4
+maxStationLevelCap: 7
+repairStation: 
+amount: 1
+disabled: true
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+reqs:

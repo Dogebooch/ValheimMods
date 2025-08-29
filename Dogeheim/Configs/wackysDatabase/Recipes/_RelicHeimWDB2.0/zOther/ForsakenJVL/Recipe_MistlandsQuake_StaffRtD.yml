@@ -1,0 +1,13 @@
+name: MistlandsQuake_StaffRtD
+clonePrefabName: 
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: true
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+reqs:
+

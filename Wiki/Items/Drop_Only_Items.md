@@ -37,6 +37,67 @@ In this heavily modded Valheim setup, certain vanilla and modded items have been
 - **Bounty system**: Complete bounty quests for rewards
 - **Rare item chances**: Bounties may reward drop-only items
 
+## Quick Reference
+
+Use these fast-look tables to decide what to farm.
+
+### Boss Drops — Quick Reference
+
+| Boss | Biome | Item | Type | Rate | Amount | Enchant Tier |
+|------|-------|------|------|------|--------|--------------|
+| Eikthyr | Meadows | CrossbowEikthyr_TW | Crossbow | 10% | 2 | - |
+| Eikthyr | Meadows | SledgeStagbreaker_TW | Sledge | 10% | 2 | - |
+| Elder | Black Forest | BattlehammerElder_TW | Battlehammer | 10% | 2 | - |
+| Elder | Black Forest | WarpikeElder_TW | Warpike | 10% | 2 | - |
+| Bonemass | Swamp | SledgeBonemass_TW | Sledge | 10% | 2 | - |
+| Moder (Dragon) | Mountains | GreatbowModer_TW | Greatbow | 5% | 2 | - |
+| Moder (Dragon) | Mountains | BBP_ElvenBow | Bow | 5% | 2 | - |
+| Moder (Dragon) | Mountains | BWA_DraconicGreatSword | Greatsword | 2% | 2 | A |
+| Moder (Dragon) | Mountains | BWA_DraconicSword | Sword | 2% | 2 | A |
+| Moder (Dragon) | Mountains | BWA_DragonBlade | Sword | 5% | 2 | A |
+| Moder (Dragon) | Mountains | BWA_DragonBoneGreatsword | Greatsword | 5% | 2 | A |
+| Moder (Dragon) | Mountains | BWA_ElvenAxe | Axe | 5% | 2 | S |
+| Moder (Dragon) | Mountains | BWA_ElvenHammer | Hammer | 5% | 2 | S |
+| Moder (Dragon) | Mountains | BWA_ElvenShield | Shield | 5% | 2 | S |
+| Moder (Dragon) | Mountains | BWA_ElvenSword | Sword | 5% | 2 | S |
+| Moder (Dragon) | Mountains | BWA_ElvenSpear | Spear | 5% | 2 | S |
+| Yagluth | Plains | BladeYagluth_TW | Sword | 5% | 2 | - |
+| Yagluth | Plains | PlainsVoidstaff_RtD | Staff | 5% | 2 | - |
+| The Queen | Mistlands | FistQueen_TW | Fists | 5% | 2 | - |
+| The Queen | Mistlands | BBP_SeekerBow | Bow | 5% | 2 | - |
+| The Queen | Mistlands | LanceDvergr_TW | Lance | 5% | 2 | - |
+| The Queen | Mistlands | GreatbowDvergr_TW | Greatbow | 5% | 2 | - |
+| Fader | Ashlands | WarpikeFlametal_TW | Warpike | 5% | 2 | - |
+| Fader | Ashlands | AshlandsStaff3_RtD | Staff | 5% | 2 | - |
+| Fader | Ashlands | BWA_FlametalGreatsword | Greatsword | 2% | 2 | A |
+| Fader | Ashlands | BWA_FlametalGreatAxe | Greataxe | 2% | 2 | A |
+| Fader | Ashlands | BWA_FlametalHammer | Hammer | 2% | 2 | A |
+| Fader | Ashlands | BWA_FlametalPolearm | Polearm | 2% | 2 | A |
+| Fader | Ashlands | BWA_FlametalSword | Sword | 2% | 2 | A |
+| Storm Herald | Deep North | DualHammerStormstrike_TW | Hammers | 10% | 2 | - |
+| Storm Herald | Deep North | StaffStorm_TW | Staff | 3% | 2 | - |
+| Storm Herald | Deep North | MistlandsQuake_StaffRtD | Staff | 5% | 2 | - |
+| Asmodeus | - | KnifeViper_TW | Knife | 10% | 2 | - |
+| Svalt | - | DualAxeDemonic_TW | Dual Axes | 5% | 2 | - |
+| Vrykolathas | - | ScytheVampiric_TW | Scythe | 5% | 2 | - |
+| Vrykolathas | - | DualScytheBloodthirst_TW | Dual Scythes | 5% | 2 | - |
+
+Note: Enchant Tier shows configured tiers where applicable (A/S). A blank means standard EpicLoot enchanting applies or is not explicitly tiered here.
+
+### Creature Drops — Quick Reference
+
+| Creature | Biome | Item | Type | Rate | Amount | Enchant Tier |
+|----------|-------|------|------|------|--------|--------------|
+| Hatchling | Mountains | BWA_DraconicDagger | Dagger | 1% | 1 | A |
+| Hatchling | Mountains | BWA_DraconicScythe | Scythe | 1% | 1 | A |
+| Sea Serpent | Ocean | StaffStorm_TW | Staff | 3% | 2 | - |
+| Wraith | Swamps | BMB_SpiritBow | Bow | 1% | 1 | - |
+| Stone Golem | Mountains | BWA_ObsidianGreatsword | Greatsword | 0.2% | 1 | A |
+| Stone Golem | Mountains | BWA_ObsidianBuckler | Buckler | 0.2% | 1 | Armor A |
+| Goblin | Plains | BWA_FlametalDagger | Dagger | 0.8% | 1 | A |
+| Goblin Brute | Plains | BWA_FlametalAxe | Axe | 0.8% | 1 | A |
+| Morgen | Ashlands | BWA_FlametalScythe | Scythe | 1% | 1 | A |
+
 ## Boss-Specific Drop-Only Items ⭐ *NEW*
 
 These exclusive weapons can **ONLY** be obtained by defeating their respective bosses. They cannot be crafted, gambled, or found through any other means.
@@ -130,6 +191,8 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 - BWA_FlametalGreatsword — Fader — 2% — 2 items
 - BWA_FlametalHammer — Fader — 2% — 2 items
 - BWA_FlametalPolearm — Fader — 2% — 2 items
+- BWA_FlametalGreatAxe — Fader — 2% — 2 items
+- BWA_FlametalSword — Fader — 2% — 2 items
 - BWA_FlametalDagger — Goblin — 0.8% — 1 item
 - BWA_FlametalAxe — Goblin Brute — 0.8% — 1 item
 - BWA_FlametalScythe — Morgen — 1% — 1 item
@@ -156,7 +219,8 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 | Item | Drop Rate | Amount |
 |------|-----------|---------|
 | **DualHammerStormstrike_TW** | 10% | 2 |
-| **StaffStorm_TW** | 10% | 2 |
+| **StaffStorm_TW** | 3% | 2 |
+| **MistlandsQuake_StaffRtD** | 5% | 2 |
 
 #### **Fader**
 | Item | Type | Drop Rate | Amount | Description |
