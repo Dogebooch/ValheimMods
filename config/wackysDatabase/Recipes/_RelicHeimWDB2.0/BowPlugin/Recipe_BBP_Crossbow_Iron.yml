@@ -8,7 +8,8 @@ amount: 1
 disabled: true
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []`n- Iron:10:4
+upgrade_reqs:
+- Iron:10:4
 - Iron:20:5
 reqs:
 - Iron:20:20:True

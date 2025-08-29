@@ -1,6 +1,6 @@
 name: GreatbowDvergr_TW
 m_weight: 3
-m_name: <color=#D4AF37>$greatbow_dvergr_TW</color>
+m_name: "<color=#D4AF37>$greatbow_dvergr_TW</color>"
 m_description: $greatbow_dvergr_description_TW
 clonePrefabName: 
 mockName: 
@@ -233,7 +233,7 @@ m_toolTier: 0
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: \n<color=#696969>Dvergr Siege Engine</color>\n<color=#888888>A massive greatbow crafted by the deep craftsmen.\nCannot be crafted - only claimed from the Queen's domain.\n<i>(5% drop chance from Queen)</i></color> 
+AppendToolTip: "\n<color=#696969>Dvergr Siege Engine</color>\n<color=#888888>A massive greatbow crafted by the deep craftsmen.\nCannot be crafted - only claimed from the Queen's domain.\n<i>(5% drop chance from Queen)</i></color> "
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

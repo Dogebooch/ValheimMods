@@ -1,6 +1,6 @@
 name: LanceDvergr_TW
 m_weight: 3.5
-m_name: <color=#D4AF37>$lance_dvergr_TW</color>
+m_name: "<color=#D4AF37>$lance_dvergr_TW</color>"
 m_description: $lance_dvergr_description_TW
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 6
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: \n<color=#4682b4>Depths of Dvergr Mastery</color>\n<color=#888888>A ceremonial lance of the deep craftsmen.\nCannot be crafted - only claimed from the Queen's domain.\n<i>(5% drop chance from Queen)</i></color>
+AppendToolTip: "\n<color=#4682b4>Depths of Dvergr Mastery</color>\n<color=#888888>A ceremonial lance of the deep craftsmen.\nCannot be crafted - only claimed from the Queen's domain.\n<i>(5% drop chance from Queen)</i></color>"
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

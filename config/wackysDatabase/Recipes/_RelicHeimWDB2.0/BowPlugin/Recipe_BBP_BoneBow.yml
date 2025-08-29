@@ -8,7 +8,8 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []`n- BoneFragments:10:2
+upgrade_reqs:
+- BoneFragments:10:2
 - BoneFragments:20:3
 - BoneFragments:30:4
 - BoneFragments:40:5

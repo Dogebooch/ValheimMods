@@ -1,4 +1,4 @@
 name: warlordhelm
-m_name: <color=#D4AF37>warlordhelm</color>
-AppendToolTip: \n<color=#696969>Warlord's Edict</color>\n<color=#888888>Cannot be crafted — tribute from a fallen warlord.\n<i>(~0.8% Yagluth; ~0.2% Goblin Shaman)</i></color>
+m_name: "<color=#D4AF37>warlordhelm</color>"
+AppendToolTip: "\n<color=#696969>Warlord's Edict</color>\n<color=#888888>Cannot be crafted — tribute from a fallen warlord.\n<i>(~0.8% Yagluth; ~0.2% Goblin Shaman)</i></color>"
 

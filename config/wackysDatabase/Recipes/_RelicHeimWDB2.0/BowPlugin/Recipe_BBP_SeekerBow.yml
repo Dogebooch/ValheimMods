@@ -8,7 +8,8 @@ amount: 1
 disabled: true
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []`nreqs:
+upgrade_reqs: []
+reqs:
 - BlackMetal:20:20:True
 - LeatherScraps:15:15:True
 - Resin:15:15:True

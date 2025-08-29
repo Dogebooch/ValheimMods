@@ -1,6 +1,6 @@
 name: ScytheVampiric_TW
 m_weight: 2.5
-m_name: <color=#D4AF37>$scythe_vampiric_TW</color>
+m_name: "<color=#D4AF37>$scythe_vampiric_TW</color>"
 m_description: $scythe_vampiric_description_TW
 clonePrefabName: 
 mockName: 
@@ -266,7 +266,7 @@ m_toolTier: 0
 m_maxQuality: 12
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: \n<color=#800080> Vrykolathas' Bloodthirst </color>\n<color=#888888>A vampiric scythe that feeds on life essence.\nCannot be crafted - only claimed from the undead lord.\n<i>(5% drop chance from Vrykolathas)</i></color> 
+AppendToolTip: "\n<color=#800080> Vrykolathas' Bloodthirst </color>\n<color=#888888>A vampiric scythe that feeds on life essence.\nCannot be crafted - only claimed from the undead lord.\n<i>(5% drop chance from Vrykolathas)</i></color> "
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

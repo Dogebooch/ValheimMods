@@ -1,4 +1,4 @@
 name: BMB_SpiritBow
-m_name: <color=#D4AF37>$bmb_spiritbow_name</color>
-AppendToolTip: \n<color=#696969>Wail of the Lost</color>\n<color=#888888>Cannot be crafted — claimed from the veil between worlds.\n<i>(1% drop chance from Wraiths)</i></color>
+m_name: "<color=#D4AF37>$bmb_spiritbow_name</color>"
+AppendToolTip: "\n<color=#696969>Wail of the Lost</color>\n<color=#888888>Cannot be crafted — claimed from the veil between worlds.\n<i>(1% drop chance from Wraiths)</i></color>"
 

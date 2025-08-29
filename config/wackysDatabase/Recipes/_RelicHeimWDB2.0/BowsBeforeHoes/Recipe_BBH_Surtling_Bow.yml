@@ -8,7 +8,8 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []`n- Iron:10:5
+upgrade_reqs:
+- Iron:10:5
 reqs:
 - Iron:20:20:True
 - LeatherScraps:12:12:True

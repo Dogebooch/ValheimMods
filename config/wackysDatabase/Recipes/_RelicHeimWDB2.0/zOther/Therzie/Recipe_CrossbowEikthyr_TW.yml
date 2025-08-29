@@ -8,7 +8,8 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []`n- RoundLog:15:2
+upgrade_reqs:
+- RoundLog:15:2
 - RoundLog:30:3
 - RoundLog:45:4
 - Bronze:15:5

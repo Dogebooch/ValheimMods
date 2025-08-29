@@ -1,6 +1,6 @@
 name: DualAxeDemonic_TW
 m_weight: 2.8
-m_name: <color=#D4AF37>Demonic Dual Axes</color>
+m_name: "<color=#D4AF37>Demonic Dual Axes</color>"
 m_description: Twin axes forged in the depths of darkness.
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 3
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: \n<color=#8b0000> Svalt's Demonic Fury </color>\n<color=#888888>Twin axes forged in the depths of darkness.\nCannot be crafted - only torn from the demon's grasp.\n<i>(5% drop chance from Svalt)</i></color>
+AppendToolTip: "\n<color=#8b0000> Svalt's Demonic Fury </color>\n<color=#888888>Twin axes forged in the depths of darkness.\nCannot be crafted - only torn from the demon's grasp.\n<i>(5% drop chance from Svalt)</i></color>"
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

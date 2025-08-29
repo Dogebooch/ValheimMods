@@ -9,6 +9,6 @@ disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
 upgrade_reqs: []
-reqs:
+reqs: []
 # Keep reqs empty to inherit defaults; this file focuses on station override.
 
