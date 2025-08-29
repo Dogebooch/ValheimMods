@@ -46,7 +46,6 @@ Bonemass:
     Enraged: 70
     Summoner: 10
     Mending: 10
-    WebSnare: 10
     other: 0
   affix power:
     Mending: 0.2
@@ -79,10 +78,9 @@ AvalancheDrake:
     Enraged: 40
     Elementalist: 40
     Summoner: 10
-    RockSummoner: 10
     other: 0
   affix power:
-    RockSummoner: 0.1
+    Mending: 0.1
 
 GoblinKing:
   health: 1.1
@@ -123,7 +121,6 @@ SeekerQueen:
     Enraged: 70
     Summoner: 10
     Mending: 10
-    WebSnare: 10
     other: 0
   affix power:
     Mending: 0.1

@@ -1,5 +1,8 @@
 # Dogeheim Modpack Changelog
 
+## Version 1.6.2 - Bug Fixes for Drop-Only Items *(Testing)*
+- Attempted to Fix: UI error and Parse errors in wackysDatabase files
+
 ## Version 1.6.1 - Drop-Only Item System *(Testing)*
 *I forgot to add the item mod to the manifest in the last update, oops!*
 

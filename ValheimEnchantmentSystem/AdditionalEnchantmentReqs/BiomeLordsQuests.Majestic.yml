@@ -1,0 +1,25 @@
+# Biome Lords Quests - tiered by biome/material
+
+# Armor - Helmets/Capes
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - HelmetDvergerWishboneTG
+  - TGCapeFlameFeather
+
+# Weapons - Staffs and specials
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_S
+    amount: 1
+  Items:
+  - TGStaff_LightningWolf
+  - TGWhisper_chainattack
+
+

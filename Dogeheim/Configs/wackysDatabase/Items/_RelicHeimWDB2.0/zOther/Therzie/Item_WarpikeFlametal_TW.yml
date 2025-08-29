@@ -1,6 +1,6 @@
 name: WarpikeFlametal_TW
 m_weight: 4
-m_name: <color=#D4AF37>$warpike_flametal_TW</color>
+m_name: "<color=#D4AF37>$warpike_flametal_TW</color>"
 m_description: $warpike_flametal_description_TW
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 7
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: \n<color=#ff4500>Ashlands Molten Spear</color>\n<color=#888888>A warpike forged in the eternal flames of Ashlands.\nCannot be crafted - only claimed from the flame herald's hoard.\n<i>(5% drop chance from Fader)</i></color>
+AppendToolTip: "\n<color=#ff4500>Ashlands Molten Spear</color>\n<color=#888888>A warpike forged in the eternal flames of Ashlands.\nCannot be crafted - only claimed from the flame herald's hoard.\n<i>(5% drop chance from Fader)</i></color>"
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:
@@ -241,26 +241,26 @@ GEffectsPLUS:
   Start_Effect: []
   Hold_Start_Effects: []
   Trigger_Effect:
-  - name: fx_swing_camshake
-    m_enabled: true
-    m_variant: -1
-    m_attach: false
-    m_follow: false
-    m_inheritParentRotation: false
-    m_inheritParentScale: false
-    m_multiplyParentVisualScale: false
-    m_randomRotation: false
-    m_scale: false
-    m_childTransform: ''
-  - name: sfx_atgeir_hit
-    m_enabled: true
-    m_variant: -1
-    m_attach: false
-    m_follow: false
-    m_inheritParentRotation: false
-    m_inheritParentScale: false
-    m_multiplyParentVisualScale: false
-    m_randomRotation: false
-    m_scale: false
-    m_childTransform: ''
+    - name: fx_swing_camshake
+      m_enabled: true
+      m_variant: -1
+      m_attach: false
+      m_follow: false
+      m_inheritParentRotation: false
+      m_inheritParentScale: false
+      m_multiplyParentVisualScale: false
+      m_randomRotation: false
+      m_scale: false
+      m_childTransform: ''
+    - name: sfx_atgeir_hit
+      m_enabled: true
+      m_variant: -1
+      m_attach: false
+      m_follow: false
+      m_inheritParentRotation: false
+      m_inheritParentScale: false
+      m_multiplyParentVisualScale: false
+      m_randomRotation: false
+      m_scale: false
+      m_childTransform: ''
   Trail_Effect: []

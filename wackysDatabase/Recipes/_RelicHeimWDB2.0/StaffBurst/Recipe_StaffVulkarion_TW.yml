@@ -1,0 +1,14 @@
+name: StaffVulkarion_TW
+clonePrefabName: StaffVulkarion_TW
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: true
+requireOnlyOneIngredient: false
+reqs:
+- RagnoriteBar_TW:30:1:True
+- RuneDestruction_TW:18:1:True
+- SurtrIdol_TW:6:1:True
+- TrophySurtrSeer_TW:1:1:True
