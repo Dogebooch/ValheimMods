@@ -5,10 +5,10 @@ minStationLevel: 5
 maxStationLevelCap: 5
 repairStation: 
 amount: 1
-disabled: true
+disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []
+upgrade_reqs:
 reqs:
 - BlackMetal:20:20:True
 - LeatherScraps:15:15:True
@@ -16,4 +16,3 @@ reqs:
 - FineWood:30:30:True
 - FulingTotem:2:2:True
 - ThunderStone:3:3:True
-

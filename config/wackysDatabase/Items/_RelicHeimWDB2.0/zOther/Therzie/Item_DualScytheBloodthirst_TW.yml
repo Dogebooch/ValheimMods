@@ -1,6 +1,6 @@
 name: DualScytheBloodthirst_TW
 m_weight: 0.3
-m_name: "<color=#D4AF37>$dual_scythebloodthirst_TW</color>"
+m_name: $dual_scythebloodthirst_TW
 m_description: $dual_scythebloodthirst_description_TW
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 3
 m_maxQuality: 12
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: "\n<color=#8b0000>Twin Reapers of Torment</color>\n<color=#888888>Dual scythes that thirsts for endless slaughter.\nCannot be crafted - only claimed from the vampire lord's arsenal.\n<i>(5% drop chance from Vrykolathas)</i></color> "
+AppendToolTip: 
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

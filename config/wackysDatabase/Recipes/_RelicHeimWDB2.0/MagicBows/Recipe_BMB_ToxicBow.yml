@@ -8,7 +8,7 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []
+upgrade_reqs:
 reqs:
 - BlackMetal:20:20:True
 - LeatherScraps:15:15:True
@@ -16,4 +16,3 @@ reqs:
 - FineWood:30:30:True
 - Ooze:10:10:True
 - Guck:5:5:True
-

@@ -5,7 +5,7 @@ minStationLevel: 4
 maxStationLevelCap: 5
 repairStation: 
 amount: 1
-disabled: true
+disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
 upgrade_reqs:
@@ -15,4 +15,3 @@ reqs:
 - LeatherScraps:12:12:True
 - Resin:12:12:True
 - Wood:25:25:True
-

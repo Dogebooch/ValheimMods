@@ -6,7 +6,7 @@ ClonedSE: Potion_health_minor
 CustomIcon: 
 FlashIcon: false
 CooldownIcon: true
-Tooltip: "<color=red>Effect doesn't stack, cooldown timer must expire for new heals.</color>"
+Tooltip: <color=red>Effect doesn't stack, cooldown timer must expire for new heals.</color>
 Attributes: None
 StartMessageLoc: TopLeft
 StartMessage: $se_potion_start

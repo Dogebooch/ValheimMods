@@ -1,6 +1,6 @@
 name: GreatbowModer_TW
 m_weight: 3
-m_name: "<color=#D4AF37>$greatbow_moder_TW</color>"
+m_name: $greatbow_moder_TW
 m_description: $greatbow_moder_description_TW
 clonePrefabName: 
 mockName: 
@@ -233,7 +233,7 @@ m_toolTier: 0
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: "\n<color=#4a90e2>Breath of the Ice Mother</color>\n<color=#888888>A massive greatbow carved from Moder's frozen essence.\nCannot be crafted — only torn from the Dragon's hoard.\n<i>(5% drop chance from Moder)</i></color>"
+AppendToolTip: 
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

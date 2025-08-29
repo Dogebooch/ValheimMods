@@ -8,7 +8,7 @@ amount: 1
 disabled: false
 disabledUpgrade: false
 requireOnlyOneIngredient: false
-upgrade_reqs: []
+upgrade_reqs:
 reqs:
 - BlackMetal:25:25:True
 - LeatherScraps:20:20:True
@@ -16,4 +16,3 @@ reqs:
 - FineWood:35:35:True
 - FulingTotem:2:2:True
 - ThunderStone:3:3:True
-
