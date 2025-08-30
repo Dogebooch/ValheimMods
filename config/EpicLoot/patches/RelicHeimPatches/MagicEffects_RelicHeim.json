@@ -2524,17 +2524,17 @@
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifySummonDamage')].ValuesPerRarity", 
       "Action": "Overwrite",
       "Value": {
-        "Magic":		{ "MinValue" : 1, "MaxValue" : 5, "Increment" : 1 },
-        "Rare":			{ "MinValue" : 3, "MaxValue" : 10, "Increment" : 1 },
-        "Epic":			{ "MinValue" : 8, "MaxValue" : 15, "Increment" : 1 },
-        "Legendary":	{ "MinValue" : 13, "MaxValue" : 20, "Increment" : 1 },
-        "Mythic":		{ "MinValue" : 18, "MaxValue" : 25, "Increment" : 1 }
+        "Magic":      { "MinValue" : 0, "MaxValue" : 3,  "Increment" : 1 },
+        "Rare":       { "MinValue" : 1, "MaxValue" : 6,  "Increment" : 1 },
+        "Epic":       { "MinValue" : 2, "MaxValue" : 9,  "Increment" : 1 },
+        "Legendary":  { "MinValue" : 3, "MaxValue" : 12, "Increment" : 1 },
+        "Mythic":     { "MinValue" : 4, "MaxValue" : 15, "Increment" : 1 }
        }
     },
 	{
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifySummonDamage')].SelectionWeight", 
       "Action": "Overwrite",
-      "Value": 1
+      "Value": 0.4
     },
 	
 	{

@@ -51,7 +51,7 @@ Use these fast-look tables to decide what to farm.
 | Elder | Black Forest | WarpikeElder_TW | Warpike | 10% | 2 | - |
 | Bonemass | Swamp | SledgeBonemass_TW | Sledge | 10% | 2 | - |
 | Moder (Dragon) | Mountains | GreatbowModer_TW | Greatbow | 5% | 2 | - |
-| Moder (Dragon) | Mountains | BBP_ElvenBow | Bow | 5% | 2 | - |
+| Moder (Dragon) | Mountains | BBP_ElvenBow | Bow | - | - | - |
 | Moder (Dragon) | Mountains | BWA_DraconicGreatSword | Greatsword | 2% | 2 | A |
 | Moder (Dragon) | Mountains | BWA_DraconicSword | Sword | 2% | 2 | A |
 | Moder (Dragon) | Mountains | BWA_DragonBlade | Sword | 5% | 2 | A |
@@ -94,6 +94,8 @@ Note: Enchant Tier shows configured tiers where applicable (A/S). A blank means 
 | Wraith | Swamps | BMB_SpiritBow | Bow | 1% | 1 | - |
 | Stone Golem | Mountains | BWA_ObsidianGreatsword | Greatsword | 0.2% | 1 | A |
 | Stone Golem | Mountains | BWA_ObsidianBuckler | Buckler | 0.2% | 1 | Armor A |
+| Charred Archer | Ashlands | BBP_ElvenBow | Bow | 2% | 1 | S |
+| Fallen Valkyrie | Ashlands | BBP_ElvenBow | Bow | 2% | 1 | S |
 | Goblin | Plains | BWA_FlametalDagger | Dagger | 0.8% | 1 | A |
 | Goblin Brute | Plains | BWA_FlametalAxe | Axe | 0.8% | 1 | A |
 | Morgen | Ashlands | BWA_FlametalScythe | Scythe | 1% | 1 | A |
@@ -133,7 +135,7 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 | **GreatbowModer_TW** | Greatbow | 5% | 2 | ❄️ *"Breath of the Ice Mother - carved from Moder's frozen essence"* |
 | **BBP_ElvenBow** | Bow | 5% | 2 | ⚡ *"Forged by Lightning - legendary weapon of the storm-touched"* |
 
-**Total Bow Drop Rate: 10%** *(5% + 5%)*
+**Total Bow Drop Rate: 5%** *(GreatbowModer_TW 5%; Elven Bow moved to creatures)*
 
 ### **Yagluth** 🔥
 *Plains Boss*

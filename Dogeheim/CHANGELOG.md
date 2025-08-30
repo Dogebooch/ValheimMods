@@ -3,6 +3,28 @@
 ## Version 1.6.6 - Bug Fixes for Drop-Only Items *(Testing)*
 - Had to roll it back due to some issues with the item mod configs messing up. Will re-release once fixed.
 
+### Balance: Summon Damage Nerf (~50%)
+- Reduced EpicLoot affix that increases summoned-creature damage to lower overall summon DPS while keeping Max Summon = 5.
+- Changes applied in both main and Dogeheim configs:
+  - `config/EpicLoot/patches/RelicHeimPatches/MagicEffects_RelicHeim.json`
+  - `Dogeheim/Configs/EpicLoot/patches/RelicHeimPatches/MagicEffects_RelicHeim.json`
+- New `ModifySummonDamage` ranges and frequency:
+  - ValuesPerRarity caps lowered to 3/6/9/12/15 (Magic→Mythic)
+  - SelectionWeight reduced from 1 → 0.4
+- Result: Summons deal significantly less damage across the board without changing availability or count.
+
+### Change: BBP_ElvenBow → Creature Drops (Drop-Only)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/BowPlugin/Recipe_BBP_ElvenBow.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_BBP_ElvenBow.yml`
+  - m_name: "<color=#D4AF37>✦ Elven Bow</color>"
+  - AppendToolTip: "Cannot be crafted — 2% from Charred Archer or Fallen Valkyrie (1x)."
+- Drop configuration:
+  - Removed/disabled Moder drop: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (Dragon.4 EnableConfig=False)
+  - Added 2% creature drops (1 item):
+    - FallenValkyrie.90 → `BBP_ElvenBow`
+    - Charred_Archer.90 → `BBP_ElvenBow`
+- Wiki updated: `Wiki/Items/Drop_Only_Items.md` (moved from Moder to creature drops)
+
 ## Version 1.6.5 - Bug Fixes for Drop-Only Items *(Testing)*
 - Attempted to Fix: UI error and Parse errors in wackysDatabase files
 
