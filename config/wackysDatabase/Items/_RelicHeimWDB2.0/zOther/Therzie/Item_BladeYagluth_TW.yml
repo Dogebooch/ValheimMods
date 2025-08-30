@@ -1,6 +1,6 @@
 name: BladeYagluth_TW
 m_weight: 3.5
-m_name: "<color=#D4AF37>$blade_yagluth_TW</color>"
+m_name: "<color=#D4AF37>✦ Yagluth Blade</color>"
 m_description: $blade_yagluth_description_TW
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 5
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: "\n<color=#dc143c>Yagluth's Infernal Wrath</color>\n<color=#888888>A demonic blade wreathed in eternal flames.\nCannot be crafted - only claimed from the fallen Destroyer.\n<i>(5% drop chance from Yagluth)</i></color>"
+AppendToolTip: "Cannot be crafted — 10% drop chance from Yagluth."
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

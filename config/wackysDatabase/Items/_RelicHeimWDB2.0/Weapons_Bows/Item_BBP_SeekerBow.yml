@@ -1,6 +1,6 @@
 name: BBP_SeekerBow
 m_weight: 1.5
-m_name: "<color=#D4AF37>$bbp_seekerbow_name</color>"
+m_name: "<color=#D4AF37>✦ Seeker Bow</color>"
 m_description: $bbp_seekerbow_description
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 5
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: "\n<color=#ff4500>Forged in Seeker Flames</color>\n<color=#888888>A bow tempered in the fires of the deep.\nCannot be crafted — only claimed from the fallen Queen.\n<i>(5% drop chance from Queen)</i></color>"
+AppendToolTip: "Cannot be crafted — 3% drop chance from Seeker Queen."
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

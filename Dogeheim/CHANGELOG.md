@@ -25,6 +25,24 @@
     - Charred_Archer.90 → `BBP_ElvenBow`
 - Wiki updated: `Wiki/Items/Drop_Only_Items.md` (moved from Moder to creature drops)
 
+### Change: BBP_SeekerBow → Boss Drop-Only (Seeker Queen)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/BowPlugin/Recipe_BBP_SeekerBow.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_BBP_SeekerBow.yml`
+  - m_name: "<color=#D4AF37>✦ Seeker Bow</color>"
+  - AppendToolTip: "Cannot be crafted — 3% from Seeker Queen (2x)."
+- Drop configuration:
+  - Added Seeker Queen drop: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (SeekerQueen.4 → 3% chance, 2 items)
+- Wiki updated: `Wiki/Items/Drop_Only_Items.md` (Seeker Bow now 3% from Seeker Queen)
+
+### Change: BladeYagluth_TW → Boss Drop-Only (Yagluth)
+- Recipe already disabled in WackyDB: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_BladeYagluth_TW.yml`
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_BladeYagluth_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Yagluth Blade</color>"
+  - AppendToolTip: "Cannot be crafted — 3% from Yagluth (2x)."
+- Drop configuration:
+  - Yagluth (GoblinKing.3) chance set to 3% (2 items): `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg`
+- Wiki updated: `Wiki/Items/Drop_Only_Items.md` (Yagluth Blade now 3% from Yagluth)
+
 ## Version 1.6.5 - Bug Fixes for Drop-Only Items *(Testing)*
 - Attempted to Fix: UI error and Parse errors in wackysDatabase files
 

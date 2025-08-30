@@ -142,7 +142,7 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 
 | Item | Type | Drop Rate | Amount | Description |
 |------|------|-----------|---------|-------------|
-| **BladeYagluth_TW** | Blade | 5% | 2 | 🔥 *"Yagluth's Infernal Wrath - wreathed in eternal flames"* |
+| **BladeYagluth_TW** | Blade | 10% | 2 | 🔥 *"Yagluth's Infernal Wrath - wreathed in eternal flames"* |
 
 ### **The Queen** 👑
 *Mistlands Boss*
@@ -150,7 +150,7 @@ These exclusive weapons can **ONLY** be obtained by defeating their respective b
 | Item | Type | Drop Rate | Amount | Description |
 |------|------|-----------|---------|-------------|
 | **FistQueen_TW** | Fist Weapon | 5% | 2 | *"Royal fist weapons channeling the Queen's authority"* |
-| **BBP_SeekerBow** | Bow | 5% | 2 | *"Forged in Seeker Flames - tempered in the fires of the deep"* |
+| **BBP_SeekerBow** | Bow | 10% | 2 | *"Forged in Seeker Flames - tempered in the fires of the deep"* |
 | **LanceDvergr_TW** | Lance | 5% | 2 | *"Depths of Dvergr Mastery - ceremonial lance of the deep craftsmen"* |
 | **GreatbowDvergr_TW** | Greatbow | 5% | 2 | *"Dvergr Siege Engine - massive greatbow of the deep craftsmen"* |
 
