@@ -1,6 +1,6 @@
 name: DualScytheBloodthirst_TW
 m_weight: 0.3
-m_name: $dual_scythebloodthirst_TW
+m_name: "<color=#D4AF37>✦ Dual Scythe Bloodthirst</color>"
 m_description: $dual_scythebloodthirst_description_TW
 clonePrefabName: 
 mockName: 
@@ -232,7 +232,7 @@ m_toolTier: 3
 m_maxQuality: 12
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: 
+AppendToolTip: "Cannot be crafted — 5% from Vrykolathas (2x)."
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

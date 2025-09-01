@@ -1,4 +1,5 @@
 name: valklegs
+disabled: true
 clonePrefabName: 
 craftingStation: $piece_blackforge
 minStationLevel: 1

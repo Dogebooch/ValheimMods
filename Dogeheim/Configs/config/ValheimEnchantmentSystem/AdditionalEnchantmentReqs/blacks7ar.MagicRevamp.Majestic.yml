@@ -1,0 +1,190 @@
+# Magic Revamp (BMR_) - tiered by material/theme
+
+# Weapons - F (starter)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_F
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_F
+    amount: 1
+  Items:
+  - BMR_WoodenWand
+  - BMR_WoodenStaff
+
+# Weapons - D (bronze/ember/root)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_D
+    amount: 1
+  Items:
+  - BMR_EmberWand
+  - BMR_EmberStaff
+  - BMR_RootWand
+
+# Weapons - C (ancient/crystal/cursed)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_C
+    amount: 1
+  Items:
+  - BMR_AncientWand
+  - BMR_AncientStaff
+  - BMR_CrystalWand
+  - BMR_CrystalStaff
+  - BMR_CursedWand
+
+# Weapons - A (elven)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_A
+    amount: 1
+  Items:
+  - BMR_ElvenWand
+  - BMR_ElvenStaff
+
+# Weapons - S (flametal/endgame)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_S
+    amount: 1
+  Items:
+  - BMR_FlametalStaff
+
+# Armor - F (tattered)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_F
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_F
+    amount: 1
+  Items:
+  - BMR_TatteredHelm
+  - BMR_TatteredChest
+  - BMR_TatteredLegs
+
+# Armor - D (sorcerer)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_D
+    amount: 1
+  Items:
+  - BMR_SorcerersHat
+  - BMR_SorcerersTunic
+  - BMR_SorcerersTrousers
+
+# Armor - C (warlock)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_C
+    amount: 1
+  Items:
+  - BMR_WarlocksHood
+  - BMR_WarlocksVest
+  - BMR_WarlocksPants
+
+# Armor - B (polar wolf)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - BMR_PolarWolfHood
+  - BMR_PolarWolfChest
+  - BMR_PolarWolfLegs
+
+# Armor - A (crimson)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_A
+    amount: 1
+  Items:
+  - BMR_CrimsonHood
+  - BMR_CrimsonChest
+  - BMR_CrimsonLegs
+
+# Armor - S (seeker/endgame)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - BMR_SeekerHat
+  - BMR_SeekerChest
+  - BMR_SeekerLegs
+
+# Capes (by progression)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_D
+    amount: 1
+  Items:
+  - BMR_TatteredCape
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_C
+    amount: 1
+  Items:
+  - BMR_WarlocksCape
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - BMR_PolarWolfCape
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_A
+    amount: 1
+  Items:
+  - BMR_SorcerersCape
+  - BMR_CrimsonCape
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - BMR_SeekerCape
+
+# Spellbook (treated as shield-like utility)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - BMR_SpellBook
+
+

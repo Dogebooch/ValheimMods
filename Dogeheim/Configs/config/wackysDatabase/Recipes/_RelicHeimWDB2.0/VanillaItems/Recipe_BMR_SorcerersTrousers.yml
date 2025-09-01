@@ -1,0 +1,14 @@
+name: BMR_SorcerersTrousers
+clonePrefabName: BMR_SorcerersTrousers
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- Chain:1:1:True
+- Root:2:1:True
+- TrollHide:8:1:True
+- Blueberries:14:1:True

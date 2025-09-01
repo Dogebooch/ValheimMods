@@ -1,0 +1,176 @@
+# ForsakenJVL (Digitalroot)
+# Weapons by biome
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_F
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_F
+    amount: 1
+  Items:
+  - MeadowsAirWand_RtD
+  - MeadowsAirStaff_RtD
+  - MeadowsLighteningStaff_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_D
+    amount: 1
+  Items:
+  - BlackForestLightningWand_RtD
+  - BlackForestFireStaff_RtD
+  - BlackForestLightStaff_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_C
+    amount: 1
+  Items:
+  - SwampPoisonWand_RtD
+  - SwampEarthStaff_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_B
+    amount: 1
+  Items:
+  - MountainIceWand_RtD
+  - MountainIceStaff_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_A
+    amount: 1
+  Items:
+  - PlainsVoidWand_RtD
+  - PlainsVoidStaff_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_S
+    amount: 1
+  Items:
+  - MistlandsElementWand_RtD
+  - MistlandsQuakeStaff_RtD
+  - AshLandsFireWand_RtD
+  - AshLandsStaff1_RtD
+  - AshLandsStaff2_RtD
+  - AshLandsStaff3_RtD
+  - DeepNorthArcaneWand_RtD
+  - DeepNorthStaff1_RtD
+  - DeepNorthStaff2_RtD
+  - DeepNorthStaff3_RtD
+
+# Healing Staffs (progressive)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_D
+    amount: 1
+  Items:
+  - HealingStaff_T1_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_C
+    amount: 1
+  Items:
+  - HealingStaff_T2_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_B
+    amount: 1
+  Items:
+  - HealingStaff_T3_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_A
+    amount: 1
+  Items:
+  - HealingStaff_T4_RtD
+
+# Mage Armor by biome
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_D
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_D
+    amount: 1
+  Items:
+  - BlackForestMageHood_RtD
+  - BlackForestMageChest_RtD
+  - BlackForestMageLegs_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_C
+    amount: 1
+  Items:
+  - SwampMageHood_RtD
+  - SwampMageChest_RtD
+  - SwampMageLegs_RtD
+  - SwampMageCape_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - MountainMageHood_RtD
+  - MountainMageChest_RtD
+  - MountainMageLegs_RtD
+  - MountainMageCape_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_A
+    amount: 1
+  Items:
+  - PlainsMageHood_RtD
+  - PlainsMageChest_RtD
+  - PlainsMageLegs_RtD
+  - PlainsMageCape_RtD
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - MistlandsMageHood_RtD
+  - MistlandsMageChest_RtD
+  - MistlandsMageLegs_RtD
+  - MistlandsMageCape_RtD
+  - AshLandsMageHood_RtD
+  - AshLandsMageChest_RtD
+  - AshLandsMageLegs_RtD
+  - DeepNorthMageHood_RtD
+  - DeepNorthMageChest_RtD
+  - DeepNorthMageLegs_RtD
+
+

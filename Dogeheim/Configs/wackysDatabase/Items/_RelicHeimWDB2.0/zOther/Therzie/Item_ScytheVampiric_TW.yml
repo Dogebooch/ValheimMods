@@ -1,6 +1,6 @@
 name: ScytheVampiric_TW
 m_weight: 2.5
-m_name: $scythe_vampiric_TW
+m_name: "<color=#D4AF37>✦ Vampiric Scythe</color>"
 m_description: $scythe_vampiric_description_TW
 clonePrefabName: 
 mockName: 
@@ -266,7 +266,7 @@ m_toolTier: 0
 m_maxQuality: 12
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: 
+AppendToolTip: "Cannot be crafted — 5% from Vrykolathas (2x)."
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

@@ -1,0 +1,46 @@
+{
+  "TargetFile": "recipes.json", 
+  "Author": "Majestic",
+  "RequireAll": true, 
+  "Patches": [ 
+	{
+	  "Path": "$.recipes[?(@.name == 'Recipe_LeatherBelt')].craftingStation",
+	  "Action": "Overwrite",
+	  "Value": "piece_workbench"
+    },
+	{
+	  "Path": "$.recipes[?(@.name == 'Recipe_LeatherBelt')].resources",
+	  "Action": "Overwrite",
+	  "Value": [
+        { "item": "LeatherScraps", "amount": 10 },
+        { "item": "DeerHide", "amount": 5 }
+      ]
+    },
+	{
+	  "Path": "$.recipes[?(@.name == 'Recipe_SilverRing')].craftingStation",
+	  "Action": "Overwrite",
+	  "Value": "forge"
+    },
+	{
+	  "Path": "$.recipes[?(@.name == 'Recipe_SilverRing')].resources",
+	  "Action": "Overwrite",
+	  "Value": [
+		{ "item": "Silver", "amount": 4 },
+        { "item": "Tin", "amount": 6 }
+      ]
+    },
+	{
+	  "Path": "$.recipes[?(@.name == 'Recipe_GoldRubyRing')].craftingStation",
+	  "Action": "Overwrite",
+	  "Value": "piece_workbench"
+    },
+	{
+	  "Path": "$.recipes[?(@.name == 'Recipe_GoldRubyRing')].resources",
+	  "Action": "Overwrite",
+	  "Value": [
+        { "item": "Coins", "amount": 200 },
+        { "item": "Ruby", "amount": 1 }
+      ]
+    }
+  ]
+}

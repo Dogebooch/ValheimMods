@@ -1,0 +1,11 @@
+name: BMR_WoodenStaff
+clonePrefabName: BMR_WoodenStaff
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- Wood:18:1:True

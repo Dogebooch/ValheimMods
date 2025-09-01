@@ -1,0 +1,16 @@
+# Allow Blackmetal chest armors to be enchanted using Weapon A scrolls
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_A
+    amount: 1
+  Items:
+  - ArmorWarriorBMChest_TW
+  - ArmorVigorousBMChest_TW
+  - ArmorRogueBMChest_TW
+  - ArmorHunterChestBM_TW
+  - ArmorVidarBMChest_TW
+  - ArmorFenrirBMChest_TW
+
+

@@ -1,0 +1,92 @@
+# Sages Vault
+
+# Armor - Robes/Tunics/Pants/Hoods (general mage attire)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_C
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_C
+    amount: 1
+  Items:
+  - SageRobeBlack
+  - SageRobeBlue
+  - SageRobeBrown
+  - SageRobeGray
+  - SageRobeGreen
+  - SageRobeRed
+  - SageRobeWhite
+  - SageTunicBlack
+  - SageTunicBlue
+  - SageTunicBrown
+  - SageTunicGray
+  - SageTunicGreen
+  - SageTunicRed
+  - SageTunicWhite
+  - SagePants
+  - SageHoodBlack
+  - SageHoodBlue
+  - SageHoodBrown
+  - SageHoodGray
+  - SageHoodGreen
+  - SageHoodRed
+  - SageHoodWhite
+  - HeadElf
+
+# Armor - Crowns (mid-high tier)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - SageCrownGold01
+  - SageCrownGold02
+  - SageCrownGold03
+  - SageCrownSilver01
+  - SageCrownSilver02
+  - SageCrownSilver03
+  - SageCrownObsidian01
+  - SageCrownObsidian02
+  - SageCrownObsidian03
+
+# Shields (spellbooks)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_B
+    amount: 1
+  Items:
+  - SageBook01
+  - SageBook02
+  - SageBook03
+  - SageBook04
+
+# Weapons - Staffs
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_A
+    amount: 1
+  Items:
+  - SageFireStaff
+  - SageHolyStaff
+  - SageIceStaff
+  - SageLightningStaff
+  - SageDarkStaff
+  - ScholarFireStaff
+
+# Weapons - Blades (specials)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_B
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_B
+    amount: 1
+  Items:
+  - NeedleBlade
+  - DeathBlade
+
+

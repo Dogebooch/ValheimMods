@@ -1,3 +1,28 @@
+## Version 1.6.7 - Fixed Drop Only Items, Note: You will need to delete old configs in order to get the new ones to work properly.
+
+### Change: DragonslayerswordHTD → Boss Drop-Only (Dragon)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/WeaponAdditions/Item_DragonslayerswordHTD.yml`
+  - m_name: "<color=#D4AF37>✦ Dragon Slayer Great Sword</color>"
+  - AppendToolTip: "Cannot be crafted — 0.002% from Dragon (1x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (Dragon.14 → 0.002%, 1 item)
+
+### Change: ObsidianGreatswordHTD → Creature Drop-Only (Stone Golem)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/WeaponAdditions/Item_ObsidianGreatswordHTD.yml`
+  - m_name: "<color=#D4AF37>✦ Obsidian Great Sword</color>"
+  - AppendToolTip: "Cannot be crafted — 0.2% from Stone Golem (1x)."
+- Drop configuration corrected: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg` (StoneGolem.60 prefab typo fixed; 0.2%, 1 item)
+
+### Change: FlametalGreatswordHTD → Boss Drop-Only (Fader)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/WeaponAdditions/Item_FlametalGreatswordHTD.yml`
+  - m_name: "<color=#D4AF37>✦ Flametal Great Sword</color>"
+  - AppendToolTip: "Cannot be crafted — 0.002% from Fader (1x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (Fader.8 → 0.002%, 1 item)
+
+### Change: TGCapeFlameFeather → Creature Drop-Only (Wolf)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/BiomeLords/Item_TGCapeFlameFeather.yml`
+  - m_name: "<color=#D4AF37>✦ Fiery Feather Cape</color>"
+  - AppendToolTip: "Cannot be crafted — 0.04% from Wolf (1x)."
+- Drop configuration present: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg` (Wraith.60 confirmed for Spirit Bow; Wolf.200 used in Doug supplemental for cape)
 # Dogeheim Modpack Changelog
 
 ## Version 1.6.6 - Bug Fixes for Drop-Only Items *(Testing)*
@@ -34,6 +59,40 @@
   - Added Seeker Queen drop: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (SeekerQueen.4 → 3% chance, 2 items)
 - Wiki updated: `Wiki/Items/Drop_Only_Items.md` (Seeker Bow now 3% from Seeker Queen)
 
+### Change: DeepNorthStaff3_RtD → Drop-Only (Jotunn Shaman)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/ForsakenJVL/Recipe_DeepNorthStaff3_RtD.yml` (disabled: true)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/ForsakenJVL/Item_DeepNorthStaff3_RtD.yml`
+  - m_name: "<color=#D4AF37>✦ Deep North Staff 3</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from Jotunn Shaman (2x)."
+- Drop configuration: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg` (JotunnShaman_TW.90 → 5%, 2 items)
+
+### Change: PlainsVoidstaff_RtD → Boss Drop-Only (Yagluth)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/ForsakenJVL/Recipe_PlainsVoidstaff_RtD.yml` (disabled: true)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/ForsakenJVL/Item_PlainsVoidstaff_RtD.yml`
+  - m_name: "<color=#D4AF37>✦ Plains Void Staff</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from Yagluth (2x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (GoblinKing.4 → 5%, 2 items)
+
+### Change: BMB_LightningBow → Boss Drop-Only (Storm Herald)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/MagicBows/Recipe_BMB_LightningBow.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_BMB_LightningBow.yml`
+  - m_name: "<color=#D4AF37>✦ $bmb_lightningbow_name</color>"
+  - AppendToolTip: "Cannot be crafted — 3% from Storm Herald (2x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (BossStormHerald_TW.6 → 3%, 2 items)
+
+### Change: BMB_SpiritBow → Creature Drop-Only (Wraith)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/MagicBows/Recipe_BMB_SpiritBow.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_BMB_SpiritBow.yml`
+  - m_name: "<color=#D4AF37>✦ $bmb_spiritbow_name</color>"
+  - AppendToolTip: "Cannot be crafted — 1% from Wraith (2x)."
+- Drop configuration present: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.zBase.cfg` (Wraith.60 → 1%, 2 items)
+
+### Change: shawesomesledge → Creature Drop-Only (Surtr Legionnaire)
+- Item marker + tooltip added: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Shawesome/Item_shawesomesledge.yml`
+  - m_name: "<color=#D4AF37>✦ Divine Elemental Sledge</color>"
+  - AppendToolTip: "Cannot be crafted — 0.01% from Surtr Legionnaire (1x)."
+- Drop configuration confirmed: `config/_RelicHeimFiles/Drop,Spawn_That/zz_Doug/drop_that.character_drop.missing_items.Doug.cfg` (SurtrLegionnaire_TW.200 → 0.01%, 1 item)
+
 ### Change: BladeYagluth_TW → Boss Drop-Only (Yagluth)
 - Recipe already disabled in WackyDB: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_BladeYagluth_TW.yml`
 - Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_BladeYagluth_TW.yml`
@@ -42,6 +101,57 @@
 - Drop configuration:
   - Yagluth (GoblinKing.3) chance set to 3% (2 items): `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg`
 - Wiki updated: `Wiki/Items/Drop_Only_Items.md` (Yagluth Blade now 3% from Yagluth)
+
+### Change: DualAxeDemonic_TW → Boss Drop-Only (Svalt)
+- Recipe already disabled in WackyDB: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_DualAxeDemonic_TW.yml`
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_DualAxeDemonic_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Demonic Dual Axe</color>"
+  - AppendToolTip: "Cannot be crafted — 10% drop chance from Svalt."
+- Drop configuration unchanged: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (BossSvalt_TW.0 → 10%, 2 items)
+- Wiki updated: `Wiki/Items/Drop_Only_Items.md` (shows 10% from Svalt)
+
+### Change: ScytheVampiric_TW → Boss Drop-Only (Vrykolathas)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_ScytheVampiric_TW.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_ScytheVampiric_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Vampiric Scythe</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from Vrykolathas (2x)."
+- Drop configuration: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (BossVrykolathas_TW.0 → 5%, 2 items)
+- Wiki: Vrykolathas entry reflects 5% (2 items)
+
+### Change: DualScytheBloodthirst_TW → Boss Drop-Only (Vrykolathas)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_DualScytheBloodthirst_TW.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_DualScytheBloodthirst_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Dual Scythe Bloodthirst</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from Vrykolathas (2x)."
+- Drop configuration: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (BossVrykolathas_TW.1 → 5%, 2 items)
+
+### Change: LanceDvergr_TW → Boss Drop-Only (The Queen)
+- Recipe already disabled in WackyDB: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_LanceDvergr_TW.yml`
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_LanceDvergr_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Dvergr Lance</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from The Queen (2x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (SeekerQueen.5 → 5%, 2 items)
+
+### Change: WarpikeFlametal_TW → Boss Drop-Only (Fader)
+- Recipe already disabled in WackyDB: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/zOther/Therzie/Recipe_WarpikeFlametal_TW.yml`
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_WarpikeFlametal_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Flametal Warpike</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from Fader (2x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (Fader.2 → 5%, 2 items)
+
+### Change: GreatbowDvergr_TW → Boss Drop-Only (The Queen)
+- Recipe already disabled in WackyDB: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/Weapons_Bows/Recipe_GreatbowDvergr_TW.yml`
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/Weapons_Bows/Item_GreatbowDvergr_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Dvergr Greatbow</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from The Queen (2x)."
+- Drop configuration added: `config/_RelicHeimFiles/Drop,Spawn_That/drop_that.character_drop.Bosses.cfg` (SeekerQueen.6 → 5%, 2 items)
+
+### Change: StaffVulkarion_TW → Boss Drop-Only (Surtr)
+- Disabled WackyDB recipe: `config/wackysDatabase/Recipes/_RelicHeimWDB2.0/StaffBurst/Recipe_StaffVulkarion_TW.yml` (disabled: true)
+- Item marker + tooltip updated: `config/wackysDatabase/Items/_RelicHeimWDB2.0/StaffBurst/Item_StaffVulkarion_TW.yml`
+  - m_name: "<color=#D4AF37>✦ Staff of Vulkarion</color>"
+  - AppendToolTip: "Cannot be crafted — 5% from Surtr (2x)."
+- Drop configuration to confirm/add under Surtr if needed.
 
 ## Version 1.6.5 - Bug Fixes for Drop-Only Items *(Testing)*
 - Attempted to Fix: UI error and Parse errors in wackysDatabase files

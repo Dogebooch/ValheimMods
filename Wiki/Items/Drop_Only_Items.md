@@ -1,459 +1,257 @@
-# Drop-Only Items Guide
+# Drop Only Items Guide
 
-This page lists all items that are configured as **drop-only** in the modded Valheim setup. These items cannot be crafted and must be obtained through EpicLoot drops or gambling.
+This guide covers all items that cannot be crafted and must be obtained as drops from creatures, bosses, or special conditions. Items are organized by source and include drop rates, conditions, and requirements.
 
-![Drop Only Items](../assets/drop-only-items.png)
-*Suggested image source: EpicLoot gambling interface or loot drops*
+![Drop Only Items](assets/drop_only_items.png)
+*Suggested image: Collage of rare drop-only weapons and armor*
 
-## Overview
-
-In this heavily modded Valheim setup, certain vanilla and modded items have been intentionally configured as **drop-only items** rather than craftable items. This creates a more dynamic loot system where players must rely on EpicLoot drops and gambling to obtain these powerful items.
-
-**Important Note**: EpicLoot is configured with `Item Drop Limits = BossKillUnlocksCurrentBiomeItems`, which means **items will drop in their appropriate biome once that biome's boss is killed**. This ensures proper progression where Mountains-tier items drop in Mountains, Plains-tier items in Plains, etc.
-
-### How Drop Tables Work
-**Recipe Unlocking**: Items become available in drop tables once you've unlocked their corresponding recipes by acquiring at least one of each material required for crafting that item. This happens regardless of whether crafting is enabled or disabled. For example, to unlock the Finewood Bow recipe, you must collect Fine Wood, Core Wood, and Deer Hide. Once the recipe is unlocked, the item can appear in drop tables even if crafting is disabled.
-
-## How to Obtain Drop-Only Items
-
-### 1. **Boss-Specific Drops** ⭐ *NEW*
-- **Guaranteed boss weapons**: Each boss has signature weapons with fixed drop rates
-- **Co-op optimized**: All boss drops give 2 items for multiplayer groups
-- **Exclusive items**: These cannot be crafted or obtained through other means
-- **Thematic rewards**: Boss weapons match the boss's power and theme
-
-### 2. **EpicLoot Drops**
-- **Monster drops**: Kill enemies in appropriate biomes
-- **Treasure chests**: Search for treasure in dungeons and crypts
-- **Boss drops**: Defeat bosses for rare loot chances
-- **Raid events**: Participate in monster raids
-
-### 3. **EpicLoot Gambling**
-- **Gambling system**: Use coins at the gambling interface
-- **Tier-based costs**: Higher tier items cost more coins
-- **Targeted acquisition**: Gamble for specific items you need
-
-### 4. **EpicLoot Bounties**
-- **Bounty system**: Complete bounty quests for rewards
-- **Rare item chances**: Bounties may reward drop-only items
-
-## Quick Reference
-
-Use these fast-look tables to decide what to farm.
-
-### Boss Drops — Quick Reference
-
-| Boss | Biome | Item | Type | Rate | Amount | Enchant Tier |
-|------|-------|------|------|------|--------|--------------|
-| Eikthyr | Meadows | CrossbowEikthyr_TW | Crossbow | 10% | 2 | - |
-| Eikthyr | Meadows | SledgeStagbreaker_TW | Sledge | 10% | 2 | - |
-| Elder | Black Forest | BattlehammerElder_TW | Battlehammer | 10% | 2 | - |
-| Elder | Black Forest | WarpikeElder_TW | Warpike | 10% | 2 | - |
-| Bonemass | Swamp | SledgeBonemass_TW | Sledge | 10% | 2 | - |
-| Moder (Dragon) | Mountains | GreatbowModer_TW | Greatbow | 5% | 2 | - |
-| Moder (Dragon) | Mountains | BBP_ElvenBow | Bow | - | - | - |
-| Moder (Dragon) | Mountains | BWA_DraconicGreatSword | Greatsword | 2% | 2 | A |
-| Moder (Dragon) | Mountains | BWA_DraconicSword | Sword | 2% | 2 | A |
-| Moder (Dragon) | Mountains | BWA_DragonBlade | Sword | 5% | 2 | A |
-| Moder (Dragon) | Mountains | BWA_DragonBoneGreatsword | Greatsword | 5% | 2 | A |
-| Moder (Dragon) | Mountains | BWA_ElvenAxe | Axe | 5% | 2 | S |
-| Moder (Dragon) | Mountains | BWA_ElvenHammer | Hammer | 5% | 2 | S |
-| Moder (Dragon) | Mountains | BWA_ElvenShield | Shield | 5% | 2 | S |
-| Moder (Dragon) | Mountains | BWA_ElvenSword | Sword | 5% | 2 | S |
-| Moder (Dragon) | Mountains | BWA_ElvenSpear | Spear | 5% | 2 | S |
-| Yagluth | Plains | BladeYagluth_TW | Sword | 5% | 2 | - |
-| Yagluth | Plains | PlainsVoidstaff_RtD | Staff | 5% | 2 | - |
-| The Queen | Mistlands | FistQueen_TW | Fists | 5% | 2 | - |
-| The Queen | Mistlands | BBP_SeekerBow | Bow | 5% | 2 | - |
-| The Queen | Mistlands | LanceDvergr_TW | Lance | 5% | 2 | - |
-| The Queen | Mistlands | GreatbowDvergr_TW | Greatbow | 5% | 2 | - |
-| Fader | Ashlands | WarpikeFlametal_TW | Warpike | 5% | 2 | - |
-| Fader | Ashlands | AshlandsStaff3_RtD | Staff | 5% | 2 | - |
-| Fader | Ashlands | BWA_FlametalGreatsword | Greatsword | 2% | 2 | A |
-| Fader | Ashlands | BWA_FlametalGreatAxe | Greataxe | 2% | 2 | A |
-| Fader | Ashlands | BWA_FlametalHammer | Hammer | 2% | 2 | A |
-| Fader | Ashlands | BWA_FlametalPolearm | Polearm | 2% | 2 | A |
-| Fader | Ashlands | BWA_FlametalSword | Sword | 2% | 2 | A |
-| Storm Herald | Deep North | DualHammerStormstrike_TW | Hammers | 10% | 2 | - |
-| Storm Herald | Deep North | StaffStorm_TW | Staff | 3% | 2 | - |
-| Storm Herald | Deep North | MistlandsQuake_StaffRtD | Staff | 5% | 2 | - |
-| Asmodeus | - | KnifeViper_TW | Knife | 10% | 2 | - |
-| Svalt | - | DualAxeDemonic_TW | Dual Axes | 5% | 2 | - |
-| Vrykolathas | - | ScytheVampiric_TW | Scythe | 5% | 2 | - |
-| Vrykolathas | - | DualScytheBloodthirst_TW | Dual Scythes | 5% | 2 | - |
-
-Note: Enchant Tier shows configured tiers where applicable (A/S). A blank means standard EpicLoot enchanting applies or is not explicitly tiered here.
-
-### Creature Drops — Quick Reference
-
-| Creature | Biome | Item | Type | Rate | Amount | Enchant Tier |
-|----------|-------|------|------|------|--------|--------------|
-| Hatchling | Mountains | BWA_DraconicDagger | Dagger | 1% | 1 | A |
-| Hatchling | Mountains | BWA_DraconicScythe | Scythe | 1% | 1 | A |
-| Sea Serpent | Ocean | StaffStorm_TW | Staff | 3% | 2 | - |
-| Wraith | Swamps | BMB_SpiritBow | Bow | 1% | 1 | - |
-| Stone Golem | Mountains | BWA_ObsidianGreatsword | Greatsword | 0.2% | 1 | A |
-| Stone Golem | Mountains | BWA_ObsidianBuckler | Buckler | 0.2% | 1 | Armor A |
-| Charred Archer | Ashlands | BBP_ElvenBow | Bow | 2% | 1 | S |
-| Fallen Valkyrie | Ashlands | BBP_ElvenBow | Bow | 2% | 1 | S |
-| Goblin | Plains | BWA_FlametalDagger | Dagger | 0.8% | 1 | A |
-| Goblin Brute | Plains | BWA_FlametalAxe | Axe | 0.8% | 1 | A |
-| Morgen | Ashlands | BWA_FlametalScythe | Scythe | 1% | 1 | A |
-
-## Boss-Specific Drop-Only Items ⭐ *NEW*
-
-These exclusive weapons can **ONLY** be obtained by defeating their respective bosses. They cannot be crafted, gambled, or found through any other means.
-
-### **Eikthyr** ⚡
-*Meadows Boss*
-
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **CrossbowEikthyr_TW** | Crossbow | 10% | 2 | *"Lightning-charged crossbow infused with Eikthyr's power"* |
-| **SledgeStagbreaker_TW** | Sledge | 10% | 2 | *"Massive sledgehammer echoing Eikthyr's thunderous might"* |
-
-### **The Elder** 🌲
-*Black Forest Boss*
-
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **BattlehammerElder_TW** | Battlehammer | 10% | 2 | *"Ancient hammer carved from the Elder's heartwood"* |
-| **WarpikeElder_TW** | Warpike | 10% | 2 | *"Thorned spear blessed by the forest's guardian"* |
-
-### **Bonemass** 💀
-*Swamp Boss*
-
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **SledgeBonemass_TW** | Sledge | 10% | 2 | *"Bone-crushing sledge infused with toxic essence"* |
-
-### **Moder (Dragon)** 🐉❄️
-*Mountain Boss*
-
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **GreatbowModer_TW** | Greatbow | 5% | 2 | ❄️ *"Breath of the Ice Mother - carved from Moder's frozen essence"* |
-| **BBP_ElvenBow** | Bow | 5% | 2 | ⚡ *"Forged by Lightning - legendary weapon of the storm-touched"* |
-
-**Total Bow Drop Rate: 5%** *(GreatbowModer_TW 5%; Elven Bow moved to creatures)*
-
-### **Yagluth** 🔥
-*Plains Boss*
-
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **BladeYagluth_TW** | Blade | 10% | 2 | 🔥 *"Yagluth's Infernal Wrath - wreathed in eternal flames"* |
-
-### **The Queen** 👑
-*Mistlands Boss*
-
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **FistQueen_TW** | Fist Weapon | 5% | 2 | *"Royal fist weapons channeling the Queen's authority"* |
-| **BBP_SeekerBow** | Bow | 10% | 2 | *"Forged in Seeker Flames - tempered in the fires of the deep"* |
-| **LanceDvergr_TW** | Lance | 5% | 2 | *"Depths of Dvergr Mastery - ceremonial lance of the deep craftsmen"* |
-| **GreatbowDvergr_TW** | Greatbow | 5% | 2 | *"Dvergr Siege Engine - massive greatbow of the deep craftsmen"* |
-
-**Total Weapon Drop Rate: 20%** *(5% + 5% + 5% + 5%)*
-
-### Southsil Armor Sets (Drop-Only)
-
-- Gold-name convention: Items colored `<color=#D4AF37>name</color>` are exclusive drop-only rewards.
-- Tooltips clearly state source and chance.
-
-#### Samurai (Plains)
-- samurai helm — GoblinBrute — 0.8% — 1 item
-- samuraichest — Lox — 0.6% — 1 item
-- samurailegs — Lox — 0.6% — 1 item
-
-#### Valk (Ashlands)
-- valkhelm — FallenValkyrie — 1% — 1 item
-- valkchest — FallenValkyrie — 1% — 1 item
-- valklegs — FallenValkyrie — 1% — 1 item
-
-#### Warlord (Plains Boss & Elites)
-- warlordhelm — Yagluth — 0.8% — 1 item; Goblin Shaman — 0.2% — 1 item
-- warlordchest — Yagluth — 0.8% — 1 item; Goblin Shaman — 0.2% — 1 item
-- warlord legs — Yagluth — 0.8% — 1 item; Goblin Shaman — 0.2% — 1 item
-
-### Draconic Weapons (WeaponAdditions)
-- BWA_DraconicGreatSword — Dragon — 2% — 2 items
-- BWA_DraconicSword — Dragon — 2% — 2 items
-- BWA_DraconicDagger — Hatchling — 1% — 1 item
-- BWA_DraconicScythe — Hatchling — 1% — 1 item
-
-### Giant & Obsidian Relics (WeaponAdditions)
-- BWA_GiantAxe — Jotunn — 2% — 2 items
-- BWA_GiantCleaver — Jotunn — 2% — 2 items
-- BWA_giantMace — Jotunn — 2% — 2 items
-- BWA_ObsidianGreatsword — Stone Golem — 0.2% — 1 item
-- BWA_ObsidianBuckler — Stone Golem — 0.2% — 1 item
-
-### Flametal Weapons (WeaponAdditions)
-- BWA_FlametalGreatsword — Fader — 2% — 2 items
-- BWA_FlametalHammer — Fader — 2% — 2 items
-- BWA_FlametalPolearm — Fader — 2% — 2 items
-- BWA_FlametalGreatAxe — Fader — 2% — 2 items
-- BWA_FlametalSword — Fader — 2% — 2 items
-- BWA_FlametalDagger — Goblin — 0.8% — 1 item
-- BWA_FlametalAxe — Goblin Brute — 0.8% — 1 item
-- BWA_FlametalScythe — Morgen — 1% — 1 item
-
-### **Modded Bosses** 🗡️
-
-#### **Asmodeus**
-| Item | Drop Rate | Amount |
-|------|-----------|---------|
-| **KnifeViper_TW** | 10% | 2 |
-
-#### **Svalt**
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **DualAxeDemonic_TW** | Dual Axes | 5% | 2 | ⚡ *"Svalt's Demonic Fury - twin axes forged in darkness"* |
-
-#### **Vrykolathas**
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **ScytheVampiric_TW** | Scythe | 5% | 2 | *"Vrykolathas' Bloodthirst - feeds on life essence"* |
-| **DualScytheBloodthirst_TW** | Dual Scythes | 5% | 2 | *"Twin Reapers of Torment - thirsts for endless slaughter"* |
-
-#### **Storm Herald**
-| Item | Drop Rate | Amount |
-|------|-----------|---------|
-| **DualHammerStormstrike_TW** | 10% | 2 |
-| **StaffStorm_TW** | 3% | 2 |
-| **MistlandsQuake_StaffRtD** | 5% | 2 |
-
-#### **Fader**
-| Item | Type | Drop Rate | Amount | Description |
-|------|------|-----------|---------|-------------|
-| **WarpikeFlametal_TW** | Warpike | 5% | 2 | *"Ashlands Molten Spear - forged in eternal flames"* |
-
-#### **Gorr**
-| Item | Drop Rate | Amount |
-|------|-----------|---------|
-| **BattleaxeDragon_TW** | 10% | 2 |
-| **ClaymoreJotunn_TW** | 10% | 2 |
-
-### **Boss Drop Strategy Tips**
-- **Co-op Perfect**: All drops give 2 items, ideal for duo play
-- **No Crafting**: These items are 100% exclusive to boss kills
-- **Thematic Tooltips**: Each weapon includes lore about its drop source
-- **Progressive Power**: Boss weapons scale with biome difficulty
-- **Farming Viable**: Respawn bosses to farm for drops
+## Table of Contents
+- [Boss Drops](#boss-drops)
+- [Elite Creature Drops](#elite-creature-drops)
+- [Biome-Specific Drops](#biome-specific-drops)
+- [Enchantment Scrolls](#enchantment-scrolls)
+- [Special Condition Drops](#special-condition-drops)
 
 ---
 
-## Vanilla Items (Drop-Only)
+## Boss Drops
 
-### **Tier 4 (Mountains/Silver Tier)**
-*Cost: 2,000 coins*
+### Eikthyr
+**Requirements:** First boss, no prerequisites
+- **Crossbow Eikthyr** - 10% drop chance (2 items)
+- **Sledge Stagbreaker** - 10% drop chance (2 items)
+- **Tasty Mead** - 100% drop chance (5 items) *Only on first kill*
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **BowDraugrFang** | Bow | Vanilla Draugr Fang bow | EpicLoot drops, Gambling (2,000 coins), **Serpent_Elite drops (25% chance)** |
-| **AtgeirHimminAfl** | Atgeir | Vanilla Himminafl atgeir | EpicLoot drops, Gambling (3,000 coins) |
+### The Elder (gd_king)
+**Requirements:** Defeat Eikthyr, burn Ancient Seeds
+- **Battlehammer Elder** - 10% drop chance (2 items)
+- **Warpike Elder** - 10% drop chance (2 items)
 
-### **Tier 6 (Mistlands/Carapace Tier)**
-*Cost: 3,000 coins*
+### Bonemass
+**Requirements:** Defeat The Elder, use Withered Bones
+- **Sledge Bonemass** - 10% drop chance (2 items)
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **BowSpineSnap** | Bow | Vanilla Spine Snap bow | EpicLoot drops, Gambling (3,000 coins) |
-| **CrossbowArbalest** | Crossbow | Vanilla Arbalest crossbow | EpicLoot drops, Gambling (3,000 coins) |
-| **SwordMistwalker** | Sword | Vanilla Mistwalker sword | EpicLoot drops, Gambling (3,000 coins) |
-| **KnifeSkollAndHati** | Knife | Vanilla Skoll and Hati knife | EpicLoot drops, Gambling (3,000 coins) |
-| **AxeJotunBane** | Axe | Vanilla Jotun Bane axe | EpicLoot drops, Gambling (3,000 coins) |
-| **SledgeDemolisher** | Sledge | Vanilla Demolisher sledge | EpicLoot drops, Gambling (3,000 coins) |
-| **SpearCarapace** | Spear | Vanilla Carapace spear | EpicLoot drops, Gambling (3,000 coins) |
+### Moder (Dragon)
+**Requirements:** Defeat Bonemass, use Dragon Eggs
+- **Dragon Tears** - 100% drop chance (10 items)
+- **Greatbow Moder** - 10% drop chance (2 items)
+- **✦ Dragon Slayer Great Sword** - 0.002% drop chance (1 item) *Extremely rare*
+- **Odin's Dragon Staff** - 1.5% drop chance (1 item)
 
-## Modded Items (Drop-Only)
+### Yagluth (Fader)
+**Requirements:** Defeat Moder, use Fuling Totems
+- **Ashlands Staff 3** - 5% drop chance (2 items)
+- **Flametal Greatsword** - 0.002% drop chance (1 item) *Extremely rare*
+- **Warpike Flametal** - 5% drop chance (2 items)
 
-### **Therzie Warfare Items**
+### Modded Bosses
 
-#### **Tier 4 (Mountains/Silver Tier)**
-*Cost: 2,000 coins*
+#### Asmodeus (BossAsmodeus_TW)
+**Requirements:** Custom boss encounter
+- **Knife Viper** - 10% drop chance (2 items)
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **AtgeirSilver_TW** | Atgeir | Silver atgeir | EpicLoot drops, Gambling (2,000 coins) |
-| **BattleaxeSilver_TW** | Battleaxe | Silver battleaxe | EpicLoot drops, Gambling (2,000 coins) |
-| **AxeSilver_TW** | Axe | Silver axe | EpicLoot drops, Gambling (2,000 coins) |
-| **BattlehammerSilver_TW** | Battlehammer | Silver battlehammer | EpicLoot drops, Gambling (2,000 coins) |
-| **ClaymoreSilver_TW** | Claymore | Silver claymore | EpicLoot drops, Gambling (2,000 coins) |
-| **CrossbowSilver_TW** | Crossbow | Silver crossbow | EpicLoot drops, Gambling (2,000 coins) |
-| **FistSilver_TW** | Fist weapon | Silver fist weapon | EpicLoot drops, Gambling (2,000 coins) |
-| **SledgeSilver_TW** | Sledge | Silver sledge | EpicLoot drops, Gambling (2,000 coins) |
-| **BastardSilver_TW** | Bastard sword | Silver bastard sword | EpicLoot drops, Gambling (2,000 coins) |
-| **WarpikeObsidian_TW** | Warpike | Obsidian warpike | EpicLoot drops, Gambling (2,000 coins) |
-| **DualKnifeSilver_TW** | Dual knives | Silver dual knives | EpicLoot drops, Gambling (2,000 coins) |
-| **BattleaxeCrystal_TW** | Battleaxe | Crystal battleaxe | EpicLoot drops, Gambling (2,000 coins) |
-| **HelmetGrizzlyBear_TW** | Helmet | Grizzly bear helmet | EpicLoot drops, Gambling (2,000 coins) |
+#### Svalt (BossSvalt_TW)
+**Requirements:** Custom boss encounter
+- **Dual Axe Demonic** - 10% drop chance (2 items)
 
-#### **Tier 5 (Plains/Black Metal Tier)**
-*Cost: 2,500 coins*
+#### Vrykolathas (BossVrykolathas_TW)
+**Requirements:** Custom boss encounter
+- **Scythe Vampiric** - 5% drop chance (2 items)
+- **Dual Scythe Bloodthirst** - 5% drop chance (2 items)
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **BastardBlackmetal_TW** | Bastard sword | Black metal bastard sword | EpicLoot drops, Gambling (2,500 coins) |
-| **BattleaxeBlackmetal_TW** | Battleaxe | Black metal battleaxe | EpicLoot drops, Gambling (2,500 coins) |
-| **BattlehammerBlackmetal_TW** | Battlehammer | Black metal battlehammer | EpicLoot drops, Gambling (2,500 coins) |
-| **BowBlackmetal_TW** | Bow | Black metal bow | EpicLoot drops, Gambling (2,500 coins) |
-| **GreatbowBlackmetal_TW** | Greatbow | Black metal greatbow | EpicLoot drops, Gambling (2,500 coins) |
-| **DualSwordScimitar_TW** | Dual swords | Scimitar dual swords | EpicLoot drops, Gambling (2,500 coins) |
-| **SwordScimitar_TW** | Sword | Scimitar sword | EpicLoot drops, Gambling (2,500 coins) |
-| **ClaymoreBlackmetal_TW** | Claymore | Black metal claymore | EpicLoot drops, Gambling (2,500 coins) |
-| **CrossbowBlackmetal_TW** | Crossbow | Black metal crossbow | EpicLoot drops, Gambling (2,500 coins) |
-| **FistBlackmetal_TW** | Fist weapon | Black metal fist weapon | EpicLoot drops, Gambling (2,500 coins) |
-| **LanceBlackmetal_TW** | Lance | Black metal lance | EpicLoot drops, Gambling (2,500 coins) |
-| **SpearBlackmetal_TW** | Spear | Black metal spear | EpicLoot drops, Gambling (2,500 coins) |
-| **SledgeBlackmetal_TW** | Sledge | Black metal sledge | EpicLoot drops, Gambling (2,500 coins) |
-| **TridentBlackmetal_TW** | Trident | Black metal trident | EpicLoot drops, Gambling (2,500 coins) |
-| **WarpikeBlackmetal_TW** | Warpike | Black metal warpike | EpicLoot drops, Gambling (2,500 coins) |
-| **ShieldBlackmetalBuckler_TW** | Shield | Black metal buckler | EpicLoot drops, Gambling (2,500 coins) |
-| **BattleaxeCrystalEmerald_TW** | Battleaxe | Crystal emerald battleaxe | EpicLoot drops, Gambling (2,500 coins) |
-| **DualKnifeBM_TW** | Dual knives | Black metal dual knives | EpicLoot drops, Gambling (2,500 coins) |
+#### Storm Herald (BossStormHerald_TW)
+**Requirements:** Custom boss encounter
+- **Dual Hammer Stormstrike** - 10% drop chance (2 items)
+- **Staff Storm** - 3% drop chance (2 items)
+- **Mistlands Quake Staff** - 5% drop chance (2 items)
+- **Lightning Bow** - 3% drop chance (2 items)
 
-#### **Tier 6 (Mistlands/Carapace Tier)**
-*Cost: 3,000 coins*
+#### Gorr (BossGorr_TW)
+**Requirements:** Custom boss encounter
+- **Battleaxe Dragon** - 10% drop chance (2 items)
+- **Claymore Jotunn** - 10% drop chance (2 items)
+- **Shawsome Sledge** - 0.002% drop chance (1 item) *Extremely rare*
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **AxeDvergr_TW** | Axe | Dvergr axe | EpicLoot drops, Gambling (3,000 coins) |
-| **BastardDvergr_TW** | Bastard sword | Dvergr bastard sword | EpicLoot drops, Gambling (3,000 coins) |
-| **BattleaxeDvergr_TW** | Battleaxe | Dvergr battleaxe | EpicLoot drops, Gambling (3,000 coins) |
-| **BattlehammerDvergr_TW** | Battlehammer | Dvergr battlehammer | EpicLoot drops, Gambling (3,000 coins) |
-| **GreatbowDvergr_TW** | Greatbow | Dvergr greatbow | EpicLoot drops, Gambling (3,000 coins) |
-| **ClaymoreDvergr_TW** | Claymore | Dvergr claymore | EpicLoot drops, Gambling (3,000 coins) |
-| **FistDvergr_TW** | Fist weapon | Dvergr fist weapon | EpicLoot drops, Gambling (3,000 coins) |
-| **LanceDvergr_TW** | Lance | Dvergr lance | EpicLoot drops, Gambling (3,000 coins) |
-| **MaceDvergr_TW** | Mace | Dvergr mace | EpicLoot drops, Gambling (3,000 coins) |
-| **WarpikeDvergr_TW** | Warpike | Dvergr warpike | EpicLoot drops, Gambling (3,000 coins) |
-| **BattleaxeCrystalAmethyst_TW** | Battleaxe | Crystal amethyst battleaxe | EpicLoot drops, Gambling (3,000 coins) |
-| **SledgeDemolisher_TW** | Sledge | Dvergr demolisher sledge | EpicLoot drops, Gambling (3,000 coins) |
-| **ShieldCarapaceTower_TW** | Shield | Carapace tower shield | EpicLoot drops, Gambling (3,000 coins) |
+---
 
-#### **Tier 7 (Ashlands/Flametal Tier)**
-*Cost: 3,500 coins*
+## Elite Creature Drops
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **AxeFlametal_TW** | Axe | Flametal axe | EpicLoot drops, Gambling (3,500 coins) |
-| **BastardFlametal_TW** | Bastard sword | Flametal bastard sword | EpicLoot drops, Gambling (3,500 coins) |
-| **BattleaxeFlametal_TW** | Battleaxe | Flametal battleaxe | EpicLoot drops, Gambling (3,500 coins) |
-| **FistFlametal_TW** | Fist weapon | Flametal fist weapon | EpicLoot drops, Gambling (3,500 coins) |
-| **DualKnifeFlametal_TW** | Dual knives | Flametal dual knives | EpicLoot drops, Gambling (3,500 coins) |
-| **SledgeFlametal_TW** | Sledge | Flametal sledge | EpicLoot drops, Gambling (3,500 coins) |
-| **WarpikeFlametal_TW** | Warpike | Flametal warpike | EpicLoot drops, Gambling (3,500 coins) |
+### Stone Golem
+**Requirements:** Mountain biome, Bonemass defeated for silver drops
+- **Trophy Stone Golem** - 15% drop chance (1 item)
+- **Silver Ore** - 20% drop chance (2-4 items) *Requires Bonemass defeated*
+- **Obsidian Greatsword HTD** - 0.2% drop chance (1 item)
+- **BWA Obsidian Greatsword** - 0.2% drop chance (1 item)
+- **BWA Obsidian Buckler** - 0.2% drop chance (1 item)
 
-### **Therzie Warfare Fire & Ice Items**
+### Lox
+**Requirements:** Plains biome
+- **Samurai Chest** - 0.6% drop chance (1 item)
 
-#### **Tier 8 (Deep North/Surtr Tier)**
-*Cost: 4,000 coins*
+### Hatchling
+**Requirements:** Mountain biome drakes
+- **Dragon Egg** - 0.5% drop chance (1 item, max 1)
+- **BWA Draconic Dagger** - 1% drop chance (2 items, max 2)
+- **BWA Draconic Scythe** - 1% drop chance (2 items, max 2)
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **AxeSurtr_TW** | Axe | Surtr axe | EpicLoot drops, Gambling (4,000 coins) |
-| **AtgeirSurtr_TW** | Atgeir | Surtr atgeir | EpicLoot drops, Gambling (4,000 coins) |
-| **BastardSurtr_TW** | Bastard sword | Surtr bastard sword | EpicLoot drops, Gambling (4,000 coins) |
-| **BattleaxeSurtr_TW** | Battleaxe | Surtr battleaxe | EpicLoot drops, Gambling (4,000 coins) |
-| **BattlehammerSurtr_TW** | Battlehammer | Surtr battlehammer | EpicLoot drops, Gambling (4,000 coins) |
-| **BowSurtr_TW** | Bow | Surtr bow | EpicLoot drops, Gambling (4,000 coins) |
-| **CrossbowSurtr_TW** | Crossbow | Surtr crossbow | EpicLoot drops, Gambling (4,000 coins) |
-| **GreatbowSurtr_TW** | Greatbow | Surtr greatbow | EpicLoot drops, Gambling (4,000 coins) |
-| **ClaymoreSurtr_TW** | Claymore | Surtr claymore | EpicLoot drops, Gambling (4,000 coins) |
-| **FistSurtr_TW** | Fist weapon | Surtr fist weapon | EpicLoot drops, Gambling (4,000 coins) |
-| **KnifeSurtr_TW** | Knife | Surtr knife | EpicLoot drops, Gambling (4,000 coins) |
-| **LanceSurtr_TW** | Lance | Surtr lance | EpicLoot drops, Gambling (4,000 coins) |
-| **MaceSurtr_TW** | Mace | Surtr mace | EpicLoot drops, Gambling (4,000 coins) |
-| **SpearSurtr_TW** | Spear | Surtr spear | EpicLoot drops, Gambling (4,000 coins) |
-| **SledgeSurtr_TW** | Sledge | Surtr sledge | EpicLoot drops, Gambling (4,000 coins) |
-| **SwordSurtr_TW** | Sword | Surtr sword | EpicLoot drops, Gambling (4,000 coins) |
-| **WarpikeSurtr_TW** | Warpike | Surtr warpike | EpicLoot drops, Gambling (4,000 coins) |
-| **ShieldSurtr_TW** | Shield | Surtr shield | EpicLoot drops, Gambling (4,000 coins) |
-| **ShieldSurtrTower_TW** | Shield | Surtr tower shield | EpicLoot drops, Gambling (4,000 coins) |
-| **ShieldSurtrBuckler_TW** | Shield | Surtr buckler | EpicLoot drops, Gambling (4,000 coins) |
-| **BattleaxeCrystalMuspelheim_TW** | Battleaxe | Crystal Muspelheim battleaxe | EpicLoot drops, Gambling (4,000 coins) |
-| **StaffImpDemon_TW** | Staff | Imp demon staff | EpicLoot drops, Gambling (4,000 coins) |
-| **NecklaceTyr_TW** | Necklace | Tyr necklace | EpicLoot drops, Gambling (4,000 coins) |
-| **DualKnifeSurtr_TW** | Dual knives | Surtr dual knives | EpicLoot drops, Gambling (4,000 coins) |
-| **StaffVulkarion_TW** | Staff | Vulkarion staff | EpicLoot drops, Gambling (4,000 coins) |
-| **VolcanicBlade_TW** | Sword | Volcanic blade | EpicLoot drops, Gambling (4,000 coins) |
-| **RingLoki_TW** | Ring | Loki ring | EpicLoot drops, Gambling (4,000 coins) |
-| **StaffSkrymir_TW** | Staff | Skrymir staff | EpicLoot drops, Gambling (4,000 coins) |
-| **ShieldNjordBuckler_TW** | Shield | Njord buckler | EpicLoot drops, Gambling (4,000 coins) |
+### Blob Elite
+**Requirements:** Swamp biome, Elder defeated
+- **Iron Scrap** - 33% drop chance (2 items) *Requires Elder defeated*
 
-### **Therzie Wizardry Items**
+### Abomination
+**Requirements:** Swamp biome
+- **Trophy Abomination** - 15% drop chance (1 item)
+- **Elder Bark** - 20% drop chance (2-4 items)
 
-#### **Tier 4-6 (Mountain to Mistlands)**
-*Cost: 2,000-3,000 coins*
+### Seeker Queen
+**Requirements:** Mistlands biome, endgame boss
+- **Armor Spellslinger Legs (Mistlands)** - 1.5% drop chance (1 item)
+- **Armor Spellslinger Chest (Mistlands)** - 1.5% drop chance (1 item)
 
-| Item | Type | Description | How to Get |
-|------|------|-------------|------------|
-| **StaffMountain_TW** | Staff | Mountain staff | EpicLoot drops, Gambling (2,000 coins) |
-| **StaffPlains_TW** | Staff | Plains staff | EpicLoot drops, Gambling (2,500 coins) |
-| **StaffGolem_TW** | Staff | Golem staff | EpicLoot drops, Gambling (2,500 coins) |
-| **StaffMistlands_TW** | Staff | Mistlands staff | EpicLoot drops, Gambling (3,000 coins) |
-| **RingMountain_TW** | Ring | Mountain ring | EpicLoot drops, Gambling (2,000 coins) |
-| **RingPlains_TW** | Ring | Plains ring | EpicLoot drops, Gambling (2,500 coins) |
-| **RingMistlands_TW** | Ring | Mistlands ring | EpicLoot drops, Gambling (3,000 coins) |
+---
 
-#### **Spellslinger Armor Sets**
+## Biome-Specific Drops
 
-**Mountain Tier (2,000 coins each):**
-- HelmetSpellslinger_Mountain_TW
-- ArmorSpellSlingerChest_Mountain_TW
-- ArmorSpellslingerLegs_Mountain_TW
-- CapeSpellslinger_Mountain_TW
+### Meadows (Tier 1 - Early Game)
+**Drop Rate:** 5% base chance per kill
 
-**Plains Tier (2,500 coins each):**
-- HelmetSpellslinger_Plains_TW
-- ArmorSpellSlingerChest_Plains_TW
-- ArmorSpellslingerLegs_Plains_TW
-- CapeSpellslinger_Plains_TW
+#### Greydwarf
+- **Plan Hammer** - 5% drop chance
+- **Atgeir Flint** - 5% drop chance
+- **Knife Bronze** - 5% drop chance
+- **Sword Flint** - 5% drop chance
+- **Pickaxe Stone** - 5% drop chance
+- **Skill Potion Axe** - 5% drop chance
 
-**Mistlands Tier (3,000 coins each):**
-- HelmetSpellslinger_Mistlands_TW
-- ArmorSpellSlingerChest_Mistlands_TW
-- ArmorSpellslingerLegs_Mistlands_TW
-- CapeSpellslinger_Mistlands_TW
+#### Boar
+- **Armor Chest Boar HTD** - 5% drop chance
 
-## Strategy Tips
+#### Skeleton
+- **Claymore Bone** - 5% drop chance
+- **Chief Chest** - 5% drop chance
 
-### **Prerequisites for Drop-Only Items**
-1. **Defeat biome bosses**: Items unlock when you kill the boss of their appropriate biome
-2. **Progress through biomes**: Mountains items require Moder kill, Plains items require Yagluth kill, etc.
-3. **Be in the correct biome**: Items drop in their appropriate biome (Mountains items in Mountains)
-4. **Understand the progression**: Items are gated by boss progression, not crafting knowledge
+### Black Forest (Tier 2)
+**Drop Rate:** 4% base chance per kill
 
-### **Efficient Coin Farming**
-1. **Kill high-tier enemies** in Mistlands and Ashlands
-2. **Complete bounty quests** for coin rewards
-3. **Sell valuable materials** to traders
-4. **Participate in raids** for loot and coins
+#### Ghost
+- **Amber** - 100% drop chance
+- **Ruby** - 50% drop chance
+- **Ancient Artifact** - Various rates
 
-### **Targeted Item Acquisition**
-1. **Focus on tier-appropriate gambling** based on your progression
-2. **Save coins for specific items** rather than random gambling
-3. **Check EpicLoot drop rates** in different biomes
-4. **Use bounty system** to target specific item types
+### Swamp (Tier 3)
+**Drop Rate:** 3% base chance per kill
 
-### **Progression Planning**
-1. **Tier 4 items** (2,000 coins) - Mountains/Silver tier
-2. **Tier 5 items** (2,500 coins) - Plains/Black Metal tier
-3. **Tier 6 items** (3,000 coins) - Mistlands/Carapace tier
-4. **Tier 7 items** (3,500 coins) - Ashlands/Flametal tier
-5. **Tier 8 items** (4,000 coins) - Deep North/Surtr tier
+#### Draugr
+- **Rotten Pelt** - 25% drop chance
+- **Trophy Draugr Elite** - 0.2% drop chance (max 1)
+- **Withered Bone** - 5% drop chance (max 3)
 
-## Notes
+#### Leech
+- **Fish Raw** - 20% drop chance (max 1)
 
-- **All drop-only items can receive EpicLoot enchantments**
-- **Items are distributed across appropriate loot tiers**
-- **Gambling costs scale with item power level**
-- **Some items may appear in multiple loot sources**
-- **Drop rates vary by biome and enemy type**
-- **Boss progression unlocks drops**: EpicLoot requires `BossKillUnlocksCurrentBiomeItems` setting
-- **No crafting after obtaining**: Once you get a drop-only item, you cannot craft additional copies
-- **Serpent_Elite farming**: BowDraugrFang specifically drops from Serpent_Elite enemies (25% chance) after killing Moder
+### Mountains (Tier 4)
+**Drop Rate:** 2% base chance per kill
 
-This system creates a more dynamic and challenging progression where players must actively seek out powerful items rather than simply crafting them, adding depth to the loot and progression systems. The gating system ensures players progress through the intended crafting tiers before accessing drop-only items.
+### Plains (Tier 5)
+**Drop Rate:** 1.5% base chance per kill
+
+#### Goblin Brute
+- **Samurai Helm** - 0.8% drop chance
+- **BWA Flametal Axe** - 0.8% drop chance
+
+### Mistlands (Tier 5)
+**Drop Rate:** 1.5% base chance per kill
+
+#### Dvergr
+- **Staff Core Mistlands** - 1.5% drop chance
+
+### Ashlands (Tier 6)
+**Drop Rate:** 1% base chance per kill
+
+#### Surtr Hound
+- **Armor Bold Flametal Chest** - 1% drop chance
+- **Dual Knife Flametal** - 1% drop chance
+- **Cape Surtr** - 1% drop chance
+
+#### Bonemaw Serpent
+**Requirements:** Seeker Queen defeated for gemstone drops
+- **Trophy Bonemaw Serpent** - 33% drop chance
+- **Gemstone Green** - 15% drop chance (max 1) *Requires Seeker Queen defeated*
+
+#### Fallen Valkyrie
+- **Black Core** - 50% drop chance
+- **Gemstone Blue** - 15% drop chance
+
+---
+
+## Enchantment Scrolls
+
+**Requirements:** Blacksmithing Level 5 to use
+**General Drop Rates:**
+- Regular creatures: 5% base chance
+- Bosses: 100% chance for regular scrolls
+- Blessed scrolls: 0.5% from creatures, 50% from bosses
+
+### Scroll Tiers
+- **F-Tier:** Basic enchantment scrolls (starter equipment)
+- **D-Tier:** Bronze/Ember tier equipment
+- **C-Tier:** Ancient/Crystal tier equipment  
+- **B-Tier:** Silver/Mountain tier equipment
+- **A-Tier:** Plains/Elven tier equipment
+- **S-Tier:** Mistlands/Ashlands tier equipment
+
+### Excluded Creatures
+The following creatures do NOT drop enchantment scrolls:
+- Greydwarf, Skeleton, Seeker Brood, Tick
+- Summoned creatures and spawns
+- Butterflies and passive creatures
+- Tentacle roots and void creatures
+
+---
+
+## Special Condition Drops
+
+### Fire Damage Drops
+**Condition:** Kill creature with fire damage or burning status
+- **Cooked Deer Meat** - 100% from Deer (max 1)
+- **Cooked Meat** - 100% from Boar (max 1)  
+- **Neck Tail Grilled** - 100% from Neck (max 1)
+
+### Boss Defeat Requirements
+Many drops require specific bosses to be defeated:
+- **Elder defeated:** Required for Iron Scrap from Blob Elite, Goblin drops
+- **Bonemass defeated:** Required for Silver Ore from Stone Golem
+- **Dragon defeated:** Required for Black Metal drops from Goblins
+- **Seeker Queen defeated:** Required for Gemstone drops from Ashlands creatures
+
+### Hildir Quest Bosses
+**Requirements:** Complete Hildir questlines
+- **Skeleton Hildir:** Chest Hildir 1 + Trophy (100% each)
+- **Fenring Cultist Hildir:** Chest Hildir 2 + Trophy (100% each)
+
+---
+
+## Drop Rate Summary
+
+| Tier | Biome | Base Drop Rate | Examples |
+|------|-------|----------------|----------|
+| 1 | Meadows | 5% | Plan Hammer, Atgeir Flint |
+| 2 | Black Forest | 4% | Ancient Artifacts |
+| 3 | Swamp | 3% | Rotten Pelt, Withered Bone |
+| 4 | Mountains | 2% | Stone Golem items |
+| 5 | Plains/Mistlands | 1.5% | Samurai gear, Staff cores |
+| 6 | Ashlands | 1% | Flametal items, Gemstones |
+| Boss | All | 0.002-100% | Varies by item rarity |
+
+---
+
+## Tips for Farming Drop-Only Items
+
+1. **Boss Items:** Most boss drops have 5-10% rates - expect multiple kills
+2. **Ultra-Rare Items:** 0.002% items (Dragon Slayer, etc.) may take 50,000+ kills
+3. **Condition Drops:** Pay attention to defeat requirements and special conditions
+4. **Enchantment Scrolls:** Level Blacksmithing to 5 before farming scrolls
+5. **Biome Progression:** Higher tier items have lower drop rates but better stats
+6. **Elite Creatures:** Focus on elite variants for better drop rates
+
+Remember to check your global keys (defeated bosses) as many drops are gated behind progression!

@@ -1054,19 +1054,18 @@
       "Path": "$.MagicItemEffects[?(@.Type == 'AddCarryWeight')].Requirements.AllowedItemTypes", 
       "Action": "Overwrite",
       "Value": [
-          "Shoulder",
-          "Utility"
+          "Shoulder"
         ]
 	},
 	{
       "Path": "$.MagicItemEffects[?(@.Type == 'AddCarryWeight')].ValuesPerRarity", 
       "Action": "Overwrite",
       "Value": {
-        "Magic":		{ "MinValue" : 25,  "MaxValue" : 50,   "Increment" : 5 },
-        "Rare":			{ "MinValue" : 40,  "MaxValue" : 75,   "Increment" : 5 },
-        "Epic":			{ "MinValue" : 70,  "MaxValue" : 100,  "Increment" : 5 },
-        "Legendary":	{ "MinValue" : 90,  "MaxValue" : 125,  "Increment" : 5 },
-        "Mythic":		{ "MinValue" : 120, "MaxValue" : 150,  "Increment" : 5 }
+        "Magic":        { "MinValue" : 15,  "MaxValue" : 30,   "Increment" : 5 },
+        "Rare":         { "MinValue" : 25,  "MaxValue" : 45,   "Increment" : 5 },
+        "Epic":         { "MinValue" : 35,  "MaxValue" : 60,   "Increment" : 5 },
+        "Legendary":    { "MinValue" : 45,  "MaxValue" : 75,   "Increment" : 5 },
+        "Mythic":       { "MinValue" : 60,  "MaxValue" : 90,   "Increment" : 5 }
        }
     },
 	

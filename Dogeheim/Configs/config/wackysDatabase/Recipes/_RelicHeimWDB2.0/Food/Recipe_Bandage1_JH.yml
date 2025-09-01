@@ -1,0 +1,13 @@
+name: Bandage1_JH
+clonePrefabName: Bandage1_JH
+craftingStation: ''
+minStationLevel: 
+maxStationLevelCap: 
+repairStation: 
+amount: 2
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- RottenPelt_TW:5:1:True
+- Bloodbag:5:1:True
+- WitheredBone:1:1:True

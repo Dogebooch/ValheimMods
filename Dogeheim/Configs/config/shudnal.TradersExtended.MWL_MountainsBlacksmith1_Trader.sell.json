@@ -1,0 +1,121 @@
+[
+  {
+    "prefab": "SilverOre",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Silver",
+    "stack": 1,
+    "price": 35,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Crystal",
+    "stack": 1,
+    "price": 40,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Obsidian",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "IronOre",
+    "stack": 1,
+    "price": 12,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "IronScrap",
+    "stack": 1,
+    "price": 18,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Iron",
+    "stack": 1,
+    "price": 30,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "WolfPelt",
+    "stack": 1,
+    "price": 45,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "WolfFang",
+    "stack": 1,
+    "price": 20,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "FreezeGland",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "DragonTear",
+    "stack": 1,
+    "price": 200,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Stone",
+    "stack": 20,
+    "price": 8
+  },
+  {
+    "prefab": "Coal",
+    "stack": 1,
+    "price": 4,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "ElderBark",
+    "stack": 1,
+    "price": 8,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "FineWood",
+    "stack": 1,
+    "price": 4,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "TrophyWolf",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyFenring",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyStoneGolem",
+    "stack": 1,
+    "price": 120,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyUlv",
+    "stack": 1,
+    "price": 70,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "TrophyDrakeHatchling",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_dragon"
+  }
+] 

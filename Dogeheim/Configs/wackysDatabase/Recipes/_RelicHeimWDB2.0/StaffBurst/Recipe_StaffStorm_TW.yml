@@ -5,7 +5,7 @@ minStationLevel: 1
 maxStationLevelCap: 
 repairStation: $piece_wizardtable_TW
 amount: 1
-disabled: false
+disabled: true
 requireOnlyOneIngredient: false
 reqs:
 - ThoradusBar_TW:60:1:True

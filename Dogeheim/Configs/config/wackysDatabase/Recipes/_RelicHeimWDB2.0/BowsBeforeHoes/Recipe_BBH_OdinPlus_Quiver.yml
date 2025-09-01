@@ -1,0 +1,18 @@
+name: BBH_OdinPlus_Quiver
+clonePrefabName: 
+craftingStation: FletcherTable_TW
+minStationLevel: 1
+maxStationLevelCap: 4
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs:
+- Thunderstone:1:2
+- Thunderstone:2:3
+- Thunderstone:3:4
+reqs:
+- Thunderstone:10:10:True
+- YggdrasilWood:3:3:True
+- FlametalNew:2:2:True
