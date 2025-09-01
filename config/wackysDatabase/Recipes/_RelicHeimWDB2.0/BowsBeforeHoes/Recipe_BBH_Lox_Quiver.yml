@@ -1,18 +1,17 @@
 name: BBH_Lox_Quiver
 clonePrefabName: 
 craftingStation: FletcherTable_TW
-minStationLevel: 2
-maxStationLevelCap: 5
+minStationLevel: 1
+maxStationLevelCap: 4
 repairStation: 
 amount: 1
-disabled: false
-disabledUpgrade: false
+disabled: true
+disabledUpgrade: true
 requireOnlyOneIngredient: false
 upgrade_reqs:
-- SerpentScale:2:3
-- SerpentScale:4:4
-- SerpentScale:6:5
+- RoundLog:1:2
+- RoundLog:2:3
+- RoundLog:3:4
 reqs:
-- FineWood:15:15:True
-- SerpentScale:5:5:True
-- LoxPelt:3:3:True
+- LoxPelt:1:1:True
+- Tar:2:2:True

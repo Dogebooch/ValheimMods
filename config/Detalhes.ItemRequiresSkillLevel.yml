@@ -9010,7 +9010,7 @@
 - PrefabName: PhilosopherStoneBlue
   Requirements:
     - Skill: Blacksmithing
-      Level: 5
+      Level: 35
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -9019,7 +9019,7 @@
 - PrefabName: PhilosopherStoneGreen
   Requirements:
     - Skill: Blacksmithing
-      Level: 5
+      Level: 35
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -9028,7 +9028,7 @@
 - PrefabName: PhilosopherStonePurple
   Requirements:
     - Skill: Blacksmithing
-      Level: 5
+      Level: 35
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false
@@ -9037,7 +9037,43 @@
 - PrefabName: PhilosopherStoneRed
   Requirements:
     - Skill: Blacksmithing
-      Level: 5
+      Level: 35
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: ""
+
+- PrefabName: PhilosopherStoneBlack
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 80
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: ""
+
+- PrefabName: FishExtract
+  Requirements:
+    - Skill: Fishing
+      Level: 50
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: ""
+
+- PrefabName: BeltStrength
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 25
+      BlockCraft: true
+      BlockEquip: false
+      EpicMMO: false
+      ExhibitionName: ""
+
+- PrefabName: GP_Fader
+  Requirements:
+    - Skill: Blacksmithing
+      Level: 90
       BlockCraft: true
       BlockEquip: false
       EpicMMO: false

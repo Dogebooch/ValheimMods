@@ -1,13 +1,12 @@
-# Dogeheim - The Ultimate Valheim MMO Experience
+# Dogeheim
+## The Ultimate Valheim MMO Experience
 
-[![Version](https://img.shields.io/badge/version-1.4.7-blue.svg)](https://github.com/thunderstore-io)
+[![Version](https://img.shields.io/badge/version-1.4.7-blue.svg)](https://thunderstore.io/c/valheim/p/dogebooch/Dogeheim/)
 [![Valheim](https://img.shields.io/badge/Valheim-Compatible-green.svg)](https://www.valheimgame.com/)
 [![Mods](https://img.shields.io/badge/Mods-100+-orange.svg)](https://valheim.thunderstore.io/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Ready-blue.svg)](https://www.valheimgame.com/)
 
-## 🚀 Ready for the Ultimate Viking Challenge?
-
-**Transform your Valheim experience into an epic MMO adventure** with Dogeheim - a meticulously crafted modpack featuring over 100 mods that revolutionize every aspect of your Viking journey either alone or with friends. Whether you're a seasoned warrior or a fresh recruit, Dogeheim offers an unparalleled gaming experience that will test your skills and reward your dedication.
+**Transform your Valheim experience into an epic MMO adventure** with Dogeheim - a meticulously crafted modpack featuring over 100 mods that revolutionize every aspect of your Viking journey. Whether you're a seasoned warrior or fresh recruit, Dogeheim offers an unparalleled gaming experience that will test your skills and reward your dedication.
 
 ### ⚠️ What to Expect
 
@@ -15,183 +14,410 @@
 
 ---
 
+## 📋 Table of Contents
+- [Why Choose Dogeheim?](#-why-choose-dogeheim)
+- [Core Systems](#-core-systems)
+- [Installation](#-installation)
+- [System Requirements](#-system-requirements)
+- [Configuration Overview](#-configuration-overview)
+- [Updating the Modpack](#-updating-the-modpack)
+- [Multiplayer Setup](#-multiplayer-setup)
+- [Known Issues & Support](#-known-issues--support)
+- [Credits](#-credits)
+
+---
+
 ## 🎮 Why Choose Dogeheim?
 
-### 🌟 True MMO Progression
-- **Level up to 120** with deep skill trees and character specialization
-- **Experience sharing** in groups and parties for cooperative gameplay
-- **Item requirements** based on skill levels for meaningful progression
-- **Reduced death penalties** to keep the adventure flowing
+### 🌟 True MMO Progression System
+- **Level Cap**: 120 levels with deep character progression
+- **6 Attributes**: Strength, Dexterity, Intelligence, Endurance, Vigour, Specializing
+- **Skill-Based Equipment**: Items locked behind skill level requirements
+- **Experience Sharing**: Group-based XP distribution (70-unit range)
+- **Balanced Death Penalties**: 5-20% XP loss (reduced from vanilla)
+- **Attribute Caps**: Maximum 100 points per attribute for balanced gameplay
 
-### ⚔️ Epic Combat & Magic Systems
-- **Therzie Warfare** - Master advanced combat mechanics and weapon techniques
-- **Therzie Wizardry** - Unleash powerful spells and harness magical energy
-- **Therzie Monstrum** - Face challenging new creatures and legendary bosses
-- **Therzie Armory** - Access to expanded weapon and armor options
-- **EpicLoot** - Discover and enchant legendary gear with unique properties
-- **RelicHeim** - Unearth mythical artifacts and powerful relics
-- **Custom Raids** - Experience lore-accurate two-phase raid events tied to boss progression
-- **Magic Revamp** - Enhanced magical combat and spellcasting systems
+### ⚔️ Enhanced Combat & Magic Systems
+- **Therzie Warfare**: Advanced weapons, bastard swords, claymores, and specialized combat mechanics
+- **Therzie Wizardry**: Comprehensive spell system with arcane anvils, potions, and magical crafting
+- **Therzie Armory**: Expanded weapon varieties and combat equipment
+- **EpicLoot**: Five-tier magic item system (Magic→Rare→Epic→Legendary→Mythic) with enchantments
+- **Magic Revamp**: Overhauled magical combat with new spell mechanics
+- **ValheimEnchantmentSystem**: Weapon and armor enchanting with scrolls and materials
 
-### 🌍 Vast World Expansion
-- **Enhanced biomes** with Warpalicious Biome Packs
-- **Underground Ruins** and **Forbidden Catacombs** to explore
-- **Dynamic seasons** that change your world and gameplay
-- **Biome Lords Quest** system with unique rewards and challenges
-- **Mushroom Monsters** and additional creature variety
-- **Cross-biome loot distribution** for enhanced exploration rewards
-- **More World Locations** and **World Traders** for expanded exploration
+### 🌍 Massive World Expansion
+- **Therzie Monstrum**: New creatures and challenging boss encounters across all biomes
+- **Warpalicious World Locations**: Underground Ruins, Forbidden Catacombs, and enhanced POIs
+- **Dynamic Seasons**: Weather patterns that affect gameplay, farming, and visibility
+- **Biome Lords**: Quest system with unique rewards and progressive challenges
+- **Extended Traders**: Additional NPCs and trading opportunities throughout the world
 
-### 🛠️ Quality of Life Enhancements
-- **Extended inventory** and **adventure backpacks** for longer expeditions
-- **Smart inventory management** with quick stack, store, and sort
-- **Multi-user chests** for seamless cooperative storage
-- **Target portals** and **speedy paths** for efficient travel
-- **Automated systems** for fuel management and farming
-- **Enhanced cartography** with shared maps and pins for group exploration
-- **Smart containers** for improved storage management
-- **Better UI** for enhanced user experience
+### 🛠️ Advanced Inventory & Quality of Life
+- **Adventure Backpacks**: Tiered backpack system (2x3 to 5x7 slots) with upgrade progression
+- **Quick Stack Store**: Advanced inventory management with smart sorting and stacking
+- **Smart Containers**: Intelligent storage solutions that auto-organize items
+- **Better UI**: Enhanced interface elements for improved user experience
+- **Target Portals**: Advanced portal system for precise travel
+- **Enhanced Cartography**: Shared mapping and pin systems for multiplayer coordination
 
-### 🏗️ Advanced Building & Crafting
-- **OdinArchitect** - Create magnificent structures with advanced building tools
-- **Fine Wood Pieces** - Expand your building options with beautiful materials
-- **PlanBuild** - Design complex constructions with blueprint system
-- **Enhanced crafting** with blacksmithing, cooking, and potion systems
-- **Cooking Additions** - Expanded culinary options and recipes
-- **Food Barrels** - Advanced food storage and preservation
+### 🏗️ Comprehensive Building & Crafting
+- **PlanBuild**: Blueprint system for complex construction projects
+- **OdinArchitect**: Advanced building tools and architectural elements
+- **blacks7ar Fine Wood Pieces**: Expanded building materials and decorative options
+- **Enhanced Crafting Stations**: Specialized stations for different crafting disciplines
+- **Cooking Additions**: Expanded culinary system with new recipes and cooking mechanics
+- **Food Barrels**: Advanced food storage and preservation systems
 
-### 🎣 Enhanced Activities
-- **Better Fishing** - Improved fishing mechanics and rewards
-- **Seasons** - Dynamic seasonal changes affecting gameplay
-- **Plant Everything** - Expanded farming and cultivation options
-- **Ranching** - Advanced animal husbandry and taming systems
+### 🎣 Specialized Skills & Activities
+- **Better Fishing**: Enhanced fishing mechanics with improved rewards and progression
+- **Advanced Farming**: Expanded agriculture with seasonal crops and growing mechanics
+- **Animal Husbandry**: Comprehensive taming and breeding systems
+- **Mining & Lumberjacking**: Specialized progression trees for resource gathering
+- **Sailing Improvements**: Enhanced seafaring with better ship mechanics
 
 ---
 
-## ⚙️ Perfectly Balanced Configuration
+## 🔧 Core Systems
 
-Dogeheim comes **pre-configured for the ultimate gaming experience**:
+### MMO Progression (EpicMMOSystem)
+```
+Max Level: 120
+Base XP Required: 300 per level (multiplier: 1.048)
+Experience Rate: 1.2x standard
+Group Experience: 0.9x (90% of normal when in party)
+Death Penalty: 5-20% XP loss
+Free Points per Level: 3 + bonus points at milestone levels
+Attribute Maximums: 100 points each
+```
 
-### 🎯 MMO Progression (Optimized for Challenge)
-- **Maximum Level**: 120 (extended progression path)
-- **Experience Rate**: 1.2x (20% bonus for faster advancement)
-- **Group Experience**: 0.9x (fair sharing in multiplayer)
-- **Death Penalty**: 1-15% (reduced frustration, maintained challenge)
-- **Skill Points**: 3 per level + bonus points (balanced character development)
-- **Attribute Maximums**: 75 points per attribute (preventing overpowered characters)
+### Creature & Boss Scaling
+```
+Boss Health per Star: 10-24% increase (varies by boss)
+Boss Damage Scaling: Dynamic per boss type
+Star Spawn Rates: Optimized for challenge progression
+Drop Rates: 100% chance per star (creatures), 50% (bosses)
+Level Range: MinRange: 10, MaxRange: 15 (for XP/loot eligibility)
+```
 
-### ⚔️ Combat Balance (Very Hard Difficulty)
-- **Creature Loot**: 100% chance per star (rewarding exploration)
-- **Boss Loot**: 50% chance per star (balanced progression)
-- **Boss Scaling**: 5% size increase per star (manageable challenge)
-- **Custom Raids**: Progressive difficulty tied to boss progression with balanced spawn rates
-- **Monster Difficulty**: Very Hard setting with optimized star spawn rates
-- **Multiplayer Scaling**: 40% HP, 4% damage per player (balanced challenge)
+### Magic Item System (EpicLoot)
+```
+Rarity Tiers: Magic (Gray) → Rare (Indigo) → Epic (Pink) → Legendary (Red) → Mythic (Orange)
+Set Item Chance: 35% for legendary items
+Enchanting Table: 6 functions (Sacrifice, Convert, Enchant, Augment, Disenchant, Upgrade)
+Adventure Mode: Treasure maps, bounties, secret stashes enabled
+```
 
-### 🏆 Multiplayer Optimizations
-- **Boss Drops**: One per player (ensures everyone gets rewards)
-- **Experience Sharing**: 70 unit range (encourages teamwork)
-- **Shared Cartography**: Enhanced map and pin sharing for coordinated exploration
-- **Group System**: Integrated party mechanics for cooperative play
+### Inventory & Backpacks
+```
+Backpack Tiers: 5 upgrade levels
+Slot Progression: 2x3 → 3x4 → 4x4 → 4x6 → 5x7
+Weight Reduction: 100% normal weight for backpack contents
+Portal Restrictions: Backpack contents checked for metal items
+```
 
-### 🎮 Skill System Enhancements
-- **Enhanced Skill Progression**: Optimized experience gains across all skills
-- **Fishing Rewards**: Increased XP for successful catches and star-level fish
-- **Ranching Improvements**: Faster taming and better skill progression
-- **Utility Skills**: Reduced death penalties for non-combat skills
-- **Enchantment System**: Improved progression for magical crafting
+### Seasonal System
+```
+Day Length: 1800 seconds (30 minutes)
+Season Effects: Weather, crop growth, and visual changes
+Winter Features: Reduced bloom, snow particle optimization
+Freezing Protection: Enabled outside Mountains/Deep North
+Seasonal Items: Halloween, Midsummer, Yule decorations available
+```
 
 ---
 
-## 🚀 Get Started in Minutes
+## 🚀 Installation
 
-### One-Click Installation (Recommended)
-1. Install [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager)
-2. Search for "Dogeheim" in the mod browser
-3. Click "Install with Dependencies"
-4. Launch and begin your epic adventure!
+### Recommended: Thunderstore Mod Manager
+1. **Download & Install** [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager)
+2. **Launch** the mod manager and select Valheim
+3. **Search** for "Dogeheim" in the modpack browser
+4. **Click** "Install with Dependencies"
+5. **Launch** through the mod manager
 
 ### Manual Installation
-1. Install [BepInEx 5.4.2332](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/)
-2. Download all dependencies from the manifest
-3. Extract to your `BepInEx/plugins` folder
-4. Launch Valheim and experience the transformation
+1. **Install** [BepInEx 5.4.2332](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/)
+2. **Download** Dogeheim and all dependencies from Thunderstore
+3. **Extract** all mods to `Valheim/BepInEx/plugins/`
+4. **Copy** configuration files to `Valheim/BepInEx/config/`
+5. **Launch** Valheim normally
+
+### First-Time Setup
+1. **Start** a new world (recommended for full experience)
+2. **Check** that the MMO UI appears (level indicator, attribute points)
+3. **Verify** magic items drop with colored names
+4. **Test** backpack functionality with 'B' key
+5. **Confirm** seasonal effects are active
 
 ---
 
-## 🔧 System Requirements & Performance
+## 💻 System Requirements
 
-### Minimum Requirements
-- **RAM**: 8GB minimum, 16GB recommended
-- **Graphics**: Medium to High settings
-- **Storage**: 10GB free space
-- **Network**: Stable connection for multiplayer
+### Minimum Specifications
+- **CPU**: Intel i5-4590 / AMD FX 8350 or equivalent
+- **RAM**: 8GB (16GB strongly recommended)
+- **GPU**: GTX 960 / R9 280 or equivalent
+- **Storage**: 10GB free space for mods and cache
+- **Network**: Stable internet for multiplayer
 
-### Performance Tips
-- Start with Medium graphics settings for optimal performance
-- Disable resource-intensive mods if needed
-- Ensure all players use the same mod versions for multiplayer
+### Recommended Specifications
+- **CPU**: Intel i7-7700K / AMD Ryzen 5 2600 or better
+- **RAM**: 16GB+
+- **GPU**: GTX 1060 / RX 580 or better
+- **Storage**: SSD with 15GB+ free space
+- **Network**: Broadband connection
 
-### Compatibility
-- ✅ Fully compatible with latest Valheim version
-- ✅ Optimized for multiplayer servers
-- ✅ Works with most popular Valheim mods
-- ⚠️ May conflict with other major modpacks
+### Performance Optimization
+- **Graphics Settings**: Start with Medium, adjust based on performance
+- **Particle Reduction**: Winter snow particles automatically reduced
+- **Debug Logging**: Disabled by default in all mods
+- **Memory Management**: Mods configured for optimal memory usage
+
+---
+
+## ⚙️ Configuration Overview
+
+### Key Configuration Files
+```
+config/
+├── WackyMole.EpicMMOSystem.cfg          # Core MMO progression
+├── randyknapp.mods.epicloot.cfg         # Magic item system
+├── Therzie.Warfare.cfg                  # Combat mechanics
+├── Therzie.Wizardry.cfg                 # Magic system
+├── org.bepinex.plugins.backpacks.cfg    # Inventory expansion
+├── drop_that.cfg                        # Loot table management
+├── spawn_that.cfg                       # Creature spawning
+├── custom_raids.cfg                     # Raid event system
+└── shudnal.Seasons.cfg                  # Seasonal mechanics
+```
+
+### Server Configuration
+All major systems are **server-synchronized** for multiplayer compatibility:
+- MMO progression settings locked to server
+- Magic item configurations enforced
+- Creature scaling synchronized
+- Seasonal changes coordinated
+
+### Customization Options
+While core balance is locked, players can adjust:
+- UI positioning and visibility
+- Graphics and performance settings
+- Keybind assignments
+- Audio preferences
+
+---
+
+## 🔄 Updating the Modpack
+
+### ⚠️ Pre-Update Backup Procedure
+
+**CRITICAL**: Always backup before updating to prevent world/character loss.
+
+#### 1. Backup Your World Data
+```
+Navigate to: %USERPROFILE%\AppData\LocalLow\IronGate\Valheim\
+Copy these folders to a safe location:
+├── worlds/           # Your world files
+├── characters/       # Character progression
+└── screenshots/      # Optional: your captured moments
+```
+
+#### 2. Backup Configuration Files
+```
+Navigate to: Valheim\BepInEx\config\
+Copy entire config folder to safe location
+Important files to preserve:
+├── WackyMole.EpicMMOSystem.cfg
+├── EpicMMOSystem/                 # Character progression data
+├── ValheimEnchantmentSystem/      # Enchantment configurations
+└── wackysDatabase/                # Item modifications
+```
+
+#### 3. Backup Local Mod Data
+```
+Navigate to: Valheim\BepInEx\cache\
+Copy cache folder (contains mod-specific data)
+```
+
+### Update Process
+
+#### Using Thunderstore Mod Manager (Recommended)
+1. **Create Profile Backup**: Use mod manager's profile export feature
+2. **Update Modpack**: Click "Update" when available
+3. **Verify Dependencies**: Ensure all dependencies updated correctly
+4. **Test Launch**: Start game and verify all systems functional
+
+#### Manual Update Process
+1. **Download** latest Dogeheim version
+2. **Extract** new files to temporary folder
+3. **Replace** old mod files with new versions
+4. **Merge** configuration files carefully (compare old vs new)
+5. **Launch** and verify functionality
+
+### Post-Update Verification
+- [ ] MMO system functional (level/XP display)
+- [ ] Magic items still have proper colors/effects
+- [ ] Backpacks accessible and contents intact
+- [ ] Seasonal effects working
+- [ ] Multiplayer synchronization active
+
+### Rollback Procedure (If Issues Occur)
+1. **Restore** world and character backups
+2. **Replace** updated mod files with previous versions
+3. **Restore** configuration backups
+4. **Clear** mod cache folder
+5. **Restart** game and verify stability
+
+---
+
+## 🌐 Multiplayer Setup
+
+### Server Requirements
+- **Dedicated Server**: Recommended for 3+ players
+- **Mod Synchronization**: All players must have identical mod versions
+- **Configuration Sync**: Server configurations automatically distributed
+
+### Setting Up a Dedicated Server
+1. **Install** Valheim Dedicated Server
+2. **Install** BepInEx on server
+3. **Copy** Dogeheim configuration to server
+4. **Configure** server settings for player count
+5. **Open** necessary ports (2456-2458 UDP)
+
+### Player Requirements
+- **Identical Modpack**: All players need same Dogeheim version
+- **Character Sync**: MMO progression synchronized via server
+- **World Sync**: Seasonal changes and events coordinated
+
+### Multiplayer Balance
+```
+Boss Health Scaling: +40% per additional player
+Boss Damage Scaling: +4% per additional player
+Experience Range: 70 units for group sharing
+Boss Drops: One trophy per player in range
+Raid Frequency: Adjusted for group play
+```
 
 ---
 
 ## 🐛 Known Issues & Support
 
-### Current Bugs
-- **GUI Overlap**: Haldor's GUI overlaps in the Black Forest *(Fixed in v1.4.7)*
-- **Black Forest Stability**: Previous freezing issues resolved through raid system optimization
-- **Bow draw blocked with quiver-only arrows**: If all arrows are inside the BBH quiver and none are in your main inventory, some bow logic may not detect ammo and refuse to draw. Workaround: keep at least one arrow stack in main inventory; select the desired arrows via the quiver bar (LeftShift+1–3 by default).
+### Current Known Issues
+
+#### Bow & Arrow System
+- **Issue**: Launching the game from R2mod man will take a while. BepinEx has to patch in all of the mods and configurations, it can take 5-10 minutes. But it will work! Please be patient. I'm sorry there isn't a workaround for this, it's annoying for me too.
+
+#### Bow & Arrow System
+- **Issue**: Bow draw blocked when arrows only in BBH quiver
+- **Workaround**: Keep at least one arrow stack in main inventory. Also I am currently looking into just disabling the quiver system, it kinds of breaks the game.
+- **Solution**: Use LeftShift+1-3 to select arrows from quiver bar
+
+#### Performance Considerations
+- **Winter Lag**: Snow particles automatically reduced (250/1000 vs 500/2000)
+- **Memory Usage**: 16GB RAM recommended for optimal performance
+- **Loading Times**: Initial world load may take 2-3 minutes. 
+
+#### Mod Conflicts
+- **Other Modpacks**: May conflict with major overhaul modpacks
+- **Custom Mods**: Adding mods may break balance or cause issues
+- **Version Mismatch**: Multiplayer requires identical mod versions
 
 ### Recent Fixes (v1.4.7)
-- **Trader Menu Overlap**: Resolved visual conflicts with TradersExtended GUI positioning
-- **Divine Armament Balance**: Significantly reduced drop rates to prevent early-game acquisition
-- **Staff of the Artificer**: Moved from early-game Abomination to late-game Fader enemies
+- ✅ **Trader GUI Overlap**: Fixed visual conflicts with extended traders (kind of lol)
+- ✅ **Divine Armament Balance**: Reduced early-game drop rates
+- ✅ **Staff Progression**: Moved Staff of Artificer to appropriate tier
+- ✅ **Black Forest Stability**: Resolved freezing issues
 
-### Need Help?
-- **Game won't start**: Ensure BepInEx is properly installed with all dependencies
-- **Mods not loading**: Verify all mod files are in the correct `BepInEx/plugins` folder
-- **Multiplayer issues**: Confirm all players have identical mod versions and configurations
-- **Performance problems**: Try reducing graphics settings or disabling resource-intensive mods
+### Troubleshooting Guide
 
-### 💬 Connect With Us
+#### Game Won't Start
+1. **Verify** BepInEx installation (check for winhttp.dll in game folder)
+2. **Check** mod file integrity (re-download corrupted files)
+3. **Review** console for error messages
+4. **Disable** mods one by one to isolate issues
+
+#### Mods Not Loading
+1. **Confirm** all files in `BepInEx/plugins/` folder
+2. **Check** dependencies are installed
+3. **Verify** configuration files present
+4. **Review** BepInEx console for mod loading errors
+
+#### Multiplayer Issues
+1. **Ensure** all players have identical mod versions
+2. **Verify** server has all required mods
+3. **Check** network connectivity and ports
+4. **Confirm** server configuration synchronization
+
+#### Performance Problems
+1. **Lower** graphics settings to Medium
+2. **Disable** bloom in Winter (automatic)
+3. **Close** unnecessary background programs
+4. **Verify** sufficient RAM available (16GB recommended)
+
+### Getting Support
+
+#### Community Resources
 - **Discord**: dogebooch
 - **Steam**: Friend Code 895642613
 - **Email**: drummerfr3ak@gmail.com
 
-**Have ideas for improvements or found a bug?** We'd love to hear from you! If you're familiar with Valheim modding and would like to help with the project, please reach out. I have future ideas to change a lot of content and expand/optimize the gameplay. I am currently making a wiki for this mod configuration.
+#### Reporting Issues
+When reporting bugs, please include:
+- Dogeheim version number
+- Detailed description of issue
+- Steps to reproduce
+- Console log files (if applicable)
+- System specifications
 
-### Useful Resources
-- [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager)
-- [BepInEx Documentation](https://docs.bepinex.dev/)
-- [Valheim Official Discord](https://discord.gg/valheim)
+#### Contributing
+If you're familiar with Valheim modding and would like to contribute:
+- Balance suggestions welcome
+- Bug fixes appreciated
+- New content ideas considered
+- Wiki documentation help needed
 
 ---
 
 ## 📄 Credits & Acknowledgments
 
-This modpack is a collection of incredible mods created by talented authors. Each mod retains its original license.
+### Core Systems
+- **WackyMole**: EpicMMOSystem, WackysDatabase
+- **RandyKnapp**: EpicLoot magic item system
+- **Smoothbrain**: Drop That, Spawn That systems
 
-### Special Thanks
-- **WackyMole** - MMO system and progression
-- **Therzie** - Combat and magic systems
-- **Warpalicious** - World expansion content
-- **Smoothbrain** - Quality of life improvements
-- **Azumatt** - Inventory and convenience features
-- **OdinPlus** - Building and crafting enhancements
-- **blacks7ar** - Magic revamp and fine wood pieces
-- **JewelHeim** - RelicHeim content and systems
+### Combat & Magic
+- **Therzie**: Warfare, Wizardry, Armory, Monstrum series
+- **blacks7ar**: Magic Revamp, Bow Plugin, cooking systems
+- **Azumatt**: BowsBeforeHoes, inventory extensions
 
-And all other mod authors whose incredible work makes Dogeheim possible.
+### World & Content
+- **Warpalicious**: World expansion mods
+- **Shudnal**: Seasons system
+- **OdinPlus**: Building and crafting extensions
+- **Digitalroot**: Forsaken content
+
+### Quality of Life
+- **Vapok**: Adventure Backpacks system
+- **GoldenRevolver**: Quick Stack Store
+- **Marcopogo**: PlanBuild blueprint system
+- **Nexmods contributors**: Various enhancement mods
+
+### Special Recognition
+This modpack represents hundreds of hours of development from talented modders. Each mod retains its original license and authorship. Dogeheim serves as a curated experience showcasing these incredible works in harmony.
 
 ---
 
-## 🎯 Ready to Begin Your Epic Journey?
+## 🎯 Ready for Your Epic Journey?
 
-**Dogeheim awaits, warrior.** Are you ready to face the ultimate challenge? Install Dogeheim today and experience Valheim like never before - where every battle matters, every level earned feels significant, and every victory is truly epic.
+**Dogeheim awaits, warrior.** This isn't just another modpack - it's a complete transformation of Valheim into a challenging MMO experience where every battle matters, every level earned feels significant, and every victory is truly epic.
 
-*For the best experience, ensure all players use the same mod versions in multiplayer.*
+### Quick Start Checklist
+- [ ] Install via Thunderstore Mod Manager
+- [ ] Start fresh world for full experience  
+- [ ] Invite friends for multiplayer adventure
+- [ ] Check out the [Wiki](link-when-ready) for detailed guides
+- [ ] Join the community for tips and strategies
+
+**Remember**: This modpack is designed for extended play sessions and meaningful progression. Embrace the challenge, work with your team, and prepare for the ultimate Viking adventure.
+
+*For optimal experience, ensure all multiplayer participants use identical mod versions.*
