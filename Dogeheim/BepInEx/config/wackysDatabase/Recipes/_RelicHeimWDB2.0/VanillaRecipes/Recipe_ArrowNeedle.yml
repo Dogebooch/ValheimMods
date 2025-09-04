@@ -1,0 +1,14 @@
+name: ArrowNeedle_Recipe_FletcherTable
+clonePrefabName: NO
+craftingStation: FletcherTable_TW
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 20
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Needle:4:0:True
+- Feathers:2:0:True

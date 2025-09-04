@@ -1,0 +1,14 @@
+# Vanilla Armor Enchantment Requirements
+# This file enables enchanting for vanilla blackmetal armor pieces
+
+# Blackmetal Armor (Plains tier - A rank)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_A
+    amount: 1
+  Items:
+  - HelmetBlackmetal
+  - ArmorBlackmetalChest
+  - ArmorBlackmetalLegs

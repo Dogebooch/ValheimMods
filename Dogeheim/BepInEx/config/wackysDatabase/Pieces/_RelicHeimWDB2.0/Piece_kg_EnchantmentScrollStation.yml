@@ -1,0 +1,54 @@
+name: kg_EnchantmentScrollStation
+piecehammer: Hammer
+m_name: $kg_enchantment_scrollstation
+sizeMultiplier: 0.7
+m_description: $kg_enchantment_scrollstation_description
+customIcon: 
+clonePrefabName: 
+material: 
+damagedMaterial: 
+craftingStation: ''
+piecehammerCategory: Crafting
+minStationLevel: 1
+amount: 1
+disabled: false
+adminonly: false
+comfort: 
+groundPiece: false
+ground: false
+waterPiece: false
+noInWater: false
+notOnFloor: false
+onlyinTeleportArea: false
+allowedInDungeons: false
+canBeRemoved: true
+notOnWood: false
+wearNTearData: 
+craftingStationData:
+  cStationCustomIcon: 
+  discoveryRange: 4
+  buildRange: 10
+  craftRequiresRoof: false
+  craftRequiresFire: false
+  showBasicRecipes: false
+  useDistance: 5
+  useAnimation: 1
+cSExtensionData: 
+cSExtensionDataList: 
+contData: 
+smelterData: 
+cookingStationData: 
+beehiveData: 
+fermStationData: 
+sapData: 
+incineratorData: 
+fireplaceData: 
+teleportWorldData: 
+plantData: 
+shipData: 
+shieldGenData: 
+batteringRamData: 
+build:
+- Ruby:1:1:True
+- Stone:30:1:True
+- Flint:20:1:True

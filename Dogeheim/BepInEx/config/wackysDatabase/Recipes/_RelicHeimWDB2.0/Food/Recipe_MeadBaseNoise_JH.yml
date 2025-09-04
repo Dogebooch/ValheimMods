@@ -1,0 +1,13 @@
+name: MeadBaseNoise_JH
+clonePrefabName: MeadBaseNoise_JH
+craftingStation: $piece_meadcauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- MeadTasty:3:0:True
+- TrollHide:5:0:True
+- Honey:10:0:True

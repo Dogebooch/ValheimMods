@@ -1,0 +1,16 @@
+name: FlintDevastator_JH
+clonePrefabName: FlintDevastator_JH
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Wood:15:8:True
+- Flint:10:6:True
+- DeerHide:2:2:True
+- BoneFragments:0:5:True

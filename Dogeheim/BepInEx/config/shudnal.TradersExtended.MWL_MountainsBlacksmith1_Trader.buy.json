@@ -1,0 +1,216 @@
+[
+  {
+    "prefab": "MWL_blacksmithStone_tier2",
+    "stack": 1,
+    "price": 750,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "SwordSilver",
+    "stack": 1,
+    "price": 500,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "MaceSilver",
+    "stack": 1,
+    "price": 450,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "SpearWolfFang",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "BowDraugrFang",
+    "stack": 1,
+    "price": 700,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArmorWolfChest",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArmorWolfLegs",
+    "stack": 1,
+    "price": 700,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "HelmetDrake",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ShieldSilver",
+    "stack": 1,
+    "price": 400,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArrowSilver",
+    "stack": 20,
+    "price": 200,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArrowFrost",
+    "stack": 20,
+    "price": 250,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "ArrowObsidian",
+    "stack": 20,
+    "price": 300,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Silver",
+    "stack": 1,
+    "price": 40,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Silver",
+    "stack": 10,
+    "price": 380,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Crystal",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Crystal",
+    "stack": 10,
+    "price": 480,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Obsidian",
+    "stack": 1,
+    "price": 35,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Obsidian",
+    "stack": 20,
+    "price": 650,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "WolfPelt",
+    "stack": 1,
+    "price": 60,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "WolfFang",
+    "stack": 1,
+    "price": 25,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "FreezeGland",
+    "stack": 1,
+    "price": 30,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "DrakeHelmet",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "CrystalBattleaxe",
+    "stack": 1,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "Battleaxe",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "SledgeIron",
+    "stack": 1,
+    "price": 400,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "PickaxeIron",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "Forge",
+    "stack": 1,
+    "price": 1200,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "ForgeExt1",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "ForgeExt2",
+    "stack": 1,
+    "price": 1000,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "StoneCutter",
+    "stack": 1,
+    "price": 600,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "MeadFrostResist",
+    "stack": 1,
+    "price": 80,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "CapeLox",
+    "stack": 1,
+    "price": 1000,
+    "requiredGlobalKey": "defeated_goblinking"
+  },
+  {
+    "prefab": "CapeWolf",
+    "stack": 1,
+    "price": 800,
+    "requiredGlobalKey": "defeated_dragon"
+  },
+  {
+    "prefab": "CapeTrollHide",
+    "stack": 1,
+    "price": 400,
+    "requiredGlobalKey": "defeated_gdking"
+  },
+  {
+    "prefab": "IronBountyToken",
+    "stack": 1,
+    "price": 100
+  },
+  {
+    "prefab": "GoldBountyToken",
+    "stack": 1,
+    "price": 300
+  }
+]

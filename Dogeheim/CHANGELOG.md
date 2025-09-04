@@ -1,7 +1,67 @@
 # Dogeheim Changelog
 
-## [Unreleased]
+## [1.6.10]
 *Changes coming in the next version*
+
+### 🔄 Changed
+- **EpicLoot Backpack Consolidation**: Consolidated redundant EpicLoot material storage backpacks:
+  - **Kept**: "EpicLoot Backpack" (6x4 → 7x4 upgrade path) - Primary storage for EpicLoot materials
+  - **Removed**: "Andvaranaut Backpack" (5x2 → 5x3 upgrade path) - Redundant smaller backpack
+  - **Benefits**: Eliminated confusion between two identical-purpose backpacks, streamlined EpicLoot material storage
+  - **Configuration**: Updated `Backpacks.MajesticEpicLoot.yml` and `Detalhes.ItemRequiresSkillLevel.yml` in both main and Dogeheim configs
+
+- **Complete Backpack Disabling**: Disabled all craftable backpacks for clean gameplay:
+  - **Disabled**: All backpacks including EpicLoot Backpack and Mining Backpack
+  - **Kept**: Backpacks mod itself (for potential future use or other mod integration)
+  - **Benefits**: Eliminates "weird mechanic" feeling, cleaner vanilla-like experience
+  - **Configuration**: Updated all backpack configs with `disabled: true` in both main and Dogeheim configs
+
+- **Final Backpack Status**: All 12 backpacks completely disabled:
+  - **EpicLoot Backpack**: Disabled (EpicLoot materials)
+  - **Mining Backpack**: Disabled (ores/metals with weight reduction)
+  - **General Backpacks**: All 10 disabled (Explorers, Simple, Foraging, Treasures, Troll, Food, Trophy, Scroll, Ammo, Wishbone)
+  - **Result**: Clean, vanilla-like gameplay with no specialized storage containers
+  - **Mod Status**: Backpacks mod remains active for potential future use or mod integration
+
+### 🗑️ Removed
+- **Bows Before Hoes (Azumatt)** - Removed due to quiver system conflicts:
+  - **Issues**: Quiver system caused inventory slot problems and interaction conflicts
+  - **Problems**: Interfered with other mod inventory systems and created slot management issues
+  - **Benefits**: Cleaner inventory management, eliminated mod conflicts, improved stability
+  - **Result**: Core bow functionality remains through other bow mods (BowPlugin, MagicBows, Bow of Frey)
+
+---
+
+## [1.6.9] - 2025-01-XX - Dependency Cleanup & Configuration Optimization
+
+### ✨ Added
+- **CraftingFilter (cjayride)** - Enhanced crafting interface with filtering capabilities
+- **WieldEquipmentWhileSwimming (blacks7ar)** - Allows using weapons and tools while swimming
+
+### 🔄 Changed
+- **Dependency Updates**:
+  - BepInEx updated to 5.4.2333
+  - WackyEpicMMOSystem updated to 1.9.46
+  - Marlthon-OdinShipPlus updated to 0.6.8
+  - OdinsFoodBarrels updated to 1.2.0
+  - SaveCrossbowState updated to 1.0.2
+  - EpicLoot updated to 0.11.4
+  - Jotunn updated to 2.26.1
+  - RelicHeim updated to 5.4.12
+  - HugotheDwarf-Shapekeys_and_More updated to 3.1.0
+
+### 🗑️ Removed
+- **ZenUI (ZenDragon)** - Removed unused UI framework
+- **Character Customization (Balrond)** - Removed unused character appearance mod
+- **Zen ModLib (ZenDragon)** - Removed unused core library
+- **Adventure Backpacks (Vapok)** - Removed duplicate backpack system
+- **PressurePlate (MSchmoecker)** - Removed unused mod
+- **Display BepInEx Info** - Removed unused debugging mod
+
+### ⚙️ Configuration Updates
+- **WieldEquipmentWhileSwimming**: Configured to allow all equipment types in water with Hoe blacklisted
+- **Hugo's Armory**: Disabled external localization to use built-in English only
+- **Modpack optimization**: Removed conflicting and unused configurations for improved stability
 
 ---
 

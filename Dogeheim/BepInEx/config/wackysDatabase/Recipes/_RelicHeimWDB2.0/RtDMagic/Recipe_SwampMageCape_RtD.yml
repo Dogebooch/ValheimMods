@@ -1,0 +1,13 @@
+name: SwampMageCape_RtD
+clonePrefabName: SwampMageCape_RtD
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_wizardtable_TW
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+

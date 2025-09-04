@@ -1,0 +1,293 @@
+---
+# More World Locations AIO - Creature Lists
+# Consolidated creature lists for AIO config
+# Organized by biome and location type
+
+# ===== DUNGEON-SPECIFIC LISTS =====
+
+# Forbidden Catacombs - expanded skeleton and undead mix for both sections
+CatacombCreatures_Expanded:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Draugr
+  - Draugr_Elite
+  - Wraith
+
+# Underground Ruins - dangerous Black Forest dungeon mix
+UndergroundRuinsCreatures1:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Draugr
+  - Draugr_Elite
+  - Wraith
+
+# ===== MEADOWS LOCATIONS =====
+
+# Meadows Standard Creature List
+MeadowsCreatures_Standard:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+
+# Meadows Farm Animals
+MeadowsCreatures5:
+  - Boar
+  - Neck
+  - Neck
+
+# ===== BLACK FOREST LOCATIONS =====
+
+# Black Forest Standard Creature List
+BlackforestCreatures_Standard:
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+
+# Black Forest Pack 2 Enhanced Creature List
+BlackforestPack2Creatures:
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+
+# Black Forest Pack 2 Skull/Death Themed
+BlackforestPack2SkullCreatures1:
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+
+# Black Forest Pack 2 Grave/Burial Themed
+BlackforestPack2GraveCreatures1:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+
+# ===== SWAMP LOCATIONS =====
+
+# Swamp Standard Creature List
+SwampCreatures_Standard:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Draugr
+  - Draugr_Elite
+  - Wraith
+
+# Swamp Altar Specialized Creature List
+SwampAltarCreatures1:
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+  - Draugr
+  - Draugr_Elite
+  - Wraith
+
+ 
+
+# ===== MOUNTAINS LOCATIONS =====
+
+# Mountains Standard Creature List
+MountainsCreatures_Standard:
+  - Wolf
+  - Ulv
+  - Hatchling
+
+# ===== MISTLANDS LOCATIONS =====
+
+# Mistlands Full Creature List
+MistlandsCreatures_Full:
+  - Seeker
+  - SeekerBrute
+  - Tick
+  - Gjall
+
+# Mistlands Light Creature List
+MistlandsCreatures_Light:
+  - Seeker
+  - SeekerBrute
+  - Gjall
+
+# ===== PLAINS LOCATIONS =====
+
+# Plains Tier 1 - Basic
+PlainsCreatures1:
+  - Goblin
+  - GoblinShaman
+  - GoblinBrute
+
+# Plains Tier 2 - Enhanced
+PlainsCreatures2:
+  - Goblin
+  - GoblinShaman
+  - GoblinBrute
+
+# Plains Tier 3 - Elite
+PlainsCreatures3:
+  - Goblin
+  - GoblinShaman
+  - GoblinBrute
+
+# ===== ASHLANDS LOCATIONS =====
+
+# Ashlands Creature List
+AshlandsCreatures1:
+  - Morgen
+  - Charred_Warrior
+  - Charred_Archer
+  - Charred_Mage
+
+# ===== CROSS-BIOME LOCATIONS =====
+
+# Wood Tavern Creature List
+WoodTavernCreatures1:
+  - Greydwarf
+  - Greydwarf_Elite
+  - Greydwarf_Shaman
+  - Skeleton
+  - Skeleton_Poison
+  - Skeleton_NoArcher
+
+# ===== LOCATION-SPECIFIC MAPPINGS =====
+
+# Meadows Locations
+MWL_MeadowsBarn1: MeadowsCreatures5
+MWL_MeadowsHouse2: MeadowsCreatures_Standard
+MWL_MeadowsRuin1: MeadowsCreatures_Standard
+MWL_MeadowsTomb4: MeadowsCreatures_Standard
+MWL_MeadowsTower1: MeadowsCreatures_Standard
+MWL_OakHut1: MeadowsCreatures_Standard
+MWL_SmallHouse1: MeadowsCreatures_Standard
+MWL_MeadowsFarm1: MeadowsCreatures5
+MWL_MeadowsLighthouse1: MeadowsCreatures_Standard
+MWL_MeadowsSawmill1: MeadowsCreatures_Standard
+MWL_MeadowsWall1: MeadowsCreatures_Standard
+MWL_MeadowsTavern1: MeadowsCreatures_Standard
+MWL_DeerShrine1: MeadowsCreatures_Standard
+MWL_DeerShrine2: MeadowsCreatures_Standard
+
+# Black Forest Locations
+MWL_Ruins1: BlackforestCreatures_Standard
+MWL_Ruins2: BlackforestCreatures_Standard
+MWL_Ruins3: BlackforestCreatures_Standard
+MWL_Ruins6: BlackforestCreatures_Standard
+MWL_Ruins7: BlackforestCreatures_Standard
+MWL_Ruins8: BlackforestCreatures_Standard
+MWL_RuinsWell1: BlackforestCreatures_Standard
+MWL_WoodTower1: BlackforestCreatures_Standard
+MWL_WoodTower2: BlackforestCreatures_Standard
+MWL_WoodTower3: BlackforestCreatures_Standard
+MWL_RuinsTower3: BlackforestCreatures_Standard
+MWL_RuinsTower6: BlackforestCreatures_Standard
+MWL_RuinsTower8: BlackforestCreatures_Standard
+MWL_RuinsCastle1: BlackforestCreatures_Standard
+MWL_RuinsCastle3: BlackforestCreatures_Standard
+MWL_RuinsArena1: BlackforestCreatures_Standard
+MWL_RuinsArena2: BlackforestCreatures_Standard
+MWL_RuinsArena3: BlackforestCreatures_Standard
+MWL_RuinsChurch1: BlackforestCreatures_Standard
+MWL_Tavern1: WoodTavernCreatures1
+
+# Enhanced Black Forest Locations
+ForestForge1: BlackforestPack2Creatures
+ForestForge2: BlackforestPack2Creatures
+ForestGreatHouse2: BlackforestPack2Creatures
+ForestHouse2: BlackforestPack2Creatures
+ForestRuin1: BlackforestPack2Creatures
+ForestRuin2: BlackforestPack2Creatures
+ForestRuin3: BlackforestPack2Creatures
+ForestTower2: BlackforestPack2Creatures
+ForestTower3: BlackforestPack2Creatures
+ForestTower4: BlackforestPack2Creatures
+ForestTower5: BlackforestPack2Creatures
+ForestPillar1: BlackforestPack2Creatures
+ForestSkull1: BlackforestPack2SkullCreatures1
+ForestCamp1: BlackforestPack2Creatures
+MassGrave1: BlackforestPack2GraveCreatures1
+StoneFormation1: BlackforestPack2GraveCreatures1
+GuardTower1: BlackforestCreatures_Standard
+RootRuins1: BlackforestPack2Creatures
+RootsTower1: BlackforestPack2Creatures
+RootsTower2: BlackforestPack2Creatures
+StoneOutlook1: BlackforestPack2Creatures
+
+# Swamp Locations
+SwampAltar1: SwampAltarCreatures1
+SwampAltar2: SwampAltarCreatures1
+SwampAltar3: SwampAltarCreatures1
+SwampAltar4: SwampAltarCreatures1
+SwampCastle2: SwampCreatures_Standard
+SwampGrave1: SwampCreatures_Standard
+SwampHouse1: SwampCreatures_Standard
+SwampRuin1: SwampCreatures_Standard
+SwampTower1: SwampCreatures_Standard
+SwampTower2: SwampCreatures_Standard
+SwampTower3: SwampCreatures_Standard
+SwampWell1: SwampCreatures_Standard
+SwampBrokenTower1: SwampCreatures_Standard
+SwampBrokenTower3: SwampCreatures_Standard
+SwampCourtyard1: SwampCreatures_Standard
+GuckPit1: SwampCreatures_Standard
+CoastTower1: SwampCreatures_Standard
+
+# Mountains Locations
+MountainDvergrShrine1: MountainsCreatures_Standard
+MountainShrine1: MountainsCreatures_Standard
+
+# Mistlands Locations
+MistWorkshop1: MistlandsCreatures_Full
+MistTower1: MistlandsCreatures_Full
+MistWall1: MistlandsCreatures_Full
+MistTower2: MistlandsCreatures_Full
+MistHut1: MistlandsCreatures_Light
+Misthut2: MistlandsCreatures_Light
+MistShrine1: MistlandsCreatures_Full
+MistFort2: MistlandsCreatures_Light
+DvergrEitrSingularity1: MistlandsCreatures_Full
+DvergrHouse1: MistlandsCreatures_Light
+DvergrKnowledgeExtractor1: MistlandsCreatures_Full
+
+# Plains Locations
+MWL_AshlandsFort1: AshlandsCreatures1
+MWL_AshlandsFort2: AshlandsCreatures1
+MWL_AshlandsFort3: AshlandsCreatures1
+FortBakkarhalt1: PlainsCreatures2
+Belmont1: PlainsCreatures2
+StoneCastle1: PlainsCreatures2
+StoneFort1: PlainsCreatures2
+StoneHall1: PlainsCreatures2
+StoneTavern1: PlainsCreatures2
+StoneTower1: PlainsCreatures2
+StoneTower2: PlainsCreatures2
+StoneAltar1: PlainsCreatures2
+GoblinFort1: PlainsCreatures2
+FulingRock1: PlainsCreatures3
+FulingVillage1: PlainsCreatures2
+FulingVillage2: PlainsCreatures2
+FulingTemple1: PlainsCreatures3
+FulingTemple2: PlainsCreatures2
+FulingTemple3: PlainsCreatures2
+FulingWall1: PlainsCreatures3
+FulingTower1: PlainsCreatures3
+PlainsPillar1: PlainsCreatures1
+RockGarden1: PlainsCreatures2
+
+# Cross-Biome Locations
+SecretRoom1: MeadowsCreatures_Standard
+AncientShrine1: MeadowsCreatures_Standard
+CastleCorner1: MeadowsCreatures_Standard
+RuinedTower1: MeadowsCreatures_Standard
+TreeTowers1: BlackforestCreatures_Standard
+AbandonedHouse1: MeadowsCreatures_Standard
+Treehouse1: BlackforestCreatures_Standard
+Shipyard1: MeadowsCreatures_Standard
+TempleShrine1: MeadowsCreatures_Standard
+WoodBarn1: MeadowsCreatures_Standard
+WoodFarm1: MeadowsCreatures_Standard
+WoodHouse1: MeadowsCreatures_Standard

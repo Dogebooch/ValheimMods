@@ -1,0 +1,62 @@
+- Items:
+  - ShieldBanded
+  - ShieldBlackmetal
+  - ShieldBlackmetalTower
+  - ShieldBoneTower
+  - ShieldBronzeBuckler
+  - ShieldCarapace
+  - ShieldCarapaceBuckler
+  - ShieldFlametal
+  - ShieldFlametalTower
+  - ShieldIronBuckler
+  - ShieldIronTower
+  - ShieldSerpentscale
+  - ShieldSilver
+  - ShieldWood
+  - ShieldWoodTower
+  - ShieldBronzeBanded_TW
+  - ShieldBronzeTower_TW
+  - ShieldChitin_TW
+  - ShieldChitinTower_TW
+  - ShieldChitinBuckler_TW
+  - ShieldSilverBuckler_TW
+  - ShieldBlackmetalBuckler_TW
+  - ShieldCarapaceTower_TW
+  - ShieldArcticSerpentscale_TW
+  - ShieldNjordTower_TW
+  - ShieldSurtrTower_TW
+  - ShieldNjord_TW
+  - ShieldSurtr_TW
+  - ShieldNjordBuckler_TW
+  - ShieldSurtrBuckler_TW
+  Chances:
+    1:
+      success: 95
+    2:
+      success: 90
+    3:
+      success: 80
+    4:
+      success: 70
+    5:
+      success: 60
+    6:
+      success: 50
+    7:
+      success: 40
+    8:
+      success: 30
+    9:
+      success: 20
+    10:
+      success: 10
+    11:
+      success: 8
+    12:
+      success: 6
+    13:
+      success: 4
+    14:
+      success: 2
+    15:
+      success: 0

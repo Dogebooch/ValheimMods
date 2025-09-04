@@ -1,0 +1,13 @@
+name: VegetableSoup_JH
+clonePrefabName: VegetableSoup_JH
+craftingStation: $piece_cauldron
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- Carrot:2:1:True
+- Turnip:2:1:True
+- Entrails:1:1:True

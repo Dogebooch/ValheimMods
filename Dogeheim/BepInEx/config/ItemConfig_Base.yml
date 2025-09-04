@@ -1,0 +1,269 @@
+groups:
+  Huge Wood Gain:
+  - Wood
+  - Fine Wood
+  - Core Wood
+  - Ancient Bark
+  MeadBase:
+  - BarleyWineBase
+  - MeadBaseTamer
+  - MeadBaseSwimmer
+  - MeadBaseLightFoot
+  - MeadBaseStrength
+  - MeadBaseBugRepellent
+  - MeadBaseBzerker
+  - MeadBaseHasty
+  - MeadBaseEitrMinor
+  - MeadBaseFrostResist
+  - MeadBaseHealthMajor
+  - MeadBaseHealthMedium
+  - MeadBaseHealthMinor
+  - MeadBasePoisonResist
+  - MeadBaseStaminaLingering
+  - MeadBaseStaminaMedium
+  - MeadBaseStaminaMinor
+  - MeadBaseTasty
+  - MeadBaseEitrLingering
+  - MeadBaseHealthLingering
+  - MeadBaseLightningResist_TW
+  - MeadBaseLingeringStaminaMinor_TW
+  - MeadBaseLingeringStaminaMedium_TW
+  - MeadBaseEitrBlackForest_TW
+  - MeadBaseEitrMountain_TW
+  CustomFood:
+  - HoneyGlazedDeer
+  - HoneyGlazedMeat
+  - HoneyGlazedNeck
+  - HoneyGlazedLox
+  - HoneyGlazedFish
+  - HoneyGlazedWolf
+  - JellyGlazedHare
+  - JellyGlazedSeeker
+  - CookedEntrails
+  - ElkJerky
+  - LoxJerky_JH
+  - SeekerJerky_JH
+  - FishJerky_JH
+  - FishStew_JH
+  - NeckJerky_JH
+  - SerpentJerky_JH
+  - FishNLoxSkewer
+  - FishMeatSkewer
+  - DandelionTea_JH
+  CookingAdditionsSoups:
+  - BCA_ChickenSoup
+  - BCA_FishSoup
+  - BCA_MeatSoup
+  - BCA_TomatoSoup
+  - BCA_VeggieSoup
+  CookingAdditionsPreparedFoods:
+  - BCA_BoiledEgg
+  - BCA_SpicyMeatPlatter
+  - BCA_SpicyMeatSupreme
+  - BCA_SpicySerpentMeat
+  - BCA_SweetNSpicyFish
+  CookingAdditionsSaltedMeats:
+  - BCA_Undryed_AsksvinMeat
+  - BCA_Undryed_BugMeat
+  - BCA_Undryed_ChickenMeat
+  - BCA_Undryed_DeerMeat
+  - BCA_Undryed_Fish
+  - BCA_Undryed_HareMeat
+  - BCA_Undryed_RawMeat
+  - BCA_Undryed_WolfMeat
+  CookingAdditionsIngredients:
+  - BCA_ChiliPepperSeeds
+  - BCA_TomatoSeeds
+  - BCA_Salt
+  CookingAdditionsCoatedEggs:
+  - BCA_Coated_AsksvinEgg
+  - BCA_Coated_ChickenEgg
+  - BCA_Coated_VoltureEgg
+  ReduceWeight:
+  - Stone
+  - BlackMarble
+  - Flint
+  - Coal
+  - Tar
+  - Obsidian
+  - SulfurStone
+  - Grausten
+  - Chitin
+  - CeramicPlate
+  WizardryScrolls:
+  - ArcaneScroll_DamageBuff_TW
+  - ArcaneScroll_SpeedBuff_TW
+  - ArcaneScroll_JumpBuff_TW
+  - ArcaneScroll_SlowfallBuff_TW
+  MetalsDeepNorth:
+  - RagnoriteBar_TW
+  - TyraniumBar_TW
+  - ThoradusBar_TW
+  - LokvyrBar_TW
+  - RagnoriteOre_TW
+  - TyraniumOre_TW
+  - LokvyrOre_TW
+#
+all:
+    floating: yes
+    pickup: yes
+
+NeckTailGrilled:
+    floating: no
+SeekerAspic:
+    floating: no
+HoneyGlazedNeck:
+    floating: no
+
+Stackable:
+    stack: 200
+
+WizardryScrolls:
+    stack: 10
+
+DragonEgg:
+    stack: 3
+    weight: 100
+
+SurtrDrakeEgg_TW:
+    teleportable: yes
+    weight: 100
+
+CryptKey:
+    stack: 10
+
+MeadBase:
+    stack: 100
+
+mmo_mead_minor:
+    stack: 100
+
+mmo_mead_med:
+    stack: 100
+
+mmo_mead_greater:
+    stack: 100
+
+Food:
+    stack: 200
+    loss: no
+
+CustomFood:
+    stack: 200
+    loss: no
+
+Food Backpack:
+    loss: no
+
+CookingAdditionsSoups:
+    stack: 200
+    loss: no
+
+CookingAdditionsPreparedFoods:
+    stack: 200
+    loss: no
+
+CookingAdditionsSaltedMeats:
+    stack: 200
+    loss: no
+
+CookingAdditionsIngredients:
+    stack: 100
+    loss: no
+
+CookingAdditionsCoatedEggs:
+    stack: 50
+    loss: no
+
+metal:
+    teleportable: no
+    stack: 100
+    Weight: 10
+
+ore:
+    teleportable: no
+    stack: 100
+    Weight: 10
+
+MetalsDeepNorth:
+    teleportable: no
+    stack: 200
+    Weight: 10
+
+ReduceWeight:
+    stack: 200
+    Weight: 1
+
+trophy:
+    stack: 100
+    Weight: 2
+
+boss trophy:
+    stack: 100
+    Weight: 2
+
+Coins:
+    stack: 9999
+
+valuable:
+    stack: 100
+    weight: 0.05
+
+Wood:
+  stack: 200
+  weight: 1
+
+FineWood:
+    stack: 200
+    weight: 1
+
+RoundLog:
+    stack: 200
+    weight: 1
+
+ElderBark:
+    stack: 200
+    weight: 1
+
+YggdrasilWood:
+    stack: 200
+    weight: 1
+
+Blackwood:
+    stack: 200
+    weight: 1
+
+BorealWood_TW:
+    stack: 200
+    weight: 1
+
+BorealPineWood_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodBlackForest_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodSwamp_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodMountain_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodPlains_TW:
+    stack: 200
+    weight: 1
+
+EnchantedWoodMistlands_TW:
+    stack: 200
+    weight: 1
+
+silver ore:
+  weight: 10
+  stack: 50
+
+ooze:
+  pickup: no

@@ -1,0 +1,65 @@
+# Shawesome's Divine Armaments - high tier
+
+# Armor (A/S tiers)
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_A
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_A
+    amount: 1
+  Items:
+  - 9bchest
+  - 9bGreaves
+  - mythrillchest
+  - mythrilllegs
+  - shawfirehelm
+  - shawfirechest
+  - shawfirelegs
+  - shawfrosthelm
+  - shawfrostchest
+  - shawfrostlegs
+  - EOMhead
+  - EOMchest
+  - EOMlegs
+
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - dhakharianchest
+  - dhakharianGreaves
+  - dhakharianhelm
+  - sVandemDracoChest
+  - sVandemDracoGreaves
+  - sVandemDracohead
+  - shwsmpalladinhead
+  - shwsmpalladinheadVisor
+  - shwsmpalladinCuirass
+  - shwsmpalladinGreaves
+  - slayerhelm
+
+# Capes
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Armor_Blessed_S
+    amount: 1
+  Items:
+  - shawesomeslayercape
+  - ShawesomeCape
+
+# Weapons
+- enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_S
+    amount: 1
+  blessed_enchant_prefab:
+    prefab: kg_EnchantScroll_Weapon_Blessed_S
+    amount: 1
+  Items:
+  - shawesomesledge
+
+

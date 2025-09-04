@@ -1,0 +1,11 @@
+name: FishingBait
+clonePrefabName: FishingBait
+craftingStation: $piece_cauldron
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 3
+disabled: false
+requireOnlyOneIngredient: false
+reqs:
+- NeckTail:1:0:True

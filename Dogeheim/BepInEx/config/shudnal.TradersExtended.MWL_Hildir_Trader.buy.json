@@ -1,0 +1,14 @@
+[
+  {
+    "prefab": "Amber",
+    "stack": 1,
+    "price": 50,
+    "requiredGlobalKey": "defeated_bonemass"
+  },
+  {
+    "prefab": "AmberPearl",
+    "stack": 1,
+    "price": 100,
+    "requiredGlobalKey": "defeated_goblinking"
+  }
+]

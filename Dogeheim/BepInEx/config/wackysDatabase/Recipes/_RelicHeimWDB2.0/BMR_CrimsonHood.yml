@@ -1,0 +1,16 @@
+name: BMR_CrimsonHood
+clonePrefabName: BMR_CrimsonHood
+craftingStation: $piece_arcaneanvil_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_arcaneanvil_TW
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- GemstoneRed:1:0:True
+- AskHide:14:7:True
+- CharredBone:8:4:True
+- FlametalNew:13:6:True

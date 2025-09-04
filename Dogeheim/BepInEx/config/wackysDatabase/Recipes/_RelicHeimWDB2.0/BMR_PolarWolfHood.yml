@@ -1,0 +1,16 @@
+name: BMR_PolarWolfHood
+clonePrefabName: BMR_PolarWolfHood
+craftingStation: $piece_arcaneanvil_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: $piece_arcaneanvil_TW
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- WolfClaw:1:0:True
+- WolfPelt:7:3:True
+- Silver:9:4:True
+- DeerHide:6:3:True
