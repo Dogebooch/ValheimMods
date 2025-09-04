@@ -1,0 +1,16 @@
+name: BMR_RootWand_Recipe_Workbench
+clonePrefabName: NO
+craftingStation: $piece_wizardtable_TW
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Root:4:0:True
+- ElderBark:8:4:True
+- Iron:2:1:True
+- Guck:4:2:True

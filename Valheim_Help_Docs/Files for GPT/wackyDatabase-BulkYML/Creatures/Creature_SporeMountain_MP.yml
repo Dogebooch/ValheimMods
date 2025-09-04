@@ -1,0 +1,4 @@
+name: SporeMountain_MP
+mob_display_name: $enemy_sporemountain_mp
+clone_creature: 
+creature_replacer: 

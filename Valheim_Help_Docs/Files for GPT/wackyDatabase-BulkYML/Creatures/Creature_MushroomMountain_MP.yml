@@ -1,0 +1,4 @@
+name: MushroomMountain_MP
+mob_display_name: $enemy_mushroommount_mp
+clone_creature: 
+creature_replacer: 

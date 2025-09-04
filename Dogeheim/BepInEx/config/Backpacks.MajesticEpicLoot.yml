@@ -54,7 +54,6 @@ EpicLoot Backpack:
     - InfusedCrystal_JH
   weight factor: 1
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:

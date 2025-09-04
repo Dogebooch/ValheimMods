@@ -1,0 +1,4 @@
+name: BMR_SummonGreydwarf_Elite
+mob_display_name: $bmr_summongreydwarf_elite
+clone_creature: 
+creature_replacer: 

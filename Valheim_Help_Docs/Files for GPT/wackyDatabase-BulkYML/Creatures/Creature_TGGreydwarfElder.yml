@@ -1,0 +1,4 @@
+name: TGGreydwarfElder
+mob_display_name: $enemy_greydwarfelder_tg
+clone_creature: 
+creature_replacer: 

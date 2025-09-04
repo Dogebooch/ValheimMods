@@ -1,0 +1,15 @@
+name: BBH_PlainsLox_Quiver_Recipe_Forge
+clonePrefabName: NO
+craftingStation: ''
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- FineWood:15:0:True
+- SerpentScale:5:2:True
+- LoxPelt:3:1:True

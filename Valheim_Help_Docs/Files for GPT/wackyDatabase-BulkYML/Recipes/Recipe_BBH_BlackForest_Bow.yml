@@ -1,0 +1,15 @@
+name: BBH_BlackForest_Bow
+clonePrefabName: 
+craftingStation: $piece_fletchertable_TW
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Bronze:0:10:True
+- Bronze:0:20:True
+- Bronze:0:30:True

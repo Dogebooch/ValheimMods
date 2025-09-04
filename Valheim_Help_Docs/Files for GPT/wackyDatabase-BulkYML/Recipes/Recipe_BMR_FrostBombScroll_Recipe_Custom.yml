@@ -1,0 +1,16 @@
+name: BMR_FrostBombScroll_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $bmr_spell_table
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 20
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- BMR_PaperAncient:20:0:True
+- SilverOre:20:0:True
+- Crystal:5:0:True
+- FreezeGland:10:0:True

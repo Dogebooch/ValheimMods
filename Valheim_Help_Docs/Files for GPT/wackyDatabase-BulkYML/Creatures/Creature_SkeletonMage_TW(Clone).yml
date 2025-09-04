@@ -1,0 +1,4 @@
+name: SkeletonMage_TW(Clone)
+mob_display_name: $skeleton_mage_TW
+clone_creature: 
+creature_replacer: 

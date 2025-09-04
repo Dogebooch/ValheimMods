@@ -1,0 +1,16 @@
+name: BBP_ExplodingArrow_Frost_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 1
+maxStationLevelCap: 
+repairStation: 
+amount: 20
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- BlackMetal:20:0:True
+- YggdrasilWood:20:0:True
+- Feathers:20:0:True
+- FreezeGland:20:0:True

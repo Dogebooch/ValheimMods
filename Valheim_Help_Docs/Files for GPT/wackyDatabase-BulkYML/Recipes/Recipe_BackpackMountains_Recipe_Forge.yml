@@ -1,0 +1,16 @@
+name: BackpackMountains_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- CapeWolf:1:0:True
+- WolfHairBundle:10:0:True
+- WolfPelt:0:5:True
+- Silver:0:5:True

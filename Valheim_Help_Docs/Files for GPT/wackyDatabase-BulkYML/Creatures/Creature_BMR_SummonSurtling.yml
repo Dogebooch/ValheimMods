@@ -1,0 +1,4 @@
+name: BMR_SummonSurtling
+mob_display_name: $bmr_summonsurtling
+clone_creature: 
+creature_replacer: 

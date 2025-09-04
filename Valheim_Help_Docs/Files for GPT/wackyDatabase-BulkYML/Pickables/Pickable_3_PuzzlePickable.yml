@@ -1,0 +1,12 @@
+name: 3_PuzzlePickable
+itemPrefab: SurtlingCore
+cloneOfWhatPickable: 
+material: 
+amount: 1
+size: 
+overrideName: ''
+respawnTimer: 0
+spawnOffset: 0.926
+ifHasHealth: 
+hiddenChildWhenPicked: core
+extraDrops: 

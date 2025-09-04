@@ -1,0 +1,18 @@
+name: BMB_Crossbow_Frost
+clonePrefabName: 
+craftingStation: $piece_fletchertable_TW
+minStationLevel: 5
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- BlackMetal:25:25:True
+- LeatherScraps:20:20:True
+- Resin:20:20:True
+- FineWood:35:35:True
+- FreezeGland:3:3:True
+- Crystal:5:5:True

@@ -1,0 +1,14 @@
+name: BMR_AbominationScroll_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $bmr_spell_table
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 5
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- BMR_PaperAncient:5:0:True
+- TrophyAbomination:5:0:True

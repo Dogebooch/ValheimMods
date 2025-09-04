@@ -1,0 +1,14 @@
+name: BBP_Crossbow_Iron
+clonePrefabName: 
+craftingStation: $piece_fletchertable_TW
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Iron:0:10:True
+- Iron:0:20:True

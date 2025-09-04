@@ -1,0 +1,4 @@
+name: BMR_SummonDraugr_Ranged
+mob_display_name: $bmr_summondraugr_ranged
+clone_creature: 
+creature_replacer: 

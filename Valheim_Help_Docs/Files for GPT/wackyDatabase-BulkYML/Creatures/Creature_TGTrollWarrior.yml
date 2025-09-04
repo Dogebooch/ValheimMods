@@ -1,0 +1,4 @@
+name: TGTrollWarrior
+mob_display_name: $enemy_trollwarrior
+clone_creature: 
+creature_replacer: 

@@ -1,0 +1,4 @@
+name: BMR_SummonTroll
+mob_display_name: $bmr_summontroll
+clone_creature: 
+creature_replacer: 

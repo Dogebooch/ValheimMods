@@ -1,0 +1,4 @@
+name: SporeForest_MP
+mob_display_name: $enemy_sporeforest_mp
+clone_creature: 
+creature_replacer: 

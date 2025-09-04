@@ -1,0 +1,15 @@
+name: BMR_ComfortScroll6_Recipe_Custom
+clonePrefabName: NO
+craftingStation: $bmr_spell_table
+minStationLevel: 3
+maxStationLevelCap: 
+repairStation: 
+amount: 20
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- BMR_PaperAncient:20:0:True
+- CookedBugMeat:10:0:True
+- RoyalJelly:10:0:True

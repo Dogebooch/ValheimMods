@@ -1,0 +1,17 @@
+name: BBH_Seeker_Bow
+clonePrefabName: 
+craftingStation: $piece_fletchertable_TW
+minStationLevel: 5
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- BlackMetal:20:20:True
+- LeatherScraps:15:15:True
+- Resin:15:15:True
+- FineWood:30:30:True
+- YggdrasilWood:15:15:True

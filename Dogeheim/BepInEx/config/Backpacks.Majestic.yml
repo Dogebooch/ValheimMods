@@ -35,7 +35,6 @@ Explorers Backpack:
    - ammo
   weight factor: 0.9
   crafting:
-    disabled: true
     station: Workbench
     level: 1
     costs:
@@ -100,7 +99,6 @@ Simple Backpack:
    - ammo
   weight factor: 0.9
   crafting:
-    disabled: true
     station: Workbench
     level: 1
     costs:
@@ -145,7 +143,6 @@ Mining Backpack:
     - TyraniumOre_TW
   weight factor: 0.75
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:
@@ -225,7 +222,6 @@ Foraging Backpack:
     - GlacierStone_TW
   weight factor: 0.5
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:
@@ -279,7 +275,6 @@ Treasures Backpack:
    - valuable
   weight factor: 0.5
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:
@@ -330,7 +325,6 @@ Troll Backpack:
    - ammo
   weight factor: 0.9
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:
@@ -413,7 +407,6 @@ Food Backpack:
     - food
   weight factor: 1
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:
@@ -453,7 +446,6 @@ Trophy Backpack:
     - boss trophy
   weight factor: 1
   crafting:
-    disabled: true
     station: Workbench
     level: 2
     costs:
@@ -513,7 +505,6 @@ Scroll Backpack:
     - kg_EnchantScroll_Weapon_Blessed_F
   weight factor: 1
   crafting:
-    disabled: true
     station: Workbench
     level: 1
     costs:
@@ -562,7 +553,6 @@ Ammo Backpack:
   valid items:
     - ammo
   crafting:
-    disabled: true
     station: Workbench
     level: 2
     costs:
@@ -611,7 +601,6 @@ Wishbone Backpack:
    - ammo
   weight factor: 0.9
   crafting:
-    disabled: true
     station: Forge
     level: 1
     costs:

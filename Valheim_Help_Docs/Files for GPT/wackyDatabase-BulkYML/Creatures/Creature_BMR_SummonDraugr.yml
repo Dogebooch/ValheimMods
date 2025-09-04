@@ -1,0 +1,4 @@
+name: BMR_SummonDraugr
+mob_display_name: $bmr_summondraugr
+clone_creature: 
+creature_replacer: 

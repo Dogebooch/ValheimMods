@@ -1,0 +1,16 @@
+name: ancientchest_Recipe_Forge
+clonePrefabName: NO
+craftingStation: $piece_forge
+minStationLevel: 2
+maxStationLevelCap: 
+repairStation: 
+amount: 1
+disabled: false
+disabledUpgrade: false
+requireOnlyOneIngredient: false
+upgrade_reqs: []
+reqs:
+- Bronze:20:8:True
+- Tin:10:3:True
+- AncientSeed:6:0:True
+- LeatherScraps:20:0:True

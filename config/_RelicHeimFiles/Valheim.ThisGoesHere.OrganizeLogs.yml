@@ -1,0 +1,77 @@
+PrintComment: ThisGoesHere is organizing debug logs and exports by mod
+MoveFile:
+# BepInEx Core Logs
+- From: BepInEx\LogOutput.log
+  To: BepInEx\Logs\BepInEx\LogOutput.log
+
+- From: BepInEx\LogOutput.log.1
+  To: BepInEx\Logs\BepInEx\LogOutput.log.1
+
+- From: BepInEx\LogOutput.log.2
+  To: BepInEx\Logs\BepInEx\LogOutput.log.2
+
+- From: BepInEx\LogOutput.log.3
+  To: BepInEx\Logs\BepInEx\LogOutput.log.3
+
+# Unity Engine Logs
+- From: Player.log
+  To: BepInEx\Logs\Unity\Player.log
+
+- From: Player-prev.log
+  To: BepInEx\Logs\Unity\Player-prev.log
+
+# Drop That Exports
+- From: BepInEx\config\drop_that.supplemental.world_drop.cfg
+  To: BepInEx\Logs\DropThat\drop_that.supplemental.world_drop.cfg
+
+- From: BepInEx\config\drop_that.supplemental.creature_drop.cfg
+  To: BepInEx\Logs\DropThat\drop_that.supplemental.creature_drop.cfg
+
+- From: BepInEx\config\drop_that.supplemental.character_drop.cfg
+  To: BepInEx\Logs\DropThat\drop_that.supplemental.character_drop.cfg
+
+# Spawn That Exports
+- From: BepInEx\config\spawn_that.local_spawners_advanced.cfg
+  To: BepInEx\Logs\SpawnThat\spawn_that.local_spawners_advanced.cfg
+
+- From: BepInEx\config\spawn_that.world_spawners_advanced.cfg
+  To: BepInEx\Logs\SpawnThat\spawn_that.world_spawners_advanced.cfg
+
+- From: BepInEx\config\spawn_that.supplemental.world_spawners.cfg
+  To: BepInEx\Logs\SpawnThat\spawn_that.supplemental.world_spawners.cfg
+
+# Custom Raids Exports
+- From: BepInEx\config\custom_raids.supplemental.default_raid_events.cfg
+  To: BepInEx\Logs\CustomRaids\custom_raids.supplemental.default_raid_events.cfg
+
+- From: BepInEx\config\custom_raids.supplemental.raid_events.cfg
+  To: BepInEx\Logs\CustomRaids\custom_raids.supplemental.raid_events.cfg
+
+# EpicLoot Debug Files
+- From: BepInEx\config\EpicLoot\debug_iteminfo.json
+  To: BepInEx\Logs\EpicLoot\debug_iteminfo.json
+
+- From: BepInEx\config\EpicLoot\debug_loottables.json
+  To: BepInEx\Logs\EpicLoot\debug_loottables.json
+
+# WackysDatabase Cache (move to logs for analysis)
+- From: BepInEx\config\wackysDatabase\Cache\ItemCache.json
+  To: BepInEx\Logs\WackysDatabase\ItemCache.json
+
+- From: BepInEx\config\wackysDatabase\Cache\RecipeCache.json
+  To: BepInEx\Logs\WackysDatabase\RecipeCache.json
+
+# Creature Level Control Debug
+- From: BepInEx\config\creature_level_control_debug.log
+  To: BepInEx\Logs\CreatureLevelControl\creature_level_control_debug.log
+
+# Valheim Enchantment System Debug
+- From: BepInEx\config\ValheimEnchantmentSystem\debug_output.log
+  To: BepInEx\Logs\ValheimEnchantmentSystem\debug_output.log
+
+# EpicMMO System Debug Exports
+- From: BepInEx\config\EpicMMOSystem\debug_monster_data.json
+  To: BepInEx\Logs\EpicMMOSystem\debug_monster_data.json
+
+- From: BepInEx\config\EpicMMOSystem\debug_skill_data.json
+  To: BepInEx\Logs\EpicMMOSystem\debug_skill_data.json

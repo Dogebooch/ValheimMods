@@ -1,0 +1,4 @@
+name: MushroomBossSwamp_MP
+mob_display_name: $enemy_nonnon_mp
+clone_creature: 
+creature_replacer: 
