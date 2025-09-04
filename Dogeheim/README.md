@@ -135,6 +135,17 @@ Seasonal Items: Halloween, Midsummer, Yule decorations available
 4. **Click** "Install with Dependencies"
 5. **Launch** through the mod manager
 
+### Using Profile Codes (R2modman)
+If you want to use the exact configurations from Dogeheim, you can import the profile code:
+
+1. **Open** R2modman
+2. **Click** "Import Profile" or the import button
+3. **Paste** the profile code from the latest changelog entry
+4. **Confirm** the import and let R2modman download all mods
+5. **Launch** through R2modman
+
+**Note**: Profile codes are provided in each version's changelog and include all mods with their exact configurations. This ensures you get the intended balance and gameplay experience.
+
 ### Manual Installation
 1. **Install** [BepInEx 5.4.2332](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/)
 2. **Download** Dogeheim and all dependencies from Thunderstore

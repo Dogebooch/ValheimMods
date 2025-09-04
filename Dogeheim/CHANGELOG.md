@@ -1,5 +1,42 @@
 # Dogeheim Changelog
 
+## [1.7.0] - 2025-01-XX - Debug Logging Activation & Dependency Reorganization
+
+### ✨ Added
+- **ItemCompare (Azumatt)** - Enhanced item comparison interface for better equipment evaluation
+
+### 🔄 Changed
+- **Comprehensive Debug Logging Activation**: Enabled extensive logging across all combat balance systems:
+  - **BepInEx Core**: Full Harmony debugging, Unity log integration, comprehensive file output
+  - **Combat Systems**: Creature level control, spawn systems, drop tables, and raid events now have full debug output
+  - **Character Progression**: EpicMMO system, WackysDatabase, and EpicLoot provide detailed logging
+  - **File Export**: Multiple systems now export configuration data and runtime information for analysis
+  - **Benefits**: Enables comprehensive combat balance analysis and debugging throughout gameplay
+
+- **Dependency Reorganization**: Streamlined modpack dependencies for better organization:
+  - **Removed**: Root-DefaultConfigs-0.0.1 (unused dependency)
+  - **Reordered**: Dependencies organized by functional categories for better maintainability
+  - **Total Dependencies**: 107 mods (excluding Dogeheim itself)
+
+### ⚙️ Configuration Updates
+- **Debug Systems Activated**:
+  - BepInEx: `LogChannels = All`, `UnityLogListening = true`, `WriteUnityLog = true`, `AppendLog = true`
+  - Drop That: `EnableDebugLogging = true`, `EnableTraceLogging = true`, all file export options enabled
+  - Spawn That: `DebugLoggingOn = true`, `TraceLoggingOn = true`
+  - Custom Raids: `DebugOn = true`, all data export options enabled
+  - EpicMMO: `EnableExtraDebug = true`
+  - WackysDatabase: `IsDebug = true`, `StringisDebug = true`
+  - EpicLoot: `Logging Enabled = true`
+  - Additional systems: TradersExtended, Upgrade World, and other mods with debug logging enabled
+
+### 📊 Analysis Capabilities
+- **Combat Balance Tracking**: Full logging of creature scaling, damage calculations, and progression systems
+- **Loot System Analysis**: Comprehensive drop table logging and creature item tracking
+- **Character Progression**: Detailed MMO system logging for skill and experience tracking
+- **File Output**: Debug folders will contain extensive configuration and runtime data for analysis
+
+---
+
 ## [1.6.10]
 *Changes coming in the next version*
 
