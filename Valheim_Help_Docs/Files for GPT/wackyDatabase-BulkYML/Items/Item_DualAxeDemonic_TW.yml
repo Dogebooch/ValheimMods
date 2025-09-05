@@ -1,7 +1,7 @@
 name: DualAxeDemonic_TW
 m_weight: 0.3
-m_name: $dual_axedemonic_TW
-m_description: $dual_axedemonic_description_TW
+m_name: <color=#FF7F00><b>[DROP-ONLY]</b></color> Hellblade Cleavers
+m_description: Twin axes forged in the depths of darkness.
 clonePrefabName: 
 mockName: 
 customIcon: 
@@ -254,7 +254,7 @@ m_toolTier: 3
 m_maxQuality: 4
 m_value: 0
 ConsumableStatusEffect: 
-AppendToolTip: 
+AppendToolTip: <color=#FF6400><b>Drop-only: not craftable</b></color>
 damageModifiers: []
 GEffects: 
 GEffectsPLUS:

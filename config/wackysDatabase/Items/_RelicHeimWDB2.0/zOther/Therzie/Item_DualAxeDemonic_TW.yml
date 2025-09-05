@@ -1,7 +1,8 @@
 name: DualAxeDemonic_TW
 m_weight: 2.8
-m_name: "<color=#D4AF37>✦ Demonic Dual Axe</color>"
+m_name: "<color=#D4AF37>Demonic Dual Axe</color>"
 m_description: Twin axes forged in the depths of darkness.
+AppendToolTip: "\n<color=#696969>Demonic Relic</color>\n<color=#888888>Cannot be crafted — unique drop.\n<i>(10% drop chance from Svält, 2 items)</i></color>"
 clonePrefabName: 
 mockName: 
 customIcon: 

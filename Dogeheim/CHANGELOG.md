@@ -1,5 +1,24 @@
 # Dogeheim Changelog
 
+## [1.7.2] - 2025-09-05 - UI Polish & Missing Prefabs
+
+### ✅ Fixed
+- Wacky’s Database null prefab warnings for custom BWA items by defining base clones:
+  - Added clonePrefabName for `BWA_GiantAxe` (Battleaxe), `BWA_GiantCleaver` (AxeBlackMetal), `BWA_giantMace` (MaceSilver), `BWA_ObsidianBuckler` (ShieldCarapaceBuckler), `BWA_ObsidianGreatsword` (ObsidianGreatswordHTD)
+  - Files: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/WeaponAdditions/*.yml`
+
+### 🎨 UI/UX
+- Demonic Dual Axe name: removed unsupported glyph that rendered as a square; kept gold color
+  - File: `config/wackysDatabase/Items/_RelicHeimWDB2.0/zOther/Therzie/Item_DualAxeDemonic_TW.yml`
+- Demonic Dual Axe tooltip: clarified as drop-only (10% from Svält, 2 items)
+- Item Compare overlap: made comparison panel hold-to-show to prevent stuck open overlays
+  - Change: `Key Hold Needed = On` in `config/Azumatt.ItemCompare.cfg`
+
+### ℹ️ Notes
+- If you want a colored background/frame for unique drops, we can either:
+  - Add a custom icon with a colored frame via Wacky’s Database (`customIcon`), or
+  - Flag the item in Epic Loot for a rarity frame overlay. Ping me to wire either up.
+
 ## [1.7.1] - 2025-09-05 - Summoner Balance Pass
 
 ### 🔄 Changed
