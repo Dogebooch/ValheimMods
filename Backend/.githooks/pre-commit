@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Pre-commit: rebuild index and stage MAP.md. Proceed even on failure.
+
+if command -v bash >/dev/null 2>&1; then
+  if bash scripts/reindex.sh; then
+    git add MAP.md 2>/dev/null || true
+  else
+    echo "[pre-commit] reindex.sh failed; continuing commit" >&2
+  fi
+else
+  echo "[pre-commit] bash not available; skipping index rebuild" >&2
+fi
+
+exit 0
+

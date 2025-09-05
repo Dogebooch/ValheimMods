@@ -391,7 +391,7 @@
           "Staff"
         ]
 	},
-	{
+    {
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifyEitrRegen')].ValuesPerRarity", 
       "Action": "Overwrite",
       "Value": {
@@ -399,7 +399,7 @@
         "Rare":			{ "MinValue" : 6,	"MaxValue" : 12, "Increment" : 0.5 },
         "Epic":			{ "MinValue" : 9,	"MaxValue" : 18, "Increment" : 0.5 },
         "Legendary":	{ "MinValue" : 12,	"MaxValue" : 24, "Increment" : 0.5 },
-        "Mythic":		{ "MinValue" : 15,	"MaxValue" : 30, "Increment" : 0.5 }
+        "Mythic":		{ "MinValue" : 15,	"MaxValue" : 24, "Increment" : 0.5 }
        }
     },
 	
@@ -2503,38 +2503,38 @@
       "Value": 1
     },
 	
-	{
+    {
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifySummonHealth')].ValuesPerRarity", 
       "Action": "Overwrite",
       "Value": {
-        "Magic":		{ "MinValue" : 1, "MaxValue" : 5, "Increment" : 1 },
-        "Rare":			{ "MinValue" : 3, "MaxValue" : 10, "Increment" : 1 },
-        "Epic":			{ "MinValue" : 8, "MaxValue" : 15, "Increment" : 1 },
-        "Legendary":	{ "MinValue" : 13, "MaxValue" : 20, "Increment" : 1 },
-        "Mythic":		{ "MinValue" : 18, "MaxValue" : 25, "Increment" : 1 }
+        "Magic":		{ "MinValue" : 1, "MaxValue" : 4,  "Increment" : 1 },
+        "Rare":			{ "MinValue" : 3, "MaxValue" : 8,  "Increment" : 1 },
+        "Epic":			{ "MinValue" : 8, "MaxValue" : 13, "Increment" : 1 },
+        "Legendary":	{ "MinValue" : 13, "MaxValue" : 18, "Increment" : 1 },
+        "Mythic":		{ "MinValue" : 18, "MaxValue" : 22, "Increment" : 1 }
        }
     },
-	{
+    {
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifySummonHealth')].SelectionWeight", 
       "Action": "Overwrite",
-      "Value": 1
+      "Value": 0.5
     },
 	
-	{
+    {
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifySummonDamage')].ValuesPerRarity", 
       "Action": "Overwrite",
       "Value": {
-        "Magic":      { "MinValue" : 0, "MaxValue" : 3,  "Increment" : 1 },
-        "Rare":       { "MinValue" : 1, "MaxValue" : 6,  "Increment" : 1 },
-        "Epic":       { "MinValue" : 2, "MaxValue" : 9,  "Increment" : 1 },
-        "Legendary":  { "MinValue" : 3, "MaxValue" : 12, "Increment" : 1 },
-        "Mythic":     { "MinValue" : 4, "MaxValue" : 15, "Increment" : 1 }
+        "Magic":      { "MinValue" : 0, "MaxValue" : 2,  "Increment" : 1 },
+        "Rare":       { "MinValue" : 1, "MaxValue" : 5,  "Increment" : 1 },
+        "Epic":       { "MinValue" : 2, "MaxValue" : 7,  "Increment" : 1 },
+        "Legendary":  { "MinValue" : 3, "MaxValue" : 10, "Increment" : 1 },
+        "Mythic":     { "MinValue" : 4, "MaxValue" : 12, "Increment" : 1 }
        }
     },
-	{
+    {
       "Path": "$.MagicItemEffects[?(@.Type == 'ModifySummonDamage')].SelectionWeight", 
       "Action": "Overwrite",
-      "Value": 0.4
+      "Value": 0.25
     },
 	
 	{

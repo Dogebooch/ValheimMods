@@ -1,0 +1,25 @@
+{
+  "name": "codex-linux-sandbox",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" }
+  },
+
+  // Helps certain tools run cleanly (ptrace is harmless here)
+  "runArgs": ["--init", "--cap-add=SYS_PTRACE", "--security-opt=seccomp=unconfined"],
+
+  // After the container is created, write Codex's config inside it
+  "postCreateCommand": "mkdir -p ~/.codex && { [ -f ~/.codex/config.toml ] || printf '%s\n' 'approval_policy = \"never\"' 'sandbox_mode = \"workspace-write\"' '' '[sandbox_workspace_write]' 'network_access = true' > ~/.codex/config.toml; }",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Put the Codex extension ID here so it's installed *inside* the container.
+        // Example placeholder. Replace with the actual ID you use:
+        // "openai.codex-vscode"
+      ]
+    }
+  }
+}

@@ -1,5 +1,38 @@
 # Dogeheim Changelog
 
+## [1.7.1] - 2025-09-05 - Summoner Balance Pass
+
+### 🔄 Changed
+- Summon cap reduced for balance and performance:
+  - MagicRevamp: `Max Summon = 3` (was 5)
+  - File: `config/blacks7ar.MagicRevamp.cfg:75`
+- Heavy summon costs increased to gate early spam and reward endgame builds:
+  - Abomination: Eitr 75
+  - Stone Golem: Eitr 70
+  - Seeker Brute: Eitr 70
+  - Wraith: Eitr 65
+  - Troll: Eitr 60
+  - Lox: Eitr 60
+  - Goblin Brute: Eitr 60
+  - File: `config/blacks7ar.MagicRevamp.cfg` (per‑summon sections)
+- Added health risk for the heaviest summons (engagement lever):
+  - Stone Golem: Health Cost Percentage = 12
+  - Seeker Brute: Health Cost Percentage = 12
+  - Wraith: Health Cost Percentage = 12
+  - File: `config/blacks7ar.MagicRevamp.cfg:11110, 11299, 11614`
+- EpicLoot summon scaling trimmed to avoid runaway minion tankiness/damage:
+  - ModifySummonHealth: values reduced (up to 22), weight 0.5 (from 1.0 → 0.6 → 0.5)
+  - ModifySummonDamage: values reduced (up to 12), weight 0.25 (from 0.4)
+  - ModifyEitrRegen: Mythic top-end reduced to 24 (from 30)
+  - File: `config/EpicLoot/patches/RelicHeimPatches/MagicEffects_RelicHeim.json`
+- Boss Summoner affix pacing adjusted:
+  - Number of summon waves reduced to 2 (from 3)
+  - File: `config/org.bepinex.plugins.creaturelevelcontrol.cfg:611`
+
+### 📝 Notes
+- Intent: Keep summoning engaging throughout progression while preserving endgame payoff. Early/midgame requires choices; late game supports powerful armies with investment.
+- Kept BiomeLords “Lightning Wolf Summoner” gating (100 Eitr + 40% health) unchanged.
+
 ## [1.7.0] - 2025-01-XX - Debug Logging Activation & Dependency Reorganization
 
 ### ✨ Added
