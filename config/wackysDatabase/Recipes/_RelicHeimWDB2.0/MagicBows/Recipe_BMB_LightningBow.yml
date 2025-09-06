@@ -14,5 +14,5 @@ reqs:
 - LeatherScraps:15:15:True
 - Resin:15:15:True
 - FineWood:30:30:True
-- FulingTotem:2:2:True
-- ThunderStone:3:3:True
+- GoblinTotem:2:2:True
+ - Thunderstone:3:3:True

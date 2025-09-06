@@ -225,7 +225,7 @@ m_maxDurability: 220
 m_durabilityPerLevel: 70
 m_equipDuration: 0.5
 Attach_Override: Attach_Atgeir
-m_skillType: 1328437209
+m_skillType: Polearms
 m_animationState: Atgeir
 m_itemType: TwoHandedWeapon
 m_toolTier: 7

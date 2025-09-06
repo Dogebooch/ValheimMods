@@ -138,10 +138,10 @@ PlainsCreatures3:
 
 # Ashlands Creature List
 AshlandsCreatures1:
-  - Morgen
-  - Charred_Warrior
-  - Charred_Archer
-  - Charred_Mage
+  - Goblin
+  - GoblinBrute
+  - GoblinShaman
+  - Lox
 
 # ===== CROSS-BIOME LOCATIONS =====
 
@@ -267,14 +267,14 @@ StoneTower1: PlainsCreatures2
 StoneTower2: PlainsCreatures2
 StoneAltar1: PlainsCreatures2
 GoblinFort1: PlainsCreatures2
-FulingRock1: PlainsCreatures3
-FulingVillage1: PlainsCreatures2
-FulingVillage2: PlainsCreatures2
-FulingTemple1: PlainsCreatures3
-FulingTemple2: PlainsCreatures2
-FulingTemple3: PlainsCreatures2
-FulingWall1: PlainsCreatures3
-FulingTower1: PlainsCreatures3
+GoblinRock1: PlainsCreatures3
+GoblinVillage1: PlainsCreatures2
+GoblinVillage2: PlainsCreatures2
+GoblinTemple1: PlainsCreatures3
+GoblinTemple2: PlainsCreatures2
+GoblinTemple3: PlainsCreatures2
+GoblinWall1: PlainsCreatures3
+GoblinTower1: PlainsCreatures3
 PlainsPillar1: PlainsCreatures1
 RockGarden1: PlainsCreatures2
 

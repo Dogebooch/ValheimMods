@@ -285,7 +285,7 @@
     "requiredGlobalKey": "defeated_gdking"
   },
   {
-    "prefab": "TrophyTroll",
+    "prefab": "TrophyForestTroll",
     "stack": 1,
     "price": 100,
     "requiredGlobalKey": "defeated_gdking"

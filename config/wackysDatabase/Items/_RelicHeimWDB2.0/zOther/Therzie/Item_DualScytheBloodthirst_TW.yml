@@ -225,7 +225,7 @@ m_maxDurability: 300
 m_durabilityPerLevel: 100
 m_equipDuration: 0.2
 Attach_Override: TwoHandedWeaponLeft
-m_skillType: 1328437209
+m_skillType: Axes
 m_animationState: DualAxes
 m_itemType: TwoHandedWeapon
 m_toolTier: 3
